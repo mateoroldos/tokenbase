@@ -4,6 +4,7 @@
 	import { page } from '$app/stores';
 	import { getContext } from 'svelte';
 	import { goto } from '$app/navigation';
+	import Token from '$lib/features/tokens/ui/Token.svelte';
 
 	const designTokensGroupStore: DesignTokensStore = getContext(
 		'designTokensGroupStore'
@@ -29,11 +30,12 @@
 		/>
 		<button on:click={handleDelete}>delete</button>
 	</div>
-	{#each group.tokens as token}
-		<div>{token.name}</div>
+	{#each $designTokensGroupStore[groupIndex].tokens as token}
+		<Token bind:token />
 	{/each}
 	<button
-		on:click={() => designTokensGroupStore.addToken(groupId, 'osss', 'aa')}
+		on:click={() =>
+			designTokensGroupStore.addToken(groupId, 'osss', 'color', '#000000')}
 		>Add token</button
 	>
 </div>

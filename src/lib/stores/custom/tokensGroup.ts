@@ -2,14 +2,19 @@ import type { Writable } from 'svelte/store';
 import persistentWritable from './persistentWritable';
 import { v4 as uuidv4 } from 'uuid';
 import type { Group } from '$lib/types/group-interface';
-import type { Token } from '$lib/types/token-interface';
+import type { IToken, TokenType, TokenValue } from '$lib/types/token-interface';
 
 export interface DesignTokensStore {
 	subscribe: Writable<Group[]>['subscribe'];
 	set: Writable<Group[]>['set'];
 	addGroup: (parentGroupId: string, name: string, description?: string) => void;
 	deleteGroup: (groupId: string) => void;
-	addToken: (groupId: string, name: string, value: string) => void;
+	addToken: <T extends TokenType>(
+		groupId: string,
+		name: string,
+		type: T,
+		value: TokenValue<T>
+	) => void;
 	deleteToken: (tokenId: string) => void;
 }
 
@@ -60,7 +65,12 @@ const createTokensGroupStore = (): DesignTokensStore => {
 		});
 	};
 
-	const addToken = (groupId: string, name: string, value: string): void => {
+	const addToken = <T extends TokenType>(
+		groupId: string,
+		name: string,
+		type: T,
+		value: TokenValue<T>
+	): void => {
 		update((designTokens) => {
 			// Find the group to add the token to
 			const group = designTokens.find((group) => group.id === groupId);
@@ -75,6 +85,7 @@ const createTokensGroupStore = (): DesignTokensStore => {
 				id: uuidv4(),
 				name,
 				value,
+				type,
 			});
 
 			return designTokens;
@@ -121,7 +132,7 @@ const deleteGroupById = (id: string, groups: Group[]): void => {
 	}
 };
 
-const deleteTokenById = (id: string, tokens: Token[]): void => {
+const deleteTokenById = (id: string, tokens: IToken[]): void => {
 	const index = tokens.findIndex((token) => token.id === id);
 	if (index !== -1) {
 		tokens.splice(index, 1);
