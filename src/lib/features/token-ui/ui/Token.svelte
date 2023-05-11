@@ -1,11 +1,11 @@
 <script lang="ts">
-	import type { IToken } from '$lib/types/token-interface';
+	import type { Token } from '$lib/features/token-groups-store/types/token-interface';
 	import BaseToken from './base-token/BaseToken.svelte';
 	import ColorToken from './token-types/ColorToken.svelte';
 	import DimensionToken from './token-types/DimensionToken.svelte';
 	import FontFamilyToken from './token-types/FontFamilyToken.svelte';
 
-	export let token: IToken;
+	export let token: Token;
 </script>
 
 <BaseToken bind:token>

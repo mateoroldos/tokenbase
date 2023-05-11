@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { Group } from '$lib/types/group-interface';
-	import type { DesignTokensStore } from '$lib/stores/custom/tokensGroup';
+	import type { DesignTokensStore } from '$lib/features/token-groups-store/tokensGroup';
 	import { page } from '$app/stores';
 	import { getContext } from 'svelte';
 	import { goto } from '$app/navigation';
-	import Token from '$lib/features/tokens/ui/Token.svelte';
+	import Token from '$lib/features/token-ui/ui/Token.svelte';
+	import tokenTypesArray from '$lib/utils/tokenTypesArray';
 
 	const designTokensGroupStore: DesignTokensStore = getContext(
 		'designTokensGroupStore'
@@ -14,7 +14,6 @@
 	$: groupIndex = $designTokensGroupStore.findIndex(
 		(group) => group.id === $page.params.groupId
 	) as number;
-	$: group = $designTokensGroupStore[groupIndex] as Group;
 
 	const handleDelete = async () => {
 		await goto('/');
@@ -28,6 +27,13 @@
 			contenteditable="true"
 			bind:textContent={$designTokensGroupStore[groupIndex].name}
 		/>
+		<select bind:value={$designTokensGroupStore[groupIndex].type}>
+			{#each tokenTypesArray as contentType}
+				<option value={contentType}>
+					{contentType}
+				</option>
+			{/each}
+		</select>
 		<button on:click={handleDelete}>delete</button>
 	</div>
 	{#each $designTokensGroupStore[groupIndex].tokens as token}

@@ -1,8 +1,12 @@
 import type { Writable } from 'svelte/store';
-import persistentWritable from './persistentWritable';
+import persistentWritable from '../../stores/custom/persistentWritable';
 import { v4 as uuidv4 } from 'uuid';
-import type { Group } from '$lib/types/group-interface';
-import type { IToken, TokenType, TokenValue } from '$lib/types/token-interface';
+import type { Group } from '$lib/features/token-groups-store/types/group-interface';
+import type {
+	Token,
+	TokenType,
+	TokenValue,
+} from '$lib/features/token-groups-store/types/token-interface';
 
 export interface DesignTokensStore {
 	subscribe: Writable<Group[]>['subscribe'];
@@ -132,7 +136,7 @@ const deleteGroupById = (id: string, groups: Group[]): void => {
 	}
 };
 
-const deleteTokenById = (id: string, tokens: IToken[]): void => {
+const deleteTokenById = (id: string, tokens: Token[]): void => {
 	const index = tokens.findIndex((token) => token.id === id);
 	if (index !== -1) {
 		tokens.splice(index, 1);

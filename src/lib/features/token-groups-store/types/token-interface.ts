@@ -1,4 +1,4 @@
-export interface IToken<T = TokenType> {
+export interface Token<T = TokenType> {
 	id: string;
 	name: string;
 	value: TokenValue<T>;

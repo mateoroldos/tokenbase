@@ -1,5 +1,5 @@
 <script lang="ts">
-	import designTokensGroupStore from '$lib/stores/custom/tokensGroup';
+	import designTokensGroupStore from '$lib/features/token-groups-store/tokensGroup';
 	import GroupItem from './atoms/GroupItem.svelte';
 	import createTree from '../functions/createTree';
 

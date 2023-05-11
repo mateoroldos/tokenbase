@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { IToken } from '$lib/types/token-interface';
+	import type { Token } from '$lib/features/token-groups-store/types/token-interface';
 
-	export let token: IToken<'color'>;
+	export let token: Token<'color'>;
 </script>
 
 <span bind:innerText={token.value} contenteditable="true" />

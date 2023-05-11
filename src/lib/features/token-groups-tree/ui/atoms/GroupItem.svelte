@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getContext, onMount } from 'svelte';
 	import type { GroupsTree } from '../../types/groups-tree';
-	import type { DesignTokensStore } from '$lib/stores/custom/tokensGroup';
+	import type { DesignTokensStore } from '$lib/features/token-groups-store/tokensGroup';
 
 	export let node: GroupsTree;
 
