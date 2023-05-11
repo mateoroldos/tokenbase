@@ -47,35 +47,3 @@
 		</div>
 	{/if}
 </div>
-
-<style lang="scss">
-	.group-item {
-		padding: 4px 8px;
-		cursor: pointer;
-
-		&:hover {
-			background-color: #f0f0f0;
-		}
-
-		.group-name {
-			display: flex;
-			align-items: center;
-			gap: 1rem;
-
-			.arrow-icon {
-				margin-right: 4px;
-				font-size: 10px;
-			}
-		}
-
-		.subgroups {
-			margin-left: 16px;
-		}
-
-		&.has-subgroups {
-			.group-name {
-				font-weight: bold;
-			}
-		}
-	}
-</style>

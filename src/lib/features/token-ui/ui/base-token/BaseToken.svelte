@@ -19,12 +19,3 @@
 	</select>
 	<slot />
 </div>
-
-<style lang="scss">
-	div {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		gap: 4rem;
-	}
-</style>

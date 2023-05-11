@@ -22,7 +22,11 @@
 </script>
 
 <div>
-	<div class="title-wrapper">
+	<div class="bg-red-300 flex">
+		<div class="flex bg-red-300" />
+		<div class="px-4 bg-red-300 flex" />
+		<div class="bg-red-50 flex-1 grayscale-0" />
+		<div />
 		<h1
 			contenteditable="true"
 			bind:textContent={$designTokensGroupStore[groupIndex].name}
@@ -45,11 +49,3 @@
 		>Add token</button
 	>
 </div>
-
-<style lang="scss">
-	.title-wrapper {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-</style>
