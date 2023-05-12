@@ -1,20 +1,16 @@
 <script lang="ts">
-	import '../app.css';
-	import TokenGroupsExplorer from '$lib/features/token-groups-tree/ui/TokenGroupsExplorer.svelte';
-	import { setContext } from 'svelte';
-	import designTokensGroupStore from '$lib/features/token-groups-store/tokensGroup';
+	import '../app.css'
+	import TokenGroupsExplorer from '$lib/features/token-groups-tree/ui/TokenGroupsExplorer.svelte'
+	import { setContext } from 'svelte'
+	import designTokensGroupStore from '$lib/features/token-groups-store/tokensGroup'
 
-	setContext('designTokensGroupStore', designTokensGroupStore);
+	setContext(
+		'designTokensGroupStore',
+		designTokensGroupStore
+	)
 </script>
 
-<main>
+<main class="grid min-h-screen grid-cols-[250px_1fr]">
 	<TokenGroupsExplorer />
 	<slot />
 </main>
-
-<style>
-	main {
-		display: grid;
-		grid-template-columns: 1fr 5fr;
-	}
-</style>

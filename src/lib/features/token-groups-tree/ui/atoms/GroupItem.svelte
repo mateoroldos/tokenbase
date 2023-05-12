@@ -1,46 +1,59 @@
 <script lang="ts">
-	import { getContext, onMount } from 'svelte';
-	import type { GroupsTree } from '../../types/groups-tree';
-	import type { DesignTokensStore } from '$lib/features/token-groups-store/tokensGroup';
+	import { getContext, onMount } from 'svelte'
+	import type { GroupsTree } from '../../types/groups-tree'
+	import type { DesignTokensStore } from '$lib/features/token-groups-store/tokensGroup'
 
-	export let node: GroupsTree;
+	export let node: GroupsTree
 
-	const designTokensGroupStore: DesignTokensStore = getContext(
-		'designTokensGroupStore'
-	);
+	const designTokensGroupStore: DesignTokensStore =
+		getContext('designTokensGroupStore')
 
-	let isOpen = false;
+	let isOpen = false
 
 	const toggleOpen = () => {
-		isOpen = !isOpen;
-	};
+		isOpen = !isOpen
+	}
 
 	const handleClick = (event: Event) => {
-		event.stopPropagation();
-		toggleOpen();
-	};
+		event.stopPropagation()
+		toggleOpen()
+	}
 
 	onMount(() => {
 		if (node.children.length > 0) {
-			isOpen = true;
+			isOpen = true
 		}
-	});
+	})
 </script>
 
-<div class="group-item" class:has-subgroups={node.children.length > 0}>
-	<div class="group-name">
-		<span class="arrow-icon" on:click={handleClick}
-			>{#if node.children.length > 0}{isOpen ? '▼' : '►'}{/if}</span
-		>
+<div
+	class="group-item"
+	class:has-subgroups={node.children.length > 0}
+>
+	<div class="flex flex-row items-center gap-2">
+		{#if node.children.length > 0}
+			<span
+				class="cursor-pointer text-xs text-gray-400"
+				on:click={handleClick}
+			>
+				{isOpen ? '▼' : '►'}
+			</span>
+		{:else}
+			<span class="text-xs text-gray-300">○</span>
+		{/if}
 		<a href={`/${node.group.id}`}>{node.group.name}</a>
 		<button
-			on:click={() => designTokensGroupStore.addGroup(node.group.id, 'aaa')}
+			on:click={() =>
+				designTokensGroupStore.addGroup(
+					node.group.id,
+					'aaa'
+				)}
 		>
 			+
 		</button>
 	</div>
 	{#if isOpen}
-		<div class="subgroups">
+		<div class="ml-7">
 			{#each node.children as childNode}
 				<svelte:self node={childNode} />
 			{/each}

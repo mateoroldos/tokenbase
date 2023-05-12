@@ -1,24 +1,22 @@
 <script lang="ts">
-	import designTokensGroupStore from '$lib/features/token-groups-store/tokensGroup';
-	import GroupItem from './atoms/GroupItem.svelte';
-	import createTree from '../functions/createTree';
+	import designTokensGroupStore from '$lib/features/token-groups-store/tokensGroup'
+	import GroupItem from './atoms/GroupItem.svelte'
+	import createTree from '../functions/createTree'
 
-	$: tree = createTree($designTokensGroupStore);
+	$: tree = createTree($designTokensGroupStore)
 </script>
 
-<div class="token-groups-explorer">
+<div
+	class="flex flex-col gap-4 border-r border-solid border-gray-300 bg-gray-50 px-8 py-7"
+>
+	<h1 class="text-lg font-bold">Tokenbase</h1>
 	{#each tree.children as node}
 		<GroupItem {node} />
 	{/each}
-	<button on:click={() => designTokensGroupStore.addGroup('root', 'osss')}
+	<button
+		class="bg-blue-300 px-6"
+		on:click={() =>
+			designTokensGroupStore.addGroup('root', 'osss')}
 		>add</button
 	>
 </div>
-
-<style>
-	.token-groups-explorer {
-		padding: 8px;
-		border: 1px solid #ccc;
-		border-radius: 4px;
-	}
-</style>
