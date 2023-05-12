@@ -12,10 +12,6 @@
 			text: 'px'
 		},
 		{
-			value: 'em',
-			text: 'em'
-		},
-		{
 			value: 'rem',
 			text: 'rem'
 		}
