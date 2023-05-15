@@ -1,8 +1,9 @@
 export interface Token<T = TokenType> {
-	id: string;
-	name: string;
-	value: TokenValue<T>;
-	type: T;
+	id: string
+	name: string
+	description?: string
+	value: TokenValue<T>
+	type: T
 }
 
 export type TokenType =
@@ -13,7 +14,7 @@ export type TokenType =
 	| 'duration'
 	| 'cubic-bezier'
 	| 'number'
-	| 'shadow';
+	| 'shadow'
 
 export type TokenValue<T = TokenType> = T extends 'color'
 	? string
@@ -31,10 +32,10 @@ export type TokenValue<T = TokenType> = T extends 'color'
 	? number
 	: T extends 'shadow'
 	? {
-			color: string;
-			offsetX: string;
-			offsetY: string;
-			blur: string;
-			spread: string;
+			color: string
+			offsetX: string
+			offsetY: string
+			blur: string
+			spread: string
 	  }
-	: never;
+	: never
