@@ -9,7 +9,7 @@ export interface Token<T = TokenType> {
 export type TokenType =
 	| 'color'
 	| 'dimension'
-	| 'font-family'
+	| 'fontFamily'
 	| 'font-weight'
 	| 'duration'
 	| 'cubic-bezier'
@@ -20,7 +20,7 @@ export type TokenValue<T = TokenType> = T extends 'color'
 	? string
 	: T extends 'dimension'
 	? string
-	: T extends 'font-family'
+	: T extends 'fontFamily'
 	? string | string[]
 	: T extends 'font-weight'
 	? string | number
