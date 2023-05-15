@@ -4,18 +4,9 @@
 	export let token: Token<'dimension'>
 
 	let dimensionValue: number
-	let dimensionUnit: 'px' | 'em' | 'rem'
+	let dimensionUnit: 'px' | 'rem'
 
-	let options = [
-		{
-			value: 'px',
-			text: 'px'
-		},
-		{
-			value: 'rem',
-			text: 'rem'
-		}
-	]
+	let options = ['px', 'rem']
 
 	$: token.value = `${dimensionValue}${dimensionUnit}`
 </script>
@@ -34,8 +25,8 @@
 			bind:value={dimensionUnit}
 		>
 			{#each options as option}
-				<option value={option.value}>
-					{option.text}
+				<option value={option}>
+					{option}
 				</option>
 			{/each}
 		</select>
