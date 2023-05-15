@@ -11,6 +11,7 @@
 	export let suffix: string = ''
 	export let prefix: string = ''
 	export let background: string | undefined = undefined
+	export let showTooltip: boolean = false
 
 	// Node Bindings
 	let container: HTMLDivElement
@@ -205,7 +206,7 @@
 				on:focus
 				on:blur
 			>
-				{#if holding || thumbHover}
+				{#if (holding || thumbHover) && showTooltip}
 					<div
 						class="range-tooltip pointer-events-none absolute -top-9 rounded-sm bg-gray-200 p-1 text-center after:absolute after:block after:h-2 after:w-2 after:bg-gray-200"
 						in:fly={{ y: 7, duration: 200 }}
