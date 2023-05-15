@@ -14,14 +14,14 @@
 <div class="flex gap-6">
 	<div>
 		<input
-			class="border border-solid border-black"
+			class="w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
 			type="number"
 			bind:value={dimensionValue}
 		/>
 	</div>
 	<div>
 		<select
-			class="border border-solid border-black"
+			class="w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
 			bind:value={dimensionUnit}
 		>
 			{#each options as option}
