@@ -7,6 +7,7 @@
 	import { getContext } from 'svelte'
 
 	export let token: Token
+	export let selected: boolean
 
 	const designTokensGroupStore: DesignTokensStore = getContext(
 		'designTokensGroupStore'
@@ -21,6 +22,7 @@
 	on:mouseleave={() => (hover = false)}
 >
 	<div class="flex flex-row gap-2">
+		<input type="checkbox" bind:checked={selected} />
 		<span
 			bind:textContent={token.name}
 			contenteditable="true"

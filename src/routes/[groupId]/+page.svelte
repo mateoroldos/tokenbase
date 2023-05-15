@@ -15,9 +15,21 @@
 		(group) => group.id === $page.params.groupId
 	) as number
 
+	let selectedTokens: string[] = []
+
 	const handleDelete = async () => {
 		await goto('/')
 		designTokensGroupStore.deleteGroup(groupId)
+	}
+
+	const handleSelectToken = (tokenId: string) => {
+		selectedTokens = [...selectedTokens, tokenId]
+	}
+
+	const handleUnselectToken = (tokenId: string) => {
+		selectedTokens = selectedTokens.filter((selectedToken) => {
+			return selectedToken !== tokenId
+		})
 	}
 </script>
 
@@ -44,6 +56,10 @@
 		<button on:click={handleDelete}>delete</button>
 	</div>
 	{#each $designTokensGroupStore[groupIndex].tokens as token}
-		<Token bind:token />
+		<Token
+			bind:token
+			on:select={(e) => handleSelectToken(e.detail)}
+			on:unselect={(e) => handleUnselectToken(e.detail)}
+		/>
 	{/each}
 </div>

@@ -5,11 +5,19 @@
 	import DimensionToken from './token-types/DimensionToken.svelte'
 	import DurationToken from './token-types/DurationToken.svelte'
 	import FontFamilyToken from './token-types/FontFamilyToken.svelte'
+	import { createEventDispatcher } from 'svelte'
+
+	const dispatch = createEventDispatcher()
 
 	export let token: Token
+
+	let selected: boolean = false
+
+	$: if (selected === true) dispatch('select', token.id)
+	$: if (selected === false) dispatch('unselect', token.id)
 </script>
 
-<BaseToken bind:token>
+<BaseToken bind:token bind:selected>
 	{#if token.type === 'color'}
 		<ColorToken bind:token />
 	{:else if token.type === 'font-family'}
