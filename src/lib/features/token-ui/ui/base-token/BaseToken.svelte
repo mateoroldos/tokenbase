@@ -11,11 +11,11 @@
 	<span
 		bind:textContent={token.name}
 		contenteditable="true"
-		class="w-32 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
+		class="w-32 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
 	/>
 	<select
 		bind:value={token.type}
-		class="w-32 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
+		class="w-24 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
 	>
 		{#each tokenTypesArray as contentType}
 			<option value={contentType}>
@@ -26,7 +26,7 @@
 	<input
 		bind:value={token.description}
 		placeholder="Description"
-		class="w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
+		class="w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
 	/>
 	<slot />
 </div>

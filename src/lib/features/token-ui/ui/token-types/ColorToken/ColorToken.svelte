@@ -52,7 +52,7 @@
 <div class="flex flex-1 flex-row items-center gap-4">
 	<input
 		value={hex}
-		class="w-24 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
+		class="w-20 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
 		type="text"
 		on:focusout={handleHexChange}
 		bind:this={hexInput}
