@@ -10,6 +10,7 @@
 		typeof initialValue === 'string' ? parseInt(initialValue) : initialValue
 	export let suffix: string = ''
 	export let prefix: string = ''
+	export let background: string | undefined = undefined
 
 	// Node Bindings
 	let container: HTMLDivElement
@@ -122,6 +123,8 @@
 
 		// Limit value min -> max
 		setValue(Math.floor((percent * (max - min)) / 100 + min))
+
+		console.log(value)
 	}
 
 	// Handles both dragging of touch/mouse as well as simple one-off click/touches
@@ -155,7 +158,7 @@
 		value = value < max ? value : max
 
 		let percent = ((value - min) * 100) / (max - min)
-		let offsetLeft = (container.clientWidth - 10) * (percent / 100) + 5
+		let offsetLeft = (container.clientWidth - 10) * (percent / 100)
 
 		// Update thumb position + active range track width
 		thumb.style.left = `${offsetLeft}px`
@@ -173,7 +176,7 @@
 />
 <div class="relative flex w-full">
 	<div
-		class="relative box-border w-full p-2"
+		class="relative box-border w-full"
 		tabindex="0"
 		on:keydown={onKeyPress}
 		bind:this={element}
@@ -186,16 +189,14 @@
 		on:touchstart={onTrackEvent}
 	>
 		<div
-			class="h-2 cursor-pointer rounded-full bg-gray-200"
+			class="h-2 cursor-pointer rounded-full border border-gray-400"
+			class:bg-gray-200={background === undefined}
+			style={`background: ${background}`}
 			bind:this={container}
 		>
+			<div class="absolute h-2 w-0 rounded-full" bind:this={progressBar} />
 			<div
-				class="absolute h-2 w-0 rounded-full bg-gray-600"
-				bind:this={progressBar}
-			/>
-
-			<div
-				class="border-1 absolute left-0 -mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-gray-400 shadow-lg"
+				class="border-1 absolute -mt-[0.3rem] flex h-4 w-4 items-center justify-center rounded-full border border-gray-400 bg-white shadow-lg"
 				bind:this={thumb}
 				on:touchstart={onDragStart}
 				on:mousedown={onDragStart}

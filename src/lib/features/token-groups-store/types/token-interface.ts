@@ -17,7 +17,7 @@ export type TokenType =
 	| 'shadow'
 
 export type TokenValue<T = TokenType> = T extends 'color'
-	? string
+	? [number, number, number]
 	: T extends 'dimension'
 	? string
 	: T extends 'font-family'
