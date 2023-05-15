@@ -1,25 +1,25 @@
-import type { Writable } from 'svelte/store';
-import persistentWritable from '../../stores/custom/persistentWritable';
-import { v4 as uuidv4 } from 'uuid';
-import type { Group } from '$lib/features/token-groups-store/types/group-interface';
+import type { Writable } from 'svelte/store'
+import persistentWritable from '../../stores/custom/persistentWritable'
+import { v4 as uuidv4 } from 'uuid'
+import type { Group } from '$lib/features/token-groups-store/types/group-interface'
 import type {
 	Token,
 	TokenType,
-	TokenValue,
-} from '$lib/features/token-groups-store/types/token-interface';
+	TokenValue
+} from '$lib/features/token-groups-store/types/token-interface'
 
 export interface DesignTokensStore {
-	subscribe: Writable<Group[]>['subscribe'];
-	set: Writable<Group[]>['set'];
-	addGroup: (parentGroupId: string, name: string, description?: string) => void;
-	deleteGroup: (groupId: string) => void;
+	subscribe: Writable<Group[]>['subscribe']
+	set: Writable<Group[]>['set']
+	addGroup: (parentGroupId: string, name: string, description?: string) => void
+	deleteGroup: (groupId: string) => void
 	addToken: <T extends TokenType>(
 		groupId: string,
 		name: string,
 		type: T,
 		value: TokenValue<T>
-	) => void;
-	deleteToken: (tokenId: string) => void;
+	) => void
+	deleteToken: (tokenId: string) => void
 }
 
 const createTokensGroupStore = (): DesignTokensStore => {
@@ -28,9 +28,9 @@ const createTokensGroupStore = (): DesignTokensStore => {
 			id: 'root',
 			name: 'Root',
 			parentGroup: undefined,
-			tokens: [],
-		},
-	]);
+			tokens: []
+		}
+	])
 
 	const addGroup = (
 		parentGroupId: string,
@@ -40,34 +40,34 @@ const createTokensGroupStore = (): DesignTokensStore => {
 		update((designTokens) => {
 			const parentGroup = designTokens.find(
 				(group) => group.id === parentGroupId
-			);
+			)
 
 			if (!parentGroup) {
-				console.error(`Parent group with ID ${parentGroupId} not found`);
-				return designTokens;
+				console.error(`Parent group with ID ${parentGroupId} not found`)
+				return designTokens
 			}
 
-			const newGroupId = uuidv4();
+			const newGroupId = uuidv4()
 
 			designTokens.push({
 				id: newGroupId,
 				name,
 				description,
 				parentGroup: parentGroupId,
-				tokens: [],
-			});
+				tokens: []
+			})
 
-			return designTokens;
-		});
-	};
+			return designTokens
+		})
+	}
 
 	const deleteGroup = (groupId: string): void => {
 		update((designTokens) => {
-			deleteGroupById(groupId, designTokens);
+			deepDeleteGroups(groupId, designTokens)
 
-			return designTokens;
-		});
-	};
+			return designTokens
+		})
+	}
 
 	const addToken = <T extends TokenType>(
 		groupId: string,
@@ -77,11 +77,11 @@ const createTokensGroupStore = (): DesignTokensStore => {
 	): void => {
 		update((designTokens) => {
 			// Find the group to add the token to
-			const group = designTokens.find((group) => group.id === groupId);
+			const group = designTokens.find((group) => group.id === groupId)
 
 			if (!group) {
-				console.error(`Group with ID ${groupId} not found`);
-				return designTokens;
+				console.error(`Group with ID ${groupId} not found`)
+				return designTokens
 			}
 
 			// Add the new token to the group's tokens array
@@ -89,31 +89,31 @@ const createTokensGroupStore = (): DesignTokensStore => {
 				id: uuidv4(),
 				name,
 				value,
-				type,
-			});
+				type
+			})
 
-			return designTokens;
-		});
-	};
+			return designTokens
+		})
+	}
 
 	const deleteToken = (tokenId: string): void => {
 		update((designTokens) => {
 			// Find the group that contains the token
 			const group = designTokens.find((group) =>
 				group.tokens.find((token) => token.id === tokenId)
-			);
+			)
 
 			if (!group) {
-				console.error(`Token with ID ${tokenId} not found`);
-				return designTokens;
+				console.error(`Token with ID ${tokenId} not found`)
+				return designTokens
 			}
 
 			// Delete the token from the group's tokens array
-			deleteTokenById(tokenId, group.tokens);
+			deleteTokenById(tokenId, group.tokens)
 
-			return designTokens;
-		});
-	};
+			return designTokens
+		})
+	}
 
 	return {
 		subscribe,
@@ -121,24 +121,37 @@ const createTokensGroupStore = (): DesignTokensStore => {
 		addGroup,
 		deleteGroup,
 		addToken,
-		deleteToken,
-	};
-};
+		deleteToken
+	}
+}
 
-const designTokensGroupStore = createTokensGroupStore();
+const designTokensGroupStore = createTokensGroupStore()
 
-export default designTokensGroupStore;
+export default designTokensGroupStore
+
+const deepDeleteGroups = (id: string, groups: Group[]): void => {
+	// delete parent group
+	deleteGroupById(id, groups)
+
+	// delete children groups
+	const childrenGroups = groups.filter((group) => group.parentGroup === id)
+	childrenGroups.forEach((group) => {
+		deepDeleteGroups(group.id, groups)
+	})
+
+	console.log('groups', groups)
+}
 
 const deleteGroupById = (id: string, groups: Group[]): void => {
-	const index = groups.findIndex((group) => group.id === id);
+	const index = groups.findIndex((group) => group.id === id)
 	if (index !== -1) {
-		groups.splice(index, 1);
+		groups.splice(index, 1)
 	}
-};
+}
 
 const deleteTokenById = (id: string, tokens: Token[]): void => {
-	const index = tokens.findIndex((token) => token.id === id);
+	const index = tokens.findIndex((token) => token.id === id)
 	if (index !== -1) {
-		tokens.splice(index, 1);
+		tokens.splice(index, 1)
 	}
-};
+}
