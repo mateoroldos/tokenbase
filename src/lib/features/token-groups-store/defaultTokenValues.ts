@@ -1,9 +1,13 @@
 import type { TokenType, TokenValue } from './types/token-interface'
 
-export const defaultValue: { [key in TokenType]: TokenValue } = {
-	color: '#000000',
+type DefaultTokenValues = {
+	[key in TokenType]: TokenValue<key>
+}
+
+export const defaultTokenValues: DefaultTokenValues = {
+	color: [0, 0, 0],
 	fontWeight: 'normal',
-	duration: 500,
+	duration: '500ms',
 	fontFamily: 'Arial',
 	dimension: '16px',
 	cubicBezier: [0, 0, 0, 0],

@@ -7,7 +7,7 @@ import type {
 	TokenType,
 	TokenValue
 } from '$lib/features/token-groups-store/types/token-interface'
-import { defaultValue } from './defaultValue'
+import { defaultTokenValues } from './defaultTokenValues'
 
 export interface DesignTokensStore {
 	subscribe: Writable<Group[]>['subscribe']
@@ -89,7 +89,7 @@ const createTokensGroupStore = (): DesignTokensStore => {
 			group.tokens.push({
 				id: uuidv4(),
 				type,
-				value: value ?? defaultValue[type],
+				value: value ?? defaultTokenValues[type],
 				name: name ?? undefined
 			})
 
