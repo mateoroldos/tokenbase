@@ -4,7 +4,7 @@ const tokenTypesArray: TokenType[] = [
 	'color',
 	'dimension',
 	'fontFamily',
-	'font-weight',
+	'fontWeight',
 	'duration',
 	'cubic-bezier',
 	'number',

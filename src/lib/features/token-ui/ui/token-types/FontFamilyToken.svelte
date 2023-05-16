@@ -14,15 +14,6 @@
 		inputs = inputs.filter((input) => input.id !== id)
 	}
 
-	function handleInput(id: number, event) {
-		inputs = inputs.map((input) => {
-			if (input.id === id) {
-				return { ...input, value: event.target.value }
-			}
-			return input
-		})
-	}
-
 	$: token.value = inputs.map((input) => input.value)
 </script>
 
@@ -32,24 +23,14 @@
 			<input
 				class="mr-2 w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
 				type="text"
-				value={input.value}
-				on:input={(event) => handleInput(input.id, event)}
+				bind:value={input.value}
 			/>
 			{#if i === inputs.length - 1}
 				<button class="mr-2" on:click={addInput}>+</button>
 			{/if}
 			{#if inputs.length > 1}
-				<button
-					class="mr-2"
-					on:click={() => removeInput(input.id)}>X</button
-				>
+				<button class="mr-2" on:click={() => removeInput(input.id)}>X</button>
 			{/if}
 		</div>
 	{/each}
-</div>
-
-<div>
-	<span style={`font-family: ${token.value}`}
-		>Hello, how are you?</span
-	>
 </div>

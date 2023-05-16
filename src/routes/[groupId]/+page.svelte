@@ -6,8 +6,9 @@
 	import Token from '$lib/features/token-ui/ui/Token.svelte'
 	import tokenTypesArray from '$lib/utils/tokenTypesArray'
 
-	const designTokensGroupStore: DesignTokensStore =
-		getContext('designTokensGroupStore')
+	const designTokensGroupStore: DesignTokensStore = getContext(
+		'designTokensGroupStore'
+	)
 
 	$: groupId = $page.params.groupId as string
 	$: groupIndex = $designTokensGroupStore.findIndex(
@@ -26,12 +27,9 @@
 	>
 		<h1
 			contenteditable="true"
-			bind:textContent={$designTokensGroupStore[groupIndex]
-				.name}
+			bind:textContent={$designTokensGroupStore[groupIndex].name}
 		/>
-		<select
-			bind:value={$designTokensGroupStore[groupIndex].type}
-		>
+		<select bind:value={$designTokensGroupStore[groupIndex].type}>
 			{#each tokenTypesArray as contentType}
 				<option value={contentType}>
 					{contentType}
@@ -40,12 +38,8 @@
 		</select>
 		<button
 			on:click={() =>
-				designTokensGroupStore.addToken(
-					groupId,
-					'osss',
-					'color',
-					'#000000'
-				)}>Add token</button
+				designTokensGroupStore.addToken(groupId, 'osss', 'color', [0, 0, 0])}
+			>Add token</button
 		>
 		<button on:click={handleDelete}>delete</button>
 	</div>

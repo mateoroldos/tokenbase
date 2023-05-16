@@ -10,19 +10,19 @@ export type TokenType =
 	| 'color'
 	| 'dimension'
 	| 'fontFamily'
-	| 'font-weight'
+	| 'fontWeight'
 	| 'duration'
 	| 'cubic-bezier'
 	| 'number'
 	| 'shadow'
 
 export type TokenValue<T = TokenType> = T extends 'color'
-	? string
+	? [number, number, number]
 	: T extends 'dimension'
 	? string
 	: T extends 'fontFamily'
 	? string | string[]
-	: T extends 'font-weight'
+	: T extends 'fontWeight'
 	? string | number
 	: T extends 'duration'
 	? string
