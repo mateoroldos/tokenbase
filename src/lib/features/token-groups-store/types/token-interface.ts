@@ -12,7 +12,7 @@ export type TokenType =
 	| 'font-family'
 	| 'fontWeight'
 	| 'duration'
-	| 'cubic-bezier'
+	| 'cubicBezier'
 	| 'number'
 	| 'shadow'
 
@@ -26,7 +26,7 @@ export type TokenValue<T = TokenType> = T extends 'color'
 	? string | number
 	: T extends 'duration'
 	? string
-	: T extends 'cubic-bezier'
+	: T extends 'cubicBezier'
 	? number[]
 	: T extends 'number'
 	? number
