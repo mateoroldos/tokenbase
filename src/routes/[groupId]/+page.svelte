@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { Group } from '$lib/features/token-groups-store/types/group-interface'
 	import {
 		moveToken,
 		type DesignTokensStore
@@ -7,7 +8,6 @@
 	import { getContext } from 'svelte'
 	import { goto } from '$app/navigation'
 	import Token from '$lib/features/token-ui/ui/Token.svelte'
-	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import tokenTypesArray from '$lib/utils/tokenTypesArray'
 
 	const designTokensGroupStore: DesignTokensStore = getContext(
@@ -18,6 +18,7 @@
 	$: groupIndex = $designTokensGroupStore.findIndex(
 		(group) => group.id === $page.params.groupId
 	) as number
+	$: group = $designTokensGroupStore[groupIndex] as Group
 
 	let selectedTokens: string[] = []
 	let draggedTokenId: string | null = null
@@ -41,10 +42,10 @@
 				groupIndex
 			]?.tokens.findIndex((token) => token.id === droppedTokenId) as number
 
-			$designTokensGroupStore[groupIndex].tokens = moveToken(
+			group.tokens = moveToken(
 				draggedTokenIndex,
 				droppedTokenIndex,
-				$designTokensGroupStore[groupIndex]?.tokens
+				group.tokens
 			)
 		}
 	}
@@ -64,11 +65,8 @@
 	<div
 		class="border-b-1 flex flex-row gap-20 border-b border-solid border-gray-300 bg-gray-100 px-8 py-3"
 	>
-		<h1
-			contenteditable="true"
-			bind:textContent={$designTokensGroupStore[groupIndex].name}
-		/>
-		<select bind:value={$designTokensGroupStore[groupIndex].type}>
+		<h1 contenteditable="true" bind:textContent={group.name} />
+		<select bind:value={group.type}>
 			{#each tokenTypesArray as contentType}
 				<option value={contentType}>
 					{contentType}
@@ -82,7 +80,7 @@
 		>
 		<button on:click={handleDeleteGroup}>delete</button>
 	</div>
-	{#each $designTokensGroupStore[groupIndex].tokens as token}
+	{#each group.tokens as token}
 		<Token
 			selected={selectedTokens.includes(token.id)}
 			bind:token
