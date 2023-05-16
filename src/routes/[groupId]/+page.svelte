@@ -58,6 +58,7 @@
 	{#each $designTokensGroupStore[groupIndex].tokens as token}
 		<Token
 			bind:token
+			selected={selectedTokens.includes(token.id)}
 			on:select={(e) => handleSelectToken(e.detail)}
 			on:unselect={(e) => handleUnselectToken(e.detail)}
 		/>

@@ -10,8 +10,7 @@
 	const dispatch = createEventDispatcher()
 
 	export let token: Token
-
-	let selected: boolean = false
+	export let selected: boolean = false
 
 	$: if (selected === true) dispatch('select', token.id)
 	$: if (selected === false) dispatch('unselect', token.id)
