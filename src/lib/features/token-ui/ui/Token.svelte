@@ -5,6 +5,7 @@
 	import DimensionToken from './token-types/DimensionToken.svelte'
 	import DurationToken from './token-types/DurationToken.svelte'
 	import FontFamilyToken from './token-types/FontFamilyToken.svelte'
+	import FontWeight from './token-types/FontWeight.svelte'
 
 	export let token: Token
 </script>
@@ -18,5 +19,7 @@
 		<DimensionToken bind:token />
 	{:else if token.type === 'duration'}
 		<DurationToken bind:token />
+	{:else if token.type === 'fontWeight'}
+		<FontWeight bind:token />
 	{/if}
 </BaseToken>
