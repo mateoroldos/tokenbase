@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Range from '$lib/components/Range.svelte'
-	import type { Token } from '$lib/features/token-groups-store/types/token-interface'
+	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import { Hct } from '@material/material-color-utilities'
 	import Color from 'color'
 	import {
@@ -9,7 +9,7 @@
 		generateToneBackgroundGradient
 	} from './utils/generateHctBackgroundGradients'
 
-	export let token: Token<'color'>
+	export let token: IToken<'color'>
 
 	let hexInput: HTMLInputElement
 
