@@ -21,9 +21,9 @@
 	on:mouseleave={() => (hover = false)}
 >
 	<div class="flex flex-row gap-2">
-		<span
-			bind:textContent={token.name}
-			contenteditable="true"
+		<input
+			bind:value={token.name}
+			placeholder="Untitled"
 			class="w-32 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
 		/>
 		<select

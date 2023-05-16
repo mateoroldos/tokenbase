@@ -36,9 +36,7 @@
 				</option>
 			{/each}
 		</select>
-		<button
-			on:click={() =>
-				designTokensGroupStore.addToken(groupId, 'osss', 'color', [0, 0, 0])}
+		<button on:click={() => designTokensGroupStore.addToken(groupId, 'color')}
 			>Add token</button
 		>
 		<button on:click={handleDelete}>delete</button>

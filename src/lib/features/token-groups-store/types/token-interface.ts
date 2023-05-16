@@ -1,7 +1,13 @@
 export interface Token<T = TokenType> {
 	id: string
-	name: string
+	name: string | undefined
 	description?: string
+	value: TokenValue<T>
+	type: T
+}
+
+export interface DefaultToken<T = TokenType> {
+	name: undefined | null
 	value: TokenValue<T>
 	type: T
 }
@@ -9,25 +15,24 @@ export interface Token<T = TokenType> {
 export type TokenType =
 	| 'color'
 	| 'dimension'
-	| 'font-family'
+	| 'fontFamily'
 	| 'fontWeight'
 	| 'duration'
-	| 'cubic-bezier'
+	| 'cubicBezier'
 	| 'number'
-	| 'shadow'
 
 export type TokenValue<T = TokenType> = T extends 'color'
 	? [number, number, number]
 	: T extends 'dimension'
 	? string
-	: T extends 'font-family'
+	: T extends 'fontFamily'
 	? string | string[]
 	: T extends 'fontWeight'
 	? string | number
 	: T extends 'duration'
 	? string
-	: T extends 'cubic-bezier'
-	? number[]
+	: T extends 'cubicBezier'
+	? [number, number, number, number]
 	: T extends 'number'
 	? number
 	: T extends 'shadow'
