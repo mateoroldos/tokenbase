@@ -27,7 +27,7 @@ export type TokenValue<T = TokenType> = T extends 'color'
 	: T extends 'duration'
 	? string
 	: T extends 'cubicBezier'
-	? number[]
+	? [number, number, number, number]
 	: T extends 'number'
 	? number
 	: T extends 'shadow'
