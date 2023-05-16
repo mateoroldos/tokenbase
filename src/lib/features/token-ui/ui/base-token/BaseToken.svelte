@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition'
 	import type { DesignTokensStore } from '$lib/features/token-groups-store/tokensGroup'
-	import type { Token } from '$lib/features/token-groups-store/types/token-interface'
+	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import tokenTypesArray from '$lib/utils/tokenTypesArray'
 	import Icon from '@iconify/svelte'
 	import { getContext } from 'svelte'
 
-	export let token: Token
+	export let token: IToken
 	export let selected: boolean
+	export let draggedTokenId: string | null
 
 	const designTokensGroupStore: DesignTokensStore = getContext(
 		'designTokensGroupStore'
@@ -18,9 +19,16 @@
 
 <div
 	class="flex flex-row items-center gap-7 border-b border-solid border-gray-200 px-8 py-3"
+	class:bg-gray-100={draggedTokenId === token.id}
 	on:mouseenter={() => (hover = true)}
 	on:mouseleave={() => (hover = false)}
+	on:dragenter
+	on:dragend
+	ondragover="return false"
 >
+	<div on:dragstart draggable={true} class="cursor-grab">
+		<Icon icon="tabler:line-height" class="text-gray-400" />
+	</div>
 	<div class="flex flex-row gap-2">
 		<input type="checkbox" bind:checked={selected} />
 		<span
