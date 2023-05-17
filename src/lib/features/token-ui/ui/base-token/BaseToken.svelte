@@ -4,7 +4,7 @@
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import tokenTypesArray from '$lib/utils/tokenTypesArray'
 	import Icon from '@iconify/svelte'
-	import { getContext, onMount } from 'svelte'
+	import { getContext } from 'svelte'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 
 	export let token: IToken
