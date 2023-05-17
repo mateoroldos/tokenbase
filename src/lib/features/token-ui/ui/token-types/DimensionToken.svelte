@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { Token } from '$lib/features/token-groups-store/types/token-interface'
+	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 
-	export let token: Token<'dimension'>
+	export let token: IToken<'dimension'>
 
 	let dimensionValue: number
 	let dimensionUnit: 'px' | 'rem'

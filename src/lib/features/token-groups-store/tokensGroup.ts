@@ -3,7 +3,7 @@ import persistentWritable from '../../stores/custom/persistentWritable'
 import { v4 as uuidv4 } from 'uuid'
 import type { Group } from '$lib/features/token-groups-store/types/group-interface'
 import type {
-	Token,
+	IToken,
 	TokenType,
 	TokenValue
 } from '$lib/features/token-groups-store/types/token-interface'
@@ -139,8 +139,6 @@ const deepDeleteGroups = (id: string, groups: Group[]): void => {
 	childrenGroups.forEach((group) => {
 		deepDeleteGroups(group.id, groups)
 	})
-
-	console.log('groups', groups)
 }
 
 const deleteGroupById = (id: string, groups: Group[]): void => {
@@ -150,9 +148,28 @@ const deleteGroupById = (id: string, groups: Group[]): void => {
 	}
 }
 
-const deleteTokenById = (id: string, tokens: Token[]): void => {
+const deleteTokenById = (id: string, tokens: IToken[]): void => {
 	const index = tokens.findIndex((token) => token.id === id)
 	if (index !== -1) {
 		tokens.splice(index, 1)
 	}
+}
+
+// Helpers
+export const moveToken = (
+	fromIndex: number,
+	toIndex: number,
+	tokens: IToken[]
+) => {
+	const token = tokens[fromIndex] as IToken
+
+	if (fromIndex > toIndex) {
+		tokens.splice(fromIndex, 1)
+		tokens.splice(toIndex, 0, token)
+	} else {
+		tokens.splice(toIndex, 0, token)
+		tokens.splice(fromIndex, 1)
+	}
+
+	return tokens
 }

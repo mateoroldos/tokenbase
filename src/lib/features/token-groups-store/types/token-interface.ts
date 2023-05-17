@@ -1,4 +1,4 @@
-export interface Token<T = TokenType> {
+export interface IToken<T = TokenType> {
 	id: string
 	name: string | undefined
 	description?: string

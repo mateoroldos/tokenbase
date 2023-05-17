@@ -3,10 +3,10 @@ import type { TokenType } from '$lib/features/token-groups-store/types/token-int
 const tokenTypesArray: TokenType[] = [
 	'color',
 	'dimension',
-	'font-family',
+	'fontFamily',
 	'fontWeight',
 	'duration',
-	'cubic-bezier',
+	'cubicBezier',
 	'number',
 	'shadow'
 ]
