@@ -4,11 +4,11 @@
 		moveToken,
 		type DesignTokensStore
 	} from '$lib/features/token-groups-store/tokensGroup'
+	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import { page } from '$app/stores'
-	import { getContext } from 'svelte'
+	import { getContext, onMount } from 'svelte'
 	import { goto } from '$app/navigation'
 	import Token from '$lib/features/token-ui/ui/Token.svelte'
-	import tokenTypesArray from '$lib/utils/tokenTypesArray'
 
 	const designTokensGroupStore: DesignTokensStore = getContext(
 		'designTokensGroupStore'
@@ -59,6 +59,40 @@
 			return selectedToken !== tokenId
 		})
 	}
+
+	const findGroupType = () => {
+		console.log(group)
+
+		if (group.tokens.length > 0) {
+			const tokenTypesSet = new Set(group.tokens.map((token) => token.type))
+			const tokenTypesArray = [...tokenTypesSet]
+
+			if (tokenTypesArray.length === 1) {
+				return tokenTypesArray[0]
+			} else {
+				return undefined
+			}
+		} else {
+			return undefined
+		}
+	}
+
+	const handleAddToken = () => {
+		const tokenType =
+			group.type != undefined
+				? group.type
+				: group.tokens[group.tokens.length - 1] != undefined
+				? (group.tokens[group.tokens.length - 1] as IToken).type
+				: 'color'
+
+		designTokensGroupStore.addToken(groupId, 'osss', tokenType, [0, 0, 0])
+	}
+
+	onMount(() => {
+		group.type = findGroupType()
+	})
+
+	$: group.tokens && (group.type = findGroupType())
 </script>
 
 <div>
@@ -66,18 +100,7 @@
 		class="border-b-1 flex flex-row gap-20 border-b border-solid border-gray-300 bg-gray-100 px-8 py-3"
 	>
 		<h1 contenteditable="true" bind:textContent={group.name} />
-		<select bind:value={group.type}>
-			{#each tokenTypesArray as contentType}
-				<option value={contentType}>
-					{contentType}
-				</option>
-			{/each}
-		</select>
-		<button
-			on:click={() =>
-				designTokensGroupStore.addToken(groupId, 'osss', 'color', [0, 0, 0])}
-			>Add token</button
-		>
+		<button on:click={handleAddToken}>Add token</button>
 		<button on:click={handleDeleteGroup}>delete</button>
 	</div>
 	{#each group.tokens as token}
