@@ -1,4 +1,4 @@
-export interface Token<T = TokenType> {
+export interface IToken<T = TokenType> {
 	id: string
 	name: string
 	description?: string
@@ -9,25 +9,25 @@ export interface Token<T = TokenType> {
 export type TokenType =
 	| 'color'
 	| 'dimension'
-	| 'font-family'
-	| 'font-weight'
+	| 'fontFamily'
+	| 'fontWeight'
 	| 'duration'
-	| 'cubic-bezier'
+	| 'cubicBezier'
 	| 'number'
 	| 'shadow'
 
 export type TokenValue<T = TokenType> = T extends 'color'
-	? string
+	? [number, number, number]
 	: T extends 'dimension'
 	? string
-	: T extends 'font-family'
+	: T extends 'fontFamily'
 	? string | string[]
-	: T extends 'font-weight'
+	: T extends 'fontWeight'
 	? string | number
 	: T extends 'duration'
 	? string
-	: T extends 'cubic-bezier'
-	? number[]
+	: T extends 'cubicBezier'
+	? [number, number, number, number]
 	: T extends 'number'
 	? number
 	: T extends 'shadow'
