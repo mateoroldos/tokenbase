@@ -3,33 +3,30 @@
 
 	export let token: Token<'fontFamily'>
 
-	let inputs = [{ id: 1, value: '' }] // initial input
+	let defaultInputValue = token.value[0] || ''
 
 	function addInput() {
-		const id = inputs[inputs.length - 1].id + 1
-		inputs = [...inputs, { id, value: '' }]
+		token.value = [...token.value, defaultInputValue]
 	}
 
-	function removeInput(id: number) {
-		inputs = inputs.filter((input) => input.id !== id)
+	function removeInput(index: number) {
+		token.value = token.value.filter((_, i) => i !== index)
 	}
-
-	$: token.value = inputs.map((input) => input.value)
 </script>
 
 <div class="flex flex-col gap-4">
-	{#each inputs as input, i}
+	{#each token.value as value, i}
 		<div class="flex">
 			<input
 				class="mr-2 w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
 				type="text"
-				bind:value={input.value}
+				bind:value={token.value[i]}
 			/>
-			{#if i === inputs.length - 1}
+			{#if i === token.value.length - 1}
 				<button class="mr-2" on:click={addInput}>+</button>
 			{/if}
-			{#if inputs.length > 1}
-				<button class="mr-2" on:click={() => removeInput(input.id)}>X</button>
+			{#if token.value.length > 1}
+				<button class="mr-2" on:click={() => removeInput(i)}>X</button>
 			{/if}
 		</div>
 	{/each}
