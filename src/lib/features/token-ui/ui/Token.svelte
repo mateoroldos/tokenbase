@@ -29,7 +29,7 @@
 >
 	{#if token.type === 'color'}
 		<ColorToken bind:token />
-	{:else if token.type === 'font-family'}
+	{:else if token.type === 'fontFamily'}
 		<FontFamilyToken bind:token />
 	{:else if token.type === 'dimension'}
 		<DimensionToken bind:token />
