@@ -8,8 +8,11 @@
 		generateHueBackgroundGradient,
 		generateToneBackgroundGradient
 	} from './utils/generateHctBackgroundGradients'
+	import { createEventDispatcher } from 'svelte'
 
 	export let token: IToken<'color'>
+
+	const dispatch = createEventDispatcher()
 
 	let hexInput: HTMLInputElement
 
@@ -66,16 +69,21 @@
 			<span class="text-xs text-gray-500">Hue</span>
 			<input
 				type="number"
-				bind:value={token.value[0]}
 				class="w-14 rounded-md border border-gray-300 px-1 text-xs"
+				bind:value={token.value[0]}
 			/>
 		</div>
 		<Range
 			min={0}
 			max={360}
-			bind:value={token.value[0]}
 			id={`${token.id}-hue-range`}
 			background={hueBackground}
+			bind:value={token.value[0]}
+			on:change={(e) =>
+				dispatch('colorChange', {
+					valueChanged: 0,
+					value: e.detail.diff
+				})}
 		/>
 	</div>
 	<div class="flex w-full flex-col gap-1">
@@ -83,16 +91,21 @@
 			<span class="text-xs text-gray-500">Chroma</span>
 			<input
 				type="number"
-				bind:value={token.value[1]}
 				class="w-14 rounded-md border border-gray-300 px-1 text-xs"
+				bind:value={token.value[1]}
 			/>
 		</div>
 		<Range
 			min={0}
 			max={100}
-			bind:value={token.value[1]}
 			id={`${token.id}-chroma-range`}
 			background={chromaBackground}
+			bind:value={token.value[1]}
+			on:change={(e) =>
+				dispatch('colorChange', {
+					valueChanged: 1,
+					value: e.detail.diff
+				})}
 		/>
 	</div>
 	<div class="flex w-full flex-col gap-1">
@@ -100,16 +113,21 @@
 			<span class="text-xs text-gray-500">Tone</span>
 			<input
 				type="number"
-				bind:value={token.value[2]}
 				class="w-14 rounded-md border border-gray-300 px-1 text-xs"
+				bind:value={token.value[2]}
 			/>
 		</div>
 		<Range
 			min={0}
 			max={100}
-			bind:value={token.value[2]}
 			id={`${token.id}-saturation-range`}
 			background={toneBackground}
+			bind:value={token.value[2]}
+			on:change={(e) =>
+				dispatch('colorChange', {
+					valueChanged: 2,
+					value: e.detail.diff
+				})}
 		/>
 	</div>
 </div>

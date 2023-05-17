@@ -10,9 +10,13 @@
 	import Token from '$lib/features/token-ui/ui/Token.svelte'
 	import tokenTypesArray from '$lib/utils/tokenTypesArray'
 	import Toolbar from '$lib/features/toolbar/ui/Toolbar.svelte'
+	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
+	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 
 	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
 		getContext('designTokensGroupStore')
+	const selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
+		getContext('selectedTokensStore')
 
 	$: groupId = $page.params.groupId as string
 	$: groupIndex = $designTokensGroupStore.findIndex(
@@ -48,6 +52,38 @@
 			)
 		}
 	}
+
+	// When the user changes a color hue, chroma or tone individually, we update by the same value all the selected color tokens
+	const handleColorChange = (e: CustomEvent, token: IToken) => {
+		if (
+			$selectedTokensStore.length > 1 &&
+			$selectedTokensStore.includes(token)
+		) {
+			const colorTokensToChange = $selectedTokensStore.filter(
+				(tkn) => tkn !== token && token.type === 'color'
+			)
+
+			const selectedTokensFromGroupStore = colorTokensToChange.map(
+				(tkn) =>
+					$designTokensGroupStore[groupIndex]?.tokens.find(
+						(token) => token.id === tkn.id
+					) as IToken
+			)
+
+			for (
+				let index = 0;
+				index < selectedTokensFromGroupStore.length;
+				index++
+			) {
+				;(selectedTokensFromGroupStore[index] as IToken<'color'>).value[
+					e.detail.valueChanged
+				] =
+					(selectedTokensFromGroupStore[index] as IToken<'color'>).value[
+						e.detail.valueChanged
+					] + e.detail.value
+			}
+		}
+	}
 </script>
 
 <section class="flex flex-1 flex-col justify-between">
@@ -77,6 +113,7 @@
 				on:dragstart={() => handleDragStart(token.id)}
 				on:dragenter={() => handleDragEnter(token.id)}
 				on:dragend={() => (draggedTokenId = null)}
+				on:colorChange={(e) => handleColorChange(e, token)}
 			/>
 		{/each}
 	</div>

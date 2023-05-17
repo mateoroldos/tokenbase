@@ -14,7 +14,7 @@
 
 <BaseToken bind:token bind:draggedTokenId on:dragstart on:dragenter on:dragend>
 	{#if token.type === 'color'}
-		<ColorToken bind:token />
+		<ColorToken bind:token on:colorChange />
 	{:else if token.type === 'font-family'}
 		<FontFamilyToken bind:token />
 	{:else if token.type === 'dimension'}
