@@ -15,6 +15,8 @@
 		getContext('designTokensGroupStore')
 	const selectedTokens: Writable<IToken[]> = getContext('selectedTokens')
 
+	let amountOfShades = 10
+
 	const handleGenerateShades = () => {
 		if (validShade) {
 			console.log('Generating color shades...')
@@ -22,7 +24,7 @@
 			const colorShades = generateColorShades(
 				$selectedTokens[0]?.value as TokenValue<'color'>,
 				$selectedTokens[1]?.value as TokenValue<'color'>,
-				10
+				amountOfShades
 			)
 
 			const colorShadesTokens = colorShades.map((colorShade, i) => ({
@@ -62,8 +64,12 @@
 	>
 		<Icon icon="tabler:color-swatch" />
 		Generate shades
-		{#each $selectedTokens as a}
-			{a}
-		{/each}
 	</button>
+	<label for="amount-of-shades">Amount of shades</label>
+	<input
+		name="amount-of-shades"
+		type="number"
+		bind:value={amountOfShades}
+		class="rounded border border-solid border-gray-400"
+	/>
 {/if}
