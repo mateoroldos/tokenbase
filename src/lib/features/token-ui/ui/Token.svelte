@@ -7,26 +7,12 @@
 	import DurationToken from './token-types/DurationToken.svelte'
 	import FontFamilyToken from './token-types/FontFamilyToken.svelte'
 	import FontWeight from './token-types/FontWeight.svelte'
-	import { createEventDispatcher } from 'svelte'
-
-	const dispatch = createEventDispatcher()
 
 	export let token: IToken
-	export let selected = false
 	export let draggedTokenId: string | null
-
-	$: if (selected === true) dispatch('select', token)
-	$: if (selected === false) dispatch('unselect', token)
 </script>
 
-<BaseToken
-	bind:token
-	bind:selected
-	bind:draggedTokenId
-	on:dragstart
-	on:dragenter
-	on:dragend
->
+<BaseToken bind:token bind:draggedTokenId on:dragstart on:dragenter on:dragend>
 	{#if token.type === 'color'}
 		<ColorToken bind:token />
 	{:else if token.type === 'font-family'}

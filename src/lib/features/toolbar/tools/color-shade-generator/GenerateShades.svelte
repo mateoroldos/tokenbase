@@ -1,19 +1,19 @@
 <script lang="ts">
 	import { page } from '$app/stores'
 	import type { createTokensGroupStore } from '$lib/features/token-groups-store/tokensGroup'
+	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import Icon from '@iconify/svelte'
 	import { getContext } from 'svelte'
-	import type { Writable } from 'svelte/store'
 	import { generateColorShades } from './GenerateShades'
 	import type {
-		IToken,
 		TokenType,
 		TokenValue
 	} from '$lib/features/token-groups-store/types/token-interface'
 
 	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
 		getContext('designTokensGroupStore')
-	const selectedTokens: Writable<IToken[]> = getContext('selectedTokens')
+	const selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
+		getContext('selectedTokensStore')
 
 	let amountOfShades = 10
 
@@ -22,23 +22,23 @@
 			console.log('Generating color shades...')
 
 			const colorShades = generateColorShades(
-				$selectedTokens[0]?.value as TokenValue<'color'>,
-				$selectedTokens[1]?.value as TokenValue<'color'>,
+				$selectedTokensStore[0]?.value as TokenValue<'color'>,
+				$selectedTokensStore[1]?.value as TokenValue<'color'>,
 				amountOfShades
 			)
 
 			const colorShadesTokens = colorShades.map((colorShade, i) => ({
 				type: 'color' as TokenType,
 				value: colorShade,
-				name: `${$selectedTokens[0]?.name}-shade-${i}`
+				name: `${$selectedTokensStore[0]?.name}-shade-${i}`
 			}))
 
 			const firstSelectedTokenIndex = $designTokensGroupStore.findIndex(
-				(token) => token.name === $selectedTokens[0]?.name
+				(token) => token.name === $selectedTokensStore[0]?.name
 			)
 
 			const lastSelectedTokenIndex = $designTokensGroupStore.findIndex(
-				(token) => token.name === $selectedTokens[1]?.name
+				(token) => token.name === $selectedTokensStore[1]?.name
 			)
 
 			designTokensGroupStore.bulkAddTokens(
@@ -52,9 +52,9 @@
 	}
 
 	$: validShade =
-		$selectedTokens.length === 2 &&
-		$selectedTokens[0]?.type === 'color' &&
-		$selectedTokens[1]?.type === 'color'
+		$selectedTokensStore.length === 2 &&
+		$selectedTokensStore[0]?.type === 'color' &&
+		$selectedTokensStore[1]?.type === 'color'
 </script>
 
 {#if validShade}

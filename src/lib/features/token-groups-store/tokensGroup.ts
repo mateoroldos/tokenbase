@@ -1,4 +1,3 @@
-import type { Writable } from 'svelte/store'
 import persistentWritable from '../../stores/custom/persistentWritable'
 import { v4 as uuidv4 } from 'uuid'
 import type { Group } from '$lib/features/token-groups-store/types/group-interface'
