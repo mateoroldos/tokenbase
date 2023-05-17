@@ -2,17 +2,19 @@
 	import type { Group } from '$lib/features/token-groups-store/types/group-interface'
 	import {
 		moveToken,
-		type DesignTokensStore
+		createTokensGroupStore
 	} from '$lib/features/token-groups-store/tokensGroup'
 	import { page } from '$app/stores'
-	import { getContext } from 'svelte'
+	import { getContext, setContext } from 'svelte'
 	import { goto } from '$app/navigation'
 	import Token from '$lib/features/token-ui/ui/Token.svelte'
 	import tokenTypesArray from '$lib/utils/tokenTypesArray'
+	import Toolbar from '$lib/features/toolbar/ui/Toolbar.svelte'
+	import { writable, type Writable } from 'svelte/store'
+	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 
-	const designTokensGroupStore: DesignTokensStore = getContext(
-		'designTokensGroupStore'
-	)
+	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
+		getContext('designTokensGroupStore')
 
 	$: groupId = $page.params.groupId as string
 	$: groupIndex = $designTokensGroupStore.findIndex(
@@ -20,7 +22,9 @@
 	) as number
 	$: group = $designTokensGroupStore[groupIndex] as Group
 
-	let selectedTokens: string[] = []
+	let selectedTokens: Writable<IToken[]> = writable([])
+	setContext('selectedTokens', selectedTokens)
+
 	let draggedTokenId: string | null = null
 
 	const handleDragStart = (tokenId: string) => {
@@ -50,46 +54,51 @@
 		}
 	}
 
-	const handleSelectToken = (tokenId: string) => {
-		selectedTokens = [...selectedTokens, tokenId]
+	const handleSelectToken = (token: IToken) => {
+		$selectedTokens = [...$selectedTokens, token]
 	}
 
-	const handleUnselectToken = (tokenId: string) => {
-		selectedTokens = selectedTokens.filter((selectedToken) => {
-			return selectedToken !== tokenId
+	const handleUnselectToken = (token: IToken) => {
+		$selectedTokens = $selectedTokens.filter((selectedToken) => {
+			return selectedToken !== token
 		})
 	}
 </script>
 
-<div>
-	<div
-		class="border-b-1 flex flex-row gap-20 border-b border-solid border-gray-300 bg-gray-100 px-8 py-3"
-	>
-		<h1 contenteditable="true" bind:textContent={group.name} />
-		<select bind:value={group.type}>
-			{#each tokenTypesArray as contentType}
-				<option value={contentType}>
-					{contentType}
-				</option>
-			{/each}
-		</select>
-		<button
-			on:click={() =>
-				designTokensGroupStore.addToken(groupId, 'osss', 'color', [0, 0, 0])}
-			>Add token</button
+<section class="flex flex-1 flex-col justify-between">
+	<div>
+		<div
+			class="border-b-1 flex flex-row gap-20 border-b border-solid border-gray-300 bg-gray-100 px-8 py-3"
 		>
-		<button on:click={handleDeleteGroup}>delete</button>
+			<h1 contenteditable="true" bind:textContent={group.name} />
+			<select bind:value={group.type}>
+				{#each tokenTypesArray as contentType}
+					<option value={contentType}>
+						{contentType}
+					</option>
+				{/each}
+			</select>
+			<button
+				on:click={() =>
+					designTokensGroupStore.addToken(groupId, 'osss', 'color', [0, 0, 0])}
+				>Add token</button
+			>
+			<button on:click={handleDeleteGroup}>delete</button>
+		</div>
+		{#each group.tokens as token}
+			<Token
+				selected={$selectedTokens.includes(token)}
+				bind:token
+				bind:draggedTokenId
+				on:select={(e) => handleSelectToken(e.detail)}
+				on:unselect={(e) => handleUnselectToken(e.detail)}
+				on:dragstart={() => handleDragStart(token.id)}
+				on:dragenter={() => handleDragEnter(token.id)}
+				on:dragend={() => (draggedTokenId = null)}
+			/>
+		{/each}
 	</div>
-	{#each group.tokens as token}
-		<Token
-			selected={selectedTokens.includes(token.id)}
-			bind:token
-			bind:draggedTokenId
-			on:select={(e) => handleSelectToken(e.detail)}
-			on:unselect={(e) => handleUnselectToken(e.detail)}
-			on:dragstart={() => handleDragStart(token.id)}
-			on:dragenter={() => handleDragEnter(token.id)}
-			on:dragend={() => (draggedTokenId = null)}
-		/>
-	{/each}
-</div>
+	<div class="bottom-0 flex flex-row justify-center">
+		<Toolbar />
+	</div>
+</section>

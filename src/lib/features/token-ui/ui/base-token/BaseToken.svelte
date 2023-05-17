@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition'
-	import type { DesignTokensStore } from '$lib/features/token-groups-store/tokensGroup'
+	import type { createTokensGroupStore } from '$lib/features/token-groups-store/tokensGroup'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import tokenTypesArray from '$lib/utils/tokenTypesArray'
 	import Icon from '@iconify/svelte'
@@ -10,9 +10,8 @@
 	export let selected: boolean
 	export let draggedTokenId: string | null
 
-	const designTokensGroupStore: DesignTokensStore = getContext(
-		'designTokensGroupStore'
-	)
+	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
+		getContext('designTokensGroupStore')
 
 	let hover = false
 </script>

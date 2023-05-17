@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { DesignTokensStore } from '$lib/features/token-groups-store/tokensGroup'
+	import type { createTokensGroupStore } from '$lib/features/token-groups-store/tokensGroup'
 	import { getContext } from 'svelte'
 
-	const designTokensGroupStore: DesignTokensStore =
+	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
 		getContext('designTokensGroupStore')
 </script>
 

@@ -6,7 +6,7 @@
 	import DimensionToken from './token-types/DimensionToken.svelte'
 	import DurationToken from './token-types/DurationToken.svelte'
 	import FontFamilyToken from './token-types/FontFamilyToken.svelte'
-  import FontWeight from './token-types/FontWeight.svelte'
+	import FontWeight from './token-types/FontWeight.svelte'
 	import { createEventDispatcher } from 'svelte'
 
 	const dispatch = createEventDispatcher()
@@ -15,8 +15,8 @@
 	export let selected = false
 	export let draggedTokenId: string | null
 
-	$: if (selected === true) dispatch('select', token.id)
-	$: if (selected === false) dispatch('unselect', token.id)
+	$: if (selected === true) dispatch('select', token)
+	$: if (selected === false) dispatch('unselect', token)
 </script>
 
 <BaseToken
