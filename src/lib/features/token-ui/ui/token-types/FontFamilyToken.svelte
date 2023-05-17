@@ -1,12 +1,10 @@
 <script lang="ts">
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 
-	export let token: IToken<'font-family'>
-
-	let defaultInputValue = token.value[0] || ''
+	export let token: IToken<'fontFamily'>
 
 	function addInput() {
-		token.value = [...token.value, defaultInputValue]
+		token.value = [...token.value, '']
 	}
 
 	function removeInput(index: number) {
