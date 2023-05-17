@@ -9,6 +9,7 @@
 	import { goto } from '$app/navigation'
 	import Token from '$lib/features/token-ui/ui/Token.svelte'
 	import tokenTypesArray from '$lib/utils/tokenTypesArray'
+	import { defaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
 
 	const designTokensGroupStore: DesignTokensStore = getContext(
 		'designTokensGroupStore'
@@ -57,6 +58,14 @@
 	const handleUnselectToken = (tokenId: string) => {
 		selectedTokens = selectedTokens.filter((selectedToken) => {
 			return selectedToken !== tokenId
+		})
+	}
+
+	$: {
+		group.tokens.forEach((token) => {
+			if (token.type === group.type) {
+				token.value = defaultTokenValues[token.type]
+			}
 		})
 	}
 </script>
