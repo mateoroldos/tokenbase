@@ -5,7 +5,7 @@
 		type DesignTokensStore
 	} from '$lib/features/token-groups-store/tokensGroup'
 	import { page } from '$app/stores'
-	import { getContext } from 'svelte'
+	import { getContext, onMount } from 'svelte'
 	import { goto } from '$app/navigation'
 	import Token from '$lib/features/token-ui/ui/Token.svelte'
 	import tokenTypesArray from '$lib/utils/tokenTypesArray'
@@ -59,6 +59,23 @@
 			return selectedToken !== tokenId
 		})
 	}
+	const handleGroupType = () => {
+		const tokenTypes = new Set(group.tokens.map((token) => token.type))
+		const distinctTokenTypes = [...tokenTypes]
+		if (distinctTokenTypes.length === 1) {
+			group.type = distinctTokenTypes[0]
+		} else {
+			group.type =
+				group.tokens.length > 0
+					? distinctTokenTypes[distinctTokenTypes.length - 1]
+					: undefined
+		}
+		console.log(group.type)
+	}
+
+	onMount(() => {
+		handleGroupType()
+	})
 </script>
 
 <div>
@@ -73,6 +90,7 @@
 				</option>
 			{/each}
 		</select>
+		<span>{group.type}</span>
 		<button
 			on:click={() =>
 				designTokensGroupStore.addToken(groupId, 'osss', 'color', [0, 0, 0])}
