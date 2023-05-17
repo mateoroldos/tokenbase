@@ -2,6 +2,7 @@
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import BaseToken from './base-token/BaseToken.svelte'
 	import ColorToken from './token-types/ColorToken/ColorToken.svelte'
+	import CubicBezierToken from './token-types/CubicBezierToken.svelte'
 	import DimensionToken from './token-types/DimensionToken.svelte'
 	import DurationToken from './token-types/DurationToken.svelte'
 	import FontFamilyToken from './token-types/FontFamilyToken.svelte'
@@ -36,5 +37,7 @@
 		<DurationToken bind:token />
 	{:else if token.type === 'fontWeight'}
 		<FontWeight bind:token />
+	{:else if token.type === 'cubicBezier'}
+		<CubicBezierToken bind:token />
 	{/if}
 </BaseToken>
