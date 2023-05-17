@@ -60,14 +60,6 @@
 			return selectedToken !== tokenId
 		})
 	}
-
-	$: {
-		group.tokens.forEach((token) => {
-			if (token.type === group.type) {
-				token.value = defaultTokenValues[token.type]
-			}
-		})
-	}
 </script>
 
 <div>

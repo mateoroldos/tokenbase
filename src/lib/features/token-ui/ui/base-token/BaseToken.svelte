@@ -5,6 +5,7 @@
 	import tokenTypesArray from '$lib/utils/tokenTypesArray'
 	import Icon from '@iconify/svelte'
 	import { getContext } from 'svelte'
+	import { defaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
 
 	export let token: IToken
 	export let selected: boolean
@@ -15,6 +16,10 @@
 	)
 
 	let hover = false
+
+	const handleTokenTypeChange = () => {
+		token.value = defaultTokenValues[token.type]
+	}
 </script>
 
 <div
@@ -38,6 +43,7 @@
 		/>
 		<select
 			bind:value={token.type}
+			on:change={handleTokenTypeChange}
 			class="w-24 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
 		>
 			{#each tokenTypesArray as contentType}

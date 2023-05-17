@@ -8,7 +8,7 @@ export const defaultTokenValues: DefaultTokenValues = {
 	color: [0, 0, 0],
 	fontWeight: 'normal',
 	duration: '500ms',
-	fontFamily: 'Arial',
+	fontFamily: ['Arial'],
 	dimension: '16px',
 	cubicBezier: [0, 0, 0, 0],
 	number: 100
