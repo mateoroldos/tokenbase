@@ -7,7 +7,7 @@ type DefaultTokenValues = {
 export const defaultTokenValues: DefaultTokenValues = {
 	color: [0, 0, 0],
 	fontWeight: 'normal',
-	duration: '500',
+	duration: 500,
 	fontFamily: ['Arial'],
 	dimension: { value: 16, unit: 'px' },
 	cubicBezier: [0, 0, 0, 0],

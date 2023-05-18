@@ -29,11 +29,11 @@ export type TokenValue<T = TokenType> = T extends 'color'
 			unit: 'px' | 'rem'
 	  }
 	: T extends 'fontFamily'
-	? string | string[]
+	? string[]
 	: T extends 'fontWeight'
 	? string | number
 	: T extends 'duration'
-	? string
+	? number
 	: T extends 'cubicBezier'
 	? [number, number, number, number]
 	: T extends 'number'
