@@ -5,6 +5,7 @@
 	import tokenTypesArray from '$lib/utils/tokenTypesArray'
 	import Icon from '@iconify/svelte'
 	import { getContext } from 'svelte'
+	import { defaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 
 	export let token: IToken
@@ -17,6 +18,10 @@
 
 	let hover = false
 	let selected: boolean = $selectedTokensStore.includes(token) || false
+
+	const handleTokenTypeChange = () => {
+		token.value = defaultTokenValues[token.type]
+	}
 
 	const handleDeleteToken = () => {
 		selectedTokensStore.removeToken(token)
@@ -50,13 +55,10 @@
 			bind:checked={selected}
 			on:change={handleSelectTokenChange}
 		/>
-		<span
-			bind:textContent={token.name}
-			contenteditable="true"
-			class="w-32 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
-		/>
+		<input bind:value={token.name} placeholder="Untitled" />
 		<select
 			bind:value={token.type}
+			on:change={handleTokenTypeChange}
 			class="w-24 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
 		>
 			{#each tokenTypesArray as contentType}

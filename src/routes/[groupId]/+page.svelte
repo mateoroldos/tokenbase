@@ -10,6 +10,7 @@
 	import { goto } from '$app/navigation'
 	import Token from '$lib/features/token-ui/ui/Token.svelte'
 	import tokenTypesArray from '$lib/utils/tokenTypesArray'
+	import { defaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
 	import Toolbar from '$lib/features/toolbar/ui/Toolbar.svelte'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
@@ -134,25 +135,26 @@
 					</option>
 				{/each}
 			</select>
-			<button
-				on:click={() =>
-					designTokensGroupStore.addToken(groupId, 'osss', 'color', [0, 0, 0])}
+
+			<button on:click={() => designTokensGroupStore.addToken(groupId, 'color')}
 				>Add token</button
 			>
 			<button on:click={handleDeleteGroup}>delete</button>
 		</div>
-		{#each group.tokens as token (token.id)}
-			<Token
-				bind:token
-				bind:draggedTokenId
-				on:dragstart={() => handleDragStart(token.id)}
-				on:dragenter={() => handleDragEnter(token.id)}
-				on:dragend={() => (draggedTokenId = null)}
-				on:colorChange={(e) => handleColorChange(e, token)}
-			/>
-		{/each}
-	</div>
-	<div class="bottom-0 flex flex-row justify-center">
-		<Toolbar />
+		<div>
+			{#each group.tokens as token (token.id)}
+				<Token
+					bind:token
+					bind:draggedTokenId
+					on:dragstart={() => handleDragStart(token.id)}
+					on:dragenter={() => handleDragEnter(token.id)}
+					on:dragend={() => (draggedTokenId = null)}
+					on:colorChange={(e) => handleColorChange(e, token)}
+				/>
+			{/each}
+		</div>
+		<div class="bottom-0 flex flex-row justify-center">
+			<Toolbar />
+		</div>
 	</div>
 </section>

@@ -7,10 +7,7 @@
 	import DurationToken from './token-types/DurationToken.svelte'
 	import FontFamilyToken from './token-types/FontFamilyToken.svelte'
 	import NumberToken from './token-types/NumberToken.svelte'
-  import FontWeight from './token-types/FontWeight.svelte'
-	import { createEventDispatcher } from 'svelte'
-
-	const dispatch = createEventDispatcher()
+	import FontWeight from './token-types/FontWeight.svelte'
 
 	export let token: IToken
 	export let draggedTokenId: string | null
@@ -19,17 +16,17 @@
 <BaseToken bind:token bind:draggedTokenId on:dragstart on:dragenter on:dragend>
 	{#if token.type === 'color'}
 		<ColorToken bind:token on:colorChange />
-	{:else if token.type === 'font-family'}
+	{:else if token.type === 'fontFamily'}
 		<FontFamilyToken bind:token />
-	{:else if token.type === 'dimension'}
+	{:else if token.type === 'dimension' && typeof token.value === 'string'}
 		<DimensionToken bind:token />
-	{:else if token.type === 'duration'}
+	{:else if token.type === 'duration' && typeof token.value === 'string'}
 		<DurationToken bind:token />
 	{:else if token.type === 'number'}
 		<NumberToken bind:token />
-	{:else if token.type === 'fontWeight'}
+	{:else if token.type === 'fontWeight' && typeof token.value === 'string'}
 		<FontWeight bind:token />
-	{:else if token.type === 'cubicBezier'}
+	{:else if token.type === 'cubicBezier' && Array.isArray(token.value) && token.value.length === 4}
 		<CubicBezierToken bind:token />
 	{/if}
 </BaseToken>
