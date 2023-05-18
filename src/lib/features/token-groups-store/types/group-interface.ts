@@ -5,6 +5,6 @@ export interface Group {
 	name: string
 	description?: string
 	parentGroup: string | undefined
-	type?: TokenType
+	type?: TokenType | undefined
 	tokens: IToken[]
 }

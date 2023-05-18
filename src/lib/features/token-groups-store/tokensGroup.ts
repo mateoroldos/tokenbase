@@ -1,4 +1,3 @@
-import type { Writable } from 'svelte/store'
 import persistentWritable from '../../stores/custom/persistentWritable'
 import { v4 as uuidv4 } from 'uuid'
 import type { Group } from '$lib/features/token-groups-store/types/group-interface'
@@ -9,21 +8,7 @@ import type {
 } from '$lib/features/token-groups-store/types/token-interface'
 import { defaultTokenValues } from './defaultTokenValues'
 
-export interface DesignTokensStore {
-	subscribe: Writable<Group[]>['subscribe']
-	set: Writable<Group[]>['set']
-	addGroup: (parentGroupId: string, name: string, description?: string) => void
-	deleteGroup: (groupId: string) => void
-	addToken: <T extends TokenType>(
-		groupId: string,
-		type: T,
-		value?: TokenValue<T>,
-		name?: string
-	) => void
-	deleteToken: (tokenId: string) => void
-}
-
-const createTokensGroupStore = (): DesignTokensStore => {
+export const createTokensGroupStore = () => {
 	const { subscribe, update, set } = persistentWritable<Group[]>('designbase', [
 		{
 			id: 'root',
@@ -97,6 +82,42 @@ const createTokensGroupStore = (): DesignTokensStore => {
 		})
 	}
 
+	const bulkAddTokens = <T extends TokenType>(
+		groupId: string,
+		tokens: {
+			type: T
+			value: TokenValue<T>
+			name?: string
+			description?: string
+		}[],
+		index?: number
+	) => {
+		update((designTokens) => {
+			// Find the group to add the token to
+			const group = designTokens.find((group) => group.id === groupId)
+
+			if (!group) {
+				console.error(`Group with ID ${groupId} not found`)
+				return designTokens
+			}
+
+			const i = index || group.tokens.length
+
+			// Add the new token to the group's tokens array
+			tokens.forEach((token) => {
+				group.tokens.splice(i, 0, {
+					id: uuidv4(),
+					name: token.name || '',
+					description: token.description || '',
+					value: token.value,
+					type: token.type
+				})
+			})
+
+			return designTokens
+		})
+	}
+
 	const deleteToken = (tokenId: string): void => {
 		update((designTokens) => {
 			// Find the group that contains the token
@@ -122,6 +143,7 @@ const createTokensGroupStore = (): DesignTokensStore => {
 		addGroup,
 		deleteGroup,
 		addToken,
+		bulkAddTokens,
 		deleteToken
 	}
 }
