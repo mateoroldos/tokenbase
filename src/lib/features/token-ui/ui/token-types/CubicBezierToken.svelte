@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { Token } from '$lib/features/token-groups-store/types/token-interface'
+	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 
-	export let token: Token<'cubicBezier'>
+	export let token: IToken<'cubicBezier'>
 </script>
 
 <div class="flex gap-x-3">

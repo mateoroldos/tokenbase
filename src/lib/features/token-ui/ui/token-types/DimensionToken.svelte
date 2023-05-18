@@ -2,13 +2,7 @@
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 
 	export let token: IToken<'dimension'>
-
-	let dimensionValue: number
-	let dimensionUnit: 'px' | 'rem'
-
 	let options = ['px', 'rem']
-
-	$: token.value = `${dimensionValue}${dimensionUnit}`
 </script>
 
 <div class="flex gap-6">
@@ -16,13 +10,13 @@
 		<input
 			class="w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
 			type="number"
-			bind:value={dimensionValue}
+			bind:value={token.value.value}
 		/>
 	</div>
 	<div>
 		<select
 			class="w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
-			bind:value={dimensionUnit}
+			bind:value={token.value.unit}
 		>
 			{#each options as option}
 				<option value={option}>

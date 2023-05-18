@@ -24,7 +24,10 @@ export type TokenType =
 export type TokenValue<T = TokenType> = T extends 'color'
 	? [number, number, number]
 	: T extends 'dimension'
-	? string
+	? {
+			value: number
+			unit: 'px' | 'rem'
+	  }
 	: T extends 'fontFamily'
 	? string | string[]
 	: T extends 'fontWeight'
