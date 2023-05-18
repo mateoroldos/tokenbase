@@ -2,17 +2,22 @@
 	import type { Group } from '$lib/features/token-groups-store/types/group-interface'
 	import {
 		moveToken,
-		type DesignTokensStore
+		createTokensGroupStore
 	} from '$lib/features/token-groups-store/tokensGroup'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import { page } from '$app/stores'
 	import { getContext, onMount } from 'svelte'
 	import { goto } from '$app/navigation'
 	import Token from '$lib/features/token-ui/ui/Token.svelte'
+	import tokenTypesArray from '$lib/utils/tokenTypesArray'
+	import Toolbar from '$lib/features/toolbar/ui/Toolbar.svelte'
+	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
+	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 
-	const designTokensGroupStore: DesignTokensStore = getContext(
-		'designTokensGroupStore'
-	)
+	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
+		getContext('designTokensGroupStore')
+	const selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
+		getContext('selectedTokensStore')
 
 	$: groupId = $page.params.groupId as string
 	$: groupIndex = $designTokensGroupStore.findIndex(
@@ -20,7 +25,6 @@
 	) as number
 	$: group = $designTokensGroupStore[groupIndex] as Group
 
-	let selectedTokens: string[] = []
 	let draggedTokenId: string | null = null
 
 	const handleDragStart = (tokenId: string) => {
@@ -50,14 +54,36 @@
 		}
 	}
 
-	const handleSelectToken = (tokenId: string) => {
-		selectedTokens = [...selectedTokens, tokenId]
-	}
+	// When the user changes a color hue, chroma or tone individually, we update by the same value all the selected color tokens
+	const handleColorChange = (e: CustomEvent, token: IToken) => {
+		if (
+			$selectedTokensStore.length > 1 &&
+			$selectedTokensStore.includes(token)
+		) {
+			const colorTokensToChange = $selectedTokensStore.filter(
+				(tkn) => tkn !== token && token.type === 'color'
+			)
 
-	const handleUnselectToken = (tokenId: string) => {
-		selectedTokens = selectedTokens.filter((selectedToken) => {
-			return selectedToken !== tokenId
-		})
+			const selectedTokensFromGroupStore = colorTokensToChange.map(
+				(tkn) =>
+					$designTokensGroupStore[groupIndex]?.tokens.find(
+						(token) => token.id === tkn.id
+					) as IToken
+			)
+
+			for (
+				let index = 0;
+				index < selectedTokensFromGroupStore.length;
+				index++
+			) {
+				;(selectedTokensFromGroupStore[index] as IToken<'color'>).value[
+					e.detail.valueChanged
+				] =
+					(selectedTokensFromGroupStore[index] as IToken<'color'>).value[
+						e.detail.valueChanged
+					] + e.detail.value
+			}
+		}
 	}
 
 	const findGroupType = () => {
@@ -95,24 +121,38 @@
 	$: group.tokens && (group.type = findGroupType())
 </script>
 
-<div>
-	<div
-		class="border-b-1 flex flex-row gap-20 border-b border-solid border-gray-300 bg-gray-100 px-8 py-3"
-	>
-		<h1 contenteditable="true" bind:textContent={group.name} />
-		<button on:click={handleAddToken}>Add token</button>
-		<button on:click={handleDeleteGroup}>delete</button>
+<section class="flex flex-1 flex-col justify-between">
+	<div>
+		<div
+			class="border-b-1 flex flex-row gap-20 border-b border-solid border-gray-300 bg-gray-100 px-8 py-3"
+		>
+			<h1 contenteditable="true" bind:textContent={group.name} />
+			<select bind:value={group.type}>
+				{#each tokenTypesArray as contentType}
+					<option value={contentType}>
+						{contentType}
+					</option>
+				{/each}
+			</select>
+			<button
+				on:click={() =>
+					designTokensGroupStore.addToken(groupId, 'osss', 'color', [0, 0, 0])}
+				>Add token</button
+			>
+			<button on:click={handleDeleteGroup}>delete</button>
+		</div>
+		{#each group.tokens as token (token.id)}
+			<Token
+				bind:token
+				bind:draggedTokenId
+				on:dragstart={() => handleDragStart(token.id)}
+				on:dragenter={() => handleDragEnter(token.id)}
+				on:dragend={() => (draggedTokenId = null)}
+				on:colorChange={(e) => handleColorChange(e, token)}
+			/>
+		{/each}
 	</div>
-	{#each group.tokens as token}
-		<Token
-			selected={selectedTokens.includes(token.id)}
-			bind:token
-			bind:draggedTokenId
-			on:select={(e) => handleSelectToken(e.detail)}
-			on:unselect={(e) => handleUnselectToken(e.detail)}
-			on:dragstart={() => handleDragStart(token.id)}
-			on:dragenter={() => handleDragEnter(token.id)}
-			on:dragend={() => (draggedTokenId = null)}
-		/>
-	{/each}
-</div>
+	<div class="bottom-0 flex flex-row justify-center">
+		<Toolbar />
+	</div>
+</section>

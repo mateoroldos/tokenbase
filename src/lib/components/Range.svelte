@@ -49,8 +49,9 @@
 
 	// Allows both bind:value and on:change for parent value retrieval
 	function setValue(val: number) {
+		const diff = val - value
 		value = val
-		dispatch('change', { value })
+		dispatch('change', { value, diff })
 	}
 
 	function onTrackEvent(e: TouchEvent | MouseEvent) {
@@ -124,8 +125,6 @@
 
 		// Limit value min -> max
 		setValue(Math.floor((percent * (max - min)) / 100 + min))
-
-		console.log(value)
 	}
 
 	// Handles both dragging of touch/mouse as well as simple one-off click/touches
