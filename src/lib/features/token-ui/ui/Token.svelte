@@ -6,7 +6,11 @@
 	import DimensionToken from './token-types/DimensionToken.svelte'
 	import DurationToken from './token-types/DurationToken.svelte'
 	import FontFamilyToken from './token-types/FontFamilyToken.svelte'
-	import FontWeight from './token-types/FontWeight.svelte'
+	import NumberToken from './token-types/NumberToken.svelte'
+  import FontWeight from './token-types/FontWeight.svelte'
+	import { createEventDispatcher } from 'svelte'
+
+	const dispatch = createEventDispatcher()
 
 	export let token: IToken
 	export let draggedTokenId: string | null
@@ -21,6 +25,8 @@
 		<DimensionToken bind:token />
 	{:else if token.type === 'duration'}
 		<DurationToken bind:token />
+	{:else if token.type === 'number'}
+		<NumberToken bind:token />
 	{:else if token.type === 'fontWeight'}
 		<FontWeight bind:token />
 	{:else if token.type === 'cubicBezier'}

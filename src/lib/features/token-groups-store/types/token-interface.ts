@@ -9,7 +9,7 @@ export interface IToken<T = TokenType> {
 export type TokenType =
 	| 'color'
 	| 'dimension'
-	| 'font-family'
+	| 'fontFamily'
 	| 'fontWeight'
 	| 'duration'
 	| 'cubicBezier'
@@ -20,7 +20,7 @@ export type TokenValue<T = TokenType> = T extends 'color'
 	? [number, number, number]
 	: T extends 'dimension'
 	? string
-	: T extends 'font-family'
+	: T extends 'fontFamily'
 	? string | string[]
 	: T extends 'fontWeight'
 	? string | number
