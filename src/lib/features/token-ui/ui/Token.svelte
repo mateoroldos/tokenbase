@@ -14,17 +14,17 @@
 </script>
 
 <BaseToken bind:token bind:draggedTokenId on:dragstart on:dragenter on:dragend>
-	{#if token.type === 'color'}
+	{#if token.type === 'color' && Array.isArray(token.value) && token.value.length === 3}
 		<ColorToken bind:token on:colorChange />
-	{:else if token.type === 'fontFamily'}
+	{:else if token.type === 'fontFamily' && Array.isArray(token.value)}
 		<FontFamilyToken bind:token />
-	{:else if token.type === 'dimension' && typeof token.value === 'string'}
+	{:else if token.type === 'dimension' && typeof token.value === 'object'}
 		<DimensionToken bind:token />
-	{:else if token.type === 'duration' && typeof token.value === 'string'}
+	{:else if token.type === 'duration' && typeof token.value === 'number'}
 		<DurationToken bind:token />
-	{:else if token.type === 'number'}
+	{:else if token.type === 'number' && typeof token.value === 'number'}
 		<NumberToken bind:token />
-	{:else if token.type === 'fontWeight' && typeof token.value === 'string'}
+	{:else if (token.type === 'fontWeight' && typeof token.value === 'string') || typeof token.value === 'number'}
 		<FontWeight bind:token />
 	{:else if token.type === 'cubicBezier' && Array.isArray(token.value) && token.value.length === 4}
 		<CubicBezierToken bind:token />
