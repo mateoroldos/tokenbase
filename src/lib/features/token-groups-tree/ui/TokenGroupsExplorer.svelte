@@ -2,6 +2,7 @@
 	import designTokensGroupStore from '$lib/features/token-groups-store/tokensGroup'
 	import GroupItem from './atoms/GroupItem.svelte'
 	import createTree from '../functions/createTree'
+	import convertTokensToJson from '$lib/features/convert-tokens/convertIntoJSON'
 
 	$: tree = createTree($designTokensGroupStore)
 </script>
@@ -15,8 +16,15 @@
 	{/each}
 	<button
 		class="bg-blue-300 px-6"
-		on:click={() =>
-			designTokensGroupStore.addGroup('root', 'osss')}
-		>add</button
+		on:click={() => designTokensGroupStore.addGroup('root', 'osss')}>add</button
+	>
+	<button
+		class="bg-blue-300 px-6"
+		on:click={() => console.log(convertTokensToJson($designTokensGroupStore))}
+		>Convert</button
+	>
+	<button
+		class="bg-blue-300 px-6"
+		on:click={() => console.log($designTokensGroupStore)}>See file</button
 	>
 </div>

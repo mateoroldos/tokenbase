@@ -88,8 +88,6 @@
 	}
 
 	const findGroupType = () => {
-		console.log(group)
-
 		if (group.tokens.length > 0) {
 			const tokenTypesSet = new Set(group.tokens.map((token) => token.type))
 			const tokenTypesArray = [...tokenTypesSet]
