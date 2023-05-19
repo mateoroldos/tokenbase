@@ -6,7 +6,7 @@ import type {
 	TokenType,
 	TokenValue
 } from '$lib/features/token-groups-store/types/token-interface'
-import { defaultTokenValues } from './defaultTokenValues'
+import { getDefaultTokenValues } from './defaultTokenValues'
 
 export const createTokensGroupStore = () => {
 	const { subscribe, update, set } = persistentWritable<Group[]>('designbase', [
@@ -74,7 +74,7 @@ export const createTokensGroupStore = () => {
 			group.tokens.push({
 				id: uuidv4(),
 				type,
-				value: value ?? defaultTokenValues[type],
+				value: value ?? getDefaultTokenValues(type),
 				name: name ?? undefined
 			})
 

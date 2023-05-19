@@ -5,7 +5,7 @@
 	import tokenTypesArray from '$lib/utils/tokenTypesArray'
 	import Icon from '@iconify/svelte'
 	import { getContext } from 'svelte'
-	import { defaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
+	import { getDefaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 
 	export let token: IToken
@@ -20,7 +20,7 @@
 	let selected: boolean = $selectedTokensStore.includes(token) || false
 
 	const handleTokenTypeChange = () => {
-		token.value = defaultTokenValues[token.type]
+		token.value = getDefaultTokenValues(token.type)
 	}
 
 	const handleDeleteToken = () => {

@@ -4,13 +4,11 @@
 		moveToken,
 		createTokensGroupStore
 	} from '$lib/features/token-groups-store/tokensGroup'
-	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import { page } from '$app/stores'
 	import { getContext, onMount } from 'svelte'
 	import { goto } from '$app/navigation'
 	import Token from '$lib/features/token-ui/ui/Token.svelte'
 	import tokenTypesArray from '$lib/utils/tokenTypesArray'
-	import { defaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
 	import Toolbar from '$lib/features/toolbar/ui/Toolbar.svelte'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
@@ -22,9 +20,11 @@
 
 	$: groupId = $page.params.groupId as string
 	$: groupIndex = $designTokensGroupStore.findIndex(
-		(group) => group.id === $page.params.groupId
+		(group) => group.id === groupId
 	) as number
-	$: group = $designTokensGroupStore[groupIndex] as Group
+
+	// $: $designTokensGroupStore[groupIndex].tokens &&
+	// 	($designTokensGroupStore[groupIndex].type = findGroupType())
 
 	let draggedTokenId: string | null = null
 
@@ -47,10 +47,10 @@
 				groupIndex
 			]?.tokens.findIndex((token) => token.id === droppedTokenId) as number
 
-			group.tokens = moveToken(
+			$designTokensGroupStore[groupIndex].tokens = moveToken(
 				draggedTokenIndex,
 				droppedTokenIndex,
-				group.tokens
+				$designTokensGroupStore[groupIndex].tokens
 			)
 		}
 	}
@@ -88,10 +88,10 @@
 	}
 
 	const findGroupType = () => {
-		console.log(group)
-
-		if (group.tokens.length > 0) {
-			const tokenTypesSet = new Set(group.tokens.map((token) => token.type))
+		if ($designTokensGroupStore[groupIndex].tokens.length > 0) {
+			const tokenTypesSet = new Set(
+				$designTokensGroupStore[groupIndex].tokens.map((token) => token.type)
+			)
 			const tokenTypesArray = [...tokenTypesSet]
 
 			if (tokenTypesArray.length === 1) {
@@ -106,20 +106,24 @@
 
 	const handleAddToken = () => {
 		const tokenType =
-			group.type != undefined
-				? group.type
-				: group.tokens[group.tokens.length - 1] != undefined
-				? (group.tokens[group.tokens.length - 1] as IToken).type
+			$designTokensGroupStore[groupIndex].type != undefined
+				? $designTokensGroupStore[groupIndex].type
+				: $designTokensGroupStore[groupIndex].tokens[
+						$designTokensGroupStore[groupIndex].tokens.length - 1
+				  ] != undefined
+				? (
+						$designTokensGroupStore[groupIndex].tokens[
+							$designTokensGroupStore[groupIndex].tokens.length - 1
+						] as IToken
+				  ).type
 				: 'color'
 
-		designTokensGroupStore.addToken(groupId, 'osss', tokenType, [0, 0, 0])
+		designTokensGroupStore.addToken(groupId, tokenType)
 	}
 
 	onMount(() => {
-		group.type = findGroupType()
+		$designTokensGroupStore[groupIndex].type = findGroupType()
 	})
-
-	$: group.tokens && (group.type = findGroupType())
 </script>
 
 <section class="flex flex-1 flex-col justify-between">
@@ -127,8 +131,11 @@
 		<div
 			class="border-b-1 flex flex-row gap-20 border-b border-solid border-gray-300 bg-gray-100 px-8 py-3"
 		>
-			<h1 contenteditable="true" bind:textContent={group.name} />
-			<select bind:value={group.type}>
+			<h1
+				contenteditable="true"
+				bind:textContent={$designTokensGroupStore[groupIndex].name}
+			/>
+			<select bind:value={$designTokensGroupStore[groupIndex].type}>
 				{#each tokenTypesArray as contentType}
 					<option value={contentType}>
 						{contentType}
@@ -136,13 +143,11 @@
 				{/each}
 			</select>
 
-			<button on:click={() => designTokensGroupStore.addToken(groupId, 'color')}
-				>Add token</button
-			>
+			<button on:click={handleAddToken}>Add token</button>
 			<button on:click={handleDeleteGroup}>delete</button>
 		</div>
 		<div>
-			{#each group.tokens as token (token.id)}
+			{#each $designTokensGroupStore[groupIndex].tokens as token (token.id)}
 				<Token
 					bind:token
 					bind:draggedTokenId
