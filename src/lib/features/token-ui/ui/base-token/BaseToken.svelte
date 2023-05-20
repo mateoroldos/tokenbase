@@ -4,7 +4,7 @@
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import tokenTypesArray from '$lib/utils/tokenTypesArray'
 	import Icon from '@iconify/svelte'
-	import { getContext } from 'svelte'
+	import { getContext, onMount } from 'svelte'
 	import { getDefaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 
@@ -35,6 +35,21 @@
 			selectedTokensStore.removeToken(token)
 		}
 	}
+
+	const handleUnselectNameInput = () => {
+		if (token.name === undefined || token.name === '') {
+			token.name = 'Untitled'
+		}
+	}
+
+	onMount(() => {
+		if (token.name === undefined) {
+			const input = document.getElementById(
+				`${token.id}-name`
+			) as HTMLInputElement
+			input?.select()
+		}
+	})
 </script>
 
 <div
@@ -55,7 +70,12 @@
 			bind:checked={selected}
 			on:change={handleSelectTokenChange}
 		/>
-		<input bind:value={token.name} placeholder="Untitled" />
+		<input
+			bind:value={token.name}
+			id={`${token.id}-name`}
+			placeholder="Untitled"
+			on:focusout={handleUnselectNameInput}
+		/>
 		<select
 			bind:value={token.type}
 			on:change={handleTokenTypeChange}

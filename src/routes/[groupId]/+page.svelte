@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { Group } from '$lib/features/token-groups-store/types/group-interface'
 	import {
 		moveToken,
 		createTokensGroupStore
@@ -11,7 +10,10 @@
 	import tokenTypesArray from '$lib/utils/tokenTypesArray'
 	import Toolbar from '$lib/features/toolbar/ui/Toolbar.svelte'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
-	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
+	import type {
+		IToken,
+		TokenType
+	} from '$lib/features/token-groups-store/types/token-interface'
 
 	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
 		getContext('designTokensGroupStore')
@@ -21,10 +23,7 @@
 	$: groupId = $page.params.groupId as string
 	$: groupIndex = $designTokensGroupStore.findIndex(
 		(group) => group.id === groupId
-	) as number
-
-	// $: $designTokensGroupStore[groupIndex].tokens &&
-	// 	($designTokensGroupStore[groupIndex].type = findGroupType())
+	)
 
 	let draggedTokenId: string | null = null
 
@@ -47,10 +46,10 @@
 				groupIndex
 			]?.tokens.findIndex((token) => token.id === droppedTokenId) as number
 
-			$designTokensGroupStore[groupIndex].tokens = moveToken(
+			$designTokensGroupStore[groupIndex]!.tokens = moveToken(
 				draggedTokenIndex,
 				droppedTokenIndex,
-				$designTokensGroupStore[groupIndex].tokens
+				$designTokensGroupStore[groupIndex]!.tokens
 			)
 		}
 	}
@@ -88,9 +87,9 @@
 	}
 
 	const findGroupType = () => {
-		if ($designTokensGroupStore[groupIndex].tokens.length > 0) {
+		if ($designTokensGroupStore[groupIndex]!.tokens.length > 0) {
 			const tokenTypesSet = new Set(
-				$designTokensGroupStore[groupIndex].tokens.map((token) => token.type)
+				$designTokensGroupStore[groupIndex]!.tokens.map((token) => token.type)
 			)
 			const tokenTypesArray = [...tokenTypesSet]
 
@@ -105,25 +104,24 @@
 	}
 
 	const handleAddToken = () => {
-		const tokenType =
-			$designTokensGroupStore[groupIndex].type != undefined
-				? $designTokensGroupStore[groupIndex].type
-				: $designTokensGroupStore[groupIndex].tokens[
-						$designTokensGroupStore[groupIndex].tokens.length - 1
+		const tokenType: TokenType =
+			$designTokensGroupStore[groupIndex]!.type !== undefined
+				? $designTokensGroupStore[groupIndex]!.type!
+				: $designTokensGroupStore[groupIndex]!.tokens[
+						$designTokensGroupStore[groupIndex]!.tokens.length - 1
 				  ] != undefined
-				? (
-						$designTokensGroupStore[groupIndex].tokens[
-							$designTokensGroupStore[groupIndex].tokens.length - 1
-						] as IToken
-				  ).type
+				? $designTokensGroupStore[groupIndex]!.tokens[
+						$designTokensGroupStore[groupIndex]!.tokens.length - 1
+				  ]!.type
 				: 'color'
 
 		designTokensGroupStore.addToken(groupId, tokenType)
 	}
 
 	onMount(() => {
-		$designTokensGroupStore[groupIndex].type = findGroupType()
+		$designTokensGroupStore[groupIndex]!.type = findGroupType()
 	})
+	// $: $designTokensGroupStore[groupIndex]!.type = findGroupType()
 </script>
 
 <section class="flex flex-1 flex-col justify-between">
