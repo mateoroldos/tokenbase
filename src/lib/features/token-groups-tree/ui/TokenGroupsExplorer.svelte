@@ -2,8 +2,14 @@
 	import designTokensGroupStore from '$lib/features/token-groups-store/tokensGroup'
 	import GroupItem from './atoms/GroupItem.svelte'
 	import createTree from '../functions/createTree'
+	import { goto } from '$app/navigation'
 
 	$: tree = createTree($designTokensGroupStore)
+
+	const handleAddNewGroup = () => {
+		designTokensGroupStore.addGroup('root', '')
+		goto(`/${$designTokensGroupStore[$designTokensGroupStore.length - 1]!.id}`)
+	}
 </script>
 
 <div
@@ -13,10 +19,5 @@
 	{#each tree.children as node}
 		<GroupItem {node} />
 	{/each}
-	<button
-		class="bg-blue-300 px-6"
-		on:click={() =>
-			designTokensGroupStore.addGroup('root', 'osss')}
-		>add</button
-	>
+	<button class="bg-blue-300 px-6" on:click={handleAddNewGroup}>add</button>
 </div>

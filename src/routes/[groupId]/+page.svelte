@@ -118,9 +118,26 @@
 		designTokensGroupStore.addToken(groupId, tokenType)
 	}
 
+	const handleUnselectNameInput = () => {
+		if (
+			$designTokensGroupStore[groupIndex]!.name === undefined ||
+			$designTokensGroupStore[groupIndex]!.name === ''
+		) {
+			$designTokensGroupStore[groupIndex]!.name = 'Untitled'
+		}
+	}
+
 	onMount(() => {
 		$designTokensGroupStore[groupIndex]!.type = findGroupType()
 	})
+
+	$: if (
+		$designTokensGroupStore[groupIndex]!.name === undefined ||
+		$designTokensGroupStore[groupIndex]!.name === ''
+	) {
+		const input = document.getElementById('group-name') as HTMLInputElement
+		input?.select()
+	}
 	// $: $designTokensGroupStore[groupIndex]!.type = findGroupType()
 </script>
 
@@ -129,9 +146,12 @@
 		<div
 			class="border-b-1 flex flex-row gap-20 border-b border-solid border-gray-300 bg-gray-100 px-8 py-3"
 		>
-			<h1
-				contenteditable="true"
-				bind:textContent={$designTokensGroupStore[groupIndex].name}
+			<input
+				type="text"
+				placeholder="Untitled"
+				id="group-name"
+				bind:value={$designTokensGroupStore[groupIndex].name}
+				on:focusout={handleUnselectNameInput}
 			/>
 			<select bind:value={$designTokensGroupStore[groupIndex].type}>
 				{#each tokenTypesArray as contentType}
@@ -140,7 +160,6 @@
 					</option>
 				{/each}
 			</select>
-
 			<button on:click={handleAddToken}>Add token</button>
 			<button on:click={handleDeleteGroup}>delete</button>
 		</div>
