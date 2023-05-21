@@ -4,11 +4,13 @@
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import Icon from '@iconify/svelte'
 	import { getContext } from 'svelte'
-	import { generateColorShades } from './GenerateShades'
+	import { generateShades } from './GenerateShades'
 	import type {
+		IToken,
 		TokenType,
 		TokenValue
 	} from '$lib/features/token-groups-store/types/token-interface'
+	import checkValidShade from './checkValidShade'
 
 	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
 		getContext('designTokensGroupStore')
@@ -19,17 +21,19 @@
 
 	const handleGenerateShades = () => {
 		if (validShade) {
-			console.log('Generating color shades...')
-
-			const colorShades = generateColorShades(
-				$selectedTokensStore[0]?.value as TokenValue<'color'>,
-				$selectedTokensStore[1]?.value as TokenValue<'color'>,
+			const tokenShades = generateShades(
+				$selectedTokensStore[0]?.value as TokenValue<
+					'color' | 'dimension' | 'number' | 'duration'
+				>,
+				$selectedTokensStore[1]?.value as TokenValue<
+					'color' | 'dimension' | 'number' | 'duration'
+				>,
 				amountOfShades
 			)
 
-			const colorShadesTokens = colorShades.map((colorShade, i) => ({
-				type: 'color' as TokenType,
-				value: colorShade,
+			const shadeTokens = tokenShades.map((shade, i) => ({
+				type: $selectedTokensStore[0]?.type as TokenType,
+				value: shade,
 				name: `${$selectedTokensStore[0]?.name}-shade-${i}`
 			}))
 
@@ -43,7 +47,7 @@
 
 			designTokensGroupStore.bulkAddTokens(
 				$page.params.groupId as string,
-				colorShadesTokens,
+				shadeTokens,
 				firstSelectedTokenIndex > lastSelectedTokenIndex
 					? lastSelectedTokenIndex - 1
 					: firstSelectedTokenIndex
@@ -51,10 +55,7 @@
 		}
 	}
 
-	$: validShade =
-		$selectedTokensStore.length === 2 &&
-		$selectedTokensStore[0]?.type === 'color' &&
-		$selectedTokensStore[1]?.type === 'color'
+	$: validShade = checkValidShade($selectedTokensStore)
 </script>
 
 {#if validShade}
