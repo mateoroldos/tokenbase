@@ -2,13 +2,20 @@
 	import { getContext, onMount } from 'svelte'
 	import type { GroupsTree } from '../../types/groups-tree'
 	import type { createTokensGroupStore } from '$lib/features/token-groups-store/tokensGroup'
+	import Icon from '@iconify/svelte'
+	import { page } from '$app/stores'
 
 	export let node: GroupsTree
 
 	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
 		getContext('designTokensGroupStore')
 
+	$: groupId = $page.params.groupId as string
+
+	$: isActive = groupId === node.group.id
+
 	let isOpen = false
+	let hover = false
 
 	const toggleOpen = () => {
 		isOpen = !isOpen
@@ -26,27 +33,42 @@
 	})
 </script>
 
-<div class="group-item" class:has-subgroups={node.children.length > 0}>
-	<div class="flex flex-row items-center gap-2">
-		{#if node.children.length > 0}
-			<span class="cursor-pointer text-xs text-gray-400" on:click={handleClick}>
-				{isOpen ? '▼' : '►'}
-			</span>
-		{:else}
-			<span class="text-xs text-gray-300">○</span>
+<div>
+	<div
+		class="flex flex-row items-center justify-between rounded-md p-1 text-gray-500 transition-all hover:bg-gray-200"
+		on:mouseenter={() => (hover = true)}
+		on:mouseleave={() => (hover = false)}
+	>
+		<div class="flex flex-row items-center gap-1">
+			<div
+				class="cursor-pointer transition-transform"
+				class:rotate-90={isOpen}
+				on:click={handleClick}
+			>
+				<Icon icon="tabler:chevron-right" />
+			</div>
+			<a class:text-black={isActive} href={`/${node.group.id}`}
+				>{node.group.name}</a
+			>
+		</div>
+		{#if hover}
+			<button
+				class="bg-transparent text-gray-500"
+				on:click={() => designTokensGroupStore.addGroup(node.group.id, 'aaa')}
+			>
+				+
+			</button>
 		{/if}
-		<a href={`/${node.group.id}`}>{node.group.name}</a>
-		<button
-			on:click={() => designTokensGroupStore.addGroup(node.group.id, 'aaa')}
-		>
-			+
-		</button>
 	</div>
 	{#if isOpen}
-		<div class="ml-7">
-			{#each node.children as childNode}
-				<svelte:self node={childNode} />
-			{/each}
+		<div class="pl-5">
+			{#if node.children.length > 0}
+				{#each node.children as childNode}
+					<svelte:self node={childNode} />
+				{/each}
+			{:else}
+				<span class="text-xs text-gray-500">Group has no children</span>
+			{/if}
 		</div>
 	{/if}
 </div>
