@@ -7,31 +7,38 @@ import type {
 } from '../token-groups-store/types/token-interface'
 
 const convertTokensToJson = (groups: Group[]): string => {
-	const jsonTokens: { [groupName: string]: any[] } = {}
+	const jsonTokens: { [groupName: string]: { [tokenId: string]: any } } = {}
 
 	groups.forEach((group) => {
 		const groupName = group.name
-		jsonTokens[groupName] = group.tokens.map((token) => {
-			const { id, name, description, value, type } = token
-			return {
-				id,
+		//si el parent existe, lo agrego como nested
+		if (group.parentGroup) {
+			// If the parent group exists in jsonTokens, add the current group as a nested object
+			if (jsonTokens[group.parentGroup]) {
+				jsonTokens[group.parentGroup][groupName] = {}
+			} else {
+				// If the parent group doesn't exist in jsonTokens, create it as an empty object
+				jsonTokens[group.parentGroup] = { [groupName]: {} }
+			}
+		}
+		group.tokens.forEach((token) => {
+			const { name, description, value, type } = token
+			const tokenObject = {
 				name,
 				description,
 				value: convertValueToJson(value, type),
 				type
 			}
+
+			// Determine the target object based on the presence of the parentId
+			const targetObject = group.parentGroup
+				? jsonTokens[group.parentGroup][groupName]
+				: jsonTokens[groupName]
+			targetObject[name] = tokenObject
 		})
 	})
 
 	return JSON.stringify(jsonTokens, null, 2)
-}
-
-const getAllTokens = (groups: Group[]): IToken[] => {
-	const tokens: IToken[] = []
-	groups.forEach((group) => {
-		tokens.push(...group.tokens)
-	})
-	return tokens
 }
 
 const convertValueToJson = <T extends TokenType>(
@@ -65,6 +72,7 @@ const convertValueToJson = <T extends TokenType>(
 export default convertTokensToJson
 
 // import type { Group } from '../token-groups-store/types/group-interface'
+// import createTree from '../token-groups-tree/functions/createTree'
 // import type {
 // 	IToken,
 // 	TokenType,
@@ -72,28 +80,71 @@ export default convertTokensToJson
 // } from '../token-groups-store/types/token-interface'
 
 // const convertTokensToJson = (groups: Group[]): string => {
-// 	const tokens = getAllTokens(groups)
+// 	const tokensByGroup: { [groupName: string]: IToken[] } = {}
 
-// 	const jsonTokens = tokens.map((token) => {
-// 		const { id, name, description, value, type } = token
-// 		return {
-// 			id,
-// 			name,
-// 			description,
-// 			value: convertValueToJson(value, type),
-// 			type
-// 		}
+// 	groups.forEach((group) => {
+// 		const groupName = getUniqueGroupName(group.name, tokensByGroup)
+// 		tokensByGroup[groupName] = group.tokens.map((token) => {
+// 			const uniqueName = getUniqueTokenName(
+// 				token.name,
+// 				tokensByGroup[groupName]
+// 			)
+// 			return { ...token, name: uniqueName }
+// 		})
 // 	})
+
+// 	const jsonTokens: { [groupName: string]: { [tokenId: string]: any } } = {}
+
+// 	for (const groupName in tokensByGroup) {
+// 		if (tokensByGroup.hasOwnProperty(groupName)) {
+// 			const tokens = tokensByGroup[groupName]
+// 			jsonTokens[groupName] = {}
+
+// 			tokens.forEach((token) => {
+// 				const { name, description, value, type } = token
+// 				const tokenObject = {
+// 					name,
+// 					description,
+// 					value: convertValueToJson(value, type),
+// 					type
+// 				}
+
+// 				jsonTokens[groupName][name] = tokenObject
+// 			})
+// 		}
+// 	}
 
 // 	return JSON.stringify(jsonTokens, null, 2)
 // }
 
-// const getAllTokens = (groups: Group[]): IToken[] => {
-// 	const tokens: IToken[] = []
-// 	groups.forEach((group) => {
-// 		tokens.push(...group.tokens)
-// 	})
-// 	return tokens
+// const getUniqueGroupName = (
+// 	groupName: string,
+// 	jsonTokens: { [key: string]: any[] }
+// ): string => {
+// 	let uniqueGroupName = groupName
+// 	let suffix = 1
+
+// 	while (jsonTokens.hasOwnProperty(uniqueGroupName)) {
+// 		uniqueGroupName = `${groupName}_${suffix}`
+// 		suffix++
+// 	}
+
+// 	return uniqueGroupName
+// }
+
+// const getUniqueTokenName = (
+// 	name: string | undefined,
+// 	tokens: IToken[] | undefined
+// ): string => {
+// 	let uniqueName = name || ''
+// 	let counter = 1
+
+// 	while (tokens?.find((token) => token.name === uniqueName)) {
+// 		uniqueName = `${name || 'token'}-${counter}`
+// 		counter++
+// 	}
+
+// 	return uniqueName
 // }
 
 // const convertValueToJson = <T extends TokenType>(
