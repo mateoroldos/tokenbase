@@ -2,7 +2,7 @@
 	import designTokensGroupStore from '$lib/features/token-groups-store/tokensGroup'
 	import GroupItem from './atoms/GroupItem.svelte'
 	import createTree from '../functions/createTree'
-	import convertTokensToJson from '$lib/features/convert-tokens/convertIntoJSON'
+	import buildStyleDictionaryJson from '$lib/features/convert-tokens/convertIntoJSON'
 
 	$: tree = createTree($designTokensGroupStore)
 </script>
@@ -20,7 +20,8 @@
 	>
 	<button
 		class="bg-blue-300 px-6"
-		on:click={() => console.log(convertTokensToJson($designTokensGroupStore))}
+		on:click={() =>
+			console.log(buildStyleDictionaryJson($designTokensGroupStore))}
 		>Convert</button
 	>
 	<button
