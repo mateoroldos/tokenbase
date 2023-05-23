@@ -14,6 +14,7 @@
 		IToken,
 		TokenType
 	} from '$lib/features/token-groups-store/types/token-interface'
+	import Icon from '@iconify/svelte'
 
 	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
 		getContext('designTokensGroupStore')
@@ -144,24 +145,26 @@
 <section class="flex flex-1 flex-col justify-between">
 	<div>
 		<div
-			class="border-b-1 flex flex-row gap-20 border-b border-solid border-gray-300 bg-gray-100 px-8 py-3"
+			class="border-b-1 flex flex-row justify-between border-b border-solid border-gray-300 bg-gray-100 px-8 py-3"
 		>
 			<input
 				type="text"
 				placeholder="Untitled"
 				id="group-name"
+				class="bg-transparent px-1 text-xl font-medium"
 				bind:value={$designTokensGroupStore[groupIndex].name}
 				on:focusout={handleUnselectNameInput}
 			/>
-			<select bind:value={$designTokensGroupStore[groupIndex].type}>
-				{#each tokenTypesArray as contentType}
-					<option value={contentType}>
-						{contentType}
-					</option>
-				{/each}
-			</select>
-			<button on:click={handleAddToken}>Add token</button>
-			<button on:click={handleDeleteGroup}>delete</button>
+			<div class="flex flex-row gap-3">
+				<button on:click={handleDeleteGroup}>delete</button>
+				<button
+					class="flex flex-row items-center gap-2 rounded-md bg-black px-4 py-1"
+					on:click={handleAddToken}
+				>
+					<Icon icon="tabler:plus" />
+					New Token
+				</button>
+			</div>
 		</div>
 		<div>
 			{#each $designTokensGroupStore[groupIndex].tokens as token (token.id)}

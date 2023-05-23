@@ -7,6 +7,7 @@
 	import { getContext, onMount } from 'svelte'
 	import { getDefaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
+	import TokenTypeSelect from '../atoms/TokenTypeSelect.svelte'
 
 	export let token: IToken
 	export let draggedTokenId: string | null
@@ -53,7 +54,7 @@
 </script>
 
 <div
-	class="flex flex-row items-center gap-7 border-b border-solid border-gray-200 px-8 py-3"
+	class="flex flex-row items-center justify-between border-b border-solid border-gray-200 px-3 py-2"
 	class:bg-gray-100={draggedTokenId === token.id}
 	on:mouseenter={() => (hover = true)}
 	on:mouseleave={() => (hover = false)}
@@ -61,37 +62,41 @@
 	on:dragend
 	ondragover="return false"
 >
-	<div on:dragstart draggable={true} class="cursor-grab">
-		<Icon icon="tabler:line-height" class="text-gray-400" />
-	</div>
-	<div class="flex flex-row gap-2">
-		<input
-			type="checkbox"
-			bind:checked={selected}
-			on:change={handleSelectTokenChange}
-		/>
-		<input
-			bind:value={token.name}
-			id={`${token.id}-name`}
-			placeholder="Untitled"
-			on:focusout={handleUnselectNameInput}
-		/>
-		<select
-			bind:value={token.type}
-			on:change={handleTokenTypeChange}
-			class="w-24 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
-		>
-			{#each tokenTypesArray as contentType}
-				<option value={contentType}>
-					{contentType}
-				</option>
-			{/each}
-		</select>
-		<input
-			bind:value={token.description}
-			placeholder="Description"
-			class="w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
-		/>
+	<div class="flex flex-row items-center gap-1">
+		<div class="flex w-8 flex-row items-center justify-between">
+			<div>
+				{#if hover}
+					<div on:dragstart draggable={true} class="cursor-grab">
+						<Icon icon="tabler:line-height" class="text-gray-400" />
+					</div>
+				{/if}
+			</div>
+			{#if hover || selected}
+				<input
+					type="checkbox"
+					bind:checked={selected}
+					on:change={handleSelectTokenChange}
+				/>
+			{/if}
+		</div>
+		<div class="flex flex-row gap-1">
+			<TokenTypeSelect
+				bind:value={token.type}
+				on:change={handleTokenTypeChange}
+			/>
+			<input
+				class="px-1 text-sm font-medium"
+				id={`${token.id}-name`}
+				placeholder="Untitled"
+				bind:value={token.name}
+				on:focusout={handleUnselectNameInput}
+			/>
+			<input
+				bind:value={token.description}
+				placeholder="Description"
+				class="w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
+			/>
+		</div>
 	</div>
 	<slot />
 	<div class="w-3">
