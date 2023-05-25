@@ -14,6 +14,8 @@
 	import Toolbar from '$lib/features/toolbar/ui/Toolbar.svelte'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
+	import createTree from '$lib/features/token-groups-tree/functions/createTree'
+	import buildStyleDictionaryJson from '$lib/features/convert-tokens/convertIntoJSON'
 
 	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
 		getContext('designTokensGroupStore')
@@ -118,6 +120,7 @@
 	})
 
 	$: group.tokens && (group.type = findGroupType())
+	$: tree = createTree($designTokensGroupStore)
 </script>
 
 <section class="flex flex-1 flex-col justify-between">

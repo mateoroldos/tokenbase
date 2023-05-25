@@ -1,14 +1,16 @@
 import type { Group } from '../token-groups-store/types/group-interface'
 import type { IToken } from '../token-groups-store/types/token-interface'
+import type {
+	TokenType,
+	TokenValue
+} from '../token-groups-store/types/token-interface'
+import { Hct } from '@material/material-color-utilities'
+import Color from 'color'
 
 interface StyleDictonaryToken {
 	value: string
 	comment?: string
-	theamable?: boolean
 	name?: string
-	attirbutes?: {
-		[key: string]: string
-	}
 }
 
 interface StyleDictonaryGroup {
@@ -69,55 +71,60 @@ const convertTokensToStyleDictonaryTokens = (
 		const { name, value, type } = token
 
 		const dictonaryToken: StyleDictonaryToken = {
-			value: 'a',
+			value: convertValueToJson(value, type),
 			comment: token.description,
-			theamable: true,
-			name: name
+			type: type
 		}
 
-		dictonary[name ?? 'a'] = dictonaryToken
+		dictonary[name ?? 'undefined'] = dictonaryToken
 	})
 
 	return dictonary
 }
+
+// const fs = require('fs').promises
 
 const buildStyleDictonaryJson = (groups: Group[]): string => {
 	const tree = buildStyleDictionaryTree(groups)
 
 	const json = JSON.stringify(tree, null, 2)
 
+	// fs.writeFile('src/lib/features/convert-tokens/newfile.json', json, (err) => {
+	// 	if (err) {
+	// 		console.error('Error creating the file:', err)
+	// 		return
+	// 	}
+	// 	console.log('File created successfully!')
+	// })
+
 	return json
 }
 
 export default buildStyleDictonaryJson
 
-// const convertValueToJson = <T extends TokenType>(
-// 	value: TokenValue<T>,
-// 	type: T
-// ): unknown => {
-// 	if (type === 'color') {
-// 		const [r, g, b] = value as [number, number, number]
-// 		return { r, g, b }
-// 	} else if (type === 'dimension') {
-// 		const { value: val, unit } = value as {
-// 			value: number
-// 			unit: 'px' | 'rem'
-// 		}
-// 		return { value: val, unit }
-// 	} else if (type === 'fontFamily') {
-// 		return value as string[]
-// 	} else if (type === 'fontWeight') {
-// 		return value as string | number
-// 	} else if (type === 'duration') {
-// 		return value as number
-// 	} else if (type === 'cubicBezier') {
-// 		const [x1, y1, x2, y2] = value as [number, number, number, number]
-// 		return { x1, y1, x2, y2 }
-// 	} else if (type === 'number') {
-// 		return value as number
-// 	}
-// 	return null
-// }
-
-// hsl
-// hct
+const convertValueToJson = <T extends TokenType>(
+	value: TokenValue<T>,
+	type: T
+): unknown => {
+	if (type === 'color') {
+		const [h, c, t] = value as [number, number, number]
+		const argb = Hct.from(h, c, t).argb
+		const hex = Color(argb).hex()
+		return hex
+	} else if (type === 'dimension') {
+		const { value: val, unit } = value as { value: number; unit: string }
+		return `${val}${unit}`
+	} else if (type === 'fontFamily') {
+		return value as string[]
+	} else if (type === 'fontWeight') {
+		return value as string | number
+	} else if (type === 'duration') {
+		return `${value}ms` as string
+	} else if (type === 'cubicBezier') {
+		const [x1, y1, x2, y2] = value as [number, number, number, number]
+		return { x1, y1, x2, y2 }
+	} else if (type === 'number') {
+		return value as number
+	}
+	return null
+}

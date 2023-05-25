@@ -1,16 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<script>
+			window.global = window
+		</script>
+		<script type="module">
+			import process from 'process'
+			import EventEmitter from 'events'
+			import { Buffer } from 'buffer'
+			window.Buffer = Buffer
+			window.process = process
+			window.EventEmitter = EventEmitter
+		</script>
+		<meta charset="utf-8" />
+		<meta name="description" content="Create o7 App" />
+		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		%sveltekit.head%
+	</head>
 
-<head>
-	<meta charset="utf-8" />
-	<meta name="description" content="Create o7 App" />
-	<link rel="icon" href="%sveltekit.assets%/favicon.png" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	%sveltekit.head%
-</head>
-
-<body>
-	%sveltekit.body%
-</body>
-
+	<body>
+		%sveltekit.body%
+	</body>
 </html>

@@ -3,8 +3,37 @@
 	import GroupItem from './atoms/GroupItem.svelte'
 	import createTree from '../functions/createTree'
 	import buildStyleDictionaryJson from '$lib/features/convert-tokens/convertIntoJSON'
+	import StyleDictionary from 'browser-style-dictionary/browser.js'
 
 	$: tree = createTree($designTokensGroupStore)
+
+	const createHola = async () => {
+		var data = { a: 1, b: 2, c: 3 }
+		var json = JSON.stringify(data)
+		var blob = new Blob([json], { type: 'application/json' })
+
+		var url = URL.createObjectURL(blob)
+		console.log(blob)
+		console.log(url)
+		const a = StyleDictionary.extend({
+			source: [url],
+			platforms: {
+				scss: {
+					transformGroup: 'scss',
+					buildPath: 'build/',
+					files: [
+						{
+							destination: 'variables.scss',
+							format: 'scss/variables'
+						}
+					]
+				}
+				// ...
+			}
+		})
+
+		console.log(await a)
+	}
 </script>
 
 <div
@@ -27,5 +56,8 @@
 	<button
 		class="bg-blue-300 px-6"
 		on:click={() => console.log($designTokensGroupStore)}>See file</button
+	>
+	<button class="bg-blue-300 px-6" on:click={() => createHola()}
+		>Create file</button
 	>
 </div>
