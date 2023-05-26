@@ -35,7 +35,10 @@
 	<button
 		class="bg-blue-300 px-6"
 		on:click={() =>
-			styleDictionaryBuild(FAKE_DATA_JSON, STYLE_DICTIONARY_CONFIG)}
-		>Create file</button
+			styleDictionaryBuild(
+				FAKE_DATA_JSON,
+				STYLE_DICTIONARY_CONFIG,
+				'/tokens.json'
+			)}>Create file</button
 	>
 </div>

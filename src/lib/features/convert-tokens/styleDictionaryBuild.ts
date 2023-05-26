@@ -20,8 +20,8 @@ const FAKE_DATA = {
 
 export const FAKE_DATA_JSON = JSON.stringify(FAKE_DATA)
 
-export const STYLE_DICTIONARY_CONFIG = {
-	source: ['/tokens.json'],
+export let STYLE_DICTIONARY_CONFIG = {
+	source: [],
 	platforms: {
 		css: {
 			transformGroup: 'scss',
@@ -38,9 +38,12 @@ export const STYLE_DICTIONARY_CONFIG = {
 
 const styleDictionaryBuild = async (
 	styleDictionaryJSON: string,
-	styleDictionaryConfig: Config
+	styleDictionaryConfig: Config,
+	filePath: string
 ) => {
-	fs.writeFileSync('/tokens.json', styleDictionaryJSON)
+	fs.writeFileSync(filePath, styleDictionaryJSON)
+
+	styleDictionaryConfig.source = [filePath]
 
 	const styleDictionary = await StyleDictionary.extend(styleDictionaryConfig)
 	const styleDictionaryBuild = styleDictionary.buildAllPlatforms()
