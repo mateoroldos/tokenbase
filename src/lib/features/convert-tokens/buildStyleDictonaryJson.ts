@@ -82,20 +82,10 @@ const convertTokensToStyleDictonaryTokens = (
 	return dictonary
 }
 
-// const fs = require('fs').promises
-
 const buildStyleDictonaryJson = (groups: Group[]): string => {
 	const tree = buildStyleDictionaryTree(groups)
 
 	const json = JSON.stringify(tree, null, 2)
-
-	// fs.writeFile('src/lib/features/convert-tokens/newfile.json', json, (err) => {
-	// 	if (err) {
-	// 		console.error('Error creating the file:', err)
-	// 		return
-	// 	}
-	// 	console.log('File created successfully!')
-	// })
 
 	return json
 }
