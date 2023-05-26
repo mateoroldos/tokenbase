@@ -2,6 +2,10 @@
 	import designTokensGroupStore from '$lib/features/token-groups-store/tokensGroup'
 	import GroupItem from './atoms/GroupItem.svelte'
 	import createTree from '../functions/createTree'
+	import buildStyleDictionaryJson from '$lib/features/convert-tokens/buildStyleDictonaryJson'
+	import styleDictionaryBuild, {
+		STYLE_DICTIONARY_CONFIG
+	} from '$lib/features/convert-tokens/styleDictionaryBuild'
 	import { goto } from '$app/navigation'
 
 	$: tree = createTree($designTokensGroupStore)
@@ -19,5 +23,24 @@
 	{#each tree.children as node}
 		<GroupItem {node} />
 	{/each}
+	<button
+		class="bg-blue-300 px-6"
+		on:click={() =>
+			console.log(buildStyleDictionaryJson($designTokensGroupStore))}
+		>Convert</button
+	>
+	<button
+		class="bg-blue-300 px-6"
+		on:click={() => console.log($designTokensGroupStore)}>See file</button
+	>
+	<button
+		class="bg-blue-300 px-6"
+		on:click={() =>
+			styleDictionaryBuild(
+				buildStyleDictionaryJson($designTokensGroupStore),
+				STYLE_DICTIONARY_CONFIG,
+				'/tokens.json'
+			)}>Create file</button
+	>
 	<button class="bg-blue-300 px-6" on:click={handleAddNewGroup}>add</button>
 </div>

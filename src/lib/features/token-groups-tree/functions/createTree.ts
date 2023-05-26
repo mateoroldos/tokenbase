@@ -1,10 +1,7 @@
 import type { Group } from '$lib/features/token-groups-store/types/group-interface'
 import type { GroupsTree } from '../types/groups-tree'
 
-const buildSubTree = (
-	groups: Group[],
-	parentId?: string
-): GroupsTree[] => {
+const buildSubTree = (groups: Group[], parentId?: string): GroupsTree[] => {
 	const nodes: GroupsTree[] = []
 
 	groups.forEach((group) => {
@@ -22,9 +19,7 @@ const buildSubTree = (
 }
 
 const createTree = (groups: Group[]): GroupsTree => {
-	const rootGroup = groups.find(
-		(group) => group.id === 'root'
-	)
+	const rootGroup = groups.find((group) => group.id === 'root')
 
 	if (!rootGroup) {
 		throw new Error('Root group not found')
@@ -37,6 +32,8 @@ const createTree = (groups: Group[]): GroupsTree => {
 	const children = buildSubTree(groups, 'root')
 
 	root.children = children
+
+	console.log(root)
 
 	return root
 }

@@ -10,6 +10,7 @@
 	import tokenTypesArray from '$lib/utils/tokenTypesArray'
 	import Toolbar from '$lib/features/toolbar/ui/Toolbar.svelte'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
+	import createTree from '$lib/features/token-groups-tree/functions/createTree'
 	import type {
 		IToken,
 		TokenType
