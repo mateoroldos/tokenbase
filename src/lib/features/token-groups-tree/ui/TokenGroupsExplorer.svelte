@@ -4,7 +4,6 @@
 	import createTree from '../functions/createTree'
 	import buildStyleDictionaryJson from '$lib/features/convert-tokens/buildStyleDictonaryJson'
 	import styleDictionaryBuild, {
-		FAKE_DATA_JSON,
 		STYLE_DICTIONARY_CONFIG
 	} from '$lib/features/convert-tokens/styleDictionaryBuild'
 
@@ -36,7 +35,7 @@
 		class="bg-blue-300 px-6"
 		on:click={() =>
 			styleDictionaryBuild(
-				FAKE_DATA_JSON,
+				buildStyleDictionaryJson($designTokensGroupStore),
 				STYLE_DICTIONARY_CONFIG,
 				'/tokens.json'
 			)}>Create file</button

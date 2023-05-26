@@ -1,25 +1,6 @@
 import StyleDictionary, { type Config } from 'browser-style-dictionary'
 import { fs } from 'memfs'
 
-const FAKE_DATA = {
-	tokens: {
-		'Token de color': {
-			value: '#966C71',
-			type: 'color'
-		},
-		ssa: {
-			value: ['Arial'],
-			type: 'fontFamily'
-		},
-		fsfas: {
-			value: '#966C71',
-			type: 'color'
-		}
-	}
-}
-
-export const FAKE_DATA_JSON = JSON.stringify(FAKE_DATA)
-
 export let STYLE_DICTIONARY_CONFIG = {
 	source: [],
 	platforms: {
