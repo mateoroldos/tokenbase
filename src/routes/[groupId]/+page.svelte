@@ -1,10 +1,8 @@
 <script lang="ts">
-	import type { Group } from '$lib/features/token-groups-store/types/group-interface'
 	import {
 		moveToken,
 		createTokensGroupStore
 	} from '$lib/features/token-groups-store/tokensGroup'
-	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import { page } from '$app/stores'
 	import { getContext, onMount } from 'svelte'
 	import { goto } from '$app/navigation'
@@ -13,6 +11,11 @@
 	import Toolbar from '$lib/features/toolbar/ui/Toolbar.svelte'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import createTree from '$lib/features/token-groups-tree/functions/createTree'
+	import type {
+		IToken,
+		TokenType
+	} from '$lib/features/token-groups-store/types/token-interface'
+	import Icon from '@iconify/svelte'
 
 	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
 		getContext('designTokensGroupStore')
@@ -21,9 +24,8 @@
 
 	$: groupId = $page.params.groupId as string
 	$: groupIndex = $designTokensGroupStore.findIndex(
-		(group) => group.id === $page.params.groupId
-	) as number
-	$: group = $designTokensGroupStore[groupIndex] as Group
+		(group) => group.id === groupId
+	)
 
 	let draggedTokenId: string | null = null
 
@@ -46,10 +48,10 @@
 				groupIndex
 			]?.tokens.findIndex((token) => token.id === droppedTokenId) as number
 
-			group.tokens = moveToken(
+			$designTokensGroupStore[groupIndex]!.tokens = moveToken(
 				draggedTokenIndex,
 				droppedTokenIndex,
-				group.tokens
+				$designTokensGroupStore[groupIndex]!.tokens
 			)
 		}
 	}
@@ -87,8 +89,10 @@
 	}
 
 	const findGroupType = () => {
-		if (group.tokens.length > 0) {
-			const tokenTypesSet = new Set(group.tokens.map((token) => token.type))
+		if ($designTokensGroupStore[groupIndex]!.tokens.length > 0) {
+			const tokenTypesSet = new Set(
+				$designTokensGroupStore[groupIndex]!.tokens.map((token) => token.type)
+			)
 			const tokenTypesArray = [...tokenTypesSet]
 
 			if (tokenTypesArray.length === 1) {
@@ -102,45 +106,69 @@
 	}
 
 	const handleAddToken = () => {
-		const tokenType =
-			group.type != undefined
-				? group.type
-				: group.tokens[group.tokens.length - 1] != undefined
-				? (group.tokens[group.tokens.length - 1] as IToken).type
+		const tokenType: TokenType =
+			$designTokensGroupStore[groupIndex]!.type !== undefined
+				? $designTokensGroupStore[groupIndex]!.type!
+				: $designTokensGroupStore[groupIndex]!.tokens[
+						$designTokensGroupStore[groupIndex]!.tokens.length - 1
+				  ] != undefined
+				? $designTokensGroupStore[groupIndex]!.tokens[
+						$designTokensGroupStore[groupIndex]!.tokens.length - 1
+				  ]!.type
 				: 'color'
 
-		designTokensGroupStore.addToken(groupId, 'osss', tokenType, [0, 0, 0])
+		designTokensGroupStore.addToken(groupId, tokenType)
+	}
+
+	const handleUnselectNameInput = () => {
+		if (
+			$designTokensGroupStore[groupIndex]!.name === undefined ||
+			$designTokensGroupStore[groupIndex]!.name === ''
+		) {
+			$designTokensGroupStore[groupIndex]!.name = 'Untitled'
+		}
 	}
 
 	onMount(() => {
-		group.type = findGroupType()
+		$designTokensGroupStore[groupIndex]!.type = findGroupType()
 	})
 
-	$: group.tokens && (group.type = findGroupType())
-	$: tree = createTree($designTokensGroupStore)
+	$: if (
+		$designTokensGroupStore[groupIndex]!.name === undefined ||
+		$designTokensGroupStore[groupIndex]!.name === ''
+	) {
+		const input = document.getElementById('group-name') as HTMLInputElement
+		input?.select()
+	}
+	// $: $designTokensGroupStore[groupIndex]!.type = findGroupType()
 </script>
 
 <section class="flex flex-1 flex-col justify-between">
 	<div>
 		<div
-			class="border-b-1 flex flex-row gap-20 border-b border-solid border-gray-300 bg-gray-100 px-8 py-3"
+			class="border-b-1 flex flex-row justify-between border-b border-solid border-gray-300 bg-gray-100 px-8 py-3"
 		>
-			<h1 contenteditable="true" bind:textContent={group.name} />
-			<select bind:value={group.type}>
-				{#each tokenTypesArray as contentType}
-					<option value={contentType}>
-						{contentType}
-					</option>
-				{/each}
-			</select>
-
-			<button on:click={() => designTokensGroupStore.addToken(groupId, 'color')}
-				>Add token</button
-			>
-			<button on:click={handleDeleteGroup}>delete</button>
+			<input
+				type="text"
+				placeholder="Untitled"
+				id="group-name"
+				class="bg-transparent px-1 text-xl font-medium"
+				bind:value={$designTokensGroupStore[groupIndex].name}
+				on:focusout={handleUnselectNameInput}
+			/>
+			<div class="flex flex-row gap-3">
+				<button on:click={handleDeleteGroup}>delete</button>
+				<button
+					class="flex flex-row items-center gap-2 rounded-md bg-black px-4 py-1"
+					on:click={handleAddToken}
+				>
+					<Icon icon="tabler:plus" />
+					New Token
+				</button>
+			</div>
 		</div>
 		<div>
-			{#each group.tokens as token (token.id)}
+			{#each $designTokensGroupStore[groupIndex].tokens as token (token.id)}
 				<Token
 					bind:token
 					bind:draggedTokenId

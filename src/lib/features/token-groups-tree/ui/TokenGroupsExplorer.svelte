@@ -6,8 +6,14 @@
 	import styleDictionaryBuild, {
 		STYLE_DICTIONARY_CONFIG
 	} from '$lib/features/convert-tokens/styleDictionaryBuild'
+	import { goto } from '$app/navigation'
 
 	$: tree = createTree($designTokensGroupStore)
+
+	const handleAddNewGroup = () => {
+		designTokensGroupStore.addGroup('root', '')
+		goto(`/${$designTokensGroupStore[$designTokensGroupStore.length - 1]!.id}`)
+	}
 </script>
 
 <div
@@ -17,10 +23,6 @@
 	{#each tree.children as node}
 		<GroupItem {node} />
 	{/each}
-	<button
-		class="bg-blue-300 px-6"
-		on:click={() => designTokensGroupStore.addGroup('root', 'osss')}>add</button
-	>
 	<button
 		class="bg-blue-300 px-6"
 		on:click={() =>
@@ -40,4 +42,5 @@
 				'/tokens.json'
 			)}>Create file</button
 	>
+	<button class="bg-blue-300 px-6" on:click={handleAddNewGroup}>add</button>
 </div>
