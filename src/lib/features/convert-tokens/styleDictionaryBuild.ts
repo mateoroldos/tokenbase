@@ -1,35 +1,38 @@
 import StyleDictionary, { type Config } from 'browser-style-dictionary'
 import { fs } from 'memfs'
-
-export let STYLE_DICTIONARY_CONFIG = {
-	source: [],
-	platforms: {
-		css: {
-			transformGroup: 'scss',
-			buildPath: 'build/',
-			files: [
-				{
-					destination: 'variables.css',
-					format: 'scss/variables'
-				}
-			]
-		}
-	}
-}
+import {
+	FILE_TYPE_CONFIGS,
+	type ExportFileTypes,
+	type FileTypeConfig
+} from './exportFileTypes'
 
 const styleDictionaryBuild = async (
 	styleDictionaryJSON: string,
-	styleDictionaryConfig: Config,
-	filePath: string
+	fileTypes: ExportFileTypes[]
 ) => {
-	fs.writeFileSync(filePath, styleDictionaryJSON)
+	let styleDictionaryConfig: {
+		source: string[]
+		platforms: {
+			[key: string]: FileTypeConfig
+		}
+	} = {
+		source: [],
+		platforms: {}
+	}
 
-	styleDictionaryConfig.source = [filePath]
+	const sourcePath = '/src-tokens.json'
+	styleDictionaryConfig.source = [sourcePath]
+	fs.writeFileSync(sourcePath, styleDictionaryJSON)
+
+	for (let i = 0; i < fileTypes.length; i++) {
+		let fileType = fileTypes[i] as ExportFileTypes
+
+		styleDictionaryConfig.platforms[fileType] = FILE_TYPE_CONFIGS[fileType]
+	}
 
 	const styleDictionary = await StyleDictionary.extend(styleDictionaryConfig)
-	const styleDictionaryBuild = styleDictionary.buildAllPlatforms()
 
-	console.log(fs.readFileSync('/build/variables.css', 'utf8'))
+	styleDictionary.buildAllPlatforms()
 }
 
 export default styleDictionaryBuild
