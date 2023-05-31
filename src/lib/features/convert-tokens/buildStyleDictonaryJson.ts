@@ -28,8 +28,32 @@ const buildStyleDictionaryTree = (groups: Group[]): StyleDictonaryGroup => {
 	const root: StyleDictonaryGroup = {
 		...subtree
 	}
+	console.log(root)
 
 	return root
+}
+
+const convertTokensToStyleDictonaryTokens = (
+	tokens: IToken[]
+): {
+	[key: string]: StyleDictonaryToken
+} => {
+	const dictonary: { [key: string]: StyleDictonaryToken } = {}
+
+	tokens.forEach((token) => {
+		const { name, value, type } = token
+
+		const dictonaryToken: StyleDictonaryToken = {
+			value: convertValueToJson(value, type),
+			comment: token.description,
+			type: type
+		}
+
+		dictonary[name ?? 'undefined'] = dictonaryToken
+	})
+	console.log(dictonary)
+
+	return dictonary
 }
 
 const buildStyleDictionarySubTree = (
@@ -56,36 +80,17 @@ const buildStyleDictionarySubTree = (
 			}
 		}
 	})
+	console.log(nodes)
 
 	return nodes
-}
-
-const convertTokensToStyleDictonaryTokens = (
-	tokens: IToken[]
-): {
-	[key: string]: StyleDictonaryToken
-} => {
-	const dictonary: { [key: string]: StyleDictonaryToken } = {}
-
-	tokens.forEach((token) => {
-		const { name, value, type } = token
-
-		const dictonaryToken: StyleDictonaryToken = {
-			value: convertValueToJson(value, type),
-			comment: token.description,
-			type: type
-		}
-
-		dictonary[name ?? 'undefined'] = dictonaryToken
-	})
-
-	return dictonary
 }
 
 const buildStyleDictonaryJson = (groups: Group[]): string => {
 	const tree = buildStyleDictionaryTree(groups)
 
 	const json = JSON.stringify(tree, null, 2)
+
+	console.log(json)
 
 	return json
 }

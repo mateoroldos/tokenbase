@@ -7,15 +7,14 @@
 	import { getContext, onMount } from 'svelte'
 	import { goto } from '$app/navigation'
 	import Token from '$lib/features/token-ui/ui/Token.svelte'
-	import tokenTypesArray from '$lib/utils/tokenTypesArray'
 	import Toolbar from '$lib/features/toolbar/ui/Toolbar.svelte'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
-	import createTree from '$lib/features/token-groups-tree/functions/createTree'
 	import type {
 		IToken,
 		TokenType
 	} from '$lib/features/token-groups-store/types/token-interface'
 	import Icon from '@iconify/svelte'
+	import convertJsonToGroupArray from '$lib/features/convert-tokens/buildGroupsFromJson'
 
 	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
 		getContext('designTokensGroupStore')
@@ -28,6 +27,20 @@
 	)
 
 	let draggedTokenId: string | null = null
+
+	const handleAddNewTemplate = () => {
+		const groups = convertJsonToGroupArray(
+			styleDictionaryJson,
+			'Template Group',
+			$designTokensGroupStore[groupIndex]!.id
+		)
+
+		groups.forEach((group) => {
+			$designTokensGroupStore = [...$designTokensGroupStore, group]
+		})
+
+		goto(`/${$designTokensGroupStore[$designTokensGroupStore.length - 1]!.id}`)
+	}
 
 	const handleDragStart = (tokenId: string) => {
 		draggedTokenId = tokenId
@@ -141,6 +154,18 @@
 		input?.select()
 	}
 	// $: $designTokensGroupStore[groupIndex]!.type = findGroupType()
+	const styleDictionaryJson = `
+	{
+  "Template": {
+    "Color": {
+      "value": "#927300",
+      "type": "color"
+    }
+  }
+}
+`
+
+	console.log($designTokensGroupStore)
 </script>
 
 <section class="flex flex-1 flex-col justify-between">
@@ -156,7 +181,15 @@
 				bind:value={$designTokensGroupStore[groupIndex].name}
 				on:focusout={handleUnselectNameInput}
 			/>
+
 			<div class="flex flex-row gap-3">
+				{#if $designTokensGroupStore[groupIndex].tokens.length == 0}
+					<button
+						class="rounded-md bg-blue-300 px-6"
+						on:click={() => handleAddNewTemplate()}>Start From Template</button
+					>
+				{/if}
+
 				<button on:click={handleDeleteGroup}>delete</button>
 				<button
 					class="flex flex-row items-center gap-2 rounded-md bg-black px-4 py-1"

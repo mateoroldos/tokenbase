@@ -33,8 +33,6 @@ const createTree = (groups: Group[]): GroupsTree => {
 
 	root.children = children
 
-	console.log(root)
-
 	return root
 }
 
