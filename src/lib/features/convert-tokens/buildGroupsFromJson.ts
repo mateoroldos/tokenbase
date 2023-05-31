@@ -16,13 +16,19 @@ interface StyleDictionaryGroup {
 
 const readAndConvertElement = (
 	styleDictionaryGroup: StyleDictionaryGroup,
-	parentId: string,
-	groupName: string
+	parentId?: string
 ): Group[] => {
 	const tokens: IToken[] = [] // aca guardamos los tokens de este grupo
-	const groupId = groupName === 'root' ? 'root' : uuidv4() // nueva id para el grupo en el q estamos trabajndo
-
+	const groupId = uuidv4() // nueva id para el grupo en el q estamos trabajndo
 	const groups: Group[] = [] // array donde vamos a ir guardando todos los grupos
+	if (!parentId) {
+		groups.push({
+			id: 'root',
+			name: 'root',
+			parentGroup: undefined,
+			tokens: []
+		})
+	}
 
 	Object.entries(styleDictionaryGroup).forEach(([key, data]) => {
 		if (data.type && data.value) {
@@ -39,37 +45,32 @@ const readAndConvertElement = (
 			}
 
 			tokens.push(token)
+
+			const newGroup: Group = {
+				id: groupId,
+				name: 'Template',
+				parentGroup: parentId,
+				tokens
+			}
+
+			groups.push(newGroup)
 		} else {
 			// caso que estemos recorriendo un grupo
 			const subGroups = readAndConvertElement(
 				data as StyleDictionaryGroup,
-				groupId,
-				key
+				parentId
 			)
 
 			groups.push(...subGroups)
 		}
 	})
 
-	const newGroup: Group = {
-		id: groupId,
-		name: groupName,
-		parentGroup: parentId,
-		tokens
-	}
-
-	groups.push(newGroup)
-
 	return groups
 }
 
-const convertJsonToGroupArray = (
-	json: string,
-	groupName: string,
-	parentId: string
-): Group[] => {
+const convertJsonToGroupArray = (json: string, parentId?: string): Group[] => {
 	const styleDictionaryGroup: StyleDictionaryGroup = JSON.parse(json)
-	return readAndConvertElement(styleDictionaryGroup, parentId, groupName)
+	return readAndConvertElement(styleDictionaryGroup, parentId)
 }
 
 export default convertJsonToGroupArray

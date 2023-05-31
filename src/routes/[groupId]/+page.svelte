@@ -31,7 +31,6 @@
 	const handleAddNewTemplate = () => {
 		const groups = convertJsonToGroupArray(
 			styleDictionaryJson,
-			'Template Group',
 			$designTokensGroupStore[groupIndex]!.id
 		)
 
