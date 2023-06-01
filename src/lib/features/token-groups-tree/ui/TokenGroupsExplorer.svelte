@@ -2,8 +2,6 @@
 	import designTokensGroupStore from '$lib/features/token-groups-store/tokensGroup'
 	import GroupItem from './atoms/GroupItem.svelte'
 	import createTree from '../functions/createTree'
-	import buildStyleDictionaryJson from '$lib/features/convert-tokens/buildStyleDictonaryJson'
-	import styleDictionaryBuild from '$lib/features/convert-tokens/styleDictionaryBuild'
 	import { goto } from '$app/navigation'
 	import Icon from '@iconify/svelte'
 	import { page } from '$app/stores'

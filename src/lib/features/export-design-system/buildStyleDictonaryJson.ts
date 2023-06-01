@@ -8,7 +8,8 @@ import { Hct } from '@material/material-color-utilities'
 import Color from 'color'
 
 interface StyleDictonaryToken {
-	value: string
+	value: ReturnType<typeof convertValueToJson>
+	type: TokenType
 	comment?: string
 	name?: string
 }
@@ -17,14 +18,14 @@ interface StyleDictonaryGroup {
 	[key: string]: StyleDictonaryToken | StyleDictonaryGroup
 }
 
-const buildStyleDictionaryTree = (groups: Group[]): StyleDictonaryGroup => {
+const groupsToStyleDictionaryTree = (groups: Group[]): StyleDictonaryGroup => {
 	const rootGroup = groups.find((group) => group.id === 'root')
 
 	if (!rootGroup) {
 		throw new Error('Root group not found')
 	}
 
-	const subtree = buildStyleDictionarySubTree(groups, 'root')
+	const subtree = buildStyleDictionaryNode(groups, 'root')
 	const root: StyleDictonaryGroup = {
 		...subtree
 	}
@@ -32,7 +33,7 @@ const buildStyleDictionaryTree = (groups: Group[]): StyleDictonaryGroup => {
 	return root
 }
 
-const buildStyleDictionarySubTree = (
+const buildStyleDictionaryNode = (
 	groups: Group[],
 	parentId: string
 ): StyleDictonaryGroup => {
@@ -40,7 +41,7 @@ const buildStyleDictionarySubTree = (
 
 	groups.forEach((group) => {
 		if (group.parentGroup === parentId) {
-			const subtree = buildStyleDictionarySubTree(groups, group.id)
+			const subtree = buildStyleDictionaryNode(groups, group.id)
 			const tokens = convertTokensToStyleDictonaryTokens(group.tokens)
 
 			const node: StyleDictonaryGroup = {
@@ -59,6 +60,16 @@ const buildStyleDictionarySubTree = (
 
 	return nodes
 }
+
+const buildStyleDictonaryJson = (groups: Group[]): string => {
+	const tree = groupsToStyleDictionaryTree(groups)
+
+	const json = JSON.stringify(tree, null, 2)
+
+	return json
+}
+
+export default buildStyleDictonaryJson
 
 const convertTokensToStyleDictonaryTokens = (
 	tokens: IToken[]
@@ -82,20 +93,10 @@ const convertTokensToStyleDictonaryTokens = (
 	return dictonary
 }
 
-const buildStyleDictonaryJson = (groups: Group[]): string => {
-	const tree = buildStyleDictionaryTree(groups)
-
-	const json = JSON.stringify(tree, null, 2)
-
-	return json
-}
-
-export default buildStyleDictonaryJson
-
 const convertValueToJson = <T extends TokenType>(
 	value: TokenValue<T>,
 	type: T
-): unknown => {
+) => {
 	if (type === 'color') {
 		const [h, c, t] = value as [number, number, number]
 		const argb = Hct.from(h, c, t).argb
