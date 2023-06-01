@@ -14,7 +14,8 @@
 		TokenType
 	} from '$lib/features/token-groups-store/types/token-interface'
 	import Icon from '@iconify/svelte'
-	import convertJsonToGroupArray from '$lib/features/convert-tokens/buildGroupsFromJson'
+	import mockTemplate from '$lib/features/import-style-dictionary/templates/mockTemplate.json'
+	import importStyleDictionary from '$lib/features/import-style-dictionary/importStyleDictionary'
 
 	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
 		getContext('designTokensGroupStore')
@@ -29,13 +30,10 @@
 	let draggedTokenId: string | null = null
 
 	const handleAddNewTemplate = () => {
-		const groups = convertJsonToGroupArray(
-			styleDictionaryJson,
+		importStyleDictionary(
+			JSON.stringify(mockTemplate),
 			$designTokensGroupStore[groupIndex]!.id
 		)
-
-		$designTokensGroupStore = [...$designTokensGroupStore, ...groups]
-
 		goto(`/${$designTokensGroupStore[$designTokensGroupStore.length - 1]!.id}`)
 	}
 
@@ -150,32 +148,6 @@
 		const input = document.getElementById('group-name') as HTMLInputElement
 		input?.select()
 	}
-	// $: $designTokensGroupStore[groupIndex]!.type = findGroupType()
-	const styleDictionaryJson = `
-	{
-		"Otronombre": {
-			"Color": {
-				"value": "#927300",
-				"type": "color"
-			},
-			"Coloress": {
-				"value": "#927300",
-				"type": "color"
-			},
-			"otrogrupo": {
-				"Coloresssdwqfe": {
-					"value": "#927300",
-					"type": "color"
-				},
-				"fwef": {
-					"value": "#927300",
-					"type": "color"
-				}
-			}
-		}
-	}`
-
-	console.log($designTokensGroupStore)
 </script>
 
 <section class="flex flex-1 flex-col justify-between">

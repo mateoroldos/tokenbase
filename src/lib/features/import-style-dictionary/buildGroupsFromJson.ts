@@ -1,4 +1,4 @@
-import type { IToken } from './../token-groups-store/types/token-interface'
+import type { IToken } from '../token-groups-store/types/token-interface'
 import type { Group } from '../token-groups-store/types/group-interface'
 import type { TokenType } from '../token-groups-store/types/token-interface'
 import type { TokenValue } from '../token-groups-store/types/token-interface'
@@ -14,7 +14,7 @@ interface StyleDictionaryGroup {
 	[key: string]: StyleDictionaryToken | StyleDictionaryGroup
 }
 
-const readAndConvertElement = (
+const buildStyleDictionaryNode = (
 	styleDictionaryGroup: StyleDictionaryGroup,
 	parentId: string,
 	name?: string
@@ -43,13 +43,13 @@ const readAndConvertElement = (
 			let subGroups
 
 			if (name) {
-				subGroups = readAndConvertElement(
+				subGroups = buildStyleDictionaryNode(
 					data as StyleDictionaryGroup,
 					groupId,
 					key
 				)
 			} else {
-				subGroups = readAndConvertElement(
+				subGroups = buildStyleDictionaryNode(
 					data as StyleDictionaryGroup,
 					parentId,
 					key
@@ -74,13 +74,14 @@ const readAndConvertElement = (
 	return groups
 }
 
-const convertJsonToGroupArray = (
+const styleDictionaryToGroups = (
 	json: string,
 	parentId: string,
 	name?: string
 ): Group[] => {
 	const styleDictionaryGroup: StyleDictionaryGroup = JSON.parse(json)
-	return readAndConvertElement(styleDictionaryGroup, parentId, name)
+
+	return buildStyleDictionaryNode(styleDictionaryGroup, parentId, name)
 }
 
-export default convertJsonToGroupArray
+export default styleDictionaryToGroups

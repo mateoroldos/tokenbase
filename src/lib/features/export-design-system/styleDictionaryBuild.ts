@@ -28,8 +28,6 @@ const styleDictionaryBuild = async (
 
 	const styleDictionary = await StyleDictionary.extend(styleDictionaryConfig)
 	const styleDictionaryBuild = styleDictionary.buildAllPlatforms()
-
-	console.log(fs.readFileSync('/build/variables.css', 'utf8'))
 }
 
 export default styleDictionaryBuild
