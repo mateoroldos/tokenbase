@@ -5,9 +5,10 @@
 	import designTokensGroupStore from '$lib/features/token-groups-store/tokensGroup'
 	import selectedTokensStore from '$lib/features/select-tokens/selectedTokensStore'
 	import { navigating } from '$app/stores'
-
+	import tokenBaseMainStore from '$lib/features/token-groups-store/tokenbase-main-store'
 	setContext('designTokensGroupStore', designTokensGroupStore)
 	setContext('selectedTokensStore', selectedTokensStore)
+	setContext('tokenBaseMainStore', tokenBaseMainStore)
 
 	$: if ($navigating) selectedTokensStore.clearTokens()
 </script>

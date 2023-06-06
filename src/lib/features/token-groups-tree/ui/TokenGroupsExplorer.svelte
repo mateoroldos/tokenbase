@@ -2,19 +2,43 @@
 	import designTokensGroupStore from '$lib/features/token-groups-store/tokensGroup'
 	import GroupItem from './atoms/GroupItem.svelte'
 	import createTree from '../functions/createTree'
-	import buildStyleDictionaryJson from '$lib/features/convert-tokens/buildStyleDictonaryJson'
-	import styleDictionaryBuild from '$lib/features/convert-tokens/styleDictionaryBuild'
 	import { goto } from '$app/navigation'
 	import Icon from '@iconify/svelte'
 	import { page } from '$app/stores'
+	import tokenBaseMainStore from '$lib/features/token-groups-store/tokenbase-main-store'
+	import DesignSystemExplorer from './atoms/DesignSystemExplorer.svelte'
+	import { onMount } from 'svelte'
 
-	$: tree = createTree($designTokensGroupStore)
-	$: groupId = $page.params.groupId as string
+	onMount(() => {
+		const addDefaultGroup = () => {
+			designTokensGroupStore.addGroup('First System')
+			const idFirstDefaultGroup =
+				$designTokensGroupStore[$designTokensGroupStore.length - 1]!.id
+			tokenBaseMainStore.addDesignSystem(idFirstDefaultGroup, 'First System')
+			$tokenBaseMainStore.activeDesignSystemRootId = idFirstDefaultGroup
+			console.log($tokenBaseMainStore)
+		}
+		if ($tokenBaseMainStore.designSystems.length === 0) {
+			addDefaultGroup()
+		}
+	})
 
 	const handleAddNewGroup = () => {
-		designTokensGroupStore.addGroup('root', '')
+		designTokensGroupStore.addGroup(
+			'',
+			undefined,
+			$tokenBaseMainStore.activeDesignSystemRootId
+		)
+
 		goto(`/${$designTokensGroupStore[$designTokensGroupStore.length - 1]!.id}`)
 	}
+
+	$: tree = createTree(
+		$designTokensGroupStore,
+		$tokenBaseMainStore.activeDesignSystemRootId
+	)
+
+	$: groupId = $page.params.groupId as string
 </script>
 
 <div
@@ -22,6 +46,7 @@
 >
 	<div class="flex flex-col gap-3">
 		<h1 class="text-lg font-bold">Tokenbase</h1>
+		<DesignSystemExplorer />
 		{#each tree.children as node}
 			<GroupItem {node} />
 		{/each}

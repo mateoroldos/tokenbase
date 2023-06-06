@@ -3,14 +3,14 @@
 		moveToken,
 		createTokensGroupStore
 	} from '$lib/features/token-groups-store/tokensGroup'
+
 	import { page } from '$app/stores'
 	import { getContext, onMount } from 'svelte'
 	import { goto } from '$app/navigation'
 	import Token from '$lib/features/token-ui/ui/Token.svelte'
-	import tokenTypesArray from '$lib/utils/tokenTypesArray'
+
 	import Toolbar from '$lib/features/toolbar/ui/Toolbar.svelte'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
-	import createTree from '$lib/features/token-groups-tree/functions/createTree'
 	import type {
 		IToken,
 		TokenType
@@ -140,7 +140,6 @@
 		const input = document.getElementById('group-name') as HTMLInputElement
 		input?.select()
 	}
-	// $: $designTokensGroupStore[groupIndex]!.type = findGroupType()
 </script>
 
 <section class="flex flex-1 flex-col justify-between">
