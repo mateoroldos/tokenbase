@@ -3,12 +3,10 @@
 		moveToken,
 		createTokensGroupStore
 	} from '$lib/features/token-groups-store/tokensGroup'
-
 	import { page } from '$app/stores'
 	import { getContext, onMount } from 'svelte'
 	import { goto } from '$app/navigation'
 	import Token from '$lib/features/token-ui/ui/Token.svelte'
-
 	import Toolbar from '$lib/features/toolbar/ui/Toolbar.svelte'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import type {

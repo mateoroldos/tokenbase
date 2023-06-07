@@ -1,11 +1,11 @@
 <script lang="ts">
-	import type { createDesignSystemDataStore } from '$lib/features/token-groups-store/tokenbase-main-store'
+	import type { createDesignSystemsDataStore } from '$lib/features/token-groups-store/tokenbase-main-store'
 	import { v4 as uuidv4 } from 'uuid'
 	import { getContext } from 'svelte'
 	import designTokensGroupStore from '$lib/features/token-groups-store/tokensGroup'
 	import { goto } from '$app/navigation'
 
-	const tokenBaseMainStore: ReturnType<typeof createDesignSystemDataStore> =
+	const tokenBaseMainStore: ReturnType<typeof createDesignSystemsDataStore> =
 		getContext('tokenBaseMainStore')
 
 	const handleAddDesignSystem = () => {

@@ -6,6 +6,7 @@
 	import selectedTokensStore from '$lib/features/select-tokens/selectedTokensStore'
 	import { navigating } from '$app/stores'
 	import tokenBaseMainStore from '$lib/features/token-groups-store/tokenbase-main-store'
+
 	setContext('designTokensGroupStore', designTokensGroupStore)
 	setContext('selectedTokensStore', selectedTokensStore)
 	setContext('tokenBaseMainStore', tokenBaseMainStore)

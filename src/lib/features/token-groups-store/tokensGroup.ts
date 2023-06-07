@@ -25,15 +25,15 @@ export const createTokensGroupStore = () => {
 		description?: string
 	): void => {
 		update((designTokens) => {
-			const parentGroup = designTokens.find(
-				(group) => group.id === parentGroupId
-			)
-			console.log(name)
-
-			// if (!parentGroup) {
-			// 	console.error(`Parent group with ID ${parentGroupId} not found`)
-			// 	return designTokens
-			// }
+			if (parentGroupId) {
+				const parentGroup = designTokens.find(
+					(group) => group.id === parentGroupId
+				)
+				if (!parentGroup) {
+					console.error(`Parent group with ID ${parentGroupId} not found`)
+					return designTokens
+				}
+			}
 
 			const newGroupId = id ?? uuidv4()
 

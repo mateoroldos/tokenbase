@@ -1,6 +1,6 @@
 import persistentWritable from '../../stores/custom/persistentWritable'
 
-interface DesignSystemData {
+interface DesignSystemsData {
 	designSystems: DesignSystemReference[]
 	activeDesignSystemRootId: string
 }
@@ -10,8 +10,8 @@ interface DesignSystemReference {
 	name: string
 }
 
-export const createDesignSystemDataStore = () => {
-	const { subscribe, update, set } = persistentWritable<DesignSystemData>(
+export const createDesignSystemsDataStore = () => {
+	const { subscribe, update, set } = persistentWritable<DesignSystemsData>(
 		'tokenbase-main',
 
 		{
@@ -30,6 +30,19 @@ export const createDesignSystemDataStore = () => {
 			return designSystems
 		})
 	}
+	const deleteDesignSystem = (id: string): void => {
+		update((designSystems) => {
+			designSystems.designSystems = designSystems.designSystems.filter(
+				(system) => system.id !== id
+			)
+
+			if (designSystems.activeDesignSystemRootId === id) {
+				designSystems.activeDesignSystemRootId = ''
+			}
+
+			return designSystems
+		})
+	}
 
 	const selectDesignSystem = (id: string): void => {
 		update((designSystems) => {
@@ -43,10 +56,11 @@ export const createDesignSystemDataStore = () => {
 		subscribe,
 		set,
 		addDesignSystem,
+		deleteDesignSystem,
 		selectDesignSystem
 	}
 }
 
-const tokenBaseMainStore = createDesignSystemDataStore()
+const tokenBaseMainStore = createDesignSystemsDataStore()
 
 export default tokenBaseMainStore

@@ -16,7 +16,6 @@
 				$designTokensGroupStore[$designTokensGroupStore.length - 1]!.id
 			tokenBaseMainStore.addDesignSystem(idFirstDefaultGroup, 'First System')
 			$tokenBaseMainStore.activeDesignSystemRootId = idFirstDefaultGroup
-			console.log($tokenBaseMainStore)
 		}
 		if ($tokenBaseMainStore.designSystems.length === 0) {
 			addDefaultGroup()
