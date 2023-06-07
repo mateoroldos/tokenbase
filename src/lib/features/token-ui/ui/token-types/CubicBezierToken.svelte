@@ -1,5 +1,15 @@
 <script lang="ts">
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
+	import suite from '../validations/suite'
+
+	const handleChange = (input: Event) => {
+		const target = input.target as HTMLInputElement
+
+		res = suite(target.value, 'p1x')
+		console.log(res.isValid('p1x'))
+	}
+
+	let res = suite.get()
 
 	export let token: IToken<'cubicBezier'>
 </script>
@@ -7,6 +17,7 @@
 <div class="flex gap-x-3">
 	<div class="flex">
 		<input
+			name="p1x"
 			class="w-10 border border-solid border-black"
 			type="number"
 			bind:value={token.value[0]}
