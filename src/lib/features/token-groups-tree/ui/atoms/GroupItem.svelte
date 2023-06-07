@@ -36,7 +36,9 @@
 <div>
 	<div
 		class="flex flex-row items-center justify-between rounded-md p-1 text-gray-500 transition-all hover:bg-gray-200"
-		on:mouseenter={() => (hover = true)}
+		on:mouseenter={() => {
+			hover = true
+		}}
 		on:mouseleave={() => (hover = false)}
 	>
 		<div class="flex flex-row items-center gap-1">
@@ -51,10 +53,13 @@
 				>{node.group.name}</a
 			>
 		</div>
+
 		{#if hover}
 			<button
 				class="bg-transparent text-gray-500"
-				on:click={() => designTokensGroupStore.addGroup(node.group.id, 'aaa')}
+				on:click={() => {
+					designTokensGroupStore.addGroup('aaa', undefined, node.group.id)
+				}}
 			>
 				+
 			</button>
