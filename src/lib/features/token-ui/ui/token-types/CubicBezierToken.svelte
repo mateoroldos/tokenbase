@@ -9,7 +9,7 @@
 		<input
 			class="w-10 border border-solid border-black"
 			type="number"
-			bind:value={token.value[0]}
+			bind:value={token.value.value[0]}
 			min="0"
 			max="1"
 			id="p1x"
@@ -21,7 +21,7 @@
 			class="w-10 border border-solid border-black"
 			type="number"
 			size="1"
-			bind:value={token.value[1]}
+			bind:value={token.value.value[1]}
 		/><label for="p1y">P1y</label>
 	</div>
 	<div class="flex">
@@ -29,7 +29,7 @@
 			id="p2x"
 			class="w-10 border border-solid border-black"
 			type="number"
-			bind:value={token.value[2]}
+			bind:value={token.value.value[2]}
 		/><label for="p2x">P2x</label>
 	</div>
 	<div class="flex">
@@ -37,7 +37,7 @@
 			id="p2y"
 			class=" w-10 border border-solid border-black"
 			type="number"
-			bind:value={token.value[3]}
+			bind:value={token.value.value[3]}
 			min="0"
 			max="1"
 		/><label for="p2y">P2y</label>

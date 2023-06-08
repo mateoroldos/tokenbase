@@ -1,3 +1,13 @@
+import type {
+	ColorToken,
+	DimensionToken,
+	FontFamilyToken,
+	FontWeightToken,
+	DurationToken,
+	CubicBezierToken,
+	NumberToken
+} from '../../tokens-transformations/tokens-interfaces/tokens-interfaces'
+
 export interface IToken<T = TokenType> {
 	id: string
 	name: string | undefined
@@ -22,20 +32,17 @@ export type TokenType =
 	| 'number'
 
 export type TokenValue<T = TokenType> = T extends 'color'
-	? [number, number, number]
+	? ColorToken
 	: T extends 'dimension'
-	? {
-			value: number
-			unit: 'px' | 'rem'
-	  }
+	? DimensionToken
 	: T extends 'fontFamily'
-	? string[]
+	? FontFamilyToken
 	: T extends 'fontWeight'
-	? string | number
+	? FontWeightToken
 	: T extends 'duration'
-	? number
+	? DurationToken
 	: T extends 'cubicBezier'
-	? [number, number, number, number]
+	? CubicBezierToken
 	: T extends 'number'
-	? number
+	? NumberToken
 	: never
