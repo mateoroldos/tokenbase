@@ -1,15 +1,13 @@
-import type { ColorToken } from './internal-color-value.type'
+import type { ColorTokenValue } from './internal-color-value.type'
 import { Hct } from '@material/material-color-utilities'
 import Color from 'color'
 
-const transformToImportColorValue = (hex: string): ColorToken => {
+const transformToImportColorValue = (hex: string): ColorTokenValue => {
 	const newArgbColor = Color(hex).rgbNumber()
 	const hct = Hct.fromInt(newArgbColor)
-	const colorToken: ColorToken = {
-		value: [hct.hue, hct.chroma, hct.tone]
-	}
+	const value: ColorTokenValue = [hct.hue, hct.chroma, hct.tone]
 
-	return colorToken
+	return value
 }
 
 export default transformToImportColorValue

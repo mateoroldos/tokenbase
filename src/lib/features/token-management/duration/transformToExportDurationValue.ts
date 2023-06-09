@@ -1,13 +1,11 @@
-import type { ExportDurationToken } from './export-duration.value.type'
-import type { DurationToken } from './internal-duration.value.type'
+import type { ExportDurationTokenValue } from './export-duration.value.type'
+import type { DurationTokenValue } from './internal-duration.value.type'
 
 const transformToExportDurationValue = (
-	duration: DurationToken
-): ExportDurationToken => {
-	const stringValue = `${duration.value}ms`
-	const exportDurationToken: ExportDurationToken = {
-		value: stringValue
-	}
+	duration: DurationTokenValue
+): ExportDurationTokenValue => {
+	const stringValue = `${duration}ms`
+	const exportDurationToken = stringValue
 	return exportDurationToken
 }
 

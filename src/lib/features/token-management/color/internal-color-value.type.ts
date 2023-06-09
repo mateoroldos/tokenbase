@@ -1,3 +1,1 @@
-export interface ColorToken {
-	value: [number, number, number]
-}
+export type ColorTokenValue = [number, number, number]

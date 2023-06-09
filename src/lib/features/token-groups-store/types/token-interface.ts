@@ -1,10 +1,10 @@
-import type { CubicBezierToken } from '../../token-management/cubic-bezier/internal-cubic-bezier-value.type'
-import type { ColorToken } from '../../token-management/color/internal-color-value.type'
-import type { DimensionToken } from '../../token-management/dimension/internal-dimension-value.type'
-import type { NumberToken } from '../../token-management/number/internal-number-value.type'
-import type { DurationToken } from '../../token-management/duration/internal-duration.value.type'
-import type { FontFamilyToken } from '../../token-management/font-family/internal-font-family-value.type'
-import type { FontWeightToken } from '../../token-management/font-weight/internal-font-weight-value.type'
+import type { CubicBezierTokenValue } from '../../token-management/cubic-bezier/internal-cubic-bezier-value.type'
+import type { ColorTokenValue } from '../../token-management/color/internal-color-value.type'
+import type { DimensionTokenValue } from '../../token-management/dimension/internal-dimension-value.type'
+import type { NumberTokenValue } from '../../token-management/number/internal-number-value.type'
+import type { DurationTokenValue } from '../../token-management/duration/internal-duration.value.type'
+import type { FontFamilyTokenValue } from '../../token-management/font-family/internal-font-family-value.type'
+import type { FontWeightTokenValue } from '../../token-management/font-weight/internal-font-weight-value.type'
 
 export interface IToken<T = TokenType> {
 	id: string
@@ -30,17 +30,17 @@ export type TokenType =
 	| 'number'
 
 export type TokenValue<T = TokenType> = T extends 'color'
-	? ColorToken
+	? ColorTokenValue
 	: T extends 'dimension'
-	? DimensionToken
+	? DimensionTokenValue
 	: T extends 'fontFamily'
-	? FontFamilyToken
+	? FontFamilyTokenValue
 	: T extends 'fontWeight'
-	? FontWeightToken
+	? FontWeightTokenValue
 	: T extends 'duration'
-	? DurationToken
+	? DurationTokenValue
 	: T extends 'cubicBezier'
-	? CubicBezierToken
+	? CubicBezierTokenValue
 	: T extends 'number'
-	? NumberToken
+	? NumberTokenValue
 	: never

@@ -1,3 +1,1 @@
-export interface NumberToken {
-	value: number
-}
+export type NumberTokenValue = number

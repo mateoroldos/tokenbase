@@ -1,3 +1,1 @@
-export interface DurationToken {
-	value: number
-}
+export type DurationTokenValue = number

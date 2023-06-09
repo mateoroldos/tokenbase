@@ -4,16 +4,16 @@
 	export let token: IToken<'fontFamily'>
 
 	function addInput() {
-		token.value.value = [...token.value.value, '']
+		token.value = [...token.value, '']
 	}
 
 	function removeInput(index: number) {
-		token.value.value = token.value.value.filter((_, i) => i !== index)
+		token.value = token.value.filter((_, i) => i !== index)
 	}
 </script>
 
 <div class="flex flex-col gap-4">
-	{#each token.value.value as value, i}
+	{#each token.value as value, i}
 		<div class="flex">
 			<input
 				class="mr-2 w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1"

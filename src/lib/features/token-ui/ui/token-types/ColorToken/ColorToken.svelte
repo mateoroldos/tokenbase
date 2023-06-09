@@ -16,11 +16,7 @@
 
 	let hexInput: HTMLInputElement
 
-	$: argb = Hct.from(
-		token.value.value[0],
-		token.value.value[1],
-		token.value.value[2]
-	).argb
+	$: argb = Hct.from(token.value[0], token.value[1], token.value[2]).argb
 	$: hex = Color(argb).hex()
 
 	const handleHexChange = (e: Event) => {
@@ -32,7 +28,7 @@
 				const newArgbColor = Color(value).rgbNumber()
 				const hct = Hct.fromInt(newArgbColor)
 
-				token.value.value = [hct.hue, hct.chroma, hct.tone]
+				token.value = [hct.hue, hct.chroma, hct.tone]
 				hex = target.value
 			} catch (error) {
 				hexInput.value = hex
@@ -41,18 +37,18 @@
 	}
 
 	$: hueBackground = generateHueBackgroundGradient(
-		token.value.value[1],
-		token.value.value[2]
+		token.value[1],
+		token.value[2]
 	)
 
 	$: chromaBackground = generateChromaBackgroundGradient(
-		token.value.value[0],
-		token.value.value[2]
+		token.value[0],
+		token.value[2]
 	)
 
 	$: toneBackground = generateToneBackgroundGradient(
-		token.value.value[0],
-		token.value.value[1]
+		token.value[0],
+		token.value[1]
 	)
 </script>
 
@@ -74,7 +70,7 @@
 			<input
 				type="number"
 				class="w-14 rounded-md border border-gray-300 px-1 text-xs"
-				bind:value={token.value.value[0]}
+				bind:value={token.value[0]}
 			/>
 		</div>
 		<Range
@@ -82,7 +78,7 @@
 			max={360}
 			id={`${token.id}-hue-range`}
 			background={hueBackground}
-			bind:value={token.value.value[0]}
+			bind:value={token.value[0]}
 			on:change={(e) =>
 				dispatch('colorChange', {
 					valueChanged: 0,
@@ -96,7 +92,7 @@
 			<input
 				type="number"
 				class="w-14 rounded-md border border-gray-300 px-1 text-xs"
-				bind:value={token.value.value[1]}
+				bind:value={token.value[1]}
 			/>
 		</div>
 		<Range
@@ -104,7 +100,7 @@
 			max={100}
 			id={`${token.id}-chroma-range`}
 			background={chromaBackground}
-			bind:value={token.value.value[1]}
+			bind:value={token.value[1]}
 			on:change={(e) =>
 				dispatch('colorChange', {
 					valueChanged: 1,
@@ -118,7 +114,7 @@
 			<input
 				type="number"
 				class="w-14 rounded-md border border-gray-300 px-1 text-xs"
-				bind:value={token.value.value[2]}
+				bind:value={token.value[2]}
 			/>
 		</div>
 		<Range
@@ -126,7 +122,7 @@
 			max={100}
 			id={`${token.id}-saturation-range`}
 			background={toneBackground}
-			bind:value={token.value.value[2]}
+			bind:value={token.value[2]}
 			on:change={(e) =>
 				dispatch('colorChange', {
 					valueChanged: 2,

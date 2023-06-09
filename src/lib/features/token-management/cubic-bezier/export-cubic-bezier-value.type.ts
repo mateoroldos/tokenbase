@@ -1,3 +1,1 @@
-export interface ExportCubicBezierToken {
-	value: [number, number, number, number]
-}
+export type ExportCubicBezierTokenValue = [number, number, number, number]

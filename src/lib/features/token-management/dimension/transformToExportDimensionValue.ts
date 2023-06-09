@@ -1,13 +1,12 @@
-import type { DimensionToken } from './internal-dimension-value.type'
-import type { ExportDimensionToken } from './export-dimension-value.type'
+import type { DimensionTokenValue } from './internal-dimension-value.type'
+import type { ExportDimensionTokenValue } from './export-dimension-value.type'
 
 const transformToExportDimensionValue = (
-	dimension: DimensionToken
-): ExportDimensionToken => {
-	const stringValue = `${dimension.value.value}${dimension.value.unit}`
-	const dimensionToken: ExportDimensionToken = {
-		value: stringValue
-	}
+	dimension: DimensionTokenValue
+): ExportDimensionTokenValue => {
+	const stringValue = `${dimension.value}${dimension.unit}`
+	const dimensionToken: ExportDimensionTokenValue = stringValue
+
 	return dimensionToken
 }
 

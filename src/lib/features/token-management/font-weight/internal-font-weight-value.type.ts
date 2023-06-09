@@ -1,3 +1,1 @@
-export interface FontWeightToken {
-	value: string | number
-}
+export type FontWeightTokenValue = string | number

@@ -1,6 +1,4 @@
-export interface DimensionToken {
-	value: {
-		value: number
-		unit: 'px' | 'rem'
-	}
+export type DimensionTokenValue = {
+	value: number
+	unit: 'px' | 'rem'
 }

@@ -1,3 +1,1 @@
-export interface ExportDimensionToken {
-	value: string
-}
+export type ExportDimensionTokenValue = string

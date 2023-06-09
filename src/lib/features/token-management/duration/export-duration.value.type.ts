@@ -1,3 +1,1 @@
-export interface ExportDurationToken {
-	value: string
-}
+export type ExportDurationTokenValue = string

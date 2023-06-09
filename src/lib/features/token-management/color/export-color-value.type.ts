@@ -1,3 +1,1 @@
-export interface ExportColorToken {
-	value: string
-}
+export type ExportColorTokenValue = string

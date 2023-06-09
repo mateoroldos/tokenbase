@@ -1,3 +1,1 @@
-export interface FontFamilyToken {
-	value: string[]
-}
+export type FontFamilyTokenValue = string[]
