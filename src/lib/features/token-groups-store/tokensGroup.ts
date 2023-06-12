@@ -11,29 +11,31 @@ import { getDefaultTokenValues } from './defaultTokenValues'
 export const createTokensGroupStore = () => {
 	const { subscribe, update, set } = persistentWritable<Group[]>('designbase', [
 		{
-			id: 'root',
-			name: 'Root',
+			id: uuidv4(),
+			name: 'Default',
 			parentGroup: undefined,
 			tokens: []
 		}
 	])
 
 	const addGroup = (
-		parentGroupId: string,
 		name: string,
+		id?: string,
+		parentGroupId?: string,
 		description?: string
 	): void => {
 		update((designTokens) => {
-			const parentGroup = designTokens.find(
-				(group) => group.id === parentGroupId
-			)
-
-			if (!parentGroup) {
-				console.error(`Parent group with ID ${parentGroupId} not found`)
-				return designTokens
+			if (parentGroupId) {
+				const parentGroup = designTokens.find(
+					(group) => group.id === parentGroupId
+				)
+				if (!parentGroup) {
+					console.error(`Parent group with ID ${parentGroupId} not found`)
+					return designTokens
+				}
 			}
 
-			const newGroupId = uuidv4()
+			const newGroupId = id ?? uuidv4()
 
 			designTokens.push({
 				id: newGroupId,
