@@ -9,8 +9,18 @@
 		generateToneBackgroundGradient
 	} from './utils/generateHctBackgroundGradients'
 	import { createEventDispatcher } from 'svelte'
+	import suite from '../../generic-validations/descriptionSuite'
+	import InputWrapper from '$lib/components/InputWrapper.svelte'
+	import colorSuite from '$lib/features/token-management/color/colorSuite'
 
-	export let token: IToken<'color'>
+	const handleChange = (input: Event) => {
+		const target = input.target as HTMLInputElement
+
+		res = colorSuite(target.value, 'color')
+		console.log(res.isValid('color'))
+	}
+
+	let res = suite.get()
 
 	const dispatch = createEventDispatcher()
 
@@ -50,16 +60,26 @@
 		token.value[0],
 		token.value[1]
 	)
+
+	export let token: IToken<'color'>
 </script>
 
 <div class="flex flex-1 flex-row items-center gap-4">
-	<input
-		value={hex}
-		class="w-20 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
-		type="text"
-		on:focusout={handleHexChange}
-		bind:this={hexInput}
-	/>
+	<InputWrapper
+		name="color"
+		errors={res.getErrors('color')}
+		isValid={res.isValid('color')}
+	>
+		<input
+			value={hex}
+			name="color"
+			class="w-20 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
+			type="text"
+			on:focusout={handleHexChange}
+			on:input={handleChange}
+			bind:this={hexInput}
+		/>
+	</InputWrapper>
 	<div
 		class="h-6 min-w-[1.5rem] border border-gray-400"
 		style={`background-color: ${hex}`}

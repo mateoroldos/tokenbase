@@ -8,9 +8,8 @@
 	import { getDefaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import TokenTypeSelect from '../atoms/TokenTypeSelect.svelte'
-
-	export let token: IToken
-	export let draggedTokenId: string | null
+	import InputWrapper from '$lib/components/InputWrapper.svelte'
+	import descriptionSuite from '../generic-validations/descriptionSuite'
 
 	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
 		getContext('designTokensGroupStore')
@@ -43,6 +42,14 @@
 		}
 	}
 
+	const handleChange = (input: Event) => {
+		const target = input.target as HTMLInputElement
+
+		res = descriptionSuite(target.value, 'description')
+	}
+
+	let res = descriptionSuite.get()
+
 	onMount(() => {
 		if (token.name === undefined) {
 			const input = document.getElementById(
@@ -51,6 +58,9 @@
 			input?.select()
 		}
 	})
+
+	export let token: IToken
+	export let draggedTokenId: string | null
 </script>
 
 <div
@@ -91,11 +101,20 @@
 				bind:value={token.name}
 				on:focusout={handleUnselectNameInput}
 			/>
-			<input
-				bind:value={token.description}
-				placeholder="Description"
-				class="w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
-			/>
+			<div>
+				<InputWrapper
+					name="description"
+					errors={res.getErrors('description')}
+					isValid={res.isValid('description')}
+				>
+					<input
+						bind:value={token.description}
+						on:input={handleChange}
+						placeholder="Description"
+						class="w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
+					/></InputWrapper
+				>
+			</div>
 		</div>
 	</div>
 	<slot />
