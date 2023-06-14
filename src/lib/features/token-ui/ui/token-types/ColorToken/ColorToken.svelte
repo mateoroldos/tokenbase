@@ -9,6 +9,7 @@
 		generateToneBackgroundGradient
 	} from './utils/generateHctBackgroundGradients'
 	import { createEventDispatcher } from 'svelte'
+	import Icon from '@iconify/svelte'
 
 	export let token: IToken<'color'>
 
@@ -60,6 +61,7 @@
 		on:focusout={handleHexChange}
 		bind:this={hexInput}
 	/>
+	<Icon icon="tabler:link" width="56px" />
 	<div
 		class="h-6 min-w-[1.5rem] border border-gray-400"
 		style={`background-color: ${hex}`}

@@ -1,19 +1,15 @@
 <script lang="ts">
 	import designTokensGroupStore from '$lib/features/token-groups-store/tokensGroup'
-	import buildStyleDictonaryJson from '$lib/features/convert-tokens/buildStyleDictonaryJson'
-	import styleDictionaryBuild from '$lib/features/convert-tokens/styleDictionaryBuild'
+	import buildStyleDictionaryJson from '$lib/features/export-design-system/buildStyleDictonaryJson';
 	import { fs } from 'memfs'
-	import {
-		FILE_TYPE_CONFIGS,
-		EXPORT_FILE_TYPES,
-		type ExportFileTypes
-	} from '$lib/features/convert-tokens/exportFileTypes'
+	import styleDictionaryBuild from '$lib/features/export-design-system/styleDictionaryBuild'
+	import { FILE_TYPE_CONFIGS, type ExportFileTypes, EXPORT_FILE_TYPES } from '$lib/features/export-design-system/exportFileTypes'
 
 	let exportTypes: ExportFileTypes[] = []
 
 	const handleExport = async (exportTypes: ExportFileTypes[]) => {
 		await styleDictionaryBuild(
-			buildStyleDictonaryJson($designTokensGroupStore),
+			buildStyleDictionaryJson($designTokensGroupStore),
 			exportTypes
 		)
 
