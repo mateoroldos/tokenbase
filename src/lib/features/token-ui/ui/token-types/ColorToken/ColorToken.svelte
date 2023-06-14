@@ -13,6 +13,8 @@
 	import InputWrapper from '$lib/components/InputWrapper.svelte'
 	import colorSuite from '$lib/features/token-management/color/colorSuite'
 
+	export let token: IToken<'color'>
+
 	const handleChange = (input: Event) => {
 		const target = input.target as HTMLInputElement
 
@@ -60,8 +62,6 @@
 		token.value[0],
 		token.value[1]
 	)
-
-	export let token: IToken<'color'>
 </script>
 
 <div class="flex flex-1 flex-row items-center gap-4">

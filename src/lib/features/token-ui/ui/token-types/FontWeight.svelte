@@ -3,6 +3,8 @@
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import fontWeightSuite from '$lib/features/token-management/font-weight/fontWeightSuite'
 
+	export let token: IToken<'fontWeight'>
+
 	let messages: string[] = []
 	const handleChange = (input: Event) => {
 		const target = input.target as HTMLInputElement
@@ -12,8 +14,6 @@
 	}
 
 	let res = fontWeightSuite.get()
-
-	export let token: IToken<'fontWeight'>
 </script>
 
 <InputWrapper

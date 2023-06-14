@@ -3,6 +3,8 @@
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import durationSuite from '$lib/features/token-management/duration/durationSuite'
 
+	export let token: IToken<'duration'>
+
 	const handleChange = (input: Event) => {
 		const target = input.target as HTMLInputElement
 		const name = target.name
@@ -13,8 +15,6 @@
 	}
 
 	let res = durationSuite.get()
-
-	export let token: IToken<'duration'>
 </script>
 
 <div>

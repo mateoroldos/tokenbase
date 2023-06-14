@@ -3,6 +3,8 @@
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import numberSuite from '$lib/features/token-management/number/numberSuite'
 
+	export let token: IToken<'number'>
+
 	const handleChange = (input: Event) => {
 		const target = input.target as HTMLInputElement
 		const name = target.name
@@ -12,8 +14,6 @@
 	}
 
 	let res = numberSuite.get()
-
-	export let token: IToken<'number'>
 </script>
 
 <div>

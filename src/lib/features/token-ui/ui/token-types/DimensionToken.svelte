@@ -2,6 +2,9 @@
 	import InputWrapper from '$lib/components/InputWrapper.svelte'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import dimensionSuite from '$lib/features/token-management/dimension/dimensionSuite'
+
+	export let token: IToken<'dimension'>
+
 	const handleChange = (input: Event) => {
 		const target = input.target as HTMLInputElement
 		const name = target.name
@@ -14,8 +17,6 @@
 	let res = dimensionSuite.get()
 
 	let options = ['px', 'rem']
-
-	export let token: IToken<'dimension'>
 </script>
 
 <div class="flex gap-6">

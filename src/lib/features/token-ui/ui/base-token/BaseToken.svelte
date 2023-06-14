@@ -2,7 +2,6 @@
 	import { fly } from 'svelte/transition'
 	import type { createTokensGroupStore } from '$lib/features/token-groups-store/tokensGroup'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
-	import tokenTypesArray from '$lib/utils/tokenTypesArray'
 	import Icon from '@iconify/svelte'
 	import { getContext, onMount } from 'svelte'
 	import { getDefaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
@@ -10,6 +9,9 @@
 	import TokenTypeSelect from '../atoms/TokenTypeSelect.svelte'
 	import InputWrapper from '$lib/components/InputWrapper.svelte'
 	import descriptionSuite from '../generic-validations/descriptionSuite'
+
+	export let token: IToken
+	export let draggedTokenId: string | null
 
 	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
 		getContext('designTokensGroupStore')
@@ -58,9 +60,6 @@
 			input?.select()
 		}
 	})
-
-	export let token: IToken
-	export let draggedTokenId: string | null
 </script>
 
 <div

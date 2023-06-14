@@ -3,6 +3,8 @@
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import cubicBezierSuite from '$lib/features/token-management/cubic-bezier/cubicBezierSuite'
 
+	export let token: IToken<'cubicBezier'>
+
 	const handleChange = (input: Event) => {
 		const target = input.target as HTMLInputElement
 		const name = target.name
@@ -30,8 +32,6 @@
 	}
 
 	let res = cubicBezierSuite.get()
-
-	export let token: IToken<'cubicBezier'>
 </script>
 
 <div class="flex gap-x-3">
