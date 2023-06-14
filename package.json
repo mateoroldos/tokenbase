@@ -42,5 +42,8 @@
 		"vite": "^4.0.4",
 		"vite-plugin-node-polyfills": "^0.8.2",
 		"zod": "^3.20.2"
+	},
+	"dependencies": {
+		"vest": "^4.6.11"
 	}
 }

@@ -1,11 +1,15 @@
+import type { DurationTokenValue } from './../token-management/duration/internal-duration.value.type'
 import type { Group } from '../token-groups-store/types/group-interface'
 import type { IToken } from '../token-groups-store/types/token-interface'
 import type {
 	TokenType,
 	TokenValue
 } from '../token-groups-store/types/token-interface'
-import { Hct } from '@material/material-color-utilities'
-import Color from 'color'
+import type { ColorTokenValue } from '../token-management/color/internal-color-value.type'
+import transformToExportColorValue from '../token-management/color/transformToExportColorValue'
+import transformToExportDurationValue from '../token-management/duration/transformToExportDurationValue'
+import type { DimensionTokenValue } from '../token-management/dimension/internal-dimension-value.type'
+import transformToExportDimensionValue from '../token-management/dimension/transformToExportDimensionValue'
 
 interface StyleDictonaryToken {
 	value: ReturnType<typeof convertValueToJson>
@@ -98,19 +102,18 @@ const convertValueToJson = <T extends TokenType>(
 	type: T
 ) => {
 	if (type === 'color') {
-		const [h, c, t] = value as [number, number, number]
-		const argb = Hct.from(h, c, t).argb
-		const hex = Color(argb).hex()
-		return hex
+		const colorValue = value as ColorTokenValue
+		return transformToExportColorValue(colorValue)
 	} else if (type === 'dimension') {
-		const { value: val, unit } = value as { value: number; unit: string }
-		return `${val}${unit}`
+		const dimensionValue = value as DimensionTokenValue
+		return transformToExportDimensionValue(dimensionValue)
 	} else if (type === 'fontFamily') {
 		return value as string[]
 	} else if (type === 'fontWeight') {
 		return value as string | number
 	} else if (type === 'duration') {
-		return `${value}ms` as string
+		const durationValue = value as DurationTokenValue
+		return transformToExportDurationValue(durationValue)
 	} else if (type === 'cubicBezier') {
 		const [x1, y1, x2, y2] = value as [number, number, number, number]
 		return { x1, y1, x2, y2 }

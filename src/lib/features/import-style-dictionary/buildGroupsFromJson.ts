@@ -1,8 +1,19 @@
+import type { ExportNumberTokenValue } from './../token-management/number/export-number-value.type'
 import type { IToken } from '../token-groups-store/types/token-interface'
 import type { Group } from '../token-groups-store/types/group-interface'
 import type { TokenType } from '../token-groups-store/types/token-interface'
 import type { TokenValue } from '../token-groups-store/types/token-interface'
+import type { ExportDimensionTokenValue } from '../token-management/dimension/export-dimension-value.type'
+import type { ExportColorTokenValue } from '../token-management/color/export-color-value.type'
 import { v4 as uuidv4 } from 'uuid'
+import transformToImportColorValue from '../token-management/color/transformToImportColorValue'
+import transformToImportDimensionValue from '../token-management/dimension/transformToImporDimensionValue'
+import type { ExportCubicBezierTokenValue } from '../token-management/cubic-bezier/export-cubic-bezier-value.type'
+import type { ColorTokenValue } from '../token-management/color/internal-color-value.type'
+import type { DimensionTokenValue } from '../token-management/dimension/internal-dimension-value.type'
+import type { FontFamilyTokenValue } from '../token-management/font-family/internal-font-family-value.type'
+import type { FontWeightTokenValue } from '../token-management/font-weight/internal-font-weight-value.type'
+import type { CubicBezierTokenValue } from '../token-management/cubic-bezier/internal-cubic-bezier-value.type'
 
 interface StyleDictionaryToken {
 	value: TokenValue<TokenType>
@@ -28,11 +39,34 @@ const buildStyleDictionaryNode = (
 			// caso que estemos recorriendo un token
 			const tokenData = data as StyleDictionaryToken
 			const { value, comment, type } = tokenData
+			let valueTransformed
+			if (type === 'color') {
+				const colorValue = value as ExportColorTokenValue
+				valueTransformed = transformToImportColorValue(
+					colorValue
+				) as ColorTokenValue
+			} else if (type === 'dimension') {
+				const dimensionValue = value as ExportDimensionTokenValue
+				valueTransformed = transformToImportDimensionValue(
+					dimensionValue
+				) as DimensionTokenValue
+			} else if (type === 'fontFamily') {
+				valueTransformed = value as FontFamilyTokenValue
+			} else if (type === 'fontWeight') {
+				valueTransformed = value as FontWeightTokenValue
+			} else if (type === 'cubicBezier') {
+				const [x1, y1, x2, y2] = value as ExportCubicBezierTokenValue
+				valueTransformed = [x1, y1, x2, y2] as CubicBezierTokenValue
+			} else if (type === 'number') {
+				valueTransformed = value as ExportNumberTokenValue
+			} else {
+				valueTransformed = value
+			}
 
 			const token: IToken = {
 				id: uuidv4(),
 				name: key,
-				value,
+				value: valueTransformed,
 				description: comment,
 				type
 			}
