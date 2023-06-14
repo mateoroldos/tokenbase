@@ -9,9 +9,7 @@
 		const target = input.target as HTMLInputElement
 		const name = target.name
 
-		res = dimensionSuite(target.value, 'dimension')
-		console.log(target.value)
-		console.log(res.isValid('dimension'))
+		res = dimensionSuite(target.value, name)
 	}
 
 	let res = dimensionSuite.get()

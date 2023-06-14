@@ -19,7 +19,6 @@
 		const target = input.target as HTMLInputElement
 
 		res = colorSuite(target.value, 'color')
-		console.log(res.isValid('color'))
 	}
 
 	let res = suite.get()

@@ -9,9 +9,7 @@
 		const target = input.target as HTMLInputElement
 		const name = target.name
 
-		res = durationSuite(target.value, 'duration')
-		console.log(target.value)
-		console.log(res.getErrors('duration'))
+		res = durationSuite(target.value, name)
 	}
 
 	let res = durationSuite.get()

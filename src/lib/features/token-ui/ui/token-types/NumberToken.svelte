@@ -9,8 +9,7 @@
 		const target = input.target as HTMLInputElement
 		const name = target.name
 
-		res = numberSuite(target.value, 'numberToken')
-		console.log(res.isValid('numberToken'))
+		res = numberSuite(target.value, name)
 	}
 
 	let res = numberSuite.get()

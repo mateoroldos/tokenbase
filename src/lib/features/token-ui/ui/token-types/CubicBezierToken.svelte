@@ -9,26 +9,8 @@
 		const target = input.target as HTMLInputElement
 		const name = target.name
 
-		switch (name) {
-			case 'p1x':
-				res = cubicBezierSuite(target.value, 'p1x')
-				console.log(res.isValid('p1x'))
-				break
-			case 'p1y':
-				res = cubicBezierSuite(target.value, 'p1y')
-				console.log(res.isValid('p1y'))
-				break
-			case 'p2x':
-				res = cubicBezierSuite(target.value, 'p2x')
-				console.log(res.isValid('p2x'))
-				break
-			case 'p2y':
-				res = cubicBezierSuite(target.value, 'p2y')
-				console.log(res.isValid('p2y'))
-				break
-			default:
-				console.log('Invalid input name')
-		}
+		res = cubicBezierSuite(target.value, name)
+		console.log(target.value, name)
 	}
 
 	let res = cubicBezierSuite.get()

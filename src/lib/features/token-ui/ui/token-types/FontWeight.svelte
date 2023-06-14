@@ -5,12 +5,11 @@
 
 	export let token: IToken<'fontWeight'>
 
-	let messages: string[] = []
 	const handleChange = (input: Event) => {
 		const target = input.target as HTMLInputElement
+		const name = target.name
 
-		res = fontWeightSuite(target.value, 'fontWeight')
-		messages = res.getErrors('fontWeight')
+		res = fontWeightSuite(target.value, name)
 	}
 
 	let res = fontWeightSuite.get()
@@ -18,8 +17,8 @@
 
 <InputWrapper
 	name="fontWeight"
-	errors={messages}
-	isValid={!messages || messages.length === 0}
+	errors={res.getErrors('fontWeight')}
+	isValid={res.isValid('fontWeight')}
 >
 	<input
 		class="w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1"

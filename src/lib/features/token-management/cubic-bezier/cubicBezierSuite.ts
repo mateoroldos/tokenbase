@@ -8,14 +8,17 @@ const cubicBezierSuite = create((data = {}, currentField) => {
 		enforce(data).isBetween(0, 1.1)
 		enforce(data).isNotBlank()
 	})
+
 	test('p2x', 'Must be less than 1', () => {
 		enforce(data).isBetween(0, 1.1)
 		enforce(data).isNotBlank()
 	})
+
 	test('p1y', 'Must be a number', () => {
 		enforce(data).isNumber
 		enforce(data).isNotBlank()
 	})
+
 	test('p2y', 'Must be a number', () => {
 		enforce(data).isNumber
 		enforce(data).isNotBlank()
