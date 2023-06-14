@@ -10,7 +10,6 @@
 		const name = target.name
 
 		res = cubicBezierSuite(target.value, name)
-		console.log(target.value, name)
 	}
 
 	let res = cubicBezierSuite.get()
