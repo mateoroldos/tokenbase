@@ -1,3 +1,11 @@
+import type { CubicBezierTokenValue } from '../../token-management/cubic-bezier/internal-cubic-bezier-value.type'
+import type { ColorTokenValue } from '../../token-management/color/internal-color-value.type'
+import type { DimensionTokenValue } from '../../token-management/dimension/internal-dimension-value.type'
+import type { NumberTokenValue } from '../../token-management/number/internal-number-value.type'
+import type { DurationTokenValue } from '../../token-management/duration/internal-duration.value.type'
+import type { FontFamilyTokenValue } from '../../token-management/font-family/internal-font-family-value.type'
+import type { FontWeightTokenValue } from '../../token-management/font-weight/internal-font-weight-value.type'
+
 export interface IToken<T = TokenType> {
 	id: string
 	name: string | undefined
@@ -22,20 +30,17 @@ export type TokenType =
 	| 'number'
 
 export type TokenValue<T = TokenType> = T extends 'color'
-	? [number, number, number]
+	? ColorTokenValue
 	: T extends 'dimension'
-	? {
-			value: number
-			unit: 'px' | 'rem'
-	  }
+	? DimensionTokenValue
 	: T extends 'fontFamily'
-	? string[]
+	? FontFamilyTokenValue
 	: T extends 'fontWeight'
-	? string | number
+	? FontWeightTokenValue
 	: T extends 'duration'
-	? number
+	? DurationTokenValue
 	: T extends 'cubicBezier'
-	? [number, number, number, number]
+	? CubicBezierTokenValue
 	: T extends 'number'
-	? number
+	? NumberTokenValue
 	: never

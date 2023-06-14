@@ -2,18 +2,20 @@
 	import { fly } from 'svelte/transition'
 	import type { createTokensGroupStore } from '$lib/features/token-groups-store/tokensGroup'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
-	import tokenTypesArray from '$lib/utils/tokenTypesArray'
 	import Icon from '@iconify/svelte'
 	import { getContext, onMount } from 'svelte'
 	import { getDefaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import TokenTypeSelect from '../atoms/TokenTypeSelect.svelte'
+	import InputWrapper from '$lib/components/InputWrapper.svelte'
+	import descriptionSuite from '../generic-validations/descriptionSuite'
 
 	export let token: IToken
 	export let draggedTokenId: string | null
 
 	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
 		getContext('designTokensGroupStore')
+
 	const selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
 		getContext('selectedTokensStore')
 
@@ -42,6 +44,14 @@
 			token.name = 'Untitled'
 		}
 	}
+
+	const handleChange = (input: Event) => {
+		const target = input.target as HTMLInputElement
+
+		res = descriptionSuite(target.value, 'description')
+	}
+
+	let res = descriptionSuite.get()
 
 	onMount(() => {
 		if (token.name === undefined) {
@@ -91,11 +101,20 @@
 				bind:value={token.name}
 				on:focusout={handleUnselectNameInput}
 			/>
-			<input
-				bind:value={token.description}
-				placeholder="Description"
-				class="w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
-			/>
+			<div>
+				<InputWrapper
+					name="description"
+					errors={res.getErrors('description')}
+					isValid={res.isValid('description')}
+				>
+					<input
+						bind:value={token.description}
+						on:input={handleChange}
+						placeholder="Description"
+						class="w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
+					/></InputWrapper
+				>
+			</div>
 		</div>
 	</div>
 	<slot />

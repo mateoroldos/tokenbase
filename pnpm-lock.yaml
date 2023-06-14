@@ -1,5 +1,10 @@
 lockfileVersion: '6.0'
 
+dependencies:
+  vest:
+    specifier: ^4.6.11
+    version: 4.6.11
+
 devDependencies:
   '@iconify/svelte':
     specifier: ^3.1.3
@@ -1100,6 +1105,12 @@ packages:
     resolution: {integrity: sha512-xFxOwqIzR/e1k1gLiWEophSCMqXcwVHIH7akf7b/vxcUeGunlj3hvZaaqxwHsTgn+IndtkQJgSztIDWeumWJDQ==}
     dev: true
 
+  /context@3.0.7:
+    resolution: {integrity: sha512-ceW8mQwFhOin5ih5Sm6jq9mju7+p/usZFkf+PwNPXcpARplz1eAE4PB0V90Os/STyd1387Gu4C8I5Jmy3wDoIA==}
+    dependencies:
+      vest-utils: 0.1.1
+    dev: false
+
   /cookie@0.5.0:
     resolution: {integrity: sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==}
     engines: {node: '>= 0.6'}
@@ -2075,6 +2086,13 @@ packages:
       object-assign: 4.1.1
       thenify-all: 1.6.0
     dev: true
+
+  /n4s@4.3.7:
+    resolution: {integrity: sha512-uzm6CL9cBMHaB/YuGBHRDRa6RuvpZ/xXgyoWgVS/+8/E0zQC3IyZVnIOPCOavCs/UOm4zomn99T4ng9HWcL7Cw==}
+    dependencies:
+      context: 3.0.7
+      vest-utils: 0.1.1
+    dev: false
 
   /nanoid@3.3.6:
     resolution: {integrity: sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==}
@@ -3144,6 +3162,25 @@ packages:
     resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
     hasBin: true
     dev: true
+
+  /vast@1.0.17:
+    resolution: {integrity: sha512-D2fZtQp8RfZ8WMfzC0izcrrmOsZ8Dmc4B57G/J3z4wCAuvAZskyPOXBKLR5QRoQ4nb7doB/ueihEMnpDcXl7JA==}
+    dependencies:
+      vest-utils: 0.1.1
+    dev: false
+
+  /vest-utils@0.1.1:
+    resolution: {integrity: sha512-dsH4zt4IsBvDY3BhUo6mNgwN9WVIfUP8jwBp2XEZQAq7XYAuVQnGTCrdF8+/OtoP141jCxMppXYpO4xbMWYwhA==}
+    dev: false
+
+  /vest@4.6.11:
+    resolution: {integrity: sha512-2C2PfDselDX5cgaxZmp4v1IaAhnGzlSkuQSSYIsOac3TW1+N6QFHoUx2n5qkLpe0thJLZjEWT4fM4anQSSjP2Q==}
+    dependencies:
+      context: 3.0.7
+      n4s: 4.3.7
+      vast: 1.0.17
+      vest-utils: 0.1.1
+    dev: false
 
   /vite-plugin-node-polyfills@0.8.2(vite@4.0.4):
     resolution: {integrity: sha512-amOUVWwNvcuKxfWM9vpS8sAqvew28KXyR597OHO7BXWJFxr+QX4qB3XTDhWoRivj89TIZe4JTJTZwBHtIJ3ygQ==}
