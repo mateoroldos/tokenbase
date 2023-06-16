@@ -15,7 +15,10 @@
 
 	export let token: IToken<'color'>
 
+	$: isAlias = token.alias !== undefined
+
 	const handleChange = (input: Event) => {
+		if (isAlias) return
 		const target = input.target as HTMLInputElement
 
 		res = colorSuite(target.value, 'color')
@@ -31,6 +34,7 @@
 	$: hex = Color(argb).hex()
 
 	const handleHexChange = (e: Event) => {
+		if (isAlias) return
 		const target = e.target as HTMLInputElement
 		const value = target.value
 
@@ -74,6 +78,7 @@
 			name="color"
 			class="w-20 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
 			type="text"
+			{...isAlias ? { disabled: true } : {}}
 			on:focusout={handleHexChange}
 			on:input={handleChange}
 			bind:this={hexInput}
@@ -89,6 +94,7 @@
 			<input
 				type="number"
 				class="w-14 rounded-md border border-gray-300 px-1 text-xs"
+				{...isAlias ? { disabled: true } : {}}
 				bind:value={token.value[0]}
 			/>
 		</div>
@@ -111,6 +117,7 @@
 			<input
 				type="number"
 				class="w-14 rounded-md border border-gray-300 px-1 text-xs"
+				{...isAlias ? { disabled: true } : {}}
 				bind:value={token.value[1]}
 			/>
 		</div>
@@ -133,6 +140,7 @@
 			<input
 				type="number"
 				class="w-14 rounded-md border border-gray-300 px-1 text-xs"
+				{...isAlias ? { disabled: true } : {}}
 				bind:value={token.value[2]}
 			/>
 		</div>

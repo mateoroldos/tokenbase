@@ -5,7 +5,10 @@
 
 	export let token: IToken<'dimension'>
 
+	$: isAlias = token.alias !== undefined
+
 	const handleChange = (input: Event) => {
+		if (isAlias) return
 		const target = input.target as HTMLInputElement
 		const name = target.name
 
@@ -28,6 +31,7 @@
 				name="dimension"
 				class="w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
 				type="number"
+				{...isAlias ? { disabled: true } : {}}
 				on:input={handleChange}
 				bind:value={token.value.value}
 			/>
@@ -36,6 +40,7 @@
 	<div>
 		<select
 			class="w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
+			{...isAlias ? { disabled: true } : {}}
 			bind:value={token.value.unit}
 		>
 			{#each options as option}

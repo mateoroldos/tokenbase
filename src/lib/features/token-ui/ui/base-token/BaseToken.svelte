@@ -16,6 +16,8 @@
 	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
 		getContext('designTokensGroupStore')
 
+	console.log($designTokensGroupStore)
+
 	const selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
 		getContext('selectedTokensStore')
 
@@ -52,6 +54,19 @@
 	}
 
 	let res = descriptionSuite.get()
+
+	let showTokenList = false
+
+	const toggleTokenList = () => {
+		showTokenList = !showTokenList
+	}
+
+	const updateTokenValue = (groupId, tokenId) => {
+		token.alias = {
+			groupId,
+			tokenId
+		}
+	}
 
 	onMount(() => {
 		if (token.name === undefined) {
@@ -115,7 +130,25 @@
 					/></InputWrapper
 				>
 			</div>
+			<button on:click={toggleTokenList}>
+				<Icon icon="tabler:plus" />
+			</button>
 		</div>
+		{#if showTokenList}
+			<div class="token-list">
+				{#each $designTokensGroupStore as group}
+					{#if group.tokens.length > 0}
+						{#each group.tokens as t}
+							<div>
+								<button on:click={() => updateTokenValue(group.id, t.id)}
+									>{t.name}</button
+								>
+							</div>
+						{/each}
+					{/if}
+				{/each}
+			</div>
+		{/if}
 	</div>
 	<slot />
 	<div class="w-3">
