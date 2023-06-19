@@ -16,8 +16,6 @@
 	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
 		getContext('designTokensGroupStore')
 
-	console.log($designTokensGroupStore)
-
 	const selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
 		getContext('selectedTokensStore')
 
@@ -61,7 +59,7 @@
 		showTokenList = !showTokenList
 	}
 
-	const updateTokenValue = (groupId, tokenId) => {
+	const createTokenAlias = (groupId, tokenId) => {
 		token.alias = {
 			groupId,
 			tokenId
@@ -140,7 +138,7 @@
 					{#if group.tokens.length > 0}
 						{#each group.tokens as t}
 							<div>
-								<button on:click={() => updateTokenValue(group.id, t.id)}
+								<button on:click={() => createTokenAlias(group.id, t.id)}
 									>{t.name}</button
 								>
 							</div>

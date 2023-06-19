@@ -10,28 +10,13 @@
 	import FontWeight from './token-types/FontWeight.svelte'
 	import type { createTokensGroupStore } from '$lib/features/token-groups-store/tokensGroup'
 	import { getContext } from 'svelte'
-	import Icon from '@iconify/svelte'
+	import findTokenById from '$lib/utils/findTokenById'
 
 	export let token: IToken
 	export let draggedTokenId: string | null
 
 	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
 		getContext('designTokensGroupStore')
-
-	const findTokenById = (tokenId: string): IToken | undefined => {
-		const groups = $designTokensGroupStore
-		let foundToken: IToken | undefined = undefined
-
-		for (const group of groups) {
-			const token = group.tokens.find((token) => token.id === tokenId)
-			if (token) {
-				foundToken = token
-				break
-			}
-		}
-
-		return foundToken
-	}
 
 	// Function to remove the token.alias property
 	const removeAlias = () => {
@@ -42,8 +27,8 @@
 	$: if (token.alias && token.alias !== undefined) {
 		token = {
 			...token,
-			type: findTokenById(token.alias.tokenId)?.type,
-			value: findTokenById(token.alias.tokenId)?.value
+			type: findTokenById(token.alias.tokenId, $designTokensGroupStore)?.type,
+			value: findTokenById(token.alias.tokenId, $designTokensGroupStore)?.value
 		}
 	}
 </script>
