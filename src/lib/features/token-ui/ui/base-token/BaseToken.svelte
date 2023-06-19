@@ -53,6 +53,19 @@
 
 	let res = descriptionSuite.get()
 
+	let showTokenList = false
+
+	const toggleTokenList = () => {
+		showTokenList = !showTokenList
+	}
+
+	const createTokenAlias = (groupId, tokenId) => {
+		token.alias = {
+			groupId,
+			tokenId
+		}
+	}
+
 	onMount(() => {
 		if (token.name === undefined) {
 			const input = document.getElementById(
@@ -115,7 +128,25 @@
 					/></InputWrapper
 				>
 			</div>
+			<button on:click={toggleTokenList}>
+				<Icon icon="tabler:plus" />
+			</button>
 		</div>
+		{#if showTokenList}
+			<div class="token-list">
+				{#each $designTokensGroupStore as group}
+					{#if group.tokens.length > 0}
+						{#each group.tokens as t}
+							<div>
+								<button on:click={() => createTokenAlias(group.id, t.id)}
+									>{t.name}</button
+								>
+							</div>
+						{/each}
+					{/if}
+				{/each}
+			</div>
+		{/if}
 	</div>
 	<slot />
 	<div class="w-3">

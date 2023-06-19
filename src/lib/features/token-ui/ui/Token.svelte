@@ -8,12 +8,35 @@
 	import FontFamilyToken from './token-types/FontFamilyToken.svelte'
 	import NumberToken from './token-types/NumberToken.svelte'
 	import FontWeight from './token-types/FontWeight.svelte'
+	import type { createTokensGroupStore } from '$lib/features/token-groups-store/tokensGroup'
+	import { getContext } from 'svelte'
+	import findTokenById from '$lib/utils/findTokenById'
 
 	export let token: IToken
 	export let draggedTokenId: string | null
+
+	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
+		getContext('designTokensGroupStore')
+
+	// Function to remove the token.alias property
+	const removeAlias = () => {
+		token = JSON.parse(JSON.stringify(token))
+		token.alias = undefined
+	}
+
+	$: if (token.alias && token.alias !== undefined) {
+		token = {
+			...token,
+			type: findTokenById(token.alias.tokenId, $designTokensGroupStore)?.type,
+			value: findTokenById(token.alias.tokenId, $designTokensGroupStore)?.value
+		}
+	}
 </script>
 
 <BaseToken bind:token bind:draggedTokenId on:dragstart on:dragenter on:dragend>
+	{#if token.alias}
+		<button on:click={removeAlias}>Remove Alias</button>
+	{/if}
 	{#if token.type === 'color' && Array.isArray(token.value) && token.value.length === 3}
 		<ColorToken bind:token on:colorChange />
 	{:else if token.type === 'fontFamily' && Array.isArray(token.value)}

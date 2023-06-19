@@ -5,7 +5,11 @@
 
 	export let token: IToken<'number'>
 
+	$: isAlias = token.alias !== undefined
+
 	const handleChange = (input: Event) => {
+		if (isAlias) return
+
 		const target = input.target as HTMLInputElement
 		const name = target.name
 
@@ -16,6 +20,7 @@
 </script>
 
 <div>
+	{token.value}
 	<InputWrapper
 		name="numberToken"
 		errors={res.getErrors('numberToken')}
@@ -25,6 +30,7 @@
 			class="border border-solid border-black"
 			type="number"
 			name="numberToken"
+			{...isAlias ? { disabled: true } : {}}
 			bind:value={token.value}
 			on:input={handleChange}
 		/>

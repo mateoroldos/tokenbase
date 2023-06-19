@@ -10,8 +10,13 @@ export interface IToken<T = TokenType> {
 	id: string
 	name: string | undefined
 	description?: string
-	value: TokenValue<T>
-	type: T
+	value?: TokenValue<T>
+	type?: T
+
+	alias?: {
+		groupId: string
+		tokenId: string
+	}
 }
 
 export interface DefaultToken<T = TokenType> {
