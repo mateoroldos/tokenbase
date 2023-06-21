@@ -39,9 +39,17 @@
 		"trpc-svelte-query": "^0.0.2",
 		"typescript": "~4.9.5",
 		"uuid": "^9.0.0",
+		"vest": "^4.6.11",
 		"vite": "^4.0.4",
 		"vite-plugin-node-polyfills": "^0.8.2",
-		"zod": "^3.20.2",
-		"vest": "^4.6.11"
+		"zod": "^3.20.2"
+	},
+	"dependencies": {
+		"class-variance-authority": "^0.6.0",
+		"clsx": "^1.2.1",
+		"lucide-svelte": "^0.246.0",
+		"radix-svelte": "^0.7.1",
+		"tailwind-merge": "^1.13.2",
+		"tailwindcss-animate": "^1.0.6"
 	}
 }

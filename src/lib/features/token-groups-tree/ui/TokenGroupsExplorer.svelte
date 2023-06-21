@@ -8,6 +8,8 @@
 	import tokenBaseMainStore from '$lib/features/token-groups-store/tokenbase-main-store'
 	import DesignSystemExplorer from './atoms/DesignSystemExplorer.svelte'
 	import { onMount } from 'svelte'
+	import Button from '$components/ui/button/Button.svelte'
+	import { ArrowRightFromLine } from 'lucide-svelte'
 
 	onMount(() => {
 		const addDefaultGroup = () => {
@@ -58,12 +60,9 @@
 		</button>
 	</div>
 	<div class="flex flex-col gap-3">
-		<a
-			class="flex flex-row items-center justify-center gap-2 rounded-md bg-black px-4 py-1 text-white"
-			href={`/${groupId}/export`}
-		>
-			<Icon icon="tabler:package-export" />
+		<Button href={`/${groupId}/export`}>
+			<ArrowRightFromLine class="mr-2 h-4 w-4" />
 			Export
-		</a>
+		</Button>
 	</div>
 </div>

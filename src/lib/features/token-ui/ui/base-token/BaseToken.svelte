@@ -9,6 +9,7 @@
 	import TokenTypeSelect from '../atoms/TokenTypeSelect.svelte'
 	import InputWrapper from '$lib/components/InputWrapper.svelte'
 	import descriptionSuite from '../generic-validations/descriptionSuite'
+	import { Checkbox } from '$components/ui/checkbox'
 
 	export let token: IToken
 	export let draggedTokenId: string | null
@@ -22,6 +23,12 @@
 	let hover = false
 	let selected: boolean = $selectedTokensStore.includes(token) || false
 
+	$: if (selected) {
+		selectedTokensStore.addToken(token)
+	} else if (!selected) {
+		selectedTokensStore.removeToken(token)
+	}
+
 	const handleTokenTypeChange = () => {
 		token.value = getDefaultTokenValues(token.type)
 	}
@@ -29,14 +36,6 @@
 	const handleDeleteToken = () => {
 		selectedTokensStore.removeToken(token)
 		designTokensGroupStore.deleteToken(token.id)
-	}
-
-	const handleSelectTokenChange = () => {
-		if (selected) {
-			selectedTokensStore.addToken(token)
-		} else {
-			selectedTokensStore.removeToken(token)
-		}
 	}
 
 	const handleUnselectNameInput = () => {
@@ -59,7 +58,7 @@
 		showTokenList = !showTokenList
 	}
 
-	const createTokenAlias = (groupId, tokenId) => {
+	const createTokenAlias = (groupId: string, tokenId: string) => {
 		token.alias = {
 			groupId,
 			tokenId
@@ -95,11 +94,7 @@
 				{/if}
 			</div>
 			{#if hover || selected}
-				<input
-					type="checkbox"
-					bind:checked={selected}
-					on:change={handleSelectTokenChange}
-				/>
+				<Checkbox bind:checked={selected} />
 			{/if}
 		</div>
 		<div class="flex flex-row gap-1">

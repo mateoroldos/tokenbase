@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../app.css'
+	import '../app.postcss'
 	import TokenGroupsExplorer from '$lib/features/token-groups-tree/ui/TokenGroupsExplorer.svelte'
 	import { setContext } from 'svelte'
 	import designTokensGroupStore from '$lib/features/token-groups-store/tokensGroup'

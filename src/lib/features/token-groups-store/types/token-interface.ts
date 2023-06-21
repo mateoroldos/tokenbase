@@ -11,7 +11,7 @@ export interface IToken<T = TokenType> {
 	name: string | undefined
 	description?: string
 	value?: TokenValue<T>
-	type?: T
+	type: T
 
 	alias?: {
 		groupId: string
