@@ -37,19 +37,19 @@
 	{#if token.alias}
 		<button on:click={removeAlias}>Remove Alias</button>
 	{/if}
-	{#if token.type === 'color' && Array.isArray(token.value) && token.value.length === 3}
+	{#if token.type === 'color'}
 		<ColorToken bind:token on:colorChange />
-	{:else if token.type === 'fontFamily' && Array.isArray(token.value)}
+	{:else if token.type === 'fontFamily'}
 		<FontFamilyToken bind:token />
-	{:else if token.type === 'dimension' && typeof token.value === 'object'}
+	{:else if token.type === 'dimension'}
 		<DimensionToken bind:token />
-	{:else if token.type === 'duration' && typeof token.value === 'number'}
+	{:else if token.type === 'duration'}
 		<DurationToken bind:token />
-	{:else if token.type === 'number' && typeof token.value === 'number'}
+	{:else if token.type === 'number'}
 		<NumberToken bind:token />
-	{:else if (token.type === 'fontWeight' && typeof token.value === 'string') || typeof token.value === 'number'}
+	{:else if token.type === 'fontWeight'}
 		<FontWeight bind:token />
-	{:else if token.type === 'cubicBezier' && Array.isArray(token.value) && token.value.length === 4}
+	{:else if token.type === 'cubicBezier'}
 		<CubicBezierToken bind:token />
 	{/if}
 </BaseToken>
