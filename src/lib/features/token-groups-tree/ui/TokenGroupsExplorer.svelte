@@ -5,7 +5,7 @@
 	import { goto } from '$app/navigation'
 	import Icon from '@iconify/svelte'
 	import { page } from '$app/stores'
-	import tokenBaseMainStore from '$lib/features/token-groups-store/tokenbase-main-store'
+	import tokenBaseMainStore from '$lib/features/token-groups-store/tokenbaseMainStore'
 	import DesignSystemExplorer from './atoms/DesignSystemExplorer.svelte'
 	import { onMount } from 'svelte'
 	import Button from '$components/ui/button/Button.svelte'
@@ -46,7 +46,7 @@
 	class="flex flex-col justify-between border-r border-solid bg-gray-200 px-8 py-7"
 >
 	<div class="flex flex-col gap-3">
-		<h1 class="text-lg font-bold">Tokenbase</h1>
+		<a href="/" class="text-lg font-bold">Tokenbase</a>
 		<DesignSystemExplorer />
 		{#each tree.children as node}
 			<GroupItem {node} />

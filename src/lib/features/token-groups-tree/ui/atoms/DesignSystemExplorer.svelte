@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { createDesignSystemsDataStore } from '$lib/features/token-groups-store/tokenbase-main-store'
+	import type { createDesignSystemsDataStore } from '$lib/features/token-groups-store/tokenbaseMainStore'
 	import { v4 as uuidv4 } from 'uuid'
 	import { getContext } from 'svelte'
 	import designTokensGroupStore from '$lib/features/token-groups-store/tokensGroup'
