@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
+	import { each } from 'svelte/internal'
 
 	export let token: IToken<'fontFamily'>
 
@@ -8,8 +9,10 @@
 	}
 
 	function removeInput(index: number) {
-		token.value = token.value.filter((_, i) => i !== index)
+		token.value.splice(index, 1)
+		token.value = [...token.value]
 	}
+	console.log(token.value)
 </script>
 
 <div class="flex flex-col gap-4">
@@ -18,14 +21,13 @@
 			<input
 				class="mr-2 w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
 				type="text"
-				bind:value={value[i]}
+				bind:value
 			/>
-			{#if i === value.length - 1}
-				<button class="mr-2" on:click={addInput}>+</button>
-			{/if}
-			{#if value.length > 1}
-				<button class="mr-2" on:click={() => removeInput(i)}>X</button>
-			{/if}
+
+			<button class="ml-2 self-center" on:click={() => removeInput(i)}>X</button
+			>
 		</div>
 	{/each}
+
+	<button class="mr-2" on:click={addInput}>+</button>
 </div>
