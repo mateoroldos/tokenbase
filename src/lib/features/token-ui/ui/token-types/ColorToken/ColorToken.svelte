@@ -103,6 +103,7 @@
 			max={360}
 			id={`${token.id}-hue-range`}
 			background={hueBackground}
+			{...isAlias ? { disabled: true } : {}}
 			bind:value={token.value[0]}
 			on:change={(e) =>
 				dispatch('colorChange', {
@@ -126,6 +127,7 @@
 			max={100}
 			id={`${token.id}-chroma-range`}
 			background={chromaBackground}
+			{...isAlias ? { disabled: true } : {}}
 			bind:value={token.value[1]}
 			on:change={(e) =>
 				dispatch('colorChange', {
@@ -149,6 +151,7 @@
 			max={100}
 			id={`${token.id}-saturation-range`}
 			background={toneBackground}
+			{...isAlias ? { disabled: true } : {}}
 			bind:value={token.value[2]}
 			on:change={(e) =>
 				dispatch('colorChange', {

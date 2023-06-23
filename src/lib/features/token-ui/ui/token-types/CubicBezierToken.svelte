@@ -5,6 +5,8 @@
 
 	export let token: IToken<'cubicBezier'>
 
+	$: isAlias = token.alias !== undefined
+
 	const handleChange = (input: Event) => {
 		const target = input.target as HTMLInputElement
 		const name = target.name
@@ -25,6 +27,7 @@
 			name="p1x"
 			class="w-20 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
 			type="number"
+			{...isAlias ? { disabled: true } : {}}
 			bind:value={token.value[0]}
 			on:input={handleChange}
 			min="0"
@@ -44,6 +47,7 @@
 			class="w-20 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
 			type="number"
 			size="1"
+			{...isAlias ? { disabled: true } : {}}
 			on:input={handleChange}
 			bind:value={token.value[1]}
 		/>p1y
@@ -59,6 +63,7 @@
 			name="p2x"
 			class="w-20 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
 			type="number"
+			{...isAlias ? { disabled: true } : {}}
 			on:input={handleChange}
 			bind:value={token.value[2]}
 		/>p2x
@@ -74,6 +79,7 @@
 			name="p2y"
 			class="w-20 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
 			type="number"
+			{...isAlias ? { disabled: true } : {}}
 			on:input={handleChange}
 			bind:value={token.value[3]}
 			min="0"
