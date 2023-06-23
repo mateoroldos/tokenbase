@@ -3,6 +3,8 @@
 
 	export let token: IToken<'fontFamily'>
 
+	$: isAlias = token.alias !== undefined
+
 	function addInput() {
 		token.value = [...token.value, '']
 	}
@@ -18,6 +20,7 @@
 			<input
 				class="mr-2 w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
 				type="text"
+				{...isAlias ? { disabled: true } : {}}
 				bind:value={value[i]}
 			/>
 			{#if i === value.length - 1}
