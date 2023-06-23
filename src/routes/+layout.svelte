@@ -1,6 +1,5 @@
 <script lang="ts">
 	import '../app.postcss'
-	import TokenGroupsExplorer from '$lib/features/token-groups-tree/ui/TokenGroupsExplorer.svelte'
 	import { setContext } from 'svelte'
 	import designTokensGroupStore from '$lib/features/token-groups-store/tokensGroup'
 	import selectedTokensStore from '$lib/features/select-tokens/selectedTokensStore'
@@ -14,7 +13,4 @@
 	$: if ($navigating) selectedTokensStore.clearTokens()
 </script>
 
-<main class="grid min-h-screen grid-cols-[250px_1fr] bg-gray-100">
-	<TokenGroupsExplorer />
-	<slot />
-</main>
+<slot />

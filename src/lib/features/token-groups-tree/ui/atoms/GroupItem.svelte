@@ -49,7 +49,9 @@
 			>
 				<Icon icon="tabler:chevron-right" />
 			</div>
-			<a class:text-black={isActive} href={`/${node.group.id}`}
+			<a
+				class:text-black={isActive}
+				href={`/${$page.params.designSystemId}/${node.group.id}`}
 				>{node.group.name}</a
 			>
 		</div>

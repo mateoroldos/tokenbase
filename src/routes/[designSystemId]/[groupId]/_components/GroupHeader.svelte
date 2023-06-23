@@ -8,9 +8,18 @@
 	import mockTemplate from '$lib/features/import-style-dictionary/templates/mockTemplate.json'
 	import importStyleDictionary from '$lib/features/import-style-dictionary/importStyleDictionary'
 	import Button from '$lib/components/Button.svelte'
+	import Input from '$components/ui/input/Input.svelte'
+	import type { createDesignSystemsDataStore } from '$lib/features/token-groups-store/tokenbaseMainStore'
 
 	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
 		getContext('designTokensGroupStore')
+	const tokenBaseMainStore: ReturnType<typeof createDesignSystemsDataStore> =
+		getContext('tokenBaseMainStore')
+
+	$: activeDesignSystemIndex = $tokenBaseMainStore.designSystems.findIndex(
+		(designSystem) =>
+			designSystem.id === $tokenBaseMainStore.activeDesignSystemRootId
+	)
 
 	$: groupId = $page.params.groupId as string
 	$: groupIndex = $designTokensGroupStore.findIndex(
@@ -85,16 +94,27 @@
 </script>
 
 <div
-	class="border-b-1 flex flex-row justify-between border-b border-solid px-8 py-3"
+	class="border-b-1 flex flex-row items-center justify-between border-b border-solid px-8 py-3"
 >
-	<input
-		type="text"
-		placeholder="Untitled"
-		id="group-name"
-		class="bg-transparent px-1 text-xl font-medium"
-		bind:value={$designTokensGroupStore[groupIndex].name}
-		on:focusout={handleUnselectNameInput}
-	/>
+	<div class="flex flex-row items-center">
+		<Input
+			type="text"
+			placeholder="Untitled"
+			class="w-min border-none px-1 text-xl font-medium"
+			bind:value={$tokenBaseMainStore.designSystems[activeDesignSystemIndex]
+				.name}
+			on:focusout={handleUnselectNameInput}
+		/>
+		<span class="text-xl font-medium"> / </span>
+		<Input
+			type="text"
+			placeholder="Untitled"
+			class="w-fit border-none px-1 text-xl font-medium"
+			id="group-name"
+			bind:value={$designTokensGroupStore[groupIndex].name}
+			on:focusout={handleUnselectNameInput}
+		/>
+	</div>
 	<div class="flex flex-row gap-3">
 		{#if $designTokensGroupStore[groupIndex].tokens.length == 0}
 			<button
