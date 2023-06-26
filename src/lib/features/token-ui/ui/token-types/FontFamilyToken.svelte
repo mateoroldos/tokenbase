@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
-	import { each } from 'svelte/internal'
 
 	export let token: IToken<'fontFamily'>
 
@@ -12,7 +11,6 @@
 		token.value.splice(index, 1)
 		token.value = [...token.value]
 	}
-	console.log(token.value)
 </script>
 
 <div class="flex flex-col gap-4">
