@@ -20,14 +20,13 @@
 </script>
 
 <div>
-	{token.value}
 	<InputWrapper
 		name="numberToken"
 		errors={res.getErrors('numberToken')}
 		isValid={res.isValid('numberToken')}
 	>
 		<input
-			class="border border-solid border-black"
+			class="w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
 			type="number"
 			name="numberToken"
 			{...isAlias ? { disabled: true } : {}}

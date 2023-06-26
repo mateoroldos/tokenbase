@@ -31,7 +31,11 @@
 			$tokenBaseMainStore.activeDesignSystemRootId
 		)
 
-		goto(`/${$designTokensGroupStore[$designTokensGroupStore.length - 1]!.id}`)
+		goto(
+			`/${$page.params.designSystemId}/${
+				$designTokensGroupStore[$designTokensGroupStore.length - 1]!.id
+			}`
+		)
 	}
 
 	$: tree = createTree(
@@ -47,7 +51,7 @@
 >
 	<div class="flex flex-col gap-3">
 		<a href="/" class="text-lg font-bold">Tokenbase</a>
-		<DesignSystemExplorer />
+		<!-- <DesignSystemExplorer /> -->
 		{#each tree.children as node}
 			<GroupItem {node} />
 		{/each}
@@ -60,7 +64,7 @@
 		</button>
 	</div>
 	<div class="flex flex-col gap-3">
-		<Button href={`/${groupId}/export`}>
+		<Button href={`/${$page.params.designSystemId}/export`}>
 			<ArrowRightFromLine class="mr-2 h-4 w-4" />
 			Export
 		</Button>

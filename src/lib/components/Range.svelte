@@ -12,6 +12,7 @@
 	export let prefix: string = ''
 	export let background: string | undefined = undefined
 	export let showTooltip: boolean = false
+	export let disabled: boolean = false
 
 	// Node Bindings
 	let container: HTMLDivElement
@@ -55,26 +56,32 @@
 	}
 
 	function onTrackEvent(e: TouchEvent | MouseEvent) {
-		// Update value immediately before beginning drag
-		updateValueOnEvent(e)
-		onDragStart(e)
+		if (!disabled) {
+			// Update value immediately before beginning drag
+			updateValueOnEvent(e)
+			onDragStart(e)
+		}
 	}
 
 	function onDragStart(e: TouchEvent | MouseEvent) {
-		// If mouse event add a pointer events shield
-		if (e.type === 'mousedown') document.body.append(mouseEventShield)
-		currentThumb = thumb
+		if (!disabled) {
+			// If mouse event add a pointer events shield
+			if (e.type === 'mousedown') document.body.append(mouseEventShield)
+			currentThumb = thumb
+		}
 	}
 
 	function onDragEnd(e: TouchEvent | MouseEvent) {
-		// If using mouse - remove pointer event shield
-		if (e.type === 'mouseup') {
-			if (document.body.contains(mouseEventShield))
-				document.body.removeChild(mouseEventShield)
-			// Needed to check whether thumb and mouse overlap after shield removed
-			if (isMouseInElement(e as MouseEvent, thumb)) thumbHover = true
+		if (!disabled) {
+			if (e.type === 'mouseup') {
+				if (document.body.contains(mouseEventShield))
+					document.body.removeChild(mouseEventShield)
+				// Needed to check whether thumb and mouse overlap after shield removed
+				if (isMouseInElement(e as MouseEvent, thumb)) thumbHover = true
+			}
+			currentThumb = null
 		}
-		currentThumb = null
+		// If using mouse - remove pointer event shield
 	}
 
 	// Check if mouse event cords overlay with an element's area
@@ -88,29 +95,31 @@
 
 	// Accessible keypress handling
 	function onKeyPress(e: KeyboardEvent) {
-		// Max out at +/- 10 to value per event (50 events / 5)
-		// 100 below is to increase the amount of events required to reach max velocity
-		if (keydownAcceleration < 50) keydownAcceleration++
-		let throttled = Math.ceil(keydownAcceleration / 5)
+		if (!disabled) {
+			// Max out at +/- 10 to value per event (50 events / 5)
+			// 100 below is to increase the amount of events required to reach max velocity
+			if (keydownAcceleration < 50) keydownAcceleration++
+			let throttled = Math.ceil(keydownAcceleration / 5)
 
-		if (e.key === 'ArrowUp' || e.key === 'ArrowRight') {
-			if (value + throttled > max || value >= max) {
-				setValue(max)
-			} else {
-				setValue(value + throttled)
+			if (e.key === 'ArrowUp' || e.key === 'ArrowRight') {
+				if (value + throttled > max || value >= max) {
+					setValue(max)
+				} else {
+					setValue(value + throttled)
+				}
 			}
-		}
-		if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') {
-			if (value - throttled < min || value <= min) {
-				setValue(min)
-			} else {
-				setValue(value - throttled)
+			if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') {
+				if (value - throttled < min || value <= min) {
+					setValue(min)
+				} else {
+					setValue(value - throttled)
+				}
 			}
-		}
 
-		// Reset acceleration after 100ms of no events
-		clearTimeout(accelerationTimer)
-		accelerationTimer = setTimeout(() => (keydownAcceleration = 1), 100)
+			// Reset acceleration after 100ms of no events
+			clearTimeout(accelerationTimer)
+			accelerationTimer = setTimeout(() => (keydownAcceleration = 1), 100)
+		}
 	}
 
 	function calculateNewValue(clientX: number) {
