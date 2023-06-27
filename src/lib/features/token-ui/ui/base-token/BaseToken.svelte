@@ -76,7 +76,7 @@
 </script>
 
 <div
-	class="flex flex-row items-center justify-between border-b border-solid border-gray-200 px-3 py-2"
+	class="flex flex-row items-center gap-10 border-b border-solid border-gray-200 px-3 py-2"
 	class:bg-gray-100={draggedTokenId === token.id}
 	on:mouseenter={() => (hover = true)}
 	on:mouseleave={() => (hover = false)}
