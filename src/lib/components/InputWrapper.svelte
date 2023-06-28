@@ -35,7 +35,6 @@
 
 <style lang="scss">
 	.input-wrapper {
-		margin-bottom: 0.5rem;
 		span {
 			font-size: smaller;
 			float: right;
