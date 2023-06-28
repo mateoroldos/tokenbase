@@ -10,6 +10,27 @@
 	import InputWrapper from '$lib/components/InputWrapper.svelte'
 	import descriptionSuite from '../generic-validations/descriptionSuite'
 	import { Checkbox } from '$components/ui/checkbox'
+	import {
+		Dialog,
+		DialogContent,
+		DialogDescription,
+		DialogHeader,
+		DialogTitle,
+		DialogTrigger
+	} from '$components/ui/dialog'
+	import {
+		Tooltip,
+		TooltipContent,
+		TooltipProvider,
+		TooltipTrigger
+	} from '$components/ui/tooltip'
+	import transformToExportColorValue from '$lib/features/token-management/color/transformToExportColorValue'
+	import {
+		Accordion,
+		AccordionContent,
+		AccordionItem,
+		AccordionTrigger
+	} from '$components/ui/accordion'
 
 	export let token: IToken
 	export let draggedTokenId: string | null
@@ -73,6 +94,7 @@
 			input?.select()
 		}
 	})
+	console.log($designTokensGroupStore)
 </script>
 
 <div
@@ -117,24 +139,83 @@
 					class="w-52 items-center rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
 				/>
 			</div>
-			<button on:click={toggleTokenList}>
-				<Icon icon="tabler:plus" />
-			</button>
 		</div>
-		{#if showTokenList}
-			<div class="token-list">
-				{#each $designTokensGroupStore as group}
-					{#if group.tokens.length > 0}
-						{#each group.tokens as t}
-							<div>
-								<button on:click={() => createTokenAlias(group.id, t.id)}
-									>{t.name}</button
-								>
+		{#if !token.alias}
+			<Dialog>
+				<DialogTrigger>
+					<TooltipProvider>
+						<Tooltip>
+							<TooltipTrigger
+								><button on:click={toggleTokenList}>
+									<Icon icon="tabler:link" />
+								</button></TooltipTrigger
+							>
+							<TooltipContent>
+								<p>Create alias</p>
+							</TooltipContent>
+						</Tooltip>
+					</TooltipProvider></DialogTrigger
+				>
+				<DialogContent>
+					<DialogHeader>
+						<DialogDescription>
+							<h3>Select your alias</h3>
+							<div class="flex flex-col gap-6">
+								{#each $designTokensGroupStore as group}
+									{#if group.tokens.length > 0}
+										<div>
+											<div class="flex flex-col gap-4 pb-2">
+												<Accordion type="single" collapsible>
+													<AccordionItem value="item-1">
+														<AccordionTrigger>
+															<h3 class="pb-2 text-base text-black">
+																{group.name}
+															</h3>
+														</AccordionTrigger>
+														<AccordionContent>
+															<div class="flex flex-col gap-2">
+																{#each group.tokens as t}
+																	<div>
+																		<button
+																			class="flex flex-row gap-2"
+																			on:click={() =>
+																				createTokenAlias(group.id, t.id)}
+																		>
+																			<p class="text-black">{t.name}</p>
+																			<p>{t.type}</p>
+
+																			{#if t.type === 'color'}
+																				<div
+																					class="mr-4 h-6 min-w-[1.5rem] rounded border border-gray-400 text-black"
+																					style={`background-color: ${transformToExportColorValue(
+																						t.value
+																					)}`}
+																				/>
+																			{:else if t.type === 'dimension'}
+																				<p class="mr-4 text-gray-400">
+																					{t.value.value}
+																				</p>
+																			{:else}
+																				<p class=" mr-4 text-gray-400">
+																					{t.value}
+																				</p>
+																			{/if}
+																		</button>
+																	</div>
+																{/each}
+															</div>
+														</AccordionContent>
+													</AccordionItem>
+												</Accordion>
+											</div>
+										</div>
+									{/if}
+								{/each}
 							</div>
-						{/each}
-					{/if}
-				{/each}
-			</div>
+						</DialogDescription>
+					</DialogHeader>
+				</DialogContent>
+			</Dialog>
 		{/if}
 	</div>
 	<slot />
