@@ -35,7 +35,6 @@
 			</TooltipContent>
 		</Tooltip>
 	</TooltipProvider>
-
 	<div class="flex flex-col gap-4">
 		{#each token.value as value, i}
 			<div class="flex">
