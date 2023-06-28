@@ -6,7 +6,6 @@
 	import Icon from '@iconify/svelte'
 	import { page } from '$app/stores'
 	import tokenBaseMainStore from '$lib/features/token-groups-store/tokenbaseMainStore'
-	import DesignSystemExplorer from './atoms/DesignSystemExplorer.svelte'
 	import { onMount } from 'svelte'
 	import Button from '$components/ui/button/Button.svelte'
 	import { ArrowRightFromLine } from 'lucide-svelte'
@@ -42,8 +41,6 @@
 		$designTokensGroupStore,
 		$tokenBaseMainStore.activeDesignSystemRootId
 	)
-
-	$: groupId = $page.params.groupId as string
 </script>
 
 <div

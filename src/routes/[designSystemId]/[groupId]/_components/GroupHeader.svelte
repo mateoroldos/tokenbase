@@ -10,6 +10,7 @@
 	import Button from '$lib/components/Button.svelte'
 	import Input from '$components/ui/input/Input.svelte'
 	import type { createDesignSystemsDataStore } from '$lib/features/token-groups-store/tokenbaseMainStore'
+	import Header from '../../_components/Header.svelte'
 
 	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
 		getContext('designTokensGroupStore')
@@ -93,40 +94,11 @@
 	}
 </script>
 
-<div
-	class="border-b-1 flex flex-row items-center justify-between border-b border-solid px-8 py-3"
->
-	<div class="flex flex-row items-center">
-		<Input
-			type="text"
-			placeholder="Untitled"
-			class="w-min border-none px-1 text-xl font-medium"
-			bind:value={$tokenBaseMainStore.designSystems[activeDesignSystemIndex]
-				.name}
-			on:focusout={handleUnselectNameInput}
-		/>
-		<span class="text-xl font-medium"> / </span>
-		<Input
-			type="text"
-			placeholder="Untitled"
-			class="w-fit border-none px-1 text-xl font-medium"
-			id="group-name"
-			bind:value={$designTokensGroupStore[groupIndex].name}
-			on:focusout={handleUnselectNameInput}
-		/>
-	</div>
+<Header>
 	<div class="flex flex-row gap-3">
-		{#if $designTokensGroupStore[groupIndex].tokens.length == 0}
-			<button
-				class="rounded-md bg-blue-300 px-6"
-				on:click={() => handleAddNewTemplate()}>Start From Template</button
-			>
-		{/if}
-
-		<button on:click={handleDeleteGroup}>delete</button>
 		<Button on:click={handleAddToken}>
 			<Icon icon="tabler:plus" />
 			New Token
 		</Button>
 	</div>
-</div>
+</Header>

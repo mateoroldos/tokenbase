@@ -5,7 +5,14 @@
 	let className: string | undefined | null = undefined
 
 	export let value: HTMLInputAttributes['value'] = undefined
+	export let autoWidth = false
 	export { className as class }
+
+	let input: HTMLInputElement
+
+	$: if (autoWidth && input) {
+		input.size = value.length > 0 ? value.length : 7
+	}
 </script>
 
 <input
@@ -14,6 +21,7 @@
 		className
 	)}
 	bind:value
+	bind:this={input}
 	on:blur
 	on:change
 	on:click

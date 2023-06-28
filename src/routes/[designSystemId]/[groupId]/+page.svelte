@@ -51,52 +51,59 @@
 			$selectedTokensStore.length > 1 &&
 			$selectedTokensStore.includes(token)
 		) {
-			const colorTokensToChange = $selectedTokensStore.filter(
-				(tkn) => tkn !== token && token.type === 'color'
+			// const colorTokensToChange =
+
+			console.log(
+				$selectedTokensStore.filter(
+					(tkn) => tkn.id !== token.id && token.type === 'color'
+				)
 			)
 
-			const selectedTokensFromGroupStore = colorTokensToChange.map(
-				(tkn) =>
-					$designTokensGroupStore[groupIndex]?.tokens.find(
-						(token) => token.id === tkn.id
-					) as IToken
-			)
+			// console.log(colorTokensToChange)
 
-			for (
-				let index = 0;
-				index < selectedTokensFromGroupStore.length;
-				index++
-			) {
-				;(selectedTokensFromGroupStore[index] as IToken<'color'>).value[
-					e.detail.valueChanged
-				] =
-					(selectedTokensFromGroupStore[index] as IToken<'color'>).value[
-						e.detail.valueChanged
-					] + e.detail.value
-			}
+			console.log(e)
+			console.log(e.detail.value)
+
+			// const selectedTokensFromGroupStore = colorTokensToChange.map(
+			// 	(tkn) =>
+			// 		$designTokensGroupStore[groupIndex]?.tokens.find(
+			// 			(token) => token.id === tkn.id
+			// 		) as IToken
+			// )
+
+			// console.log(selectedTokensFromGroupStore)
+
+			// for (let index = 0; index < colorTokensToChange.length; index++) {
+			// 	;(colorTokensToChange[index] as IToken<'color'>).value[
+			// 		e.detail.valueChanged
+			// 	] =
+			// 		(colorTokensToChange[index] as IToken<'color'>).value[
+			// 			e.detail.valueChanged
+			// 		] + e.detail.value
+			// }
 		}
 	}
 
-	const findGroupType = () => {
-		if ($designTokensGroupStore[groupIndex]!.tokens.length > 0) {
-			const tokenTypesSet = new Set(
-				$designTokensGroupStore[groupIndex]!.tokens.map((token) => token.type)
-			)
-			const tokenTypesArray = [...tokenTypesSet]
+	// const findGroupType = () => {
+	// 	if ($designTokensGroupStore[groupIndex]!.tokens.length > 0) {
+	// 		const tokenTypesSet = new Set(
+	// 			$designTokensGroupStore[groupIndex]!.tokens.map((token) => token.type)
+	// 		)
+	// 		const tokenTypesArray = [...tokenTypesSet]
 
-			if (tokenTypesArray.length === 1) {
-				return tokenTypesArray[0]
-			} else {
-				return undefined
-			}
-		} else {
-			return undefined
-		}
-	}
+	// 		if (tokenTypesArray.length === 1) {
+	// 			return tokenTypesArray[0]
+	// 		} else {
+	// 			return undefined
+	// 		}
+	// 	} else {
+	// 		return undefined
+	// 	}
+	// }
 
-	onMount(() => {
-		$designTokensGroupStore[groupIndex]!.type = findGroupType()
-	})
+	// onMount(() => {
+	// 	$designTokensGroupStore[groupIndex]!.type = findGroupType()
+	// })
 
 	$: if (
 		$designTokensGroupStore[groupIndex]!.name === undefined ||
@@ -109,6 +116,9 @@
 
 <section class="flex flex-1 flex-col justify-between">
 	<div>
+		{#each $selectedTokensStore as a}
+			{a.id}
+		{/each}
 		<GroupHeader />
 		<div>
 			{#each $designTokensGroupStore[groupIndex].tokens as token (token.id)}
