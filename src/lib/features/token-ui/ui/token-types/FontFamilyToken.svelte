@@ -19,7 +19,7 @@
 	{#each token.value as value, i}
 		<div class="flex">
 			<input
-				class="mr-2 w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
+				class="mr-2 w-40 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
 				type="text"
 				bind:value
 				{...isAlias ? { disabled: true } : {}}

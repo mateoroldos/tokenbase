@@ -24,14 +24,19 @@
 		errors={res.getErrors('duration')}
 		isValid={res.isValid('duration')}
 	>
-		<input
-			name="duration"
-			class="w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
-			type="number"
-			{...isAlias ? { disabled: true } : {}}
-			on:input={handleChange}
-			bind:value={token.value}
-		/>
-		ms
+		<div class="flex flex-row gap-2">
+			<input
+				name="duration"
+				class="w-20 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
+				type="number"
+				{...isAlias ? { disabled: true } : {}}
+				on:input={handleChange}
+				bind:value={token.value}
+			/>
+			<span
+				class=" flex items-center
+			 text-sm">ms</span
+			>
+		</div>
 	</InputWrapper>
 </div>

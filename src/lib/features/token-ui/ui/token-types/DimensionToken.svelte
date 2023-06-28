@@ -21,7 +21,7 @@
 </script>
 
 <div class="flex gap-6">
-	<div>
+	<div class="flex flex-row items-center">
 		<InputWrapper
 			name="dimension"
 			errors={res.getErrors('dimension')}
@@ -29,7 +29,7 @@
 		>
 			<input
 				name="dimension"
-				class="w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
+				class="w-20 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
 				type="number"
 				{...isAlias ? { disabled: true } : {}}
 				on:input={handleChange}
@@ -39,7 +39,7 @@
 	</div>
 	<div>
 		<select
-			class="w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
+			class="w-16 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
 			{...isAlias ? { disabled: true } : {}}
 			bind:value={token.value.unit}
 		>

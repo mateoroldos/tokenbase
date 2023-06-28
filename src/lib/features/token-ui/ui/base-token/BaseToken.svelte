@@ -76,7 +76,7 @@
 </script>
 
 <div
-	class="flex flex-row items-center justify-between border-b border-solid border-gray-200 px-3 py-2"
+	class="flex flex-row items-center gap-2 border-b border-solid border-gray-200 px-3 py-2"
 	class:bg-gray-100={draggedTokenId === token.id}
 	on:mouseenter={() => (hover = true)}
 	on:mouseleave={() => (hover = false)}
@@ -97,31 +97,25 @@
 				<Checkbox bind:checked={selected} />
 			{/if}
 		</div>
-		<div class="flex flex-row gap-1">
+		<div class="flex flex-row gap-2">
 			<TokenTypeSelect
 				bind:value={token.type}
 				on:change={handleTokenTypeChange}
 			/>
 			<input
-				class="px-1 text-sm font-medium"
+				class="rounded-md border-2 border-solid border-gray-200 px-1 text-sm font-medium"
 				id={`${token.id}-name`}
 				placeholder="Untitled"
 				bind:value={token.name}
 				on:focusout={handleUnselectNameInput}
 			/>
-			<div>
-				<InputWrapper
-					name="description"
-					errors={res.getErrors('description')}
-					isValid={res.isValid('description')}
-				>
-					<input
-						bind:value={token.description}
-						on:input={handleChange}
-						placeholder="Description"
-						class="w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
-					/></InputWrapper
-				>
+			<div class="flex flex-row">
+				<input
+					bind:value={token.description}
+					on:input={handleChange}
+					placeholder="Description"
+					class="w-52 items-center rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
+				/>
 			</div>
 			<button on:click={toggleTokenList}>
 				<Icon icon="tabler:plus" />
