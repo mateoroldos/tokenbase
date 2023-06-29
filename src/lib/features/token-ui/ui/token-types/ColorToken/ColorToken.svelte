@@ -17,11 +17,14 @@
 
 	$: isAlias = token.alias !== undefined
 
+	$: isValid = true
+
 	const handleChange = (input: Event) => {
 		if (isAlias) return
 		const target = input.target as HTMLInputElement
 
 		res = colorSuite(target.value, 'color')
+		isValid = res.isValid('color')
 	}
 
 	let res = suite.get()
@@ -67,7 +70,7 @@
 	)
 </script>
 
-<div class="flex flex-1 flex-row items-center gap-4">
+<div class="flex flex-1 flex-row items-center gap-6">
 	<InputWrapper
 		name="color"
 		errors={res.getErrors('color')}
@@ -84,6 +87,7 @@
 			bind:this={hexInput}
 		/>
 	</InputWrapper>
+
 	<div
 		class="h-6 min-w-[1.5rem] border border-gray-400"
 		style={`background-color: ${hex}`}

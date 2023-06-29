@@ -7,12 +7,15 @@
 
 	$: isAlias = token.alias !== undefined
 
+	$: isValid = true
+
 	const handleChange = (input: Event) => {
 		if (isAlias) return
 		const target = input.target as HTMLInputElement
 		const name = target.name
 
 		res = dimensionSuite(target.value, name)
+		isValid = res.isValid('dimension')
 	}
 
 	let res = dimensionSuite.get()
@@ -21,7 +24,7 @@
 </script>
 
 <div class="flex gap-6">
-	<div class="flex flex-row items-center">
+	<div>
 		<InputWrapper
 			name="dimension"
 			errors={res.getErrors('dimension')}
@@ -39,7 +42,7 @@
 	</div>
 	<div>
 		<select
-			class="w-16 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
+			class="w-20 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
 			{...isAlias ? { disabled: true } : {}}
 			bind:value={token.value.unit}
 		>

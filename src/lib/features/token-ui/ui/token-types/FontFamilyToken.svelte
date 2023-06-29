@@ -7,10 +7,22 @@
 		TooltipProvider,
 		TooltipTrigger
 	} from '$lib/components/ui/tooltip'
+	import fontFamilySuite from '$lib/features/token-management/font-family/fontFamilySuite'
+	import InputWrapper from '$components/InputWrapper.svelte'
 
 	export let token: IToken<'fontFamily'>
 
 	$: isAlias = token.alias !== undefined
+
+	const handleChange = (input: Event) => {
+		if (isAlias) return
+		const target = input.target as HTMLInputElement
+		const name = target.name
+
+		res = fontFamilySuite(target.value, name)
+	}
+
+	let res = fontFamilySuite.get()
 
 	function addInput() {
 		token.value = [...token.value, '']
@@ -38,12 +50,20 @@
 	<div class="flex flex-col gap-4">
 		{#each token.value as value, i}
 			<div class="flex">
-				<input
-					class="mr-2 w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
-					type="text"
-					bind:value
-					{...isAlias ? { disabled: true } : {}}
-				/>
+				<InputWrapper
+					name="fontFamilyToken"
+					errors={res.getErrors('fontFamilyToken')}
+					isValid={res.isValid('fontFamilyToken')}
+				>
+					<input
+						name="fontFamilyToken"
+						class="mr-2 w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
+						type="text"
+						bind:value
+						on:input={handleChange}
+						{...isAlias ? { disabled: true } : {}}
+					/>
+				</InputWrapper>
 
 				<TooltipProvider>
 					<Tooltip>
