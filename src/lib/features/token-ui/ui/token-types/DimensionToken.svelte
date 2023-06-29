@@ -7,15 +7,12 @@
 
 	$: isAlias = token.alias !== undefined
 
-	$: isValid = true
-
 	const handleChange = (input: Event) => {
 		if (isAlias) return
 		const target = input.target as HTMLInputElement
 		const name = target.name
 
 		res = dimensionSuite(target.value, name)
-		isValid = res.isValid('dimension')
 	}
 
 	let res = dimensionSuite.get()

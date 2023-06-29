@@ -17,14 +17,11 @@
 
 	$: isAlias = token.alias !== undefined
 
-	$: isValid = true
-
 	const handleChange = (input: Event) => {
 		if (isAlias) return
 		const target = input.target as HTMLInputElement
 
 		res = colorSuite(target.value, 'color')
-		isValid = res.isValid('color')
 	}
 
 	let res = suite.get()
