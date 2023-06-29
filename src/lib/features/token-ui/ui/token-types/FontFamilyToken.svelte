@@ -7,6 +7,12 @@
 		TooltipProvider,
 		TooltipTrigger
 	} from '$lib/components/ui/tooltip'
+	import {
+		Collapsible,
+		CollapsibleContent,
+		CollapsibleTrigger
+	} from '$components/ui/collapsible'
+	import { ChevronsUpDown } from 'lucide-svelte'
 
 	export let token: IToken<'fontFamily'>
 
@@ -38,12 +44,22 @@
 	<div class="flex flex-col gap-4">
 		{#each token.value as value, i}
 			<div class="flex">
-				<input
-					class="mr-2 w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
-					type="text"
-					bind:value
-					{...isAlias ? { disabled: true } : {}}
-				/>
+				<Collapsible>
+					<CollapsibleTrigger>
+						<div class="flex flex-row gap-2">
+							<p>Fonts Families</p>
+							<ChevronsUpDown class="w-4" />
+						</div>
+					</CollapsibleTrigger>
+					<CollapsibleContent>
+						<input
+							class="mr-2 w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
+							type="text"
+							bind:value
+							{...isAlias ? { disabled: true } : {}}
+						/>
+					</CollapsibleContent>
+				</Collapsible>
 
 				<TooltipProvider>
 					<Tooltip>
