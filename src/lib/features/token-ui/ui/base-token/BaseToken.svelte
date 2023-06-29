@@ -7,7 +7,6 @@
 	import { getDefaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import TokenTypeSelect from '../atoms/TokenTypeSelect.svelte'
-	import InputWrapper from '$lib/components/InputWrapper.svelte'
 	import descriptionSuite from '../generic-validations/descriptionSuite'
 	import { Checkbox } from '$components/ui/checkbox'
 	import {
@@ -15,7 +14,6 @@
 		DialogContent,
 		DialogDescription,
 		DialogHeader,
-		DialogTitle,
 		DialogTrigger
 	} from '$components/ui/dialog'
 	import {
@@ -42,11 +40,11 @@
 		getContext('selectedTokensStore')
 
 	let hover = false
-	let selected: boolean = $selectedTokensStore.includes(token) || false
+	let selected: boolean = $selectedTokensStore.includes(token)
 
-	$: if (selected) {
+	$: if (!$selectedTokensStore.includes(token) && selected) {
 		selectedTokensStore.addToken(token)
-	} else if (!selected) {
+	} else if ($selectedTokensStore.includes(token) && !selected) {
 		selectedTokensStore.removeToken(token)
 	}
 
