@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
-	import Icon from '@iconify/svelte'
 	import {
 		Tooltip,
 		TooltipContent,
@@ -8,11 +7,12 @@
 		TooltipTrigger
 	} from '$lib/components/ui/tooltip'
 	import {
-		Collapsible,
-		CollapsibleContent,
-		CollapsibleTrigger
-	} from '$components/ui/collapsible'
-	import { ChevronsUpDown } from 'lucide-svelte'
+		Accordion,
+		AccordionContent,
+		AccordionItem,
+		AccordionTrigger
+	} from '$components/ui/accordion'
+	import { Minus, Plus } from 'lucide-svelte'
 
 	export let token: IToken<'fontFamily'>
 
@@ -28,12 +28,12 @@
 	}
 </script>
 
-<div class="flex flex-row gap-2">
+<div class="flex flex-row gap-4">
 	<TooltipProvider>
 		<Tooltip>
 			<TooltipTrigger>
-				<button class="mr-2" on:click={addInput}
-					><Icon icon="tabler:square-rounded-plus" /></button
+				<button class="ml-3" on:click={addInput}
+					><Plus class="w-4 items-center" /></button
 				>
 			</TooltipTrigger>
 			<TooltipContent>
@@ -42,38 +42,44 @@
 		</Tooltip>
 	</TooltipProvider>
 	<div class="flex flex-col gap-4">
-		{#each token.value as value, i}
-			<div class="flex">
-				<Collapsible>
-					<CollapsibleTrigger>
-						<div class="flex flex-row gap-2">
-							<p>Fonts Families</p>
-							<ChevronsUpDown class="w-4" />
+		<Accordion type="single" collapsible>
+			<AccordionItem value="item-1">
+				<AccordionTrigger
+					><input
+						class="mr-2 w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-xs"
+						type="text"
+						placeholder="Your fonts"
+						disabled
+					/></AccordionTrigger
+				>
+				{#each token.value as value, i}
+					<AccordionContent>
+						<div class="flex">
+							<input
+								class="mr-2 w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
+								type="text"
+								bind:value
+								{...isAlias ? { disabled: true } : {}}
+							/>
+							<TooltipProvider>
+								<Tooltip>
+									<TooltipTrigger>
+										<button
+											class="ml-2 self-center"
+											on:click={() => removeInput(i)}
+										>
+											<Minus class="w-4" /></button
+										>
+									</TooltipTrigger>
+									<TooltipContent>
+										<p>Remove Font Family</p>
+									</TooltipContent>
+								</Tooltip>
+							</TooltipProvider>
 						</div>
-					</CollapsibleTrigger>
-					<CollapsibleContent>
-						<input
-							class="mr-2 w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
-							type="text"
-							bind:value
-							{...isAlias ? { disabled: true } : {}}
-						/>
-					</CollapsibleContent>
-				</Collapsible>
-
-				<TooltipProvider>
-					<Tooltip>
-						<TooltipTrigger>
-							<button class="ml-2 self-center" on:click={() => removeInput(i)}>
-								<Icon icon="tabler:square-rounded-x" /></button
-							>
-						</TooltipTrigger>
-						<TooltipContent>
-							<p>Remove Font Family</p>
-						</TooltipContent>
-					</Tooltip>
-				</TooltipProvider>
-			</div>
-		{/each}
+					</AccordionContent>
+				{/each}
+			</AccordionItem>
+		</Accordion>
 	</div>
 </div>
