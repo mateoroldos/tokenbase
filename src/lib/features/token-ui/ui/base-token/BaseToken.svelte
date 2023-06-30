@@ -92,7 +92,6 @@
 			input?.select()
 		}
 	})
-	console.log($designTokensGroupStore)
 </script>
 
 <div

@@ -8,7 +8,6 @@
 	import mockTemplate from '$lib/features/import-style-dictionary/templates/mockTemplate.json'
 	import importStyleDictionary from '$lib/features/import-style-dictionary/importStyleDictionary'
 	import Button from '$lib/components/Button.svelte'
-	import Input from '$components/ui/input/Input.svelte'
 	import type { createDesignSystemsDataStore } from '$lib/features/token-groups-store/tokenbaseMainStore'
 	import Header from '../../_components/Header.svelte'
 
@@ -84,14 +83,6 @@
 	onMount(() => {
 		$designTokensGroupStore[groupIndex]!.type = findGroupType()
 	})
-
-	$: if (
-		$designTokensGroupStore[groupIndex]!.name === undefined ||
-		$designTokensGroupStore[groupIndex]!.name === ''
-	) {
-		const input = document.getElementById('group-name') as HTMLInputElement
-		input?.select()
-	}
 </script>
 
 <Header>
