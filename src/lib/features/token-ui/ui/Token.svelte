@@ -11,7 +11,7 @@
 	import type { createTokensGroupStore } from '$lib/features/token-groups-store/tokensGroup'
 	import { getContext } from 'svelte'
 	import findTokenById from '$lib/utils/findTokenById'
-	import Icon from '@iconify/svelte'
+	import { Link2Off } from 'lucide-svelte'
 
 	export let token: IToken
 	export let draggedTokenId: string | null
@@ -36,7 +36,7 @@
 
 <BaseToken bind:token bind:draggedTokenId on:dragstart on:dragenter on:dragend>
 	{#if token.alias}
-		<button on:click={removeAlias}><Icon icon="tabler:link-off" /></button>
+		<button on:click={removeAlias}><Link2Off class="h-4 w-4" /></button>
 	{/if}
 	{#if token.type === 'color'}
 		<ColorToken bind:token on:colorChange />
