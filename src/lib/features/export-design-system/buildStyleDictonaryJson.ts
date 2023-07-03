@@ -10,6 +10,7 @@ import transformToExportColorValue from '../token-management/color/transformToEx
 import transformToExportDurationValue from '../token-management/duration/transformToExportDurationValue'
 import type { DimensionTokenValue } from '../token-management/dimension/internal-dimension-value.type'
 import transformToExportDimensionValue from '../token-management/dimension/transformToExportDimensionValue'
+import { page } from '$app/stores'
 
 interface StyleDictonaryToken {
 	value: ReturnType<typeof convertValueToJson>
@@ -23,6 +24,9 @@ interface StyleDictonaryGroup {
 }
 
 const groupsToStyleDictionaryTree = (groups: Group[]): StyleDictonaryGroup => {
+	console.log('====================================')
+	console.log(page)
+	console.log('====================================')
 	const rootGroup = groups.find((group) => group.id === 'root')
 
 	if (!rootGroup) {
