@@ -4,7 +4,7 @@
 	import { getContext, onMount } from 'svelte'
 	import { goto } from '$app/navigation'
 	import type { TokenType } from '$lib/features/token-groups-store/types/token-interface'
-	import Icon from '@iconify/svelte'
+	import { Plus } from 'lucide-svelte'
 	import mockTemplate from '$lib/features/import-style-dictionary/templates/mockTemplate.json'
 	import importStyleDictionary from '$lib/features/import-style-dictionary/importStyleDictionary'
 	import Button from '$lib/components/Button.svelte'
@@ -88,7 +88,7 @@
 <Header>
 	<div class="flex flex-row gap-3">
 		<Button on:click={handleAddToken}>
-			<Icon icon="tabler:plus" />
+			<Plus class="w-3" />
 			New Token
 		</Button>
 	</div>

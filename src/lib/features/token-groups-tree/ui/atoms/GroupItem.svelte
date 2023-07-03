@@ -2,7 +2,7 @@
 	import { getContext, onMount } from 'svelte'
 	import type { GroupsTree } from '../../types/groups-tree'
 	import type { createTokensGroupStore } from '$lib/features/token-groups-store/tokensGroup'
-	import Icon from '@iconify/svelte'
+	import { ChevronRight } from 'lucide-svelte'
 	import { page } from '$app/stores'
 
 	export let node: GroupsTree
@@ -41,13 +41,13 @@
 		}}
 		on:mouseleave={() => (hover = false)}
 	>
-		<div class="flex flex-row items-center gap-1">
+		<div class=" flex flex-row items-center gap-1">
 			<div
 				class="cursor-pointer transition-transform"
 				class:rotate-90={isOpen}
 				on:click={handleClick}
 			>
-				<Icon icon="tabler:chevron-right" />
+				<ChevronRight class="h-4 w-4" />
 			</div>
 			<a
 				class:text-black={isActive}
