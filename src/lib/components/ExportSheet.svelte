@@ -18,23 +18,19 @@
 		SheetTitle,
 		SheetTrigger
 	} from '$components/ui/sheet'
-	import {
-		Card,
-		CardContent,
-		CardDescription,
-		CardHeader,
-		CardTitle
-	} from '$components/ui/card'
 	import { Button } from '$components/ui/button'
-	import Separator from '$components/ui/separator/Separator.svelte'
-	import Checkbox from '$components/ui/checkbox/Checkbox.svelte'
 	import Switch from '$components/ui/switch/Switch.svelte'
+	import { page } from '$app/stores'
 
 	let exportTypes: ExportFileTypes[] = []
 
 	const handleExport = async (exportTypes: ExportFileTypes[]) => {
+		let designSystemId = $page.params.designSystemId
+		console.log('====================================')
+		console.log($page.params.designSystemId)
+		console.log('====================================')
 		await styleDictionaryBuild(
-			buildStyleDictionaryJson($designTokensGroupStore),
+			buildStyleDictionaryJson($designTokensGroupStore, designSystemId),
 			exportTypes
 		)
 
@@ -65,35 +61,32 @@
 	}
 </script>
 
-<section class="flex flex-1 flex-col justify-between p-8">
-	<Sheet>
-		<SheetTrigger><Button>Export options</Button></SheetTrigger>
-		<SheetContent>
-			<SheetHeader>
-				<SheetTitle>Choose your export type</SheetTitle>
-				<SheetDescription>
-					<div class="flex flex-col gap-3">
-						<div class="grid grid-cols-2 gap-5">
-							{#each EXPORT_FILE_TYPES as fileType}
-								<div
-									class="w-fit cursor-pointer"
-									on:click={() => handleToggleType(fileType)}
-								>
-									<div class="flex gap-4">
-										<Switch />
-										<p>{fileType}</p>
-									</div>
+<Sheet>
+	<SheetTrigger><Button id="my-btn">Export</Button></SheetTrigger>
+	<SheetContent>
+		<SheetHeader>
+			<SheetTitle>Choose your export type</SheetTitle>
+			<SheetDescription>
+				<div class="flex flex-col gap-3">
+					<div class="grid grid-cols-2 gap-5">
+						{#each EXPORT_FILE_TYPES as fileType}
+							<div
+								class="w-fit cursor-pointer"
+								on:click={() => handleToggleType(fileType)}
+							>
+								<div class="flex gap-4">
+									<Switch />
+									<p>{fileType}</p>
 								</div>
-							{/each}
-						</div>
-						<Button
-							class="bg-blue-300 px-6"
-							on:click={() => handleExport(exportTypes)}>Create file</Button
-						>
+							</div>
+						{/each}
 					</div>
-				</SheetDescription>
-			</SheetHeader>
-		</SheetContent>
-	</Sheet>
-	<h2>Export tokens</h2>
-</section>
+					<Button
+						class="bg-blue-300 px-6"
+						on:click={() => handleExport(exportTypes)}>Create file</Button
+					>
+				</div>
+			</SheetDescription>
+		</SheetHeader>
+	</SheetContent>
+</Sheet>

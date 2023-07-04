@@ -7,8 +7,7 @@
 	import { page } from '$app/stores'
 	import tokenBaseMainStore from '$lib/features/token-groups-store/tokenbaseMainStore'
 	import { onMount } from 'svelte'
-	import Button from '$components/ui/button/Button.svelte'
-	import { ArrowRightFromLine } from 'lucide-svelte'
+	import ExportSheet from '$components/ExportSheet.svelte'
 
 	onMount(() => {
 		const addDefaultGroup = () => {
@@ -61,9 +60,6 @@
 		</button>
 	</div>
 	<div class="flex flex-col gap-3">
-		<Button href={`/${$page.params.designSystemId}/export`}>
-			<ArrowRightFromLine class="mr-2 h-4 w-4" />
-			Export
-		</Button>
+		<ExportSheet />
 	</div>
 </div>
