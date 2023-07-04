@@ -10,10 +10,8 @@
 	} from '$lib/features/export-design-system/exportFileTypes'
 	import {
 		Sheet,
-		SheetClose,
 		SheetContent,
 		SheetDescription,
-		SheetFooter,
 		SheetHeader,
 		SheetTitle,
 		SheetTrigger
@@ -26,9 +24,7 @@
 
 	const handleExport = async (exportTypes: ExportFileTypes[]) => {
 		let designSystemId = $page.params.designSystemId
-		console.log('====================================')
-		console.log($page.params.designSystemId)
-		console.log('====================================')
+
 		await styleDictionaryBuild(
 			buildStyleDictionaryJson($designTokensGroupStore, designSystemId),
 			exportTypes
