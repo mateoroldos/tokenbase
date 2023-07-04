@@ -2,7 +2,7 @@
 	import { page } from '$app/stores'
 	import type { createTokensGroupStore } from '$lib/features/token-groups-store/tokensGroup'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
-	import Icon from '@iconify/svelte'
+	import { SquareStack } from 'lucide-svelte'
 	import { getContext } from 'svelte'
 	import { generateShades } from './GenerateShades'
 	import type {
@@ -63,7 +63,7 @@
 		class="flex flex-row items-center gap-2"
 		on:click={handleGenerateShades}
 	>
-		<Icon icon="tabler:color-swatch" />
+		<SquareStack class="w-3" />
 		Generate shades
 	</button>
 	<label for="amount-of-shades">Amount of shades</label>
