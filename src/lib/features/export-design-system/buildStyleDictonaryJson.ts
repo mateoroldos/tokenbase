@@ -22,14 +22,17 @@ interface StyleDictonaryGroup {
 	[key: string]: StyleDictonaryToken | StyleDictonaryGroup
 }
 
-const groupsToStyleDictionaryTree = (groups: Group[]): StyleDictonaryGroup => {
-	const rootGroup = groups.find((group) => group.id === 'root')
+const groupsToStyleDictionaryTree = (
+	groups: Group[],
+	designSystemId: string
+): StyleDictonaryGroup => {
+	const rootGroup = groups.find((group) => group.id === designSystemId)
 
 	if (!rootGroup) {
-		throw new Error('Root group not found')
+		throw new Error('Group not found')
 	}
 
-	const subtree = buildStyleDictionaryNode(groups, 'root')
+	const subtree = buildStyleDictionaryNode(groups, designSystemId)
 	const root: StyleDictonaryGroup = {
 		...subtree
 	}
@@ -65,8 +68,11 @@ const buildStyleDictionaryNode = (
 	return nodes
 }
 
-const buildStyleDictonaryJson = (groups: Group[]): string => {
-	const tree = groupsToStyleDictionaryTree(groups)
+const buildStyleDictonaryJson = (
+	groups: Group[],
+	designSystemId: string
+): string => {
+	const tree = groupsToStyleDictionaryTree(groups, designSystemId)
 
 	const json = JSON.stringify(tree, null, 2)
 
