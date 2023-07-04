@@ -4,11 +4,10 @@
 	import { getContext, onMount } from 'svelte'
 	import { goto } from '$app/navigation'
 	import type { TokenType } from '$lib/features/token-groups-store/types/token-interface'
-	import Icon from '@iconify/svelte'
+	import { Plus } from 'lucide-svelte'
 	import mockTemplate from '$lib/features/import-style-dictionary/templates/mockTemplate.json'
 	import importStyleDictionary from '$lib/features/import-style-dictionary/importStyleDictionary'
 	import Button from '$lib/components/Button.svelte'
-	import Input from '$components/ui/input/Input.svelte'
 	import type { createDesignSystemsDataStore } from '$lib/features/token-groups-store/tokenbaseMainStore'
 	import Header from '../../_components/Header.svelte'
 
@@ -84,20 +83,12 @@
 	onMount(() => {
 		$designTokensGroupStore[groupIndex]!.type = findGroupType()
 	})
-
-	$: if (
-		$designTokensGroupStore[groupIndex]!.name === undefined ||
-		$designTokensGroupStore[groupIndex]!.name === ''
-	) {
-		const input = document.getElementById('group-name') as HTMLInputElement
-		input?.select()
-	}
 </script>
 
 <Header>
 	<div class="flex flex-row gap-3">
 		<Button on:click={handleAddToken}>
-			<Icon icon="tabler:plus" />
+			<Plus class="w-3" />
 			New Token
 		</Button>
 	</div>

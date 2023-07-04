@@ -20,6 +20,16 @@
 
 	$: isAlias = token.alias !== undefined
 
+	const handleChange = (input: Event) => {
+		if (isAlias) return
+		const target = input.target as HTMLInputElement
+		const name = target.name
+
+		res = fontFamilySuite(target.value, name)
+	}
+
+	let res = fontFamilySuite.get()
+
 	function addInput() {
 		token.value = [...token.value, '']
 	}
@@ -79,8 +89,7 @@
 									bind:value
 									on:input={handleChange}
 									{...isAlias ? { disabled: true } : {}}
-								/></InputWrapper
-							>
+								/></InputWrapper>
 							<TooltipProvider>
 								<Tooltip>
 									<TooltipTrigger>

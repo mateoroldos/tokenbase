@@ -29,39 +29,45 @@
 		}
 	}
 
-	$: if (
-		groupId &&
-		($designTokensGroupStore[groupIndex]!.name === undefined ||
-			$designTokensGroupStore[groupIndex]!.name === '')
-	) {
-		const input = document.getElementById(
-			`group-name-${groupId}`
-		) as HTMLInputElement
-		input?.select()
-	}
+	// let input
+
+	// $: if (
+	// 	input &&
+	// 	$designTokensGroupStore[groupIndex] &&
+	// 	($designTokensGroupStore[groupIndex].name === undefined ||
+	// 		$designTokensGroupStore[groupIndex].name === '')
+	// ) {
+	// 	console.log('bala')
+
+	// 	input.select()
+	// }
 </script>
 
-{#if groupId && groupIndex}
-	{#if parentGroupId != undefined && parentGroupId != $page.params.designSystemId}
-		<svelte:self groupId={parentGroupId} lastItem={false} />
-	{/if}
-	<span class="text-lg text-gray-200"> / </span>
-	{#if lastItem}
-		<Input
-			type="text"
-			placeholder="Untitled"
-			class="w-fit border-none px-1 text-lg"
-			id={`group-name-${groupId}`}
-			bind:value={$designTokensGroupStore[groupIndex].name}
-			on:focusout={handleUnselectNameInput}
-			autoWidth={true}
-		/>
-	{:else}
-		<a
-			href={`/${$page.params.designSystemId}/${groupId}`}
-			class="text-lg text-gray-500 hover:underline"
-		>
-			{$designTokensGroupStore[groupIndex].name}
-		</a>
+{#if $designTokensGroupStore[groupIndex]}
+	{#if groupId && groupIndex}
+		{#if parentGroupId != undefined && parentGroupId != $page.params.designSystemId}
+			<svelte:self groupId={parentGroupId} lastItem={false} />
+		{/if}
+		<span class="text-lg text-gray-200"> / </span>
+		{#if lastItem}
+			<Input
+				type="text"
+				placeholder="Untitled"
+				class="w-fit border-none px-1 text-lg"
+				id={`group-name-${groupId}`}
+				autoSelect={true}
+				autoName="Untitled"
+				bind:value={$designTokensGroupStore[groupIndex].name}
+				on:focusout={handleUnselectNameInput}
+				autoWidth={true}
+			/>
+		{:else}
+			<a
+				href={`/${$page.params.designSystemId}/${groupId}`}
+				class="text-lg text-gray-500 hover:underline"
+			>
+				{$designTokensGroupStore[groupIndex].name}
+			</a>
+		{/if}
 	{/if}
 {/if}

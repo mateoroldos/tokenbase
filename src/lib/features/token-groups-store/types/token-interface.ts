@@ -10,7 +10,7 @@ export interface IToken<T = TokenType> {
 	id: string
 	name: string | undefined
 	description?: string
-	value?: TokenValue<T>
+	value: TokenValue<T>
 	type: T
 
 	alias?: {

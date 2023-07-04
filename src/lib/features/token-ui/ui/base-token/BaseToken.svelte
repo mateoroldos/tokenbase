@@ -2,12 +2,11 @@
 	import { fly } from 'svelte/transition'
 	import type { createTokensGroupStore } from '$lib/features/token-groups-store/tokensGroup'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
-	import Icon from '@iconify/svelte'
+	import { GripVertical, Link2, Trash2 } from 'lucide-svelte'
 	import { getContext, onMount } from 'svelte'
 	import { getDefaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import TokenTypeSelect from '../atoms/TokenTypeSelect.svelte'
-	import InputWrapper from '$lib/components/InputWrapper.svelte'
 	import descriptionSuite from '../generic-validations/descriptionSuite'
 	import { Checkbox } from '$components/ui/checkbox'
 	import {
@@ -15,7 +14,6 @@
 		DialogContent,
 		DialogDescription,
 		DialogHeader,
-		DialogTitle,
 		DialogTrigger
 	} from '$components/ui/dialog'
 	import {
@@ -42,11 +40,11 @@
 		getContext('selectedTokensStore')
 
 	let hover = false
-	let selected: boolean = $selectedTokensStore.includes(token) || false
+	let selected: boolean = $selectedTokensStore.includes(token)
 
-	$: if (selected) {
+	$: if (!$selectedTokensStore.includes(token) && selected) {
 		selectedTokensStore.addToken(token)
-	} else if (!selected) {
+	} else if ($selectedTokensStore.includes(token) && !selected) {
 		selectedTokensStore.removeToken(token)
 	}
 
@@ -94,7 +92,6 @@
 			input?.select()
 		}
 	})
-	console.log($designTokensGroupStore)
 </script>
 
 <div
@@ -111,7 +108,7 @@
 			<div>
 				{#if hover}
 					<div on:dragstart draggable={true} class="cursor-grab">
-						<Icon icon="tabler:line-height" class="text-gray-400" />
+						<GripVertical class="h-3 w-3 text-gray-500" />
 					</div>
 				{/if}
 			</div>
@@ -147,7 +144,7 @@
 						<Tooltip>
 							<TooltipTrigger
 								><button on:click={toggleTokenList}>
-									<Icon icon="tabler:link" />
+									<Link2 class="h-4 w-4" />
 								</button></TooltipTrigger
 							>
 							<TooltipContent>
@@ -226,7 +223,7 @@
 				class="bg-transparent"
 				in:fly={{ x: -5, duration: 350 }}
 			>
-				<Icon icon="tabler:trash" class="text-red-500" />
+				<Trash2 class="h-4 text-red-500" />
 			</button>
 		{/if}
 	</div>

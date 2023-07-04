@@ -6,10 +6,18 @@
 
 	export let value: HTMLInputAttributes['value'] = undefined
 	export let autoWidth = false
+	export let autoSelect = false
+	export let autoName: string | undefined = undefined
 	export { className as class }
 
 	let input: HTMLInputElement
 
+	$: if (autoSelect && input && (value === undefined || value === '')) {
+		input.select()
+	}
+	$: if (autoName && input && (value === undefined || value === '')) {
+		input.name = autoName
+	}
 	$: if (autoWidth && input) {
 		input.size = value.length > 0 ? value.length : 7
 	}

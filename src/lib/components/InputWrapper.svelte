@@ -1,5 +1,12 @@
 <script lang="ts">
 	import { afterUpdate, createEventDispatcher } from 'svelte'
+	import {
+		Tooltip,
+		TooltipContent,
+		TooltipProvider,
+		TooltipTrigger
+	} from '$components/ui/tooltip'
+	import { XCircle } from 'lucide-svelte'
 
 	let inputElement: HTMLInputElement
 	const dispatch = createEventDispatcher()
@@ -20,35 +27,24 @@
 	export let isValid: boolean = true
 </script>
 
-<div class="input-wrapper">
-	<!-- <label for={name}>{label}</label> -->
+<div class="input-wrapper flex flex-row gap-1">
+	<slot />
 	{#if errors && errors.length > 0}
 		{#each errors as error}
-			<span class="error-list">{error}</span>
+			<TooltipProvider>
+				<Tooltip>
+					<TooltipTrigger class="align-middle">
+						{#if !isValid}
+							<div class="flex flex-row">
+								<XCircle class="h-3.5 w-4" color="red" />
+							</div>
+						{/if}
+					</TooltipTrigger>
+					<TooltipContent>
+						<p>{error}</p>
+					</TooltipContent>
+				</Tooltip>
+			</TooltipProvider>
 		{/each}
 	{/if}
-	{#if isValid}
-		<div class="valid-indicator">✓</div>
-	{/if}
-	<slot />
 </div>
-
-<style lang="scss">
-	.input-wrapper {
-		span {
-			font-size: smaller;
-			float: right;
-		}
-	}
-
-	.error-list {
-		color: red;
-		margin-top: 0.5rem;
-	}
-	.valid-indicator {
-		color: green;
-		margin-top: 0.5rem;
-		font-weight: 400;
-		float: right;
-	}
-</style>
