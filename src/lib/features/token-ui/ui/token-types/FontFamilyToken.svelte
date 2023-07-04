@@ -38,16 +38,6 @@
 		token.value.splice(index, 1)
 		token.value = [...token.value]
 	}
-
-	const handleChange = (input: Event) => {
-		if (isAlias) return
-		const target = input.target as HTMLInputElement
-		const name = target.name
-
-		res = fontFamilySuite(target.value, name)
-	}
-
-	let res = fontFamilySuite.get()
 </script>
 
 <div class="flex flex-row gap-4">
@@ -89,7 +79,8 @@
 									bind:value
 									on:input={handleChange}
 									{...isAlias ? { disabled: true } : {}}
-								/></InputWrapper>
+								/></InputWrapper
+							>
 							<TooltipProvider>
 								<Tooltip>
 									<TooltipTrigger>
