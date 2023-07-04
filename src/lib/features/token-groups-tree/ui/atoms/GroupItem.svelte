@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { goto } from '$app/navigation'
+	import tokenBaseMainStore from '$lib/features/token-groups-store/tokenbaseMainStore'
 	import { getContext, onMount } from 'svelte'
 	import type { GroupsTree } from '../../types/groups-tree'
 	import type { createTokensGroupStore } from '$lib/features/token-groups-store/tokensGroup'
@@ -24,6 +26,16 @@
 	const handleClick = (event: Event) => {
 		event.stopPropagation()
 		toggleOpen()
+	}
+
+	const handleAddNewGroup = () => {
+		designTokensGroupStore.addGroup('', undefined, node.group.id)
+
+		goto(
+			`/${$page.params.designSystemId}/${
+				$designTokensGroupStore[$designTokensGroupStore.length - 1]!.id
+			}`
+		)
 	}
 
 	onMount(() => {
@@ -57,12 +69,7 @@
 		</div>
 
 		{#if hover}
-			<button
-				class="bg-transparent text-gray-500"
-				on:click={() => {
-					designTokensGroupStore.addGroup('aaa', undefined, node.group.id)
-				}}
-			>
+			<button class="bg-transparent text-gray-500" on:click={handleAddNewGroup}>
 				+
 			</button>
 		{/if}

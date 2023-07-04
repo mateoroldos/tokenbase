@@ -5,24 +5,8 @@
 	import { goto } from '$app/navigation'
 	import { page } from '$app/stores'
 	import tokenBaseMainStore from '$lib/features/token-groups-store/tokenbaseMainStore'
-	import { onMount } from 'svelte'
 	import ExportSheet from '$components/ExportSheet.svelte'
-	import Button from '$components/ui/button/Button.svelte'
-	import { ArrowRightFromLine } from 'lucide-svelte'
 	import { Plus } from 'lucide-svelte'
-
-	onMount(() => {
-		const addDefaultGroup = () => {
-			designTokensGroupStore.addGroup('First System')
-			const idFirstDefaultGroup =
-				$designTokensGroupStore[$designTokensGroupStore.length - 1]!.id
-			tokenBaseMainStore.addDesignSystem(idFirstDefaultGroup, 'First System')
-			$tokenBaseMainStore.activeDesignSystemRootId = idFirstDefaultGroup
-		}
-		if ($tokenBaseMainStore.designSystems.length === 0) {
-			addDefaultGroup()
-		}
-	})
 
 	const handleAddNewGroup = () => {
 		designTokensGroupStore.addGroup(
@@ -49,7 +33,6 @@
 >
 	<div class="flex flex-col gap-3">
 		<a href="/" class="text-lg font-bold">Tokenbase</a>
-		<!-- <DesignSystemExplorer /> -->
 		{#each tree.children as node}
 			<GroupItem {node} />
 		{/each}
