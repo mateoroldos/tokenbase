@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { createTokensGroupStore } from '$lib/features/token-groups-store/tokensGroup'
 	import { page } from '$app/stores'
-	import { getContext, onMount } from 'svelte'
+	import { getContext } from 'svelte'
 	import Input from '$components/ui/input/Input.svelte'
+	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 
-	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
+	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
 
 	export let groupId: string

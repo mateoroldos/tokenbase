@@ -1,14 +1,14 @@
 <script lang="ts">
 	import '../app.postcss'
 	import { setContext } from 'svelte'
-	import designTokensGroupStore from '$lib/features/token-groups-store/tokensGroup'
+	import designTokensGroupStore from '$lib/features/token-groups-store/groups'
 	import selectedTokensStore from '$lib/features/select-tokens/selectedTokensStore'
 	import { navigating } from '$app/stores'
-	import tokenBaseMainStore from '$lib/features/token-groups-store/tokenbaseMainStore'
+	import designSystemsStore from '$lib/features/token-groups-store/designSystemsIds'
 
 	setContext('designTokensGroupStore', designTokensGroupStore)
 	setContext('selectedTokensStore', selectedTokensStore)
-	setContext('tokenBaseMainStore', tokenBaseMainStore)
+	setContext('tokenBaseMainStore', designSystemsStore)
 
 	$: if ($navigating) selectedTokensStore.clearTokens()
 </script>

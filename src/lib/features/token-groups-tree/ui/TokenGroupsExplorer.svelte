@@ -1,31 +1,22 @@
 <script lang="ts">
-	import designTokensGroupStore from '$lib/features/token-groups-store/tokensGroup'
 	import GroupItem from './atoms/GroupItem.svelte'
 	import createTree from '../functions/createTree'
 	import { goto } from '$app/navigation'
 	import { page } from '$app/stores'
-	import tokenBaseMainStore from '$lib/features/token-groups-store/tokenbaseMainStore'
 	import ExportSheet from '$components/ExportSheet.svelte'
 	import { Plus } from 'lucide-svelte'
+	import groupsStore from '$lib/features/token-groups-store/groups'
+	import { v4 as uuidv4 } from 'uuid'
 
 	const handleAddNewGroup = () => {
-		designTokensGroupStore.addGroup(
-			'',
-			undefined,
-			$tokenBaseMainStore.activeDesignSystemRootId
-		)
+		const id = uuidv4()
 
-		goto(
-			`/${$page.params.designSystemId}/${
-				$designTokensGroupStore[$designTokensGroupStore.length - 1]!.id
-			}`
-		)
+		groupsStore.addGroup('', id, $page.params.designSystemId)
+
+		goto(`/${$page.params.designSystemId}/${id}`)
 	}
 
-	$: tree = createTree(
-		$designTokensGroupStore,
-		$tokenBaseMainStore.activeDesignSystemRootId
-	)
+	$: tree = createTree($groupsStore, $page.params.designSystemId ?? '')
 </script>
 
 <div

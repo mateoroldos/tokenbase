@@ -2,15 +2,15 @@
 	import { goto } from '$app/navigation'
 	import { page } from '$app/stores'
 	import { getContext } from 'svelte'
-	import type { createTokensGroupStore } from '$lib/features/token-groups-store/tokensGroup'
-	import type { createDesignSystemsDataStore } from '$lib/features/token-groups-store/tokenbaseMainStore'
+	import type { createDesignSystemsStore } from '$lib/features/token-groups-store/designSystemsIds'
+	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 
-	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
+	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
-	const tokenBaseMainStore: ReturnType<typeof createDesignSystemsDataStore> =
+	const tokenBaseMainStore: ReturnType<typeof createDesignSystemsStore> =
 		getContext('tokenBaseMainStore')
 
-	$: activeDesignSystemIndex = $tokenBaseMainStore.designSystems.findIndex(
+	$: activeDesignSystemIndex = $tokenBaseMainStore.findIndex(
 		(designSystem) => designSystem.id === $page.params.designSystemId
 	)
 
@@ -33,7 +33,7 @@
 	const handleChangeDesignSystem = (event: Event) => {
 		const select = event.target as HTMLSelectElement
 		const designSystemId = select.value
-		$tokenBaseMainStore.activeDesignSystemRootId = designSystemId
+
 		goto(`/${designSystemId}`)
 	}
 </script>
@@ -43,11 +43,11 @@
 		href={`/${$page.params.designSystemId}`}
 		class="text-lg text-gray-500 hover:underline"
 	>
-		{$tokenBaseMainStore.designSystems[activeDesignSystemIndex].name}
+		{$tokenBaseMainStore[activeDesignSystemIndex]?.name}
 	</a>
 
 	<!-- TODO: replace with select component -->
-	<select
+	<!-- <select
 		name="design-system"
 		id="design-system"
 		on:change={handleChangeDesignSystem}
@@ -55,5 +55,5 @@
 		{#each $tokenBaseMainStore.designSystems as designSystem}
 			<option value={designSystem.id}>{designSystem.name}</option>
 		{/each}
-	</select>
+	</select> -->
 </div>

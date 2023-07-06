@@ -1,8 +1,8 @@
 <script lang="ts">
 	import {
 		moveToken,
-		createTokensGroupStore
-	} from '$lib/features/token-groups-store/tokensGroup'
+		type createGroupsStore
+	} from '$lib/features/token-groups-store/groups'
 	import { page } from '$app/stores'
 	import { getContext } from 'svelte'
 	import Token from '$lib/features/token-ui/ui/Token.svelte'
@@ -11,12 +11,13 @@
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import GroupHeader from './_components/GroupHeader.svelte'
 
-	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
+	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
 	const selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
 		getContext('selectedTokensStore')
 
 	$: groupId = $page.params.groupId as string
+
 	$: groupIndex = $designTokensGroupStore.findIndex(
 		(group) => group.id === groupId
 	)

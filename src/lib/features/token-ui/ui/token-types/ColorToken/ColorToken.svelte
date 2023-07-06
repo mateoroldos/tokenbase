@@ -9,7 +9,7 @@
 		generateToneBackgroundGradient
 	} from './utils/generateHctBackgroundGradients'
 	import { createEventDispatcher } from 'svelte'
-	import suite from '../../generic-validations/descriptionSuite'
+	import suite from '../../validations/descriptionSuite'
 	import InputWrapper from '$lib/components/InputWrapper.svelte'
 	import colorSuite from '$lib/features/token-management/color/colorSuite'
 

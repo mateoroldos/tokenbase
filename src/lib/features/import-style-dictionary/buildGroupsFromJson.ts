@@ -39,7 +39,9 @@ const buildStyleDictionaryNode = (
 			// caso que estemos recorriendo un token
 			const tokenData = data as StyleDictionaryToken
 			const { value, comment, type } = tokenData
+
 			let valueTransformed
+
 			if (type === 'color') {
 				const colorValue = value as ExportColorTokenValue
 				valueTransformed = transformToImportColorValue(
@@ -77,12 +79,14 @@ const buildStyleDictionaryNode = (
 			let subGroups
 
 			if (name) {
+				// caso que estemos en un grupo que no es el root
 				subGroups = buildStyleDictionaryNode(
 					data as StyleDictionaryGroup,
 					groupId,
 					key
 				)
 			} else {
+				// caso que estemos en el root
 				subGroups = buildStyleDictionaryNode(
 					data as StyleDictionaryGroup,
 					parentId,
@@ -94,6 +98,7 @@ const buildStyleDictionaryNode = (
 		}
 	})
 
+	// push actual group
 	if (name) {
 		const newGroup: Group = {
 			id: groupId,
@@ -108,14 +113,10 @@ const buildStyleDictionaryNode = (
 	return groups
 }
 
-const styleDictionaryToGroups = (
-	json: string,
-	parentId: string,
-	name?: string
-): Group[] => {
+const styleDictionaryToGroups = (json: string, parentId: string): Group[] => {
 	const styleDictionaryGroup: StyleDictionaryGroup = JSON.parse(json)
 
-	return buildStyleDictionaryNode(styleDictionaryGroup, parentId, name)
+	return buildStyleDictionaryNode(styleDictionaryGroup, parentId)
 }
 
 export default styleDictionaryToGroups

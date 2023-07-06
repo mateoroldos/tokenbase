@@ -26,13 +26,8 @@ const groupsToStyleDictionaryTree = (
 	groups: Group[],
 	designSystemId: string
 ): StyleDictonaryGroup => {
-	const rootGroup = groups.find((group) => group.id === designSystemId)
-
-	if (!rootGroup) {
-		throw new Error('Group not found')
-	}
-
 	const subtree = buildStyleDictionaryNode(groups, designSystemId)
+
 	const root: StyleDictonaryGroup = {
 		...subtree
 	}

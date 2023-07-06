@@ -1,13 +1,12 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition'
-	import type { createTokensGroupStore } from '$lib/features/token-groups-store/tokensGroup'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import { GripVertical, Link2, Trash2 } from 'lucide-svelte'
 	import { getContext, onMount } from 'svelte'
 	import { getDefaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import TokenTypeSelect from '../atoms/TokenTypeSelect.svelte'
-	import descriptionSuite from '../generic-validations/descriptionSuite'
+	import descriptionSuite from '../validations/descriptionSuite'
 	import { Checkbox } from '$components/ui/checkbox'
 	import {
 		Dialog,
@@ -29,11 +28,12 @@
 		AccordionItem,
 		AccordionTrigger
 	} from '$components/ui/accordion'
+	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 
 	export let token: IToken
 	export let draggedTokenId: string | null
 
-	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
+	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
 
 	const selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =

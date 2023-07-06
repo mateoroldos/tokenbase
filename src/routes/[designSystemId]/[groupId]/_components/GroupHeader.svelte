@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { createTokensGroupStore } from '$lib/features/token-groups-store/tokensGroup'
 	import { page } from '$app/stores'
 	import { getContext, onMount } from 'svelte'
 	import { goto } from '$app/navigation'
@@ -8,17 +7,17 @@
 	import mockTemplate from '$lib/features/import-style-dictionary/templates/mockTemplate.json'
 	import importStyleDictionary from '$lib/features/import-style-dictionary/importStyleDictionary'
 	import Button from '$lib/components/Button.svelte'
-	import type { createDesignSystemsDataStore } from '$lib/features/token-groups-store/tokenbaseMainStore'
+	import type { createDesignSystemsStore } from '$lib/features/token-groups-store/designSystemsIds'
 	import Header from '../../_components/Header.svelte'
+	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 
-	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
+	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
-	const tokenBaseMainStore: ReturnType<typeof createDesignSystemsDataStore> =
+	const tokenBaseMainStore: ReturnType<typeof createDesignSystemsStore> =
 		getContext('tokenBaseMainStore')
 
-	$: activeDesignSystemIndex = $tokenBaseMainStore.designSystems.findIndex(
-		(designSystem) =>
-			designSystem.id === $tokenBaseMainStore.activeDesignSystemRootId
+	$: activeDesignSystemIndex = $tokenBaseMainStore.findIndex(
+		(designSystem) => designSystem.id === $page.params.designSystemId
 	)
 
 	$: groupId = $page.params.groupId as string

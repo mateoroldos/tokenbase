@@ -7,8 +7,7 @@ const tokenTypesArray: TokenType[] = [
 	'fontWeight',
 	'duration',
 	'cubicBezier',
-	'number',
-	'shadow'
+	'number'
 ]
 
 export default tokenTypesArray

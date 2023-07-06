@@ -18,18 +18,14 @@ const buildSubTree = (groups: Group[], parentId?: string): GroupsTree[] => {
 	return nodes
 }
 
-const createTree = (groups: Group[], rootId: string): GroupsTree => {
-	const rootGroup = groups.find((group) => group.id === rootId)
-
-	// if (!rootGroup) {
-	// 	throw new Error('Root group not found')
-	// }
+const createTree = (groups: Group[], designSystemId: string): GroupsTree => {
+	const rootGroup = groups.find((group) => group.id === designSystemId)
 
 	const root: GroupsTree = {
 		group: rootGroup,
 		children: []
 	}
-	const children = buildSubTree(groups, rootId)
+	const children = buildSubTree(groups, designSystemId)
 
 	root.children = children
 

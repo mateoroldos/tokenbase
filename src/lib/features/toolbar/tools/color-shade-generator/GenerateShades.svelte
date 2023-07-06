@@ -1,18 +1,17 @@
 <script lang="ts">
 	import { page } from '$app/stores'
-	import type { createTokensGroupStore } from '$lib/features/token-groups-store/tokensGroup'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import { SquareStack } from 'lucide-svelte'
 	import { getContext } from 'svelte'
 	import { generateShades } from './GenerateShades'
 	import type {
-		IToken,
 		TokenType,
 		TokenValue
 	} from '$lib/features/token-groups-store/types/token-interface'
 	import checkValidShade from './checkValidShade'
+	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 
-	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
+	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
 	const selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
 		getContext('selectedTokensStore')

@@ -1,15 +1,14 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
-	import tokenBaseMainStore from '$lib/features/token-groups-store/tokenbaseMainStore'
 	import { getContext, onMount } from 'svelte'
 	import type { GroupsTree } from '../../types/groups-tree'
-	import type { createTokensGroupStore } from '$lib/features/token-groups-store/tokensGroup'
 	import { ChevronRight } from 'lucide-svelte'
 	import { page } from '$app/stores'
+	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 
 	export let node: GroupsTree
 
-	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
+	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
 
 	$: groupId = $page.params.groupId as string

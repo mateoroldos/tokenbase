@@ -8,15 +8,11 @@ import type {
 } from '$lib/features/token-groups-store/types/token-interface'
 import { getDefaultTokenValues } from './defaultTokenValues'
 
-export const createTokensGroupStore = () => {
-	const { subscribe, update, set } = persistentWritable<Group[]>('designbase', [
-		{
-			id: uuidv4(),
-			name: 'Default',
-			parentGroup: undefined,
-			tokens: []
-		}
-	])
+export const createGroupsStore = () => {
+	const { subscribe, update, set } = persistentWritable<Group[]>(
+		'tokenbase-groups',
+		[]
+	)
 
 	const addGroup = (
 		name: string,
@@ -25,16 +21,6 @@ export const createTokensGroupStore = () => {
 		description?: string
 	): void => {
 		update((designTokens) => {
-			if (parentGroupId) {
-				const parentGroup = designTokens.find(
-					(group) => group.id === parentGroupId
-				)
-				if (!parentGroup) {
-					console.error(`Parent group with ID ${parentGroupId} not found`)
-					return designTokens
-				}
-			}
-
 			const newGroupId = id ?? uuidv4()
 
 			designTokens.push({
@@ -150,9 +136,9 @@ export const createTokensGroupStore = () => {
 	}
 }
 
-const designTokensGroupStore = createTokensGroupStore()
+const groupsStore = createGroupsStore()
 
-export default designTokensGroupStore
+export default groupsStore
 
 const deepDeleteGroups = (id: string, groups: Group[]): void => {
 	// delete parent group

@@ -1,28 +1,32 @@
 <script lang="ts">
 	import Header from './_components/Header.svelte'
-	import type { createTokensGroupStore } from '$lib/features/token-groups-store/tokensGroup'
-	import type { createDesignSystemsDataStore } from '$lib/features/token-groups-store/tokenbaseMainStore'
+	import type { createDesignSystemsStore } from '$lib/features/token-groups-store/designSystemsIds'
 	import { getContext } from 'svelte'
 	import { page } from '$app/stores'
 	import StartCardTemplate from './_components/StartCards/StartCardTemplate.svelte'
+	import StartFromTemplateModal from '$lib/features/templates/StartFromTemplateModal.svelte'
+	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 
-	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
+	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
-	const tokenBaseMainStore: ReturnType<typeof createDesignSystemsDataStore> =
+	const tokenBaseMainStore: ReturnType<typeof createDesignSystemsStore> =
 		getContext('tokenBaseMainStore')
 
-	$: activeDesignSystemIndex = $tokenBaseMainStore.designSystems.findIndex(
+	$: activeDesignSystemIndex = $tokenBaseMainStore.findIndex(
 		(designSystem) => designSystem.id === $page.params.designSystemId
+	)
+
+	$: hasGroups = $designTokensGroupStore.find(
+		(group) => group.parentGroup === $page.params.designSystemId
 	)
 
 	const startCards = [
 		{
-			title: 'Start from a Design System template',
+			title: 'Start from a template',
 			description:
-				'Start from a template to get a head start on your design system',
+				'Start from a template to get a head start on your design system.',
 			image: '/images/start-from-template.png',
-			link: `/design-systems/${$page.params.designSystemId}/start-from-template`,
-			linkText: 'Start from template'
+			component: StartFromTemplateModal
 		},
 		{
 			title: 'Create a group',
@@ -50,15 +54,23 @@
 
 <div>
 	<Header />
-	<section class="p-12">
-		<h2 class="mb-6 text-xl font-bold">
-			{`${$tokenBaseMainStore.designSystems[activeDesignSystemIndex].name}`} Design
-			System
+	<section class="p-36">
+		<h2 class="text-3xl font-medium">
+			{`${$tokenBaseMainStore[activeDesignSystemIndex].name}`}
 		</h2>
-		<div class="grid grid-cols-2 gap-6">
-			{#each startCards as { title, description, image, link, linkText }}
-				<StartCardTemplate {title} {description} {image} {link} {linkText} />
-			{/each}
-		</div>
+		<span class="text-gray-500">Design System</span>
+		{#if hasGroups}
+			has groups
+		{:else}
+			<div class="mt-9 grid grid-cols-2 gap-6">
+				{#each startCards as { title, description, image, component }}
+					<StartCardTemplate {title} {description} {image}>
+						{#if component}
+							<svelte:component this={component} />
+						{/if}
+					</StartCardTemplate>
+				{/each}
+			</div>
+		{/if}
 	</section>
 </div>

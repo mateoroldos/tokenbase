@@ -1,5 +1,5 @@
 <script lang="ts">
-	import designTokensGroupStore from '$lib/features/token-groups-store/tokensGroup'
+	import designTokensGroupStore from '$lib/features/token-groups-store/groups'
 	import buildStyleDictionaryJson from '$lib/features/export-design-system/buildStyleDictonaryJson'
 	import { fs } from 'memfs'
 	import styleDictionaryBuild from '$lib/features/export-design-system/styleDictionaryBuild'
@@ -25,18 +25,20 @@
 	const handleExport = async (exportTypes: ExportFileTypes[]) => {
 		let designSystemId = $page.params.designSystemId
 
-		await styleDictionaryBuild(
-			buildStyleDictionaryJson($designTokensGroupStore, designSystemId),
-			exportTypes
-		)
-
-		for (let i = 0; i < exportTypes.length; i++) {
-			downloadFile(
-				`/${FILE_TYPE_CONFIGS[exportTypes[i] as ExportFileTypes].buildPath}${
-					FILE_TYPE_CONFIGS[exportTypes[i] as ExportFileTypes].files[0]
-						?.destination
-				}`
+		if (designSystemId) {
+			await styleDictionaryBuild(
+				buildStyleDictionaryJson($designTokensGroupStore, designSystemId),
+				exportTypes
 			)
+
+			for (let i = 0; i < exportTypes.length; i++) {
+				downloadFile(
+					`/${FILE_TYPE_CONFIGS[exportTypes[i] as ExportFileTypes].buildPath}${
+						FILE_TYPE_CONFIGS[exportTypes[i] as ExportFileTypes].files[0]
+							?.destination
+					}`
+				)
+			}
 		}
 	}
 
@@ -58,7 +60,9 @@
 </script>
 
 <Sheet>
-	<SheetTrigger><Button id="my-btn">Export</Button></SheetTrigger>
+	<SheetTrigger>
+		<Button class="w-full">Export</Button>
+	</SheetTrigger>
 	<SheetContent>
 		<SheetHeader>
 			<SheetTitle>Choose your export type</SheetTitle>

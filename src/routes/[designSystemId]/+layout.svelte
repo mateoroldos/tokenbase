@@ -1,13 +1,13 @@
 <script lang="ts">
 	import TokenGroupsExplorer from '$lib/features/token-groups-tree/ui/TokenGroupsExplorer.svelte'
-	import type { createDesignSystemsDataStore } from '$lib/features/token-groups-store/tokenbaseMainStore'
+	import type { createDesignSystemsStore } from '$lib/features/token-groups-store/designSystemsIds'
 	import { getContext } from 'svelte'
 	import { page } from '$app/stores'
 
-	const tokenBaseMainStore: ReturnType<typeof createDesignSystemsDataStore> =
+	const tokenBaseMainStore: ReturnType<typeof createDesignSystemsStore> =
 		getContext('tokenBaseMainStore')
 
-	$: activeDesignSystemIndex = $tokenBaseMainStore.designSystems.findIndex(
+	$: activeDesignSystemIndex = $tokenBaseMainStore.findIndex(
 		(designSystem) => designSystem.id === $page.params.designSystemId
 	)
 </script>

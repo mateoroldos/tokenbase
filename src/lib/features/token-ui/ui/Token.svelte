@@ -1,5 +1,9 @@
 <script lang="ts">
-	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
+	import type {
+		IToken,
+		TokenType,
+		TokenValue
+	} from '$lib/features/token-groups-store/types/token-interface'
 	import BaseToken from './base-token/BaseToken.svelte'
 	import ColorToken from './token-types/ColorToken/ColorToken.svelte'
 	import CubicBezierToken from './token-types/CubicBezierToken.svelte'
@@ -8,15 +12,15 @@
 	import FontFamilyToken from './token-types/FontFamilyToken.svelte'
 	import NumberToken from './token-types/NumberToken.svelte'
 	import FontWeight from './token-types/FontWeight.svelte'
-	import type { createTokensGroupStore } from '$lib/features/token-groups-store/tokensGroup'
 	import { getContext } from 'svelte'
 	import findTokenById from '$lib/utils/findTokenById'
 	import { Link2Off } from 'lucide-svelte'
+	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 
 	export let token: IToken
 	export let draggedTokenId: string | null
 
-	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
+	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
 
 	// Function to remove the token.alias property
@@ -28,8 +32,10 @@
 	$: if (token.alias && token.alias !== undefined) {
 		token = {
 			...token,
-			type: findTokenById(token.alias.tokenId, $designTokensGroupStore)?.type,
-			value: findTokenById(token.alias.tokenId, $designTokensGroupStore)?.value
+			type: findTokenById(token.alias.tokenId, $designTokensGroupStore)
+				?.type as TokenType,
+			value: findTokenById(token.alias.tokenId, $designTokensGroupStore)
+				?.value as TokenValue
 		}
 	}
 </script>

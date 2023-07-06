@@ -3,15 +3,15 @@
 	import { page } from '$app/stores'
 	import DesignSystemBreadcrumb from './Breadcrumbs/DesignSystemBreadcrumb.svelte'
 	import GroupBreadcrumb from './Breadcrumbs/GroupBreadcrumb.svelte'
-	import type { createTokensGroupStore } from '$lib/features/token-groups-store/tokensGroup'
-	import type { createDesignSystemsDataStore } from '$lib/features/token-groups-store/tokenbaseMainStore'
 	import { getContext } from 'svelte'
-	import type { TokenType } from '$lib/features/token-groups-store/types/token-interface'
 	import { Plus } from 'lucide-svelte'
+	import type { createDesignSystemsStore } from '$lib/features/token-groups-store/designSystemsIds'
+	import type { TokenType } from '$lib/features/token-groups-store/types/token-interface'
+	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 
-	const designTokensGroupStore: ReturnType<typeof createTokensGroupStore> =
+	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
-	const tokenBaseMainStore: ReturnType<typeof createDesignSystemsDataStore> =
+	const tokenBaseMainStore: ReturnType<typeof createDesignSystemsStore> =
 		getContext('tokenBaseMainStore')
 
 	$: groupId = $page.params.groupId as string
