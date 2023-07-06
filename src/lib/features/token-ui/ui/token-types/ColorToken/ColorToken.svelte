@@ -67,98 +67,101 @@
 	)
 </script>
 
-<div class="flex flex-1 flex-row items-center gap-6">
-	<InputWrapper
-		name="color"
-		errors={res.getErrors('color')}
-		isValid={res.isValid('color')}
-	>
-		<input
-			value={hex}
-			name="color"
-			class="w-20 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
-			type="text"
-			{...isAlias ? { disabled: true } : {}}
-			on:focusout={handleHexChange}
-			on:input={handleChange}
-			bind:this={hexInput}
+<div class="flex flex-1 flex-row items-center gap-10">
+	<div class="flex flex-row items-center gap-1">
+		<div
+			class="aspect-square h-7 rounded-sm border border-gray-400"
+			style={`background-color: ${hex}`}
 		/>
-	</InputWrapper>
-
-	<div
-		class="h-6 min-w-[1.5rem] border border-gray-400"
-		style={`background-color: ${hex}`}
-	/>
-	<div class="flex w-full flex-col gap-1">
-		<div class="flex flex-row items-center gap-1">
-			<span class="text-xs text-gray-500">Hue</span>
+		<InputWrapper
+			name="color"
+			errors={res.getErrors('color')}
+			isValid={res.isValid('color')}
+		>
 			<input
-				type="number"
-				class="w-14 rounded-md border border-gray-300 px-1 text-xs"
+				value={hex}
+				name="color"
+				class="h-7 w-20 rounded-md bg-transparent px-2 py-1 text-sm text-gray-500"
+				type="text"
+				{...isAlias ? { disabled: true } : {}}
+				on:focusout={handleHexChange}
+				on:input={handleChange}
+				bind:this={hexInput}
+			/>
+		</InputWrapper>
+	</div>
+	<div class="flex flex-1 flex-row items-center gap-6">
+		<div class="flex w-full flex-col gap-1">
+			<div class="flex flex-row items-center gap-1">
+				<span class="text-xs text-gray-500">Hue</span>
+				<input
+					type="number"
+					class="w-14 rounded-md border border-gray-100 px-1 text-xs"
+					{...isAlias ? { disabled: true } : {}}
+					bind:value={token.value[0]}
+				/>
+			</div>
+			<Range
+				min={0}
+				max={360}
+				id={`${token.id}-hue-range`}
+				background={hueBackground}
 				{...isAlias ? { disabled: true } : {}}
 				bind:value={token.value[0]}
+				on:change={(e) =>
+					dispatch('colorChange', {
+						valueChanged: 0,
+						value: e.detail.diff
+					})}
 			/>
 		</div>
-		<Range
-			min={0}
-			max={360}
-			id={`${token.id}-hue-range`}
-			background={hueBackground}
-			{...isAlias ? { disabled: true } : {}}
-			bind:value={token.value[0]}
-			on:change={(e) =>
-				dispatch('colorChange', {
-					valueChanged: 0,
-					value: e.detail.diff
-				})}
-		/>
-	</div>
-	<div class="flex w-full flex-col gap-1">
-		<div class="flex flex-row items-center gap-1">
-			<span class="text-xs text-gray-500">Chroma</span>
-			<input
-				type="number"
-				class="w-14 rounded-md border border-gray-300 px-1 text-xs"
+		<div class="flex w-full flex-col gap-1">
+			<div class="flex flex-row items-center gap-1">
+				<span class="text-xs text-gray-500">Chroma</span>
+				<input
+					type="number"
+					class="w-14 rounded-md border border-gray-300 px-1 text-xs"
+					{...isAlias ? { disabled: true } : {}}
+					bind:value={token.value[1]}
+				/>
+			</div>
+			<Range
+				min={0}
+				max={100}
+				id={`${token.id}-chroma-range`}
+				background={chromaBackground}
 				{...isAlias ? { disabled: true } : {}}
 				bind:value={token.value[1]}
+				on:change={(e) =>
+					dispatch('colorChange', {
+						valueChanged: 1,
+						value: e.detail.diff
+					})}
 			/>
 		</div>
-		<Range
-			min={0}
-			max={100}
-			id={`${token.id}-chroma-range`}
-			background={chromaBackground}
-			{...isAlias ? { disabled: true } : {}}
-			bind:value={token.value[1]}
-			on:change={(e) =>
-				dispatch('colorChange', {
-					valueChanged: 1,
-					value: e.detail.diff
-				})}
-		/>
-	</div>
-	<div class="flex w-full flex-col gap-1">
-		<div class="flex flex-row items-center gap-1">
-			<span class="text-xs text-gray-500">Tone</span>
-			<input
-				type="number"
-				class="w-14 rounded-md border border-gray-300 px-1 text-xs"
+		<div class="flex w-full flex-col gap-1">
+			<div class="flex flex-row items-center gap-1">
+				<span class="text-xs text-gray-500">Tone</span>
+				<input
+					type="number"
+					class="w-14 rounded-md border border-gray-300 px-1 text-xs"
+					{...isAlias ? { disabled: true } : {}}
+					bind:value={token.value[2]}
+				/>
+			</div>
+			<Range
+				min={0}
+				max={100}
+				id={`${token.id}-saturation-range`}
+				background={toneBackground}
 				{...isAlias ? { disabled: true } : {}}
 				bind:value={token.value[2]}
+				on:change={(e) =>
+					dispatch('colorChange', {
+						valueChanged: 2,
+						value: e.detail.diff
+					})}
 			/>
 		</div>
-		<Range
-			min={0}
-			max={100}
-			id={`${token.id}-saturation-range`}
-			background={toneBackground}
-			{...isAlias ? { disabled: true } : {}}
-			bind:value={token.value[2]}
-			on:change={(e) =>
-				dispatch('colorChange', {
-					valueChanged: 2,
-					value: e.detail.diff
-				})}
-		/>
 	</div>
 </div>

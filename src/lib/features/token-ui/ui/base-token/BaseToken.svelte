@@ -1,36 +1,18 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
-	import { GripVertical, Link2, Trash2 } from 'lucide-svelte'
+	import { GripVertical, Trash2 } from 'lucide-svelte'
 	import { getContext, onMount } from 'svelte'
 	import { getDefaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import TokenTypeSelect from '../atoms/TokenTypeSelect.svelte'
 	import { Checkbox } from '$components/ui/checkbox'
-	import {
-		Dialog,
-		DialogContent,
-		DialogDescription,
-		DialogHeader,
-		DialogTrigger
-	} from '$components/ui/dialog'
-	import {
-		Tooltip,
-		TooltipContent,
-		TooltipProvider,
-		TooltipTrigger
-	} from '$components/ui/tooltip'
-	import transformToExportColorValue from '$lib/features/token-management/color/transformToExportColorValue'
-	import {
-		Accordion,
-		AccordionContent,
-		AccordionItem,
-		AccordionTrigger
-	} from '$components/ui/accordion'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 	import { page } from '$app/stores'
 	import InputWrapper from '$components/InputWrapper.svelte'
 	import nameSuite from '$lib/features/token-management/nameSuite'
+	import TokenAliasDialog from './atoms/TokenAliasDialog.svelte'
+	import DescriptionDialog from './atoms/DescriptionDialog.svelte'
 
 	export let token: IToken
 	export let draggedTokenId: string | null
@@ -79,23 +61,6 @@
 
 	let res = nameSuite.get()
 
-	let showTokenList = false
-
-	const toggleTokenList = () => {
-		showTokenList = !showTokenList
-	}
-
-	const createTokenAlias = (groupId: string, tokenId: string) => {
-		if (tokenId !== token.id) {
-			token.alias = {
-				groupId,
-				tokenId
-			}
-		} else {
-			alert('Cannot select the same token as its own alias')
-		}
-	}
-
 	onMount(() => {
 		if (token.name === undefined) {
 			const input = document.getElementById(
@@ -107,7 +72,7 @@
 </script>
 
 <div
-	class="flex flex-row items-center gap-2 border-b border-solid border-gray-200 px-3 py-2"
+	class="flex flex-row items-center gap-14 border-b border-solid border-gray-200 py-4 pl-4 pr-9"
 	class:bg-gray-100={draggedTokenId === token.id}
 	on:mouseenter={() => (hover = true)}
 	on:mouseleave={() => (hover = false)}
@@ -115,20 +80,20 @@
 	on:dragend
 	ondragover="return false"
 >
-	<div class="flex flex-row items-center gap-1">
-		<div class="flex w-8 flex-row items-center justify-between">
-			<div>
-				{#if hover}
-					<div on:dragstart draggable={true} class="cursor-grab">
-						<GripVertical class="h-3 w-3 text-gray-500" />
-					</div>
+	<div class="flex flex-row items-center gap-6">
+		<div class="flex flex-row gap-2">
+			<div class="flex w-8 flex-row items-center justify-between">
+				<div>
+					{#if hover}
+						<div on:dragstart draggable={true} class="cursor-grab">
+							<GripVertical class="h-3 w-3 text-gray-500" />
+						</div>
+					{/if}
+				</div>
+				{#if hover || selected}
+					<Checkbox bind:checked={selected} />
 				{/if}
 			</div>
-			{#if hover || selected}
-				<Checkbox bind:checked={selected} />
-			{/if}
-		</div>
-		<div class="flex flex-row gap-2">
 			<TokenTypeSelect
 				bind:value={token.type}
 				on:change={handleTokenTypeChange}
@@ -139,7 +104,7 @@
 				isValid={res.isValid('name')}
 			>
 				<input
-					class="rounded-md border-2 border-solid border-gray-200 px-1 text-sm font-medium"
+					class="rounded-md bg-transparent px-1 text-sm font-medium"
 					id={`${token.id}-name`}
 					placeholder="Untitled "
 					name="name"
@@ -148,102 +113,13 @@
 					on:input={handleChange}
 				/>
 			</InputWrapper>
-			<div class="flex flex-row">
-				<input
-					bind:value={token.description}
-					placeholder="Description"
-					class="w-52 items-center rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
-				/>
-			</div>
 		</div>
-		{#if !token.alias}
-			<Dialog>
-				<DialogTrigger>
-					<TooltipProvider>
-						<Tooltip>
-							<TooltipTrigger
-								><button on:click={toggleTokenList}>
-									<Link2 class="h-4 w-4" />
-								</button></TooltipTrigger
-							>
-							<TooltipContent>
-								<p>Create alias</p>
-							</TooltipContent>
-						</Tooltip>
-					</TooltipProvider></DialogTrigger
-				>
-				<DialogContent>
-					<DialogHeader>
-						<DialogDescription>
-							<h3>Select your alias</h3>
-							<div class="flex flex-col gap-6">
-								{#each $designTokensGroupStore as group}
-									{#if group.tokens.length > 0}
-										<div>
-											<div class="flex flex-col gap-4 pb-2">
-												<Accordion type="single" collapsible>
-													<AccordionItem value="item-1">
-														<AccordionTrigger>
-															<h3 class="pb-2 text-base text-black">
-																{group.name}
-															</h3>
-														</AccordionTrigger>
-														<AccordionContent>
-															<div class="flex flex-col gap-2">
-																{#each group.tokens as t}
-																	<div>
-																		<button
-																			class="flex flex-row gap-2"
-																			on:click={() =>
-																				createTokenAlias(group.id, t.id)}
-																		>
-																			<p class="text-black">{t.name}</p>
-																			<p>{t.type}</p>
-
-																			{#if t.type === 'color'}
-																				<div
-																					class="mr-4 h-6 min-w-[1.5rem] rounded border border-gray-400 text-black"
-																					style={`background-color: ${transformToExportColorValue(
-																						t.value
-																					)}`}
-																				/>
-																			{:else if t.type === 'dimension'}
-																				<p class="mr-4 text-gray-400">
-																					{t.value.value}
-																				</p>
-																			{:else}
-																				<p class=" mr-4 text-gray-400">
-																					{t.value}
-																				</p>
-																			{/if}
-																		</button>
-																	</div>
-																{/each}
-															</div>
-														</AccordionContent>
-													</AccordionItem>
-												</Accordion>
-											</div>
-										</div>
-									{/if}
-								{/each}
-							</div>
-						</DialogDescription>
-					</DialogHeader>
-				</DialogContent>
-			</Dialog>
-		{/if}
+		<div class="flex flex-row items-center gap-3">
+			<DescriptionDialog bind:token />
+			{#if !token.alias}
+				<TokenAliasDialog bind:token />
+			{/if}
+		</div>
 	</div>
 	<slot />
-	<div class="w-3">
-		{#if hover}
-			<button
-				on:click={handleDeleteToken}
-				class="bg-transparent"
-				in:fly={{ x: -5, duration: 350 }}
-			>
-				<Trash2 class="h-4 text-red-500" />
-			</button>
-		{/if}
-	</div>
 </div>
