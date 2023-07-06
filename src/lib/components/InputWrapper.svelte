@@ -36,7 +36,7 @@
 					<TooltipTrigger class="align-middle">
 						{#if !isValid}
 							<div class="flex flex-row">
-								<XCircle class="h-3.5 w-4" color="red" />
+								<XCircle class="h-3.5 w-4" />
 							</div>
 						{/if}
 					</TooltipTrigger>
