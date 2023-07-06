@@ -70,7 +70,7 @@
 <div class="flex flex-1 flex-row items-center gap-10">
 	<div class="flex flex-row items-center gap-1">
 		<div
-			class="aspect-square h-7 rounded-sm border border-gray-400"
+			class="aspect-square h-7 rounded-sm border border-gray-300"
 			style={`background-color: ${hex}`}
 		/>
 		<InputWrapper
@@ -92,11 +92,11 @@
 	</div>
 	<div class="flex flex-1 flex-row items-center gap-6">
 		<div class="flex w-full flex-col gap-1">
-			<div class="flex flex-row items-center gap-1">
+			<div class="flex flex-row items-center">
 				<span class="text-xs text-gray-500">Hue</span>
 				<input
 					type="number"
-					class="w-14 rounded-md border border-gray-100 px-1 text-xs"
+					class="w-14 rounded-md bg-transparent px-1 text-xs"
 					{...isAlias ? { disabled: true } : {}}
 					bind:value={token.value[0]}
 				/>
@@ -116,11 +116,11 @@
 			/>
 		</div>
 		<div class="flex w-full flex-col gap-1">
-			<div class="flex flex-row items-center gap-1">
+			<div class="flex flex-row items-center">
 				<span class="text-xs text-gray-500">Chroma</span>
 				<input
 					type="number"
-					class="w-14 rounded-md border border-gray-300 px-1 text-xs"
+					class="w-14 rounded-md bg-transparent px-1 text-xs"
 					{...isAlias ? { disabled: true } : {}}
 					bind:value={token.value[1]}
 				/>
@@ -140,11 +140,11 @@
 			/>
 		</div>
 		<div class="flex w-full flex-col gap-1">
-			<div class="flex flex-row items-center gap-1">
+			<div class="flex flex-row items-center">
 				<span class="text-xs text-gray-500">Tone</span>
 				<input
 					type="number"
-					class="w-14 rounded-md border border-gray-300 px-1 text-xs"
+					class="w-14 rounded-md bg-transparent px-1 text-xs"
 					{...isAlias ? { disabled: true } : {}}
 					bind:value={token.value[2]}
 				/>

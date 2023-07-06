@@ -38,7 +38,7 @@
 </script>
 
 <div
-	class="border-b-1 flex flex-row items-center justify-between border-b border-solid px-8 py-3"
+	class="border-b-1 flex flex-row items-center justify-between border-b border-solid px-8 py-4"
 >
 	<div class="flex flex-row items-center gap-3">
 		<DesignSystemBreadcrumb />
@@ -47,7 +47,7 @@
 		{/if}
 	</div>
 	{#if activeGroupId}
-		<Button on:click={handleAddToken}>
+		<Button on:click={handleAddToken} class="h-fit py-1 text-sm">
 			<Plus class="mr-2 h-4 w-4" />
 			Add Token
 		</Button>

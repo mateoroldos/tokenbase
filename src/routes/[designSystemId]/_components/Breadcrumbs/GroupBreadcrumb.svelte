@@ -53,7 +53,7 @@
 			<Input
 				type="text"
 				placeholder="Untitled"
-				class="w-fit border-none px-1 text-lg"
+				class="h-fit w-fit border-none px-1 py-0 text-lg leading-none"
 				id={`group-name-${groupId}`}
 				autoSelect={true}
 				autoName="Untitled"

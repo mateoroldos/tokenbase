@@ -198,14 +198,14 @@
 		on:touchstart={onTrackEvent}
 	>
 		<div
-			class="h-2 cursor-pointer rounded-full border border-gray-400"
+			class="h-2 cursor-pointer rounded-full border border-gray-300"
 			class:bg-gray-200={background === undefined}
 			style={`background: ${background}`}
 			bind:this={container}
 		>
 			<div class="absolute h-2 w-0 rounded-full" bind:this={progressBar} />
 			<div
-				class="border-1 absolute -mt-[0.3rem] flex h-4 w-4 items-center justify-center rounded-full border border-gray-400 bg-white shadow-lg"
+				class="border-1 absolute -mt-[0.3rem] flex h-4 w-4 items-center justify-center rounded-full border border-gray-300 bg-white shadow-lg"
 				bind:this={thumb}
 				on:touchstart={onDragStart}
 				on:mousedown={onDragStart}

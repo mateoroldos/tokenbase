@@ -4,7 +4,7 @@
 	import { goto } from '$app/navigation'
 	import { page } from '$app/stores'
 	import ExportSheet from '$components/ExportSheet.svelte'
-	import { Plus } from 'lucide-svelte'
+	import { SquareEqual, Plus } from 'lucide-svelte'
 	import groupsStore from '$lib/features/token-groups-store/groups'
 	import { v4 as uuidv4 } from 'uuid'
 
@@ -20,15 +20,18 @@
 </script>
 
 <div
-	class="flex flex-col justify-between border-r border-solid bg-gray-200 px-8 py-7"
+	class="flex flex-col justify-between border-r border-solid bg-gray-100 px-5 py-4"
 >
 	<div class="flex flex-col gap-3">
-		<a href="/" class="text-lg font-bold">Tokenbase</a>
+		<a href="/" class="mb-4 text-lg font-medium">
+			<SquareEqual class="mb-1 inline-block h-6 w-6" />
+			Tokenbase
+		</a>
 		{#each tree.children as node}
 			<GroupItem {node} />
 		{/each}
 		<button
-			class="align-center font-small flex flex-row items-center gap-1 border-t border-solid border-t-gray-300 pl-2 pt-1 text-sm text-gray-400 transition-colors hover:text-gray-500"
+			class="align-center font-small mt-3 flex flex-row items-center gap-1 border-t border-solid border-t-gray-200 pl-2 pt-1 text-sm text-gray-400 transition-colors hover:text-gray-500"
 			on:click={handleAddNewGroup}
 		>
 			<Plus class="h-3 w-3" />
