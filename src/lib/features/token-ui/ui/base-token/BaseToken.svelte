@@ -6,7 +6,6 @@
 	import { getDefaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import TokenTypeSelect from '../atoms/TokenTypeSelect.svelte'
-	import descriptionSuite from '../validations/descriptionSuite'
 	import { Checkbox } from '$components/ui/checkbox'
 	import {
 		Dialog,
@@ -29,6 +28,9 @@
 		AccordionTrigger
 	} from '$components/ui/accordion'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import { page } from '$app/stores'
+	import InputWrapper from '$components/InputWrapper.svelte'
+	import nameSuite from '$lib/features/token-management/nameSuite'
 
 	export let token: IToken
 	export let draggedTokenId: string | null
@@ -66,10 +68,16 @@
 	const handleChange = (input: Event) => {
 		const target = input.target as HTMLInputElement
 
-		res = descriptionSuite(target.value, 'description')
+		res = nameSuite(
+			target.value,
+			'name',
+			$designTokensGroupStore
+				.find((g) => g.id === $page.params.groupId)
+				?.tokens.map((t) => t.name)
+		)
 	}
 
-	let res = descriptionSuite.get()
+	let res = nameSuite.get()
 
 	let showTokenList = false
 
@@ -121,17 +129,24 @@
 				bind:value={token.type}
 				on:change={handleTokenTypeChange}
 			/>
-			<input
-				class="rounded-md border-2 border-solid border-gray-200 px-1 text-sm font-medium"
-				id={`${token.id}-name`}
-				placeholder="Untitled"
-				bind:value={token.name}
-				on:focusout={handleUnselectNameInput}
-			/>
+			<InputWrapper
+				name="name"
+				errors={res.getErrors('name')}
+				isValid={res.isValid('name')}
+			>
+				<input
+					class="rounded-md border-2 border-solid border-gray-200 px-1 text-sm font-medium"
+					id={`${token.id}-name`}
+					placeholder="Untitled "
+					name="name"
+					bind:value={token.name}
+					on:focusout={handleUnselectNameInput}
+					on:input={handleChange}
+				/>
+			</InputWrapper>
 			<div class="flex flex-row">
 				<input
 					bind:value={token.description}
-					on:input={handleChange}
 					placeholder="Description"
 					class="w-52 items-center rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
 				/>
