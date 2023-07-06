@@ -78,9 +78,13 @@
 	}
 
 	const createTokenAlias = (groupId: string, tokenId: string) => {
-		token.alias = {
-			groupId,
-			tokenId
+		if (tokenId !== token.id) {
+			token.alias = {
+				groupId,
+				tokenId
+			}
+		} else {
+			alert('Cannot select the same token as its own alias')
 		}
 	}
 
