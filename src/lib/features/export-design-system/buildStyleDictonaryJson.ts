@@ -10,6 +10,9 @@ import transformToExportColorValue from '../token-management/color/transformToEx
 import transformToExportDurationValue from '../token-management/duration/transformToExportDurationValue'
 import type { DimensionTokenValue } from '../token-management/dimension/internal-dimension-value.type'
 import transformToExportDimensionValue from '../token-management/dimension/transformToExportDimensionValue'
+import findTokenById from '../../utils/findTokenById'
+import { get } from 'svelte/store'
+import groupsStore from '../token-groups-store/groups'
 
 interface StyleDictonaryToken {
 	value: ReturnType<typeof convertValueToJson>
@@ -71,6 +74,9 @@ const buildStyleDictonaryJson = (
 
 	const json = JSON.stringify(tree, null, 2)
 
+	console.log('====================================')
+	console.log(json)
+	console.log('====================================')
 	return json
 }
 
@@ -78,24 +84,55 @@ export default buildStyleDictonaryJson
 
 const convertTokensToStyleDictonaryTokens = (
 	tokens: IToken[]
-): {
-	[key: string]: StyleDictonaryToken
-} => {
-	const dictonary: { [key: string]: StyleDictonaryToken } = {}
+): { [key: string]: StyleDictonaryToken } => {
+	const dictionary: { [key: string]: StyleDictonaryToken } = {}
+
+	const getTokenRoute = (groupId: string, aliasId?: string): string => {
+		const group = get(groupsStore).find((group) => group.id === groupId)
+
+		let tokenName = undefined
+
+		if (aliasId != undefined) {
+			const token = group?.tokens.find((t) => t.id === aliasId)
+
+			if (!token) return ''
+
+			tokenName = token.name
+		}
+
+		const groupName = group?.name
+		const parentRoute = group?.parentGroup
+			? getTokenRoute(group.parentGroup)
+			: ''
+
+		if (aliasId != undefined) {
+			return (
+				parentRoute.replaceAll('undefined', '').replaceAll('.', '') +
+				'.' +
+				groupName +
+				'.' +
+				tokenName
+			)
+		} else {
+			return parentRoute.replace('undefined', '') + '.' + groupName
+		}
+	}
 
 	tokens.forEach((token) => {
-		const { name, value, type } = token
+		const { name, value, type, alias } = token
 
-		const dictonaryToken: StyleDictonaryToken = {
-			value: convertValueToJson(value, type),
+		const dictionaryToken: StyleDictonaryToken = {
+			value: alias
+				? `{${getTokenRoute(alias.groupId, alias.tokenId)}}`
+				: convertValueToJson(value, type),
 			comment: token.description,
 			type: type
 		}
 
-		dictonary[name ?? 'undefined'] = dictonaryToken
+		dictionary[name ?? 'undefined'] = dictionaryToken
 	})
 
-	return dictonary
+	return dictionary
 }
 
 const convertValueToJson = <T extends TokenType>(
