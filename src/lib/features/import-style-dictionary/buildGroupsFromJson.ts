@@ -35,7 +35,11 @@ const buildStyleDictionaryNode = (
 	const groups: Group[] = [] // array donde vamos a ir guardando todos los grupos
 
 	Object.entries(styleDictionaryGroup).forEach(([key, data]) => {
+		console.log(data.value)
 		if (data.type && data.value) {
+			if (data.value.toString().includes('{')) {
+				console.log('hola')
+			}
 			// caso que estemos recorriendo un token
 			const tokenData = data as StyleDictionaryToken
 			const { value, comment, type } = tokenData
