@@ -14,6 +14,7 @@ import type { DimensionTokenValue } from '../token-management/dimension/internal
 import type { FontFamilyTokenValue } from '../token-management/font-family/internal-font-family-value.type'
 import type { FontWeightTokenValue } from '../token-management/font-weight/internal-font-weight-value.type'
 import type { CubicBezierTokenValue } from '../token-management/cubic-bezier/internal-cubic-bezier-value.type'
+import findTokenByName from '$lib/utils/findTokenByName'
 
 interface StyleDictionaryToken {
 	value: TokenValue<TokenType>
@@ -35,11 +36,28 @@ const buildStyleDictionaryNode = (
 	const groups: Group[] = [] // array donde vamos a ir guardando todos los grupos
 
 	Object.entries(styleDictionaryGroup).forEach(([key, data]) => {
-		console.log(data.value)
 		if (data.type && data.value) {
-			if (data.value.toString().includes('{')) {
-				console.log('hola')
+			if (
+				data.value.toString().startsWith('{') &&
+				data.value.toString().endsWith('}')
+			) {
+				// Check if the value is an alias
+				const aliasValue = data.value.toString().slice(2, -1) // Remove the curly braces
+				const [groupPath, aliasTokenName] = aliasValue.split('.') // Split the group path and alias token name
+				const groupPathSegments = groupPath?.split('.') // Split the group path into segments
+				console.log(aliasValue)
+				console.log(groupPath)
+				console.log(aliasTokenName)
+				const tokenAliased = tokens.find((t) => t.name == aliasTokenName)
+				console.log(tokenAliased)
+
+				if (tokenAliased) {
+					// Replace the alias value with the real value
+					data.value = tokenAliased.value
+					console.log(data.value)
+				}
 			}
+
 			// caso que estemos recorriendo un token
 			const tokenData = data as StyleDictionaryToken
 			const { value, comment, type } = tokenData
@@ -113,6 +131,7 @@ const buildStyleDictionaryNode = (
 
 		groups.push(newGroup)
 	}
+	console.log(groups)
 
 	return groups
 }
