@@ -45,16 +45,11 @@ const buildStyleDictionaryNode = (
 				const aliasValue = data.value.toString().slice(2, -1) // Remove the curly braces
 				const [groupPath, aliasTokenName] = aliasValue.split('.') // Split the group path and alias token name
 				const groupPathSegments = groupPath?.split('.') // Split the group path into segments
-				console.log(aliasValue)
-				console.log(groupPath)
-				console.log(aliasTokenName)
 				const tokenAliased = tokens.find((t) => t.name == aliasTokenName)
-				console.log(tokenAliased)
 
 				if (tokenAliased) {
 					// Replace the alias value with the real value
 					data.value = tokenAliased.value
-					console.log(data.value)
 				}
 			}
 
