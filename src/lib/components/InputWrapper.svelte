@@ -31,6 +31,7 @@
 	<slot />
 	{#if errors && errors.length > 0}
 		{#each errors as error}
+		<div class="error-icon">
 			<TooltipProvider>
 				<Tooltip>
 					<TooltipTrigger class="align-middle">
@@ -45,6 +46,17 @@
 					</TooltipContent>
 				</Tooltip>
 			</TooltipProvider>
+		</div>
 		{/each}
+	{:else}
+	<div class="error-icon"></div>
 	{/if}
+
 </div>
+
+<style lang="scss">
+	.error-icon{
+		width: 20px;
+	}
+
+</style>
