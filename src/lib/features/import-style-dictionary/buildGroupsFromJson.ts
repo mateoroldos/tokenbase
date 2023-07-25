@@ -14,7 +14,7 @@ import type { DimensionTokenValue } from '../token-management/dimension/internal
 import type { FontFamilyTokenValue } from '../token-management/font-family/internal-font-family-value.type'
 import type { FontWeightTokenValue } from '../token-management/font-weight/internal-font-weight-value.type'
 import type { CubicBezierTokenValue } from '../token-management/cubic-bezier/internal-cubic-bezier-value.type'
-import findTokenByName from '$lib/utils/findTokenByName'
+import transformToExportDimensionValue from '../token-management/dimension/transformToExportDimensionValue'
 
 interface StyleDictionaryToken {
 	value: TokenValue<TokenType>
@@ -50,6 +50,11 @@ const buildStyleDictionaryNode = (
 				if (tokenAliased) {
 					// Replace the alias value with the real value
 					data.value = tokenAliased.value
+					if (data.type === 'dimension') {
+						data.value = transformToExportDimensionValue(
+							data.value as DimensionTokenValue
+						)
+					}
 				}
 			}
 
