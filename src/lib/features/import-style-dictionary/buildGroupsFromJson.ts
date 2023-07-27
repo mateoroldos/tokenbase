@@ -15,6 +15,9 @@ import type { FontFamilyTokenValue } from '../token-management/font-family/inter
 import type { FontWeightTokenValue } from '../token-management/font-weight/internal-font-weight-value.type'
 import type { CubicBezierTokenValue } from '../token-management/cubic-bezier/internal-cubic-bezier-value.type'
 import transformToExportDimensionValue from '../token-management/dimension/transformToExportDimensionValue'
+import transformToExportColorValue from '../token-management/color/transformToExportColorValue'
+import transformToExportDurationValue from '../token-management/duration/transformToExportDurationValue'
+import type { DurationTokenValue } from '../token-management/duration/internal-duration.value.type'
 
 interface StyleDictionaryToken {
 	value: TokenValue<TokenType>
@@ -53,6 +56,11 @@ const buildStyleDictionaryNode = (
 					if (data.type === 'dimension') {
 						data.value = transformToExportDimensionValue(
 							data.value as DimensionTokenValue
+						)
+					}
+					if (data.type === 'color') {
+						data.value = transformToExportColorValue(
+							data.value as ColorTokenValue
 						)
 					}
 				}
