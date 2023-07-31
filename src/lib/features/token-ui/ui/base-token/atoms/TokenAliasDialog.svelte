@@ -30,9 +30,6 @@
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
 
-		console.log($designTokensGroupStore);
-		
-
 	let showTokenList = false
 
 	const toggleTokenList = () => {
