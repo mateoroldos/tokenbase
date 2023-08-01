@@ -17,7 +17,6 @@
 	import { Link2Off } from 'lucide-svelte'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 	import TokenAliasDialog from './base-token/atoms/TokenAliasDialog.svelte'
-	
 
 	export let token: IToken
 	export let draggedTokenId: string | null
@@ -31,14 +30,23 @@
 		token.alias = undefined
 	}
 
-	$: if (token.alias && token.alias !== undefined) {
-		token = {
-			...token,
-			type: findTokenById(token.alias.tokenId, $designTokensGroupStore)
-				?.type as TokenType,
-			value: findTokenById(token.alias.tokenId, $designTokensGroupStore)
-				?.value as TokenValue
+	// This function gets the alias value and type and assigns it to the token
+	const connectTokenToAliasValues = () => {
+		if (token.alias) {
+			const aliasOriginToken = findTokenById(token.alias.tokenId, $designTokensGroupStore)
+
+			if (aliasOriginToken) {
+				token = {
+					...token,
+					type: aliasOriginToken.type,
+					value: aliasOriginToken.value
+				}
+			}
 		}
+	}
+
+	$: if (token.alias !== undefined) {
+		connectTokenToAliasValues()
 	}
 </script>
 
@@ -47,7 +55,6 @@
 		<button on:click={removeAlias}><Link2Off class="h-4 w-4" /></button>
 	{:else}
 				<TokenAliasDialog bind:token />
-			
 	{/if}
 	{#if token.type === 'color'}
 		<ColorToken bind:token on:colorChange />
