@@ -35,16 +35,6 @@
 		showTokenList = !showTokenList
 	}
 
-	const createTokenAlias = (groupId: string, tokenId: string) => {
-		if (tokenId !== token.id) {
-			token.alias = {
-				groupId,
-				tokenId
-			}
-		} else {
-			alert('Cannot select the same token as its own alias')
-		}
-	}
 </script>
 
 <Dialog>

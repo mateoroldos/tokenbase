@@ -10,6 +10,8 @@
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import GroupHeader from './_components/GroupHeader.svelte'
+	import buildStyleDictonaryJson from '$lib/features/export-design-system/buildStyleDictonaryJson'
+	import styleDictionaryToGroups from '$lib/features/import-style-dictionary/buildGroupsFromJson'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -114,6 +116,23 @@
 			</div>
 		</div>
 	</section>
+	<button
+		on:click={() =>
+			buildStyleDictonaryJson(
+				$designTokensGroupStore,
+				$page.params.designSystemId
+			)}>Transform Test</button
+	>
+	<button
+		on:click={() =>
+			styleDictionaryToGroups(
+				buildStyleDictonaryJson(
+					$designTokensGroupStore,
+					$page.params.designSystemId
+				),
+				$page.params.groupId
+			)}>Transform Test 2</button
+	>
 {:else}
 	<p>Group not found</p>
 {/if}

@@ -2,6 +2,7 @@
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import { Link2 } from 'lucide-svelte'
 	import { getContext } from 'svelte'
+	import { page } from '$app/stores'
 	import {
 		Dialog,
 		DialogContent,
@@ -68,7 +69,7 @@
 				<h3>Select your alias</h3>
 				<div class="flex flex-col gap-6">
 					{#each $designTokensGroupStore as group}
-						{#if group.tokens.length > 0}
+						{#if group.tokens.length > 0 && group.parentGroup === $page.params.designSystemId || group.id === $page.params.groupId}
 							<div>
 								<div class="flex flex-col gap-4 pb-2">
 									<Accordion type="single" collapsible>

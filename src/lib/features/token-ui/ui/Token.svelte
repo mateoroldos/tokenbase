@@ -16,6 +16,8 @@
 	import findTokenById from '$lib/utils/findTokenById'
 	import { Link2Off } from 'lucide-svelte'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import TokenAliasDialog from './base-token/atoms/TokenAliasDialog.svelte'
+	
 
 	export let token: IToken
 	export let draggedTokenId: string | null
@@ -43,6 +45,9 @@
 <BaseToken bind:token bind:draggedTokenId on:dragstart on:dragenter on:dragend>
 	{#if token.alias}
 		<button on:click={removeAlias}><Link2Off class="h-4 w-4" /></button>
+	{:else}
+				<TokenAliasDialog bind:token />
+			
 	{/if}
 	{#if token.type === 'color'}
 		<ColorToken bind:token on:colorChange />

@@ -11,7 +11,6 @@
 	import { page } from '$app/stores'
 	import InputWrapper from '$components/InputWrapper.svelte'
 	import nameSuite from '$lib/features/token-management/nameSuite'
-	import TokenAliasDialog from './atoms/TokenAliasDialog.svelte'
 	import DescriptionDialog from './atoms/DescriptionDialog.svelte'
 
 	export let token: IToken
@@ -36,10 +35,6 @@
 		token.value = getDefaultTokenValues(token.type)
 	}
 
-	const handleDeleteToken = () => {
-		selectedTokensStore.removeToken(token)
-		designTokensGroupStore.deleteToken(token.id)
-	}
 
 	const handleUnselectNameInput = () => {
 		if (token.name === undefined || token.name === '') {
@@ -115,10 +110,7 @@
 			</InputWrapper>
 		</div>
 		<div class="flex flex-row items-center gap-3">
-			<DescriptionDialog bind:token />
-			{#if !token.alias}
-				<TokenAliasDialog bind:token />
-			{/if}
+			<DescriptionDialog bind:token />		
 		</div>
 	</div>
 	<slot />

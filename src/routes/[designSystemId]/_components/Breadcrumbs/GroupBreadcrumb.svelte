@@ -28,19 +28,6 @@
 			}
 		}
 	}
-
-	// let input
-
-	// $: if (
-	// 	input &&
-	// 	$designTokensGroupStore[groupIndex] &&
-	// 	($designTokensGroupStore[groupIndex].name === undefined ||
-	// 		$designTokensGroupStore[groupIndex].name === '')
-	// ) {
-	// 	console.log('bala')
-
-	// 	input.select()
-	// }
 </script>
 
 {#if $designTokensGroupStore[groupIndex]}
