@@ -10,7 +10,6 @@ import transformToExportColorValue from '../token-management/color/transformToEx
 import transformToExportDurationValue from '../token-management/duration/transformToExportDurationValue'
 import type { DimensionTokenValue } from '../token-management/dimension/internal-dimension-value.type'
 import transformToExportDimensionValue from '../token-management/dimension/transformToExportDimensionValue'
-import findTokenById from '../../utils/findTokenById'
 import { get } from 'svelte/store'
 import groupsStore from '../token-groups-store/groups'
 
@@ -103,15 +102,12 @@ const convertTokensToStyleDictonaryTokens = (
 			: ''
 
 		if (aliasId != undefined) {
-			return (
-				parentRoute.replaceAll('undefined', '').replaceAll('.', '') +
-				'.' +
-				groupName +
-				'.' +
-				tokenName
+			return (parentRoute + '.' + groupName + '.' + tokenName).replace(
+				'.undefined.',
+				''
 			)
 		} else {
-			return parentRoute.replace('undefined', '') + '.' + groupName
+			return parentRoute + '.' + groupName
 		}
 	}
 
