@@ -31,7 +31,7 @@
 </script>
 
 {#if $designTokensGroupStore[groupIndex]}
-	{#if groupId && groupIndex}
+	{#if groupId}
 		{#if parentGroupId != undefined && parentGroupId != $page.params.designSystemId}
 			<svelte:self groupId={parentGroupId} lastItem={false} />
 		{/if}
