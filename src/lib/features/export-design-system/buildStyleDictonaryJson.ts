@@ -74,9 +74,6 @@ const buildStyleDictonaryJson = (
 
 	const json = JSON.stringify(tree, null, 2)
 
-	console.log('====================================')
-	console.log(json)
-	console.log('====================================')
 	return json
 }
 

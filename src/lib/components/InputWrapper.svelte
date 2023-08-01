@@ -49,7 +49,7 @@
 		</div>
 		{/each}
 	{:else}
-	<div class="error-icon"></div>
+	<div class="error-icon"/>
 	{/if}
 
 </div>

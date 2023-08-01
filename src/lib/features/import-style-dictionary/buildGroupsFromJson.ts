@@ -161,7 +161,6 @@ const buildStyleDictionaryNode = (
 
 		groups.push(newGroup)
 	}
-	console.log(groups)
 
 	return groups
 }
