@@ -44,15 +44,17 @@
 
 	const handleChange = (input: Event) => {
 		const target = input.target as HTMLInputElement
-
-		res = nameSuite(
-			target.value,
-			'name',
-			$designTokensGroupStore
-				.find((g) => g.id === $page.params.groupId)
-				?.tokens.map((t) => t.name)
-		)
 	}
+
+	$: {
+        res = nameSuite(
+            token.name,
+            'name',
+            $designTokensGroupStore
+                .find((g) => g.id === $page.params.groupId)
+                ?.tokens.map((t) => t.name)
+        )
+    }
 
 	let res = nameSuite.get()
 
