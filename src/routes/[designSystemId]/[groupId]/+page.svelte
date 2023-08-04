@@ -3,11 +3,11 @@
 		moveToken,
 		type createGroupsStore
 	} from '$lib/features/token-groups-store/groups'
+	import { navigating } from '$app/stores'
 	import { page } from '$app/stores'
-	import { getContext } from 'svelte'
+	import { getContext, onDestroy, onMount, setContext } from 'svelte'
 	import Token from '$lib/features/token-ui/ui/Token.svelte'
-	import Toolbar from '$lib/features/toolbar/ui/Toolbar.svelte'
-	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
+	import { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import GroupHeader from './_components/GroupHeader.svelte'
 	import buildStyleDictonaryJson from '$lib/features/export-design-system/buildStyleDictonaryJson'
@@ -15,8 +15,10 @@
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
-	const selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
-		getContext('selectedTokensStore')
+
+	let selectedTokensStore: ReturnType<typeof createSelectedTokensStore> = createSelectedTokensStore();
+
+	setContext('selectedTokensStore', selectedTokensStore)
 
 	$: groupId = $page.params.groupId as string
 
@@ -86,37 +88,37 @@
 	// 	}
 	// }
 
-	// onMount(() => {
-	// 	$designTokensGroupStore[groupIndex]!.type = findGroupType()
-	// })
+	$: if ($navigating) {
+		setTimeout(() => {
+			selectedTokensStore.clearTokens()
+		}, 1) // This is setTimeout is a workaround to make the clear tokens work. 
+					//If we did it at the same time as the $navigation it didn't work
+	}
 </script>
 
 {#if $designTokensGroupStore[groupIndex]}
-	<section class="flex flex-1 flex-col justify-between">
-		<div>
-			<GroupHeader />
+	<section class="overflow-y-hidden flex flex-col flex-1">
+		<GroupHeader />
+		{#if $designTokensGroupStore[groupIndex].tokens.length > 0}
+			<div class="overflow-y-auto">
+				{#each $designTokensGroupStore[groupIndex].tokens as token (token.id)}
+					<Token
+						bind:token
+						bind:draggedTokenId
+						on:dragstart={() => handleDragStart(token.id)}
+						on:dragenter={() => handleDragEnter(token.id)}
+						on:dragend={() => (draggedTokenId = null)}
+						on:colorChange={(e) => handleColorChange(e, token)}
+					/>
+				{/each}
+			</div>
+		{:else}
 			<div>
-				{#if $designTokensGroupStore[groupIndex].tokens.length > 0}
-					{#each $designTokensGroupStore[groupIndex].tokens as token (token.id)}
-						<Token
-							bind:token
-							bind:draggedTokenId
-							on:dragstart={() => handleDragStart(token.id)}
-							on:dragenter={() => handleDragEnter(token.id)}
-							on:dragend={() => (draggedTokenId = null)}
-							on:colorChange={(e) => handleColorChange(e, token)}
-						/>
-					{/each}
-				{:else}
-					<p class="text-center text-gray-600">No tokens yet</p>
-				{/if}
+				<p class="text-center text-gray-600">No tokens yet</p>
 			</div>
-			<div class="bottom-0 flex flex-row justify-center">
-				<Toolbar />
-			</div>
-		</div>
+		{/if}
 	</section>
-	<button
+	<!-- <button
 		on:click={() =>
 			buildStyleDictonaryJson(
 				$designTokensGroupStore,
@@ -132,7 +134,7 @@
 				),
 				$page.params.groupId
 			)}>Transform Test 2</button
-	>
+	> -->
 {:else}
 	<p>Group not found</p>
 {/if}

@@ -12,9 +12,9 @@ export const createSelectedTokensStore = () => {
 		})
 	}
 
-	const removeToken = (token: IToken): void => {
+	const removeToken = (tokenId: string): void => {
 		update((tokens) => {
-			const index = tokens.findIndex((t) => t.id === token.id)
+			const index = tokens.findIndex((t) => t.id === tokenId)
 
 			if (index !== -1) {
 				tokens.splice(index, 1)
@@ -37,6 +37,6 @@ export const createSelectedTokensStore = () => {
 	}
 }
 
-const selectedTokensStore = createSelectedTokensStore()
+// const selectedTokensStore = createSelectedTokensStore()
 
-export default selectedTokensStore
+// export default selectedTokensStore

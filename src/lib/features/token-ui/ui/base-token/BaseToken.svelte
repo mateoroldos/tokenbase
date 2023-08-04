@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { fly } from 'svelte/transition'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import { GripVertical, Trash2 } from 'lucide-svelte'
 	import { getContext, onMount } from 'svelte'
@@ -28,7 +27,7 @@
 	$: if (!$selectedTokensStore.includes(token) && selected) {
 		selectedTokensStore.addToken(token)
 	} else if ($selectedTokensStore.includes(token) && !selected) {
-		selectedTokensStore.removeToken(token)
+		selectedTokensStore.removeToken(token.id)
 	}
 
 	const handleTokenTypeChange = () => {

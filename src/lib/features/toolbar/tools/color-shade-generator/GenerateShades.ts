@@ -8,7 +8,7 @@ export const generateShades = <
 	tokenValue2: TokenValue<T>,
 	amountOfShades: number
 ): TokenValue<'color' | 'dimension' | 'number' | 'duration'>[] => {
-	const trueAmountOfShades = amountOfShades + 2 // We add 2 so start token and end token are included
+	const trueAmountOfShades = Number(amountOfShades) + 2 // We add 2 so start token and end token are included
 	const shades = []
 
 	if (
