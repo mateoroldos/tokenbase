@@ -13,6 +13,9 @@
     import { page } from '$app/stores';
     import importStyleDictionary from '../import-style-dictionary/importStyleDictionary'
 	import InputFiles from '$components/ui/input/InputFiles.svelte'
+	import InputWrapper from '$components/InputWrapper.svelte'
+	import jsonSuite from '../token-management/jsonSuite'
+    
 
     let json: string;
     let desingSystemId: string;
@@ -22,23 +25,34 @@
             const textarea = event.target as HTMLTextAreaElement;
             json = textarea.value;
             desingSystemId = $page.params.designSystemId as string 
-       
+            res = jsonSuite(json, event.target.name)
+            console.log(event)
 	}
 
+	let res = jsonSuite.get()
+       
+	
+
     const createDesignSystemFromJson = async () => {  
-        if(jsonFile){         
-            return new Promise((resolve, reject) => {               
-                const fileReader = new FileReader()
-                fileReader.readAsText(jsonFile[0])
-            fileReader.onload = () => {
-                    const desingSystemId = $page.params.designSystemId as string
-                    importStyleDictionary(fileReader.result as string, desingSystemId)
-                }
-            })           
-        }else{
-            importStyleDictionary(json, desingSystemId);
+        try {         
+            if(jsonFile){         
+                return new Promise((resolve, reject) => {               
+                    const fileReader = new FileReader()
+                    fileReader.readAsText(jsonFile[0])
+                fileReader.onload = () => {
+                        const desingSystemId = $page.params.designSystemId as string
+                        importStyleDictionary(fileReader.result as string, desingSystemId)
+                    }
+                })           
+            }else{
+                importStyleDictionary(json, desingSystemId);
+            }
+        } catch (error) {
+            alert('JSON is not valid')
+            
         }
   };
+  
 
 </script>
 
@@ -57,9 +71,10 @@
         <div class="flex items-center w-full gap-6">
             <span class="line"></span> <p class="text-zinc-300 text-xs">OR</p> <span class="line"></span>
         </div>
-			<div class="flex flex-row flex-wrap gap-4">
-				<Textarea on:input={handleSubmit} placeholder="Type your JSON here." />
-			</div>	
+    <InputWrapper name="jsonFile" errors={res.getErrors('jsonFile')} isValid={res.isValid('jsonFile')}>            
+				<Textarea on:input={handleSubmit} placeholder="Type your JSON here." name='jsonFile' />
+            </InputWrapper>
+			
         <Button on:click={createDesignSystemFromJson}>Upload</Button>
 	</DialogContent>
 </Dialog>
