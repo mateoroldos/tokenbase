@@ -6,6 +6,7 @@
 	import StartCardTemplate from './_components/StartCards/StartCardTemplate.svelte'
 	import StartFromTemplateModal from '$lib/features/templates/StartFromTemplateModal.svelte'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import StartFromJsonModal from '$lib/features/templates/StartFromJsonModal.svelte'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -36,11 +37,12 @@
 			linkText: 'Start from scratch'
 		},
 		{
-			title: 'Import your a JSON file',
+			title: 'Import your JSON file',
 			description: 'Import your design system from a JSON file',
 			image: '/images/import-from-json.png',
 			link: `/design-systems/${$page.params.designSystemId}/import-from-json`,
-			linkText: 'Import from JSON'
+			linkText: 'Import from JSON',
+			component: StartFromJsonModal
 		},
 		{
 			title: 'Import a Figma file',
@@ -66,7 +68,7 @@
 				{#each startCards as { title, description, image, component }}
 					<StartCardTemplate {title} {description} {image}>
 						{#if component}
-							<svelte:component this={component} />
+							<svelte:component this={component}  />
 						{/if}
 					</StartCardTemplate>
 				{/each}
