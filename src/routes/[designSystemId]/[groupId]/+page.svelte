@@ -5,11 +5,18 @@
 	} from '$lib/features/token-groups-store/groups'
 	import { navigating } from '$app/stores'
 	import { page } from '$app/stores'
-	import { getContext, onDestroy, onMount, setContext } from 'svelte'
+	import { getContext, setContext } from 'svelte'
 	import Token from '$lib/features/token-ui/ui/Token.svelte'
 	import { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import GroupHeader from './_components/GroupHeader.svelte'
+	import {
+    Table,
+    TableBody,
+    TableHead,
+    TableHeader,
+    TableRow
+  } from "$components/ui/table";
 	import buildStyleDictonaryJson from '$lib/features/export-design-system/buildStyleDictonaryJson'
 	import styleDictionaryToGroups from '$lib/features/import-style-dictionary/buildGroupsFromJson'
 
@@ -88,6 +95,8 @@
 	// 	}
 	// }
 
+	$: allTokensSelected = ($selectedTokensStore.length === $designTokensGroupStore[groupIndex].tokens.length) && $selectedTokensStore.length > 0
+
 	$: if ($navigating) {
 		setTimeout(() => {
 			selectedTokensStore.clearTokens()
@@ -99,42 +108,51 @@
 {#if $designTokensGroupStore[groupIndex]}
 	<section class="overflow-y-hidden flex flex-col flex-1">
 		<GroupHeader />
-		{#if $designTokensGroupStore[groupIndex].tokens.length > 0}
-			<div class="overflow-y-auto">
-				{#each $designTokensGroupStore[groupIndex].tokens as token (token.id)}
-					<Token
-						bind:token
-						bind:draggedTokenId
-						on:dragstart={() => handleDragStart(token.id)}
-						on:dragenter={() => handleDragEnter(token.id)}
-						on:dragend={() => (draggedTokenId = null)}
-						on:colorChange={(e) => handleColorChange(e, token)}
-					/>
-				{/each}
-			</div>
-		{:else}
-			<div>
-				<p class="text-center text-gray-600">No tokens yet</p>
-			</div>
-		{/if}
+		<Table>
+			<TableHeader class="sticky top-0 bg-gray-50 z-30">
+				<TableRow class="shadow-[0_1px_0] shadow-gray-100">
+					<TableHead class="h-10">
+						<div class="flex items-center">
+							<input
+							type="checkbox"
+							class="h-4 w-4"
+							checked={allTokensSelected}
+							on:change={() => {
+								if ($selectedTokensStore.length === $designTokensGroupStore[groupIndex].tokens.length) {
+									selectedTokensStore.clearTokens()
+								} else {
+									selectedTokensStore.setTokens($designTokensGroupStore[groupIndex].tokens)
+								}
+							}}
+						/>
+					</div>
+					</TableHead>
+					<TableHead class="text-xs h-10">Type</TableHead>
+					<TableHead class="text-xs h-10">Name</TableHead>
+					<TableHead class="text-xs h-10">Tools</TableHead>
+					<TableHead class="text-xs h-10">Controls</TableHead>
+				</TableRow>
+			</TableHeader>
+			<TableBody class="border-b-gray-200 border-b">
+				{#if $designTokensGroupStore[groupIndex].tokens.length > 0}
+					{#each $designTokensGroupStore[groupIndex].tokens as token (token.id)}
+						<Token
+							bind:token
+							bind:draggedTokenId
+							on:dragstart={() => handleDragStart(token.id)}
+							on:dragenter={() => handleDragEnter(token.id)}
+							on:dragend={() => (draggedTokenId = null)}
+							on:colorChange={(e) => handleColorChange(e, token)}
+						/>
+					{/each}
+				{:else}
+					<div>
+						<p class="text-center text-gray-600">No tokens yet</p>
+					</div>
+				{/if}
+			</TableBody>
+		</Table>
 	</section>
-	<!-- <button
-		on:click={() =>
-			buildStyleDictonaryJson(
-				$designTokensGroupStore,
-				$page.params.designSystemId
-			)}>Transform Test</button
-	>
-	<button
-		on:click={() =>
-			styleDictionaryToGroups(
-				buildStyleDictonaryJson(
-					$designTokensGroupStore,
-					$page.params.designSystemId
-				),
-				$page.params.groupId
-			)}>Transform Test 2</button
-	> -->
 {:else}
 	<p>Group not found</p>
 {/if}

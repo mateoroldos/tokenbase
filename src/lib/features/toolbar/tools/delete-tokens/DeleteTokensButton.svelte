@@ -11,10 +11,16 @@
 		getContext('selectedTokensStore')
 
   const handleDeleteTokens = () => {
-		for (const token of $selectedTokensStore) {
-			designTokensGroupStore.deleteToken(token.id)
-		}
+		let tokensToDelete = [...$selectedTokensStore]
 		
+		for (let i = 0; i < tokensToDelete.length; i++) {
+			const token = tokensToDelete[i];
+			
+			if (token) {
+				designTokensGroupStore.deleteToken(token.id)
+			}
+		}
+
 		selectedTokensStore.clearTokens()
 	}
 

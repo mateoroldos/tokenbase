@@ -13,7 +13,7 @@
 </script>
 
 {#if activeDesignSystemIndex >= 0}
-	<main class="grid grid-cols-[250px_1fr] bg-gray-50 flex-1 overflow-hidden">
+	<main class="grid grid-cols-[250px_1fr] bg-white flex-1 overflow-hidden">
 		<TokenGroupsExplorer />
 		<slot />
 	</main>

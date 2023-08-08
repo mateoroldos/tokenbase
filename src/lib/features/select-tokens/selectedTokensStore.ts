@@ -12,6 +12,10 @@ export const createSelectedTokensStore = () => {
 		})
 	}
 
+	const setTokens = (tokens: IToken[]): void => {
+		set(tokens)
+	}
+
 	const removeToken = (tokenId: string): void => {
 		update((tokens) => {
 			const index = tokens.findIndex((t) => t.id === tokenId)
@@ -32,6 +36,7 @@ export const createSelectedTokensStore = () => {
 		subscribe,
 		set,
 		addToken,
+		setTokens,
 		removeToken,
 		clearTokens
 	}
