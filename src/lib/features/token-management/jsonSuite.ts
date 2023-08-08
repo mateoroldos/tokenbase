@@ -6,6 +6,7 @@ const jsonSuite = create((data = {}, currentField) => {
 	//FontFamily token validations
 	test('jsonFile', 'It is not a valid JSON', () => {
 		enforce(data).startsWith('{')
+		enforce(data).endsWith('}')
 	})
 })
 
