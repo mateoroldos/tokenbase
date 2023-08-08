@@ -12,6 +12,7 @@
 	import GroupHeader from './_components/GroupHeader.svelte'
 	import buildStyleDictonaryJson from '$lib/features/export-design-system/buildStyleDictonaryJson'
 	import styleDictionaryToGroups from '$lib/features/import-style-dictionary/buildGroupsFromJson'
+	import StartCardTemplate from '../_components/StartCards/StartCardTemplate.svelte'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -69,6 +70,24 @@
 		}
 	}
 
+	const groupStartCards = [
+		
+		{
+			title: 'Start with a template',
+			description: 'Start from a template to get a head start on your design system.',
+			image: '/images/start-from-scratch.png',
+			link: `/design-systems/${$page.params.designSystemId}/start-from-scratch`,
+			linkText: 'Start from scratch'
+		},
+		{
+			title: 'Create your first token',
+			description: 'Create an empty token to get started.',
+			image: '/images/import-from-json.png',
+			link: `/design-systems/${$page.params.designSystemId}/import-from-json`,
+			linkText: 'Import from JSON'
+		}
+	]
+
 	// const findGroupType = () => {
 	// 	if ($designTokensGroupStore[groupIndex]!.tokens.length > 0) {
 	// 		const tokenTypesSet = new Set(
@@ -108,7 +127,14 @@
 						/>
 					{/each}
 				{:else}
-					<p class="text-center text-gray-600">No tokens yet</p>
+					<!-- <p class="text-center text-gray-600">No tokens yet</p> -->
+					<div class="mt-9 grid grid-cols-2 gap-6 px-5 py-4">
+						{#each groupStartCards as { title, description, image }}
+						<StartCardTemplate {title} {description} {image}>
+							
+						</StartCardTemplate>
+					{/each}
+					</div>
 				{/if}
 			</div>
 			<div class="bottom-0 flex flex-row justify-center">
