@@ -35,28 +35,38 @@
 		token.value = getDefaultTokenValues(token.type)
 	}
 
+	let res = nameSuite.get()
 
 	const handleUnselectNameInput = () => {
 		if (token.name === undefined || token.name === '') {
 			token.name = 'Untitled'
 		}
+		res = nameSuite(
+			token.name,
+			'name',
+			$designTokensGroupStore
+				.find((g) => g.id === $page.params.groupId)
+				?.tokens.map((t) => t.name)
+		)
+
+		console.log(token.name)
+		console.log(
+			$designTokensGroupStore
+				.find((g) => g.id === $page.params.groupId)
+				?.tokens.map((t) => t.name)
+		)
 	}
 
 	const handleChange = (input: Event) => {
 		const target = input.target as HTMLInputElement
+		res = nameSuite(
+			token.name,
+			'name',
+			$designTokensGroupStore
+				.find((g) => g.id === $page.params.groupId)
+				?.tokens.map((t) => t.name)
+		)
 	}
-
-	$: {
-        res = nameSuite(
-            token.name,
-            'name',
-            $designTokensGroupStore
-                .find((g) => g.id === $page.params.groupId)
-                ?.tokens.map((t) => t.name)
-        )
-    }
-
-	let res = nameSuite.get()
 
 	onMount(() => {
 		if (token.name === undefined) {
@@ -112,7 +122,7 @@
 			</InputWrapper>
 		</div>
 		<div class="flex flex-row items-center gap-3">
-			<DescriptionDialog bind:token />		
+			<DescriptionDialog bind:token />
 		</div>
 	</div>
 	<slot />
