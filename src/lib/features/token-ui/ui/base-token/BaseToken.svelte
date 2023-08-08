@@ -48,13 +48,6 @@
 				.find((g) => g.id === $page.params.groupId)
 				?.tokens.map((t) => t.name)
 		)
-
-		console.log(token.name)
-		console.log(
-			$designTokensGroupStore
-				.find((g) => g.id === $page.params.groupId)
-				?.tokens.map((t) => t.name)
-		)
 	}
 
 	const handleChange = (input: Event) => {
