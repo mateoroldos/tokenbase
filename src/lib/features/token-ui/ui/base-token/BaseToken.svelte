@@ -127,7 +127,7 @@
         on:input={handleChange}
         bind:value={token.name}
         on:focusout={handleUnselectNameInput}
-			>
+			/>
     </InputWrapper>
 	</TableCell>
 	<TableCell>

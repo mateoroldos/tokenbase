@@ -27,7 +27,7 @@
 	export let isValid: boolean = true
 </script>
 
-<div class="input-wrapper flex flex-row gap-2 items-center relative w-fit" class:border-red-400={errors.length > 0}>
+<div class="input-wrapper flex flex-row gap-2 items-center relative w-fit mr-0 pr-0">
 	<slot />
 	{#if errors && errors.length > 0}
 		{#each errors as error}
