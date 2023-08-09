@@ -35,12 +35,12 @@
 		{#if parentGroupId != undefined && parentGroupId != $page.params.designSystemId}
 			<svelte:self groupId={parentGroupId} lastItem={false} />
 		{/if}
-		<span class="text-lg text-gray-200"> / </span>
+		<span class="text-md text-gray-200"> / </span>
 		{#if lastItem}
 			<Input
 				type="text"
 				placeholder="Untitled"
-				class="h-fit w-fit border-none px-1 py-0 text-lg leading-none"
+				class="h-fit w-fit border-none px-1 py-0 text-md leading-none"
 				id={`group-name-${groupId}`}
 				autoSelect={true}
 				autoName="Untitled"
@@ -51,7 +51,7 @@
 		{:else}
 			<a
 				href={`/${$page.params.designSystemId}/${groupId}`}
-				class="text-lg text-gray-500 hover:underline"
+				class="text-md text-gray-500 hover:underline"
 			>
 				{$designTokensGroupStore[groupIndex].name}
 			</a>

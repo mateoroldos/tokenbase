@@ -20,7 +20,7 @@
 	}
 
 	$: if (autoWidth && input) {
-		input.size = value.length > 0 ? value.length : 7
+		input.size = value.length > 0 ? value.length + 4 : 7
 	}
 </script>
 

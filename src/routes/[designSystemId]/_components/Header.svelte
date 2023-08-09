@@ -5,6 +5,7 @@
 	import GroupBreadcrumb from './Breadcrumbs/GroupBreadcrumb.svelte'
 	import { getContext } from 'svelte'
 	import { Plus } from 'lucide-svelte'
+	import Toolbar from '$lib/features/toolbar/ui/Toolbar.svelte'
 	import type { createDesignSystemsStore } from '$lib/features/token-groups-store/designSystemsIds'
 	import type { TokenType } from '$lib/features/token-groups-store/types/token-interface'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
@@ -38,7 +39,7 @@
 </script>
 
 <div
-	class="border-b-1 flex flex-row items-center justify-between border-b border-solid px-8 py-4"
+	class="border-b-1 flex flex-row items-center justify-between border-b border-b-gray-100 border-solid px-4 py-4 bg-white"
 >
 	<div class="flex flex-row items-center gap-3">
 		<DesignSystemBreadcrumb />
@@ -47,9 +48,12 @@
 		{/if}
 	</div>
 	{#if activeGroupId}
-		<Button on:click={handleAddToken} class="h-fit py-1 text-sm">
-			<Plus class="mr-2 h-4 w-4" />
-			Add Token
-		</Button>
+		<div class="flex flex-row gap-7 items-center">
+			<Toolbar />
+			<Button on:click={handleAddToken} class="h-fit py-1 px-2 text-xs">
+				<Plus class="mr-2 h-4 w-4" />
+				Add Token
+			</Button>
+		</div>
 	{/if}
 </div>

@@ -18,6 +18,7 @@
 	{...$$restProps}
 >
 	<CheckboxPrimitive.Indicator
+	
 		class={cn("flex items-center justify-center text-current")}
 	>
 		<Check class="h-4 w-4" />

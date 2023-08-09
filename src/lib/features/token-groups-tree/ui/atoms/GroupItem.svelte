@@ -46,29 +46,29 @@
 
 <div>
 	<div
-		class="flex flex-row items-center justify-between rounded-md p-1 text-gray-500 transition-all hover:bg-gray-200"
+		class="flex flex-row items-center justify-between rounded-md p-1 text-gray-500 transition-all hover:bg-gray-100"
 		on:mouseenter={() => {
 			hover = true
 		}}
 		on:mouseleave={() => (hover = false)}
 	>
-		<div class=" flex flex-row items-center gap-1">
+		<div class="flex flex-row items-center gap-1">
 			<div
 				class="cursor-pointer transition-transform"
 				class:rotate-90={isOpen}
 				on:click={handleClick}
 			>
-				<ChevronRight class="h-4 w-4" />
+				<ChevronRight class="h-3 w-3" />
 			</div>
 			<a
 				class:text-black={isActive}
 				href={`/${$page.params.designSystemId}/${node.group.id}`}
+				class="text-sm font-medium"
 				>{node.group.name}</a
 			>
 		</div>
-
 		{#if hover}
-			<button class="bg-transparent text-gray-500" on:click={handleAddNewGroup}>
+			<button class="bg-transparent text-gray-500 text-sm" on:click={handleAddNewGroup}>
 				+
 			</button>
 		{/if}
