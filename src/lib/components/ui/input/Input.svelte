@@ -1,23 +1,24 @@
 <script lang="ts">
 	import type { HTMLInputAttributes } from 'svelte/elements'
-	import { cn } from '$lib/utils'
-
-	let className: string | undefined | null = undefined
-
+	import { cn } from "$lib/utils";
+	
+	let className: string | undefined | null = undefined;
+	
 	export let value: HTMLInputAttributes['value'] = undefined
 	export let autoWidth = false
 	export let autoSelect = false
 	export let autoName: string | undefined = undefined
 	export { className as class }
-
 	let input: HTMLInputElement
 
 	$: if (autoSelect && input && (value === undefined || value === '')) {
 		input.select()
 	}
+
 	$: if (autoName && input && (value === undefined || value === '')) {
 		input.name = autoName
 	}
+
 	$: if (autoWidth && input) {
 		input.size = value.length > 0 ? value.length + 4 : 7
 	}

@@ -40,6 +40,8 @@
 		token.value = getDefaultTokenValues(token.type)
 	}
 
+	let res = nameSuite.get()
+
 	const removeAlias = () => {
 		token = JSON.parse(JSON.stringify(token))
 		token.alias = undefined
@@ -49,13 +51,8 @@
 		if (token.name === undefined || token.name === '') {
 			token.name = 'Untitled'
 		}
-	}
-
-	const handleChange = (input: Event) => {
-		const target = input.target as HTMLInputElement
-
 		res = nameSuite(
-			target.value,
+			token.name,
 			'name',
 			$designTokensGroupStore
 				.find((g) => g.id === $page.params.groupId)
@@ -63,7 +60,16 @@
 		)
 	}
 
-	let res = nameSuite.get()
+	const handleChange = (input: Event) => {
+		const target = input.target as HTMLInputElement
+		res = nameSuite(
+			token.name,
+			'name',
+			$designTokensGroupStore
+				.find((g) => g.id === $page.params.groupId)
+				?.tokens.map((t) => t.name)
+		)
+	}
 
 	onMount(() => {
 		if (token.name === undefined) {
@@ -118,11 +124,11 @@
 				id={`${token.id}-name`}
 				placeholder="Untitled"
 				name="name"
-				bind:value={token.name}
-				on:focusout={handleUnselectNameInput}
-				on:input={handleChange}
-			/>
-		</InputWrapper>
+        on:input={handleChange}
+        bind:value={token.name}
+        on:focusout={handleUnselectNameInput}
+			>
+    </InputWrapper>
 	</TableCell>
 	<TableCell>
 		<div class="flex flex-row gap-3">
