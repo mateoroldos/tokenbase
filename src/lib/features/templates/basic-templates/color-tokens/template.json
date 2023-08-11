@@ -1,0 +1,28 @@
+{
+	"gwegew": {
+		"gew": {
+			"value": "#ADEE37",
+			"comment": "gew",
+			"type": "color"
+		},
+		"gewgwe": {
+			"value": "#006FB1",
+			"comment": "gewge",
+			"type": "color"
+		},
+		"subgroup": {
+			"token": {
+				"value": "#006FB1",
+				"comment": "gewge",
+				"type": "color"
+			}
+		}
+	},
+	"text": {
+		"gwe": {
+			"value": ["Arial", "Tahoma"],
+			"comment": "gew",
+			"type": "fontFamily"
+		}
+	}
+}
