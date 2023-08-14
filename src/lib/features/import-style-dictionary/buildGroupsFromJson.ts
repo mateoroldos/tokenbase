@@ -1,165 +1,132 @@
-import type { ExportNumberTokenValue } from './../token-management/number/export-number-value.type'
 import type { IToken } from '../token-groups-store/types/token-interface'
 import type { Group } from '../token-groups-store/types/group-interface'
-import type { TokenType } from '../token-groups-store/types/token-interface'
-import type { TokenValue } from '../token-groups-store/types/token-interface'
-import type { ExportDimensionTokenValue } from '../token-management/dimension/export-dimension-value.type'
-import type { ExportColorTokenValue } from '../token-management/color/export-color-value.type'
 import { v4 as uuidv4 } from 'uuid'
-import transformToImportColorValue from '../token-management/color/transformToImportColorValue'
-import transformToImportDimensionValue from '../token-management/dimension/transformToImporDimensionValue'
-import type { ExportCubicBezierTokenValue } from '../token-management/cubic-bezier/export-cubic-bezier-value.type'
-import type { ColorTokenValue } from '../token-management/color/internal-color-value.type'
-import type { DimensionTokenValue } from '../token-management/dimension/internal-dimension-value.type'
-import type { FontFamilyTokenValue } from '../token-management/font-family/internal-font-family-value.type'
-import type { FontWeightTokenValue } from '../token-management/font-weight/internal-font-weight-value.type'
-import type { CubicBezierTokenValue } from '../token-management/cubic-bezier/internal-cubic-bezier-value.type'
-import transformToExportDimensionValue from '../token-management/dimension/transformToExportDimensionValue'
-import transformToExportColorValue from '../token-management/color/transformToExportColorValue'
-
-interface StyleDictionaryToken {
-	value: TokenValue<TokenType>
-	comment?: string
-	type: TokenType
-}
-
-interface StyleDictionaryGroup {
-	[key: string]: StyleDictionaryToken | StyleDictionaryGroup
-}
+import { get } from 'svelte/store'
+import designTokensGroupStore from '../token-groups-store/groups'
+import type { StyleDictionaryGroup } from './types/style-dictionary-group.interface'
+import styleDictionaryTokenToIToken from './styleDictionaryTokenToIToken'
+import type { StyleDictionaryToken } from './types/style-dictionary-token.interface'
 
 const buildStyleDictionaryNode = (
 	styleDictionaryGroup: StyleDictionaryGroup,
 	parentId: string,
+	isRoot: boolean,
 	name?: string
 ): Group[] => {
+	// Esta funcion recorre cada uno de los grupos y tokens de un objeto de Style Dictionary (StyleDictionaryGroup)
+	// y los transforma en un array de grupos y tokens que es lo que utilizamos
+	// internamente en nuestra aplicación
+
+	// PASO 1: Chequeamos que el styleDictionaryGroup sea un objeto valido
+	if (typeof styleDictionaryGroup !== 'object') {
+		throw new Error('Invalid style dictionary group')
+	}
+
+	// Variables que vamos a utilizar
 	const tokens: IToken[] = [] // aca guardamos los tokens de este grupo
 	const groupId = uuidv4() // nueva id para el grupo en el q estamos trabajndo
 	const groups: Group[] = [] // array donde vamos a ir guardando todos los grupos
 
+	// PASO 2: Recorremos cada uno de los elementos del styleDictionaryGroup
+	// Tenemos 2 casos:
+	// 1. Es un token
+	// 2. Es un grupo
 	Object.entries(styleDictionaryGroup).forEach(([key, data]) => {
+		// Caso 1. Es un token
 		if (data.type && data.value) {
-			if (
-				data.value.toString().startsWith('{') &&
-				data.value.toString().endsWith('}')
-			) {
-				// Check if the value is an alias
-				const aliasValue = data.value.toString().slice(2, -1) // Remove the curly braces
-				const [groupPath, aliasTokenName] = aliasValue.split('.') // Split the group path and alias token name
-				const groupPathSegments = groupPath?.split('.') // Split the group path into segments
-				const tokenAliased = tokens.find((t) => t.name == aliasTokenName)
+			const token: StyleDictionaryToken = data as StyleDictionaryToken
 
-				if (tokenAliased) {
-					data.value = tokenAliased.value
-					const tokenData = data as StyleDictionaryToken
-					const { type } = tokenData
-
-					if (data.type === 'dimension') {
-						data.value = transformToExportDimensionValue(
-							data.value as DimensionTokenValue
-						)
-					} else if (data.type === 'color') {
-						data.value = transformToExportColorValue(
-							data.value as ColorTokenValue
-						)
-					} else if (data.type === 'fontFamily') {
-						data.value = data.value as FontFamilyTokenValue
-					} else if (data.type === 'fontWeight') {
-						data.value = data.value as FontWeightTokenValue
-					} else if (data.type === 'cubicBezier') {
-						const [x1, y1, x2, y2] = data.value as ExportCubicBezierTokenValue
-						data.value = [x1, y1, x2, y2] as CubicBezierTokenValue
-					} else if (data.type === 'number') {
-						data.value = data.value as ExportNumberTokenValue
-					} else {
-						data.value = data.value
-					}
-
-					const token: IToken = {
-						id: uuidv4(),
-						name: key,
-						value: data.value,
-						type: type,
-						alias: {
-							groupId,
-							tokenId: tokenAliased.id
-						}
-					}
-					tokens.push(token)
-				}
-			} else {
-				// caso que estemos recorriendo un token
-				const tokenData = data as StyleDictionaryToken
-				const { value, comment, type } = tokenData
-
-				let valueTransformed
-
-				if (type === 'color') {
-					const colorValue = value as ExportColorTokenValue
-					valueTransformed = transformToImportColorValue(
-						colorValue
-					) as ColorTokenValue
-				} else if (type === 'dimension') {
-					const dimensionValue = value as ExportDimensionTokenValue
-					valueTransformed = transformToImportDimensionValue(
-						dimensionValue
-					) as DimensionTokenValue
-				} else if (type === 'fontFamily') {
-					valueTransformed = value as FontFamilyTokenValue
-				} else if (type === 'fontWeight') {
-					valueTransformed = value as FontWeightTokenValue
-				} else if (type === 'cubicBezier') {
-					const [x1, y1, x2, y2] = value as ExportCubicBezierTokenValue
-					valueTransformed = [x1, y1, x2, y2] as CubicBezierTokenValue
-				} else if (type === 'number') {
-					valueTransformed = value as ExportNumberTokenValue
-				} else {
-					valueTransformed = value
-				}
-
-				const token: IToken = {
-					id: uuidv4(),
-					name: key,
-					value: valueTransformed,
-					description: comment,
-					type
-				}
-
-				tokens.push(token)
-			}
+			tokens.push(styleDictionaryTokenToIToken(token, key))
+			// Caso 2. Es un grupo
 		} else {
-			// caso que estemos recorriendo un grupo
-			let subGroups
-
-			if (name) {
-				// caso que estemos en un grupo que no es el root
-				subGroups = buildStyleDictionaryNode(
-					data as StyleDictionaryGroup,
-					groupId,
-					key
-				)
-			} else {
-				// caso que estemos en el root
-				subGroups = buildStyleDictionaryNode(
-					data as StyleDictionaryGroup,
-					parentId,
-					key
-				)
-			}
+			// Build all child groups
+			let subGroups = buildStyleDictionaryNode(
+				data as StyleDictionaryGroup,
+				isRoot ? parentId : groupId, // Si es root, el parentId del nodo es el que viene por parametro, sino es el groupId que estamos recorriendo
+				false,
+				key
+			)
 
 			groups.push(...subGroups)
 		}
 	})
 
-	// push actual group
-	if (name) {
+	// PASO 3: Creamos el grupo padre que guarda toodo
+	// Tenemos 2 casos:
+	// 1. Estamos armando un grupo que ya existe en nuestra store
+	// 2. Estamos armando un grupo que no existe en nuestra store
+	const existingGroup = get(designTokensGroupStore).find(
+		(g) => g.id === parentId
+	)
+
+	// Caso 1. Estamos armando un grupo que ya existe en nuestra store
+	// Si el grupo ya existe en nuestra store, lo que hacemos es agregarle los tokens que acabamos de recorrer a los tokens ya existentes
+	// Esto solo puede suceder si estamos armando el grupo root
+	if (existingGroup && isRoot) {
+		let updatedGroup = {
+			...existingGroup,
+			tokens: [...existingGroup.tokens, ...tokens]
+		}
+
+		groups.push(updatedGroup)
+
+		// Caso 2. Estamos armando un grupo que no existe en nuestra store
+		// Si el grupo no existe en nuestra store, lo que hacemos es crear un nuevo grupo con los tokens que acabamos de recorrer
+	} else if (!isRoot) {
 		const newGroup: Group = {
 			id: groupId,
-			name: name,
+			name: name || 'Unnamed group',
 			parentGroup: parentId,
 			tokens
 		}
 
 		groups.push(newGroup)
+	}
+
+	// PASO 4: Una vez tenemos todos los grupos armados
+	// y si estamos trabajando en el root, vamos a analizar los
+	// tokens de todos los grupos para transformar los alias
+	// y agregarle la referencia respectiva
+	if (isRoot) {
+		groups.forEach((group) => {
+			group.tokens.forEach((token) => {
+				if (
+					token.value.toString().startsWith('{') &&
+					token.value.toString().endsWith('}')
+				) {
+					const alias = token.value.toString().replace('{', '').replace('}', '')
+
+					const aliasRouteArray = alias.split('.')
+
+					// {group1.gtoup2.fwefewf.paragraphSpacing.0}
+					// {group2.gtoup3.gew.paragraphSpacing.0}
+
+					const referencedGroupName =
+						aliasRouteArray[aliasRouteArray.length - 2] // paragraphSpacing
+					const referencedTokenName =
+						aliasRouteArray[aliasRouteArray.length - 1] // 0
+
+					const referencedGroup = groups.find(
+						(g) => g.name === referencedGroupName
+					)
+
+					let referencedToken: IToken | undefined
+
+					if (referencedGroup) {
+						referencedToken = referencedGroup.tokens.find(
+							(t) => t.name === referencedTokenName
+						)
+					}
+
+					if (referencedGroup && referencedToken) {
+						token.alias = {
+							groupId: referencedGroup.id,
+							tokenId: referencedToken.id
+						}
+					}
+				}
+			})
+		})
 	}
 
 	return groups
@@ -168,7 +135,7 @@ const buildStyleDictionaryNode = (
 const styleDictionaryToGroups = (json: string, parentId: string): Group[] => {
 	const styleDictionaryGroup: StyleDictionaryGroup = JSON.parse(json)
 
-	return buildStyleDictionaryNode(styleDictionaryGroup, parentId)
+	return buildStyleDictionaryNode(styleDictionaryGroup, parentId, true)
 }
 
 export default styleDictionaryToGroups

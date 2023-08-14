@@ -13,7 +13,6 @@
 	import buildStyleDictonaryJson from '$lib/features/export-design-system/buildStyleDictonaryJson'
 	import styleDictionaryToGroups from '$lib/features/import-style-dictionary/buildGroupsFromJson'
 	import StartCardTemplate from '../_components/StartCards/StartCardTemplate.svelte'
-	import type { Template } from '$lib/features/templates/templates/template-interface'
 	import StartFromTokenModal from '$lib/features/templates/StartFromTokenModal.svelte'
 	import StartFromBasicTemplateModal from '$lib/features/templates/StartFromBasicTemplateModal.svelte'
 
@@ -91,12 +90,6 @@
 			component: StartFromTokenModal
 		}
 	]
-
-	const getDesignSystemTemplates = fetch(`/api/templates`).then(
-		async (data) => (await data.json()) as Template[]
-	)
-
-	const desingSystemId = $page.params.groupId as string
 
 	// const findGroupType = () => {
 	// 	if ($designTokensGroupStore[groupIndex]!.tokens.length > 0) {
