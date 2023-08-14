@@ -13,12 +13,12 @@
 	import importStyleDictionary from '$lib/features/import-style-dictionary/importStyleDictionary'
 	import { page } from '$app/stores'
 
-	export let templateOverview: Template
+	export let tokenTemplateOverview: Template
 
-	const handleCreateGroupFromTemplate = async () => {
-		const templateFile = await import(templateOverview.path)
+	const handleCreateSystemFromTemplate = async () => {
+		const templateFile = await import(tokenTemplateOverview.path)
 
-		const desingSystemId = $page.params.groupId as string
+		const desingSystemId = $page.params.designSystemId as string
 
 		importStyleDictionary(JSON.stringify(templateFile.default), desingSystemId)
 	}
@@ -26,14 +26,14 @@
 
 <Card class="w-[250px]">
 	<CardHeader>
-		<CardTitle>{templateOverview.name}</CardTitle>
-		<CardDescription>Group template</CardDescription>
+		<CardTitle>{tokenTemplateOverview.name}</CardTitle>
+		<CardDescription>Design System</CardDescription>
 	</CardHeader>
 	<Separator class="mb-3" />
 	<CardContent>
-		<p>{templateOverview.description}</p>
+		<p>{tokenTemplateOverview.description}</p>
 	</CardContent>
 	<CardFooter>
-		<Button on:click={handleCreateGroupFromTemplate}>Use template</Button>
+		<Button on:click={handleCreateSystemFromTemplate}>Use token</Button>
 	</CardFooter>
 </Card>

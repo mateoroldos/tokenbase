@@ -20,7 +20,7 @@
 	},
 	"text": {
 		"gwe": {
-			"value": "{gwegew.subgroup.token}",
+			"value": ["Arial", "Tahoma"],
 			"comment": "gew",
 			"type": "fontFamily"
 		}

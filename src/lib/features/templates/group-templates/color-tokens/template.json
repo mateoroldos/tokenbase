@@ -1,0 +1,44 @@
+{
+	"color-1": {
+		"value": "#CDB4DB",
+		"type": "color"
+	},
+	"color-2": {
+		"value": "#FFC8DD",
+		"type": "color"
+	},
+	"color-3": {
+		"value": "#FFAFCC",
+		"type": "color"
+	},
+	"color-4": {
+		"value": "#BDE0FE",
+		"type": "color"
+	},
+	"color-5": {
+		"value": "#A2D2FF",
+		"type": "color"
+	},
+	"color-basic-template": {
+		"color-1": {
+			"value": "#CDB4DB",
+			"type": "color"
+		},
+		"color-2": {
+			"value": "#FFC8DD",
+			"type": "color"
+		},
+		"color-3": {
+			"value": "#FFAFCC",
+			"type": "color"
+		},
+		"color-4": {
+			"value": "#BDE0FE",
+			"type": "color"
+		},
+		"color-5": {
+			"value": "#BDE0FE",
+			"type": "color"
+		}
+	}
+}

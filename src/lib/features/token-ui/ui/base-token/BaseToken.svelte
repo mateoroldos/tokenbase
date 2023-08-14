@@ -124,19 +124,21 @@
 				id={`${token.id}-name`}
 				placeholder="Untitled"
 				name="name"
+				errors={res.getErrors('name')}
+				isValid={res.isValid('name')}
         on:input={handleChange}
         bind:value={token.name}
         on:focusout={handleUnselectNameInput}
-			/>
+			>
     </InputWrapper>
 	</TableCell>
 	<TableCell>
 		<div class="flex flex-row gap-3">
 			<DescriptionDialog bind:token/>		
 			{#if token.alias}
-			<button on:click={removeAlias}><Link2Off class="h-4 w-4" /></button>
+			  <button on:click={removeAlias}><Link2Off class="h-4 w-4" /></button>
 			{:else}
-			<TokenAliasDialog bind:token />
+			  <TokenAliasDialog bind:token />
 			{/if}
 		</div>
 	</TableCell>

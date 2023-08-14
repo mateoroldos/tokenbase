@@ -11,7 +11,7 @@
 	import { BookCopy } from 'lucide-svelte'
 	import StartFromTemplateCard from './atoms/StartFromTemplateCard.svelte'
 
-	const getDesignSystemTemplates = fetch(`/api/templates`).then(
+	const getDesignSystemTemplates = fetch(`/api/group-templates`).then(
 		async (data) => (await data.json()) as Template[]
 	)
 </script>

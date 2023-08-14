@@ -1,19 +1,23 @@
 {
-	"Otronombre": {
-		"Color": {
-			"value": "#27865C",
-			"type": "color"
-		},
-		"Coloress": {
+	"color-1": {
+		"value": "#27865C",
+		"type": "color"
+	},
+	"color-2": {
+		"value": "#927300",
+		"type": "color"
+	},
+	"color-3": {
+		"value": "{sub-grupo.color-3}",
+		"type": "color"
+	},
+	"sub-grupo": {
+		"color-3": {
 			"value": "#927300",
 			"type": "color"
 		},
-		"otrogrupo": {
-			"Coloresssdwqfe": {
-				"value": "#927300",
-				"type": "color"
-			},
-			"fwef": {
+		"color-4": {
+			"Colorete": {
 				"value": "#927300",
 				"type": "color"
 			}

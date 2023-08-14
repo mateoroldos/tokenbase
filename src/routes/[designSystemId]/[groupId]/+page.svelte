@@ -19,6 +19,9 @@
   } from "$components/ui/table";
 	import buildStyleDictonaryJson from '$lib/features/export-design-system/buildStyleDictonaryJson'
 	import styleDictionaryToGroups from '$lib/features/import-style-dictionary/buildGroupsFromJson'
+	import StartCardTemplate from '../_components/StartCards/StartCardTemplate.svelte'
+	import StartFromTokenModal from '$lib/features/templates/StartFromTokenModal.svelte'
+	import StartFromBasicTemplateModal from '$lib/features/templates/StartFromBasicTemplateModal.svelte'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -77,6 +80,25 @@
 			}
 		}
 	}
+
+	const groupStartCards = [
+		{
+			title: 'Start with a template',
+			description:
+				'Start from a template to get a head start on your design system.',
+			linkText: 'Start with a template',
+			component: StartFromBasicTemplateModal,
+			image: '/images/start-from-scratch.png'
+		},
+		{
+			title: 'Create your first token',
+			description:
+				'Create a standard token to get started on your design system.',
+			linkText: 'Create a standard token',
+			image: '/images/start-from-scratch.png',
+			component: StartFromTokenModal
+		}
+	]
 
 	// const findGroupType = () => {
 	// 	if ($designTokensGroupStore[groupIndex]!.tokens.length > 0) {
@@ -146,9 +168,15 @@
 						/>
 					{/each}
 				{:else}
+					<div class="mt-9 grid grid-cols-2 gap-6 px-5 py-4">
+						{#each groupStartCards as { title, description, component, linkText, image }}
+							<StartCardTemplate {title} {description} {image}>
+								{#if component}
+									<svelte:component this={component} />
+								{/if}
+							</StartCardTemplate>
+						{/each}
 					<div>
-						<p class="text-center text-gray-600">No tokens yet</p>
-					</div>
 				{/if}
 			</TableBody>
 		</Table>
