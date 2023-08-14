@@ -12,10 +12,7 @@
 	import nameSuite from '$lib/features/token-management/nameSuite'
 	import DescriptionDialog from './atoms/DescriptionDialog.svelte'
 	import TokenAliasDialog from './atoms/TokenAliasDialog.svelte'
-	import {
-    TableCell,
-    TableRow
-  } from "$components/ui/table";
+	import { TableCell, TableRow } from '$components/ui/table'
 	import Input from '$components/ui/input/Input.svelte'
 
 	export let token: IToken
@@ -94,9 +91,9 @@
 		<!-- <div on:dragstart draggable={true} class="cursor-grab">
 			<GripVertical class="h-3 w-3 text-gray-500" />
 		</div> -->
-		<input 
+		<input
 			type="checkbox"
-			bind:checked={selected} 
+			bind:checked={selected}
 			class="h-4 w-4"
 			on:change={() => {
 				if ($selectedTokensStore.includes(token)) {
@@ -120,25 +117,25 @@
 			isValid={res.isValid('name')}
 		>
 			<Input
-				class="px-1 py-1 h-7 text-sm font-medium border-none w-40 pr-6"
+				class="h-7 w-40 border-none px-1 py-1 pr-6 text-sm font-medium"
 				id={`${token.id}-name`}
 				placeholder="Untitled"
 				name="name"
 				errors={res.getErrors('name')}
 				isValid={res.isValid('name')}
-        on:input={handleChange}
-        bind:value={token.name}
-        on:focusout={handleUnselectNameInput}
-			>
-    </InputWrapper>
+				on:input={handleChange}
+				bind:value={token.name}
+				on:focusout={handleUnselectNameInput}
+			/>
+		</InputWrapper>
 	</TableCell>
 	<TableCell>
 		<div class="flex flex-row gap-3">
-			<DescriptionDialog bind:token/>		
+			<DescriptionDialog bind:token />
 			{#if token.alias}
-			  <button on:click={removeAlias}><Link2Off class="h-4 w-4" /></button>
+				<button on:click={removeAlias}><Link2Off class="h-4 w-4" /></button>
 			{:else}
-			  <TokenAliasDialog bind:token />
+				<TokenAliasDialog bind:token />
 			{/if}
 		</div>
 	</TableCell>

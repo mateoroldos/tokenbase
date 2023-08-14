@@ -11,12 +11,12 @@
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import GroupHeader from './_components/GroupHeader.svelte'
 	import {
-    Table,
-    TableBody,
-    TableHead,
-    TableHeader,
-    TableRow
-  } from "$components/ui/table";
+		Table,
+		TableBody,
+		TableHead,
+		TableHeader,
+		TableRow
+	} from '$components/ui/table'
 	import buildStyleDictonaryJson from '$lib/features/export-design-system/buildStyleDictonaryJson'
 	import styleDictionaryToGroups from '$lib/features/import-style-dictionary/buildGroupsFromJson'
 	import StartCardTemplate from '../_components/StartCards/StartCardTemplate.svelte'
@@ -26,7 +26,8 @@
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
 
-	let selectedTokensStore: ReturnType<typeof createSelectedTokensStore> = createSelectedTokensStore();
+	let selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
+		createSelectedTokensStore()
 
 	setContext('selectedTokensStore', selectedTokensStore)
 
@@ -117,45 +118,53 @@
 	// 	}
 	// }
 
-	$: allTokensSelected = ($selectedTokensStore.length === $designTokensGroupStore[groupIndex].tokens.length) && $selectedTokensStore.length > 0
+	$: allTokensSelected =
+		$selectedTokensStore.length ===
+			$designTokensGroupStore[groupIndex].tokens.length &&
+		$selectedTokensStore.length > 0
 
 	$: if ($navigating) {
 		setTimeout(() => {
 			selectedTokensStore.clearTokens()
-		}, 1) // This is setTimeout is a workaround to make the clear tokens work. 
-					//If we did it at the same time as the $navigation it didn't work
+		}, 1) // This is setTimeout is a workaround to make the clear tokens work.
+		//If we did it at the same time as the $navigation it didn't work
 	}
 </script>
 
 {#if $designTokensGroupStore[groupIndex]}
-	<section class="overflow-y-hidden flex flex-col flex-1">
+	<section class="flex flex-1 flex-col overflow-y-hidden">
 		<GroupHeader />
 		<Table>
-			<TableHeader class="sticky top-0 bg-gray-50 z-30">
+			<TableHeader class="sticky top-0 z-30 bg-gray-50">
 				<TableRow class="shadow-[0_1px_0] shadow-gray-100">
 					<TableHead class="h-10">
 						<div class="flex items-center">
 							<input
-							type="checkbox"
-							class="h-4 w-4"
-							checked={allTokensSelected}
-							on:change={() => {
-								if ($selectedTokensStore.length === $designTokensGroupStore[groupIndex].tokens.length) {
-									selectedTokensStore.clearTokens()
-								} else {
-									selectedTokensStore.setTokens($designTokensGroupStore[groupIndex].tokens)
-								}
-							}}
-						/>
-					</div>
+								type="checkbox"
+								class="h-4 w-4"
+								checked={allTokensSelected}
+								on:change={() => {
+									if (
+										$selectedTokensStore.length ===
+										$designTokensGroupStore[groupIndex].tokens.length
+									) {
+										selectedTokensStore.clearTokens()
+									} else {
+										selectedTokensStore.setTokens(
+											$designTokensGroupStore[groupIndex].tokens
+										)
+									}
+								}}
+							/>
+						</div>
 					</TableHead>
-					<TableHead class="text-xs h-10">Type</TableHead>
-					<TableHead class="text-xs h-10">Name</TableHead>
-					<TableHead class="text-xs h-10">Tools</TableHead>
-					<TableHead class="text-xs h-10">Controls</TableHead>
+					<TableHead class="h-10 text-xs">Type</TableHead>
+					<TableHead class="h-10 text-xs">Name</TableHead>
+					<TableHead class="h-10 text-xs">Tools</TableHead>
+					<TableHead class="h-10 text-xs">Controls</TableHead>
 				</TableRow>
 			</TableHeader>
-			<TableBody class="border-b-gray-200 border-b">
+			<TableBody class="border-b border-b-gray-200">
 				{#if $designTokensGroupStore[groupIndex].tokens.length > 0}
 					{#each $designTokensGroupStore[groupIndex].tokens as token (token.id)}
 						<Token
@@ -176,7 +185,7 @@
 								{/if}
 							</StartCardTemplate>
 						{/each}
-					<div>
+					</div>
 				{/if}
 			</TableBody>
 		</Table>
