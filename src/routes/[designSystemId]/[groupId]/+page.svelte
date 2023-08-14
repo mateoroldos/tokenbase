@@ -89,11 +89,9 @@
 		}
 	]
 
-	const desingSystemId = $page.params.groupId as string
-
 	const handleButtonClick = (buttonText: string) => {
 		if (buttonText === 'Start with a template') {
-			importStyleDictionary(JSON.stringify(mockTemplate), desingSystemId)
+			importStyleDictionary(JSON.stringify(mockTemplate), groupId)
 		} else if (buttonText === 'Create a standard token') {
 			const tokenType: TokenType =
 				$designTokensGroupStore[groupIndex]!.type !== undefined

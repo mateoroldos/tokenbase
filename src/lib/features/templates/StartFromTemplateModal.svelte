@@ -10,7 +10,6 @@
 	import type { Template } from '$lib/features/templates/templates/template-interface'
 	import { BookCopy } from 'lucide-svelte'
 	import StartFromTemplateCard from './atoms/StartFromTemplateCard.svelte'
-	import Button from '$components/ui/button/Button.svelte'
 
 	const getDesignSystemTemplates = fetch(`/api/templates`).then(
 		async (data) => (await data.json()) as Template[]

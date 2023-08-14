@@ -1920,11 +1920,5 @@
 				}
 			}
 		}
-	},
-	"$metadata": {
-		"version": "1.35.3",
-		"updatedAt": "2023-04-26T19:22:00.311Z",
-		"tokenSetOrder": ["global", "light", "dark"]
-	},
-	"$themes": []
+	}
 }
