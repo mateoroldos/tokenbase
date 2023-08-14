@@ -1,28 +1,24 @@
 {
-	"gwegew": {
-		"gew": {
-			"value": "#ADEE37",
-			"comment": "gew",
+	"color-basic-template": {
+		"color-1": {
+			"value": "#CDB4DB",
 			"type": "color"
 		},
-		"gewgwe": {
-			"value": "#006FB1",
-			"comment": "gewge",
+		"color-2": {
+			"value": "#FFC8DD",
 			"type": "color"
 		},
-		"subgroup": {
-			"token": {
-				"value": "#006FB1",
-				"comment": "gewge",
-				"type": "color"
-			}
-		}
-	},
-	"text": {
-		"gwe": {
-			"value": ["Arial", "Tahoma"],
-			"comment": "gew",
-			"type": "fontFamily"
+		"color-3": {
+			"value": "#FFAFCC",
+			"type": "color"
+		},
+		"color-4": {
+			"value": "#BDE0FE",
+			"type": "color"
+		},
+		"color-5": {
+			"value": "#A2D2FF",
+			"type": "color"
 		}
 	}
 }

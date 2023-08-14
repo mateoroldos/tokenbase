@@ -35,7 +35,6 @@
 		token.value = getDefaultTokenValues(token.type)
 	}
 
-
 	const handleUnselectNameInput = () => {
 		if (token.name === undefined || token.name === '') {
 			token.name = 'Untitled'
@@ -110,7 +109,7 @@
 			</InputWrapper>
 		</div>
 		<div class="flex flex-row items-center gap-3">
-			<DescriptionDialog bind:token />		
+			<DescriptionDialog bind:token />
 		</div>
 	</div>
 	<slot />
