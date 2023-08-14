@@ -1,9 +1,9 @@
 import type { Template } from '../../templates/template-interface'
 
 export const overview: Template = {
-	name: 'Color Tokens Template',
+	name: 'Font Family tokens template',
 	description: 'Material Design is a design system created by Google.',
-	path: '/src/lib/features/templates/basic-templates/color-tokens/template.json',
-	tags: ['color', 'template'],
+	path: '/src/lib/features/templates/group-templates/font-family-tokens/template.json',
+	tags: ['font-family', 'template'],
 	type: 'group'
 }

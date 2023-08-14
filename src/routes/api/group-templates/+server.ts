@@ -4,7 +4,7 @@ import { error, json } from '@sveltejs/kit'
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ url }) {
 	const overviewsDirectories = import.meta.glob(
-		'/src/lib/features/templates/basic-templates/*/overview.ts'
+		'/src/lib/features/templates/group-templates/*/overview.ts'
 	)
 
 	if (!overviewsDirectories) {

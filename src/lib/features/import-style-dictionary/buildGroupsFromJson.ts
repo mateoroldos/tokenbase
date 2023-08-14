@@ -72,7 +72,7 @@ const buildStyleDictionaryNode = (
 
 		// Caso 2. Estamos armando un grupo que no existe en nuestra store
 		// Si el grupo no existe en nuestra store, lo que hacemos es crear un nuevo grupo con los tokens que acabamos de recorrer
-	} else if (!isRoot) {
+	} else {
 		const newGroup: Group = {
 			id: groupId,
 			name: name || 'Unnamed group',

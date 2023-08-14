@@ -15,10 +15,10 @@
 
 	export let templateOverview: Template
 
-	const handleCreateSystemFromTemplate = async () => {
+	const handleCreateGroupFromTemplate = async () => {
 		const templateFile = await import(templateOverview.path)
 
-		const desingSystemId = $page.params.designSystemId as string
+		const desingSystemId = $page.params.groupId as string
 
 		importStyleDictionary(JSON.stringify(templateFile.default), desingSystemId)
 	}
@@ -27,13 +27,13 @@
 <Card class="w-[250px]">
 	<CardHeader>
 		<CardTitle>{templateOverview.name}</CardTitle>
-		<CardDescription>Design System</CardDescription>
+		<CardDescription>Group template</CardDescription>
 	</CardHeader>
 	<Separator class="mb-3" />
 	<CardContent>
 		<p>{templateOverview.description}</p>
 	</CardContent>
 	<CardFooter>
-		<Button on:click={handleCreateSystemFromTemplate}>Use template</Button>
+		<Button on:click={handleCreateGroupFromTemplate}>Use template</Button>
 	</CardFooter>
 </Card>
