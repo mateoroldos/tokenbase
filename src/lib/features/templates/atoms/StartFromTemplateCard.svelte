@@ -14,13 +14,20 @@
 	import { page } from '$app/stores'
 
 	export let templateOverview: Template
+	export let isGroupTemplate = false
 
 	const handleCreateGroupFromTemplate = async () => {
 		const templateFile = await import(templateOverview.path)
 
-		const desingSystemId = $page.params.groupId as string
+		let parentId: string
 
-		importStyleDictionary(JSON.stringify(templateFile.default), desingSystemId)
+		if (isGroupTemplate) {
+			parentId = $page.params.groupId as string
+		} else {
+			parentId = $page.params.designSystemId as string
+		}
+
+		importStyleDictionary(JSON.stringify(templateFile.default), parentId)
 	}
 </script>
 

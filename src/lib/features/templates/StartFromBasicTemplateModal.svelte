@@ -30,7 +30,10 @@
 		{:then templates}
 			<div class="flex flex-row flex-wrap gap-4">
 				{#each templates as template}
-					<StartFromTemplateCard templateOverview={template} />
+					<StartFromTemplateCard
+						templateOverview={template}
+						isGroupTemplate={true}
+					/>
 				{/each}
 			</div>
 		{/await}
