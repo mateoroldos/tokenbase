@@ -20,13 +20,13 @@
 </script>
 
 <div
-	class="flex flex-col justify-between border-r border-solid bg-gray-100 px-5 py-4"
+	class="flex flex-1 flex-col justify-between border-r border-r-gray-100 bg-gray-50 px-5 py-4 overflow-hidden gap-6"
 >
-	<div class="flex flex-col gap-3">
-		<a href="/" class="mb-4 text-lg font-medium">
-			<SquareEqual class="mb-1 inline-block h-6 w-6" />
-			Tokenbase
-		</a>
+	<a href="/" class="text-lg font-medium">
+		<SquareEqual class="mb-1 inline-block h-6 w-6" />
+		Tokenbase
+	</a>
+	<div class="flex flex-1 overflow-auto flex-col gap-2">
 		{#each tree.children as node}
 			<GroupItem {node} />
 		{/each}

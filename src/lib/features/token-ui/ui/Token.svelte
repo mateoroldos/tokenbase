@@ -24,12 +24,6 @@
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
 
-	// Function to remove the token.alias property
-	const removeAlias = () => {
-		token = JSON.parse(JSON.stringify(token))
-		token.alias = undefined
-	}
-
 	// This function gets the alias value and type and assigns it to the token
 	const connectTokenToAliasValues = () => {
 		if (token.alias) {
@@ -51,11 +45,6 @@
 </script>
 
 <BaseToken bind:token bind:draggedTokenId on:dragstart on:dragenter on:dragend>
-	{#if token.alias}
-		<button on:click={removeAlias}><Link2Off class="h-4 w-4" /></button>
-	{:else}
-				<TokenAliasDialog bind:token />
-	{/if}
 	{#if token.type === 'color'}
 		<ColorToken bind:token on:colorChange />
 	{:else if token.type === 'fontFamily'}

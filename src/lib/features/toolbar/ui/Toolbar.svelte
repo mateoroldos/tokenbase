@@ -1,7 +1,9 @@
 <script lang="ts">
-	import GenerateShades from '../tools/color-shade-generator/GenerateShades.svelte'
+	import GenerateShadesButton from '../tools/color-shade-generator/GenerateShadesButton.svelte'
+	import DeleteTokensButton from '../tools/delete-tokens/DeleteTokensButton.svelte'
 </script>
 
-<div>
-	<GenerateShades />
+<div class="flex flex-row gap-6 items-center">
+	<GenerateShadesButton />
+	<DeleteTokensButton />
 </div>

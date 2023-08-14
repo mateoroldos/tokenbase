@@ -41,7 +41,7 @@
 <div class="flex flex-row items-center">
 	<a
 		href={`/${$page.params.designSystemId}`}
-		class="text-lg text-gray-500 hover:underline"
+		class="text-md text-gray-500 hover:underline"
 	>
 		{$tokenBaseMainStore[activeDesignSystemIndex]?.name}
 	</a>
