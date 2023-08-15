@@ -64,41 +64,43 @@
 						disabled
 					/></AccordionTrigger
 				>
-				{#each token.value as value, i}
-					<AccordionContent>
-						<div class="flex">
-							<InputWrapper
-								name="duration"
-								errors={res.getErrors('fontFamilyToken')}
-								isValid={res.isValid('fontFamilyToken')}
-							>
-								<input
-									name="fontFamilyToken"
-									class="mr-2 w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
-									type="text"
-									bind:value
-									on:input={handleChange}
-									{...isAlias ? { disabled: true } : {}}
-								/></InputWrapper
-							>
-							<TooltipProvider>
-								<Tooltip>
-									<TooltipTrigger>
-										<button
-											class="ml-2 self-center"
-											on:click={() => removeInput(i)}
-										>
-											<Minus class="w-4" /></button
-										>
-									</TooltipTrigger>
-									<TooltipContent>
-										<p>Remove Font Family</p>
-									</TooltipContent>
-								</Tooltip>
-							</TooltipProvider>
-						</div>
-					</AccordionContent>
-				{/each}
+				{#if Array.isArray(token.value)}
+					{#each token.value as value, i}
+						<AccordionContent>
+							<div class="flex">
+								<InputWrapper
+									name="duration"
+									errors={res.getErrors('fontFamilyToken')}
+									isValid={res.isValid('fontFamilyToken')}
+								>
+									<input
+										name="fontFamilyToken"
+										class="mr-2 w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
+										type="text"
+										bind:value
+										on:input={handleChange}
+										{...isAlias ? { disabled: true } : {}}
+									/></InputWrapper
+								>
+								<TooltipProvider>
+									<Tooltip>
+										<TooltipTrigger>
+											<button
+												class="ml-2 self-center"
+												on:click={() => removeInput(i)}
+											>
+												<Minus class="w-4" /></button
+											>
+										</TooltipTrigger>
+										<TooltipContent>
+											<p>Remove Font Family</p>
+										</TooltipContent>
+									</Tooltip>
+								</TooltipProvider>
+							</div>
+						</AccordionContent>
+					{/each}
+				{/if}
 			</AccordionItem>
 		</Accordion>
 	</div>
