@@ -34,7 +34,6 @@
 	const toggleTokenList = () => {
 		showTokenList = !showTokenList
 	}
-
 </script>
 
 <Dialog>
@@ -51,7 +50,7 @@
 					</button>
 				</TooltipTrigger>
 				{#if token.description?.length != 0}
-					<TooltipContent>
+					<TooltipContent class="absolute bottom-1 left-0  z-10">
 						<p>{token.description}</p>
 					</TooltipContent>
 				{/if}
