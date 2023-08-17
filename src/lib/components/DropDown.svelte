@@ -1,7 +1,5 @@
 <script lang="ts">
 	import { MoreVertical } from 'lucide-svelte'
-	import { Trash, Plus } from 'lucide-svelte'
-	import { createEventDispatcher } from 'svelte'
 
 	let menuOpen = false
 
@@ -10,17 +8,17 @@
 	export let menuItems: { title: string; component: any; test: any }[]
 </script>
 
-<div class="dropdown z-999 absolute inline-block">
+<div class="absolute z-50 inline-block">
 	<button
 		on:click={() => (menuOpen = !menuOpen)}
 		class="text-gray-500 hover:text-black"
 	>
-		<MoreVertical class="h-4 w-4" />
+		<MoreVertical class="h-4 w-4 {menuOpen ? 'hidden' : 'block'}" />
 	</button>
 
 	<div
 		id="myDropdown"
-		class="dropdown-content z-999 rounded border bg-white p-2 shadow-md {menuOpen
+		class=" rounded border bg-white p-2 shadow-md {menuOpen
 			? 'block'
 			: 'hidden'}"
 	>
@@ -36,7 +34,7 @@
 					<svelte:component
 						this={component}
 						class=" flex h-3 w-3 {title === 'Delete a group'
-							? 'text-red-500'
+							? 'stroke-red-500'
 							: 'text-slate-400'} text-center align-bottom text-xs text-slate-400  "
 					/>
 					<option

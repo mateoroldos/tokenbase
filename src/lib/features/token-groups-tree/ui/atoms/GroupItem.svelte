@@ -35,19 +35,25 @@
 	})
 
 	const handleAddNewGroup = () => {
-		designTokensGroupStore.addGroup('', undefined, node.group.id)
+		designTokensGroupStore.addGroup('', undefined, node.group?.id)
 
 		goto(
 			`/${$page.params.designSystemId}/${
 				$designTokensGroupStore[$designTokensGroupStore.length - 1]!.id
 			}`
 		)
-		console.log(1)
+		toggleOpen()
+	}
+
+	const handleDeleteGroup = async () => {
+		await goto(`/${$page.params.designSystemId}`)
+		designTokensGroupStore.deleteGroup(node.group?.id)
+		toggleOpen()
 	}
 
 	let customMenuItems = [
 		{ title: 'Add a group', component: Plus, test: handleAddNewGroup },
-		{ title: 'Delete a group', component: Trash, test: handleAddNewGroup }
+		{ title: 'Delete a group', component: Trash, test: handleDeleteGroup }
 	]
 </script>
 
