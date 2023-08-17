@@ -2,9 +2,10 @@
 	import { goto } from '$app/navigation'
 	import { getContext, onMount } from 'svelte'
 	import type { GroupsTree } from '../../types/groups-tree'
-	import { ChevronRight } from 'lucide-svelte'
+	import { ChevronRight, Trash, Plus } from 'lucide-svelte'
 	import { page } from '$app/stores'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import DropDown from '$components/DropDown.svelte'
 
 	export let node: GroupsTree
 
@@ -27,6 +28,12 @@
 		toggleOpen()
 	}
 
+	onMount(() => {
+		if (node.children.length > 0) {
+			isOpen = true
+		}
+	})
+
 	const handleAddNewGroup = () => {
 		designTokensGroupStore.addGroup('', undefined, node.group.id)
 
@@ -35,13 +42,13 @@
 				$designTokensGroupStore[$designTokensGroupStore.length - 1]!.id
 			}`
 		)
+		console.log(1)
 	}
 
-	onMount(() => {
-		if (node.children.length > 0) {
-			isOpen = true
-		}
-	})
+	let customMenuItems = [
+		{ title: 'Add a group', component: Plus, test: handleAddNewGroup },
+		{ title: 'Delete a group', component: Trash, test: handleAddNewGroup }
+	]
 </script>
 
 <div>
@@ -63,13 +70,14 @@
 			<a
 				class:text-black={isActive}
 				href={`/${$page.params.designSystemId}/${node.group.id}`}
-				class="text-sm font-medium"
-				>{node.group.name}</a
+				class="text-sm font-medium">{node.group.name}</a
 			>
 		</div>
 		{#if hover}
-			<button class="bg-transparent text-gray-500 text-sm" on:click={handleAddNewGroup}>
-				+
+			<button
+				class=" flex flex-row items-center bg-transparent text-sm text-gray-500"
+			>
+				<DropDown menuItems={customMenuItems} />
 			</button>
 		{/if}
 	</div>
