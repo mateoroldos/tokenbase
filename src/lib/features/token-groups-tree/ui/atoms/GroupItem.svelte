@@ -81,7 +81,7 @@
 		</div>
 		{#if hover}
 			<button
-				class=" flex flex-row items-center bg-transparent text-sm text-gray-500"
+				class=" relative flex flex-row items-center bg-transparent text-sm text-gray-500"
 			>
 				<DropDown menuItems={customMenuItems} />
 			</button>

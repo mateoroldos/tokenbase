@@ -8,7 +8,7 @@
 	export let menuItems: { title: string; component: any; test: any }[]
 </script>
 
-<div class="absolute z-50 inline-block">
+<div class="absolute right-0 z-50 inline-block">
 	<button
 		on:click={() => (menuOpen = !menuOpen)}
 		class="text-gray-500 hover:text-black"
@@ -18,7 +18,9 @@
 
 	<div
 		id="myDropdown"
-		class=" rounded-md bg-white p-2 shadow-md {menuOpen ? 'block' : 'hidden'}"
+		class=" absolute right-0 rounded-md bg-white p-2 shadow-md {menuOpen
+			? 'block'
+			: 'hidden'}"
 	>
 		<div class="flex flex-col">
 			{#each menuItems as { title, component, test }}
