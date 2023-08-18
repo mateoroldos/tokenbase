@@ -68,12 +68,12 @@
 			<Input
 				id="name"
 				bind:value={desingSystemName}
-				class="bg-red col-span-5 w-full pr-12 drop-shadow-sm placeholder:text-slate-400"
+				class="bg-red col-span-5 w-full pr-12 drop-shadow placeholder:text-slate-400"
 				placeholder="Write the name of your first design system"
 			/>
 			<Button
 				on:click={handleAddDesignSystem}
-				class="bg-tertiary absolute right-0 top-0 flex h-full items-center px-2 font-normal text-slate-400 hover:bg-transparent"
+				class="  flex  items-center px-2 font-normal"
 			>
 				<Plus class="mr-1 h-4" />
 				Create
