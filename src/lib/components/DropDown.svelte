@@ -18,11 +18,9 @@
 
 	<div
 		id="myDropdown"
-		class=" rounded border bg-white p-2 shadow-md {menuOpen
-			? 'block'
-			: 'hidden'}"
+		class=" rounded-md bg-white p-2 shadow-md {menuOpen ? 'block' : 'hidden'}"
 	>
-		<div class="flex flex-col gap-3">
+		<div class="flex flex-col">
 			{#each menuItems as { title, component, test }}
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<div
@@ -35,14 +33,13 @@
 						this={component}
 						class=" flex h-3 w-3 {title === 'Delete a group'
 							? 'stroke-red-500'
-							: 'text-slate-400'} text-center align-bottom text-xs text-slate-400  "
+							: 'stroke-black'} text-center align-bottom text-xs text-black  "
 					/>
 					<option
 						value={title}
 						class=" flex align-middle text-xs {title === 'Delete a group'
 							? 'text-red-500'
-							: 'text-slate-400'} {hover ? 'text-slate-400' : ''} "
-						>{title}</option
+							: 'text-black'} {hover ? 'text-slate-400' : ''} ">{title}</option
 					>
 				</div>
 			{/each}
