@@ -78,6 +78,12 @@
 				href={`/${$page.params.designSystemId}/${node.group.id}`}
 				class="text-sm font-medium">{node.group.name}</a
 			>
+			{#if node.group?.name === ''}
+				<a
+					href={`/${$page.params.designSystemId}/${node.group.id}`}
+					class="text-sm font-medium text-black">Untitled</a
+				>
+			{/if}
 		</div>
 		{#if hover}
 			<button

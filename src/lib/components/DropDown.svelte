@@ -8,7 +8,7 @@
 	export let menuItems: { title: string; component: any; test: any }[]
 </script>
 
-<div class="absolute right-0 z-50 inline-block">
+<div class="absolute right-0 z-50 inline-block p-2">
 	<button
 		on:click={() => (menuOpen = !menuOpen)}
 		class="text-gray-500 hover:text-black"
