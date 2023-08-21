@@ -79,7 +79,7 @@
 						/>
 					</CardContent>
 					<CardFooter>
-						<Button class="w-20">Confirm</Button>
+						<Button class="ml-auto w-20">Confirm</Button>
 					</CardFooter>
 				</Card>
 			</DialogDescription>
