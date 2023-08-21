@@ -15,14 +15,17 @@
 		TooltipProvider,
 		TooltipTrigger
 	} from '$components/ui/tooltip'
-	import transformToExportColorValue from '$lib/features/token-management/color/transformToExportColorValue'
 	import {
-		Accordion,
-		AccordionContent,
-		AccordionItem,
-		AccordionTrigger
-	} from '$components/ui/accordion'
+		Card,
+		CardContent,
+		CardDescription,
+		CardHeader,
+		CardTitle,
+		CardFooter
+	} from '$components/ui/card'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import Button from '$components/ui/button/Button.svelte'
+	import Textarea from '$components/ui/textarea/Textarea.svelte'
 
 	export let token: IToken
 
@@ -64,8 +67,21 @@
 	<DialogContent>
 		<DialogHeader>
 			<DialogDescription>
-				<h3>Token description</h3>
-				<textarea bind:value={token.description} />
+				<Card class="border-none shadow-none">
+					<CardHeader>
+						<CardTitle>Description</CardTitle>
+						<CardDescription>Edit {token.name} description</CardDescription>
+					</CardHeader>
+					<CardContent>
+						<Textarea
+							bind:value={token.description}
+							placeholder="Write it here!"
+						/>
+					</CardContent>
+					<CardFooter>
+						<Button class="w-20">Confirm</Button>
+					</CardFooter>
+				</Card>
 			</DialogDescription>
 		</DialogHeader>
 	</DialogContent>
