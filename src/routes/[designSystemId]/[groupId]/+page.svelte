@@ -10,13 +10,7 @@
 	import { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import GroupHeader from './_components/GroupHeader.svelte'
-	import {
-		Table,
-		TableBody,
-		TableHead,
-		TableHeader,
-		TableRow
-	} from '$components/ui/table'
+	import * as Table from '$lib/components/ui/table'
 	import buildStyleDictonaryJson from '$lib/features/export-design-system/buildStyleDictonaryJson'
 	import styleDictionaryToGroups from '$lib/features/import-style-dictionary/buildGroupsFromJson'
 	import StartCardTemplate from '../_components/StartCards/StartCardTemplate.svelte'
@@ -134,10 +128,10 @@
 {#if $designTokensGroupStore[groupIndex]}
 	<section class="flex flex-1 flex-col overflow-y-hidden">
 		<GroupHeader />
-		<Table>
-			<TableHeader class="sticky top-0 z-30 bg-gray-50">
-				<TableRow class="shadow-[0_1px_0] shadow-gray-100">
-					<TableHead class="h-10">
+		<Table.Root>
+			<Table.Header class="sticky top-0 z-30 bg-gray-50">
+				<Table.Row class="shadow-[0_1px_0] shadow-gray-100">
+					<Table.Head class="h-10">
 						<div class="flex items-center">
 							<input
 								type="checkbox"
@@ -157,14 +151,14 @@
 								}}
 							/>
 						</div>
-					</TableHead>
-					<TableHead class="h-10 text-xs">Type</TableHead>
-					<TableHead class="h-10 text-xs">Name</TableHead>
-					<TableHead class="h-10 text-xs">Tools</TableHead>
-					<TableHead class="h-10 text-xs">Controls</TableHead>
-				</TableRow>
-			</TableHeader>
-			<TableBody class="border-b border-b-gray-200">
+					</Table.Head>
+					<Table.Head class="h-10 text-xs">Type</Table.Head>
+					<Table.Head class="h-10 text-xs">Name</Table.Head>
+					<Table.Head class="h-10 text-xs">Tools</Table.Head>
+					<Table.Head class="h-10 text-xs">Controls</Table.Head>
+				</Table.Row>
+			</Table.Header>
+			<Table.Body class="border-b border-b-gray-200">
 				{#if $designTokensGroupStore[groupIndex].tokens.length > 0}
 					{#each $designTokensGroupStore[groupIndex].tokens as token (token.id)}
 						<Token
@@ -187,8 +181,8 @@
 						{/each}
 					</div>
 				{/if}
-			</TableBody>
-		</Table>
+			</Table.Body>
+		</Table.Root>
 	</section>
 {:else}
 	<p>Group not found</p>

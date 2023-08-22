@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores'
 	import { getContext } from 'svelte'
-	import Input from '$components/ui/input/Input.svelte'
+	import { Input } from '$lib/components/ui/input'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
@@ -40,7 +40,7 @@
 			<Input
 				type="text"
 				placeholder="Untitled"
-				class="h-fit w-fit border-none px-1 py-0 text-md leading-none"
+				class="text-md h-fit w-fit border-none px-1 py-0 leading-none"
 				id={`group-name-${groupId}`}
 				autoSelect={true}
 				autoName="Untitled"

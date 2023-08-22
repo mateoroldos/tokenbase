@@ -5,15 +5,14 @@
 	import { getDefaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import TokenTypeSelect from '../atoms/TokenTypeSelect.svelte'
-	import { Checkbox } from '$components/ui/checkbox'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 	import { page } from '$app/stores'
-	import InputWrapper from '$components/InputWrapper.svelte'
+	import InputWrapper from '$lib/components/InputWrapper.svelte'
 	import nameSuite from '$lib/features/token-management/nameSuite'
 	import DescriptionDialog from './atoms/DescriptionDialog.svelte'
 	import TokenAliasDialog from './atoms/TokenAliasDialog.svelte'
-	import { TableCell, TableRow } from '$components/ui/table'
-	import Input from '$components/ui/input/Input.svelte'
+	import * as Table from '$lib/components/ui/table'
+	import { Input } from '$lib/components/ui/input'
 
 	export let token: IToken
 	export let draggedTokenId: string | null
@@ -78,7 +77,7 @@
 	})
 </script>
 
-<TableRow
+<Table.Row
 	on:mouseenter={() => (hover = true)}
 	on:mouseleave={() => (hover = false)}
 	on:dragenter
@@ -87,7 +86,7 @@
 	key={token.id}
 	class="border-gray-200"
 >
-	<TableCell class="pr-0">
+	<Table.Cell class="pr-0">
 		<!-- <div on:dragstart draggable={true} class="cursor-grab">
 			<GripVertical class="h-3 w-3 text-gray-500" />
 		</div> -->
@@ -103,14 +102,14 @@
 				}
 			}}
 		/>
-	</TableCell>
-	<TableCell class="pr-0">
+	</Table.Cell>
+	<Table.Cell class="pr-0">
 		<TokenTypeSelect
 			bind:value={token.type}
 			on:change={handleTokenTypeChange}
 		/>
-	</TableCell>
-	<TableCell class="pr-0">
+	</Table.Cell>
+	<Table.Cell class="pr-0">
 		<InputWrapper
 			name="name"
 			errors={res.getErrors('name')}
@@ -128,8 +127,8 @@
 				on:focusout={handleUnselectNameInput}
 			/>
 		</InputWrapper>
-	</TableCell>
-	<TableCell>
+	</Table.Cell>
+	<Table.Cell>
 		<div class="flex flex-row gap-3">
 			<DescriptionDialog bind:token />
 			{#if token.alias}
@@ -138,8 +137,8 @@
 				<TokenAliasDialog bind:token />
 			{/if}
 		</div>
-	</TableCell>
-	<TableCell>
+	</Table.Cell>
+	<Table.Cell>
 		<slot />
-	</TableCell>
-</TableRow>
+	</Table.Cell>
+</Table.Row>

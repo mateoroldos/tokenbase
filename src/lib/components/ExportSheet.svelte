@@ -8,16 +8,9 @@
 		type ExportFileTypes,
 		EXPORT_FILE_TYPES
 	} from '$lib/features/export-design-system/exportFileTypes'
-	import {
-		Sheet,
-		SheetContent,
-		SheetDescription,
-		SheetHeader,
-		SheetTitle,
-		SheetTrigger
-	} from '$components/ui/sheet'
-	import { Button } from '$components/ui/button'
-	import Switch from '$components/ui/switch/Switch.svelte'
+	import * as Sheet from '$lib/components/ui/sheet'
+	import { Button } from '$lib/components/ui/button'
+	import { Switch } from '$lib/components/ui/switch'
 	import { page } from '$app/stores'
 
 	let exportTypes: ExportFileTypes[] = []
@@ -59,14 +52,14 @@
 	}
 </script>
 
-<Sheet>
-	<SheetTrigger>
+<Sheet.Root>
+	<Sheet.Trigger>
 		<Button class="w-full">Export</Button>
-	</SheetTrigger>
-	<SheetContent>
-		<SheetHeader>
-			<SheetTitle>Choose your export type</SheetTitle>
-			<SheetDescription>
+	</Sheet.Trigger>
+	<Sheet.Content>
+		<Sheet.Header>
+			<Sheet.Title>Choose your export type</Sheet.Title>
+			<Sheet.Description>
 				<div class="flex flex-col gap-3">
 					<div class="grid grid-cols-2 gap-5">
 						{#each EXPORT_FILE_TYPES as fileType}
@@ -86,7 +79,7 @@
 						on:click={() => handleExport(exportTypes)}>Create file</Button
 					>
 				</div>
-			</SheetDescription>
-		</SheetHeader>
-	</SheetContent>
-</Sheet>
+			</Sheet.Description>
+		</Sheet.Header>
+	</Sheet.Content>
+</Sheet.Root>

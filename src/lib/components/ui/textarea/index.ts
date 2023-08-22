@@ -1,1 +1,7 @@
-export { default as Textarea } from "./Textarea.svelte";
+import Root from "./textarea.svelte";
+
+export {
+	Root,
+	//
+	Root as Textarea
+};

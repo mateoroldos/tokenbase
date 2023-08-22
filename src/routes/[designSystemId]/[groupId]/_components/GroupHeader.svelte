@@ -6,7 +6,7 @@
 	import { Plus } from 'lucide-svelte'
 	import mockTemplate from '$lib/features/import-style-dictionary/templates/mockTemplate.json'
 	import importStyleDictionary from '$lib/features/import-style-dictionary/importStyleDictionary'
-	import Button from '$lib/components/Button.svelte'
+	import { Button } from '$lib/components/ui/button'
 	import type { createDesignSystemsStore } from '$lib/features/token-groups-store/designSystemsIds'
 	import Header from '../../_components/Header.svelte'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'

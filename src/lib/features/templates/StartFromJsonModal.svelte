@@ -1,20 +1,13 @@
 <script lang="ts">
-	import { buttonVariants } from '$components/ui/button'
-	import {
-		Dialog,
-		DialogContent,
-		DialogHeader,
-		DialogTitle,
-		DialogTrigger
-	} from '$components/ui/dialog'
+	import { buttonVariants } from '$lib/components/ui/button'
+	import * as Dialog from '$lib/components/ui/dialog'
 	import { BookCopy } from 'lucide-svelte'
-	import { Textarea } from '$components/ui/textarea'
-	import Button from '$components/ui/button/Button.svelte'
+	import { Textarea } from '$lib/components/ui/textarea'
+	import { Button } from '$lib/components/ui/button'
 	import { page } from '$app/stores'
 	import importStyleDictionary from '../import-style-dictionary/importStyleDictionary'
-	import InputFiles from '$components/ui/input/InputFiles.svelte'
-	import InputWrapper from '$components/InputWrapper.svelte'
 	import jsonSuite from '../token-management/jsonSuite'
+	import InputWrapper from '$lib/components/InputWrapper.svelte'
 
 	let json: string
 	let desingSystemId: string
@@ -49,15 +42,15 @@
 	}
 </script>
 
-<Dialog>
-	<DialogTrigger class={buttonVariants({ variant: 'default' })}>
+<Dialog.Root>
+	<Dialog.Trigger class={buttonVariants({ variant: 'default' })}>
 		<BookCopy class="mr-2 h-4 w-4" />
 		Upload your file
-	</DialogTrigger>
-	<DialogContent>
-		<DialogHeader>
-			<DialogTitle>Add JSON file</DialogTitle>
-		</DialogHeader>
+	</Dialog.Trigger>
+	<Dialog.Content>
+		<Dialog.Header>
+			<Dialog.Title>Add JSON file</Dialog.Title>
+		</Dialog.Header>
 		<div class="flex flex-row flex-wrap gap-4">
 			<InputFiles id="picture" bind:files={jsonFile} />
 		</div>
@@ -80,5 +73,5 @@
 		</InputWrapper>
 
 		<Button on:click={createDesignSystemFromJson}>Upload</Button>
-	</DialogContent>
-</Dialog>
+	</Dialog.Content>
+</Dialog.Root>

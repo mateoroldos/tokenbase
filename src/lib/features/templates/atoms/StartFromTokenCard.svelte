@@ -1,15 +1,8 @@
 <script lang="ts">
-	import CardFooter from './../../../components/ui/card/CardFooter.svelte'
 	import type { Template } from '$lib/features/templates/templates/template-interface'
-	import {
-		Card,
-		CardContent,
-		CardDescription,
-		CardHeader,
-		CardTitle
-	} from '$components/ui/card'
-	import Separator from '$components/ui/separator/Separator.svelte'
-	import { Button } from '$components/ui/button'
+	import * as Card from '$lib/components/ui/card'
+	import { Separator } from '$lib/components/ui/separator'
+	import { Button } from '$lib/components/ui/button'
 	import importStyleDictionary from '$lib/features/import-style-dictionary/importStyleDictionary'
 	import { page } from '$app/stores'
 
@@ -24,16 +17,16 @@
 	}
 </script>
 
-<Card class="w-[250px]">
-	<CardHeader>
-		<CardTitle>{tokenTemplateOverview.name}</CardTitle>
-		<CardDescription>Design System</CardDescription>
-	</CardHeader>
+<Card.Root class="w-[250px]">
+	<Card.Header>
+		<Card.Title>{tokenTemplateOverview.name}</Card.Title>
+		<Card.Description>Design System</Card.Description>
+	</Card.Header>
 	<Separator class="mb-3" />
-	<CardContent>
+	<Card.Content>
 		<p>{tokenTemplateOverview.description}</p>
-	</CardContent>
-	<CardFooter>
+	</Card.Content>
+	<Card.Footer>
 		<Button on:click={handleCreateSystemFromTemplate}>Use token</Button>
-	</CardFooter>
-</Card>
+	</Card.Footer>
+</Card.Root>

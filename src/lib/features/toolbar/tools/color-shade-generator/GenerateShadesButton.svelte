@@ -8,7 +8,7 @@
 		TokenType,
 		TokenValue
 	} from '$lib/features/token-groups-store/types/token-interface'
-	import { Input } from "$components/ui/input";
+	import { Input } from '$lib/components/ui/input'
 	import checkValidShade from './checkValidShade'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 	import ToolbarButton from '../../ui/atoms/ToolbarButton.svelte'
@@ -59,14 +59,18 @@
 	$: validShade = checkValidShade($selectedTokensStore)
 </script>
 
-
-<ToolbarButton icon={SquareStack} action={handleGenerateShades} name="Shade generator" active={validShade}>
+<ToolbarButton
+	icon={SquareStack}
+	action={handleGenerateShades}
+	name="Shade generator"
+	active={validShade}
+>
 	{#if validShade}
 		<Input
 			name="amount-of-shades"
 			type="number"
 			bind:value={amountOfShades}
-			class="p-1 w-12 text-center h-full"
+			class="h-full w-12 p-1 text-center"
 			min="1"
 		/>
 	{/if}
