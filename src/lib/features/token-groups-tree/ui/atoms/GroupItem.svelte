@@ -105,7 +105,16 @@
 					<DropdownMenu.Label>Actions</DropdownMenu.Label>
 					<DropdownMenu.Separator />
 					{#each customMenuItems as customItem}
-						<DropdownMenu.Item>{customItem.title}</DropdownMenu.Item>
+						<div class="flex flex-col">
+							<button on:click={customItem.test}>
+								<DropdownMenu.Item class="flex flex-row gap-2"
+									><svelte:component
+										this={customItem.component}
+										class="h-3 w-3"
+									/><span>{customItem.title}</span></DropdownMenu.Item
+								>
+							</button>
+						</div>
 					{/each}
 				</DropdownMenu.Group>
 			</DropdownMenu.Content>
