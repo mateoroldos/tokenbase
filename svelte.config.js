@@ -4,6 +4,14 @@ import preprocess from 'svelte-preprocess'
 
 /** @type {import('@sveltejs/kit').Config}*/
 const config = {
+	onwarn: (warning, handler) => {
+		if (warning.code.startsWith('a11y-')) return
+		handler(warning)
+	},
+	onwarn: (warning, handler) => {
+		if (warning.code === 'a11y-click-events-have-key-events') return
+		handler(warning)
+	},
 	preprocess: [preprocess(), vitePreprocess({})],
 	kit: {
 		adapter: adapter(),
