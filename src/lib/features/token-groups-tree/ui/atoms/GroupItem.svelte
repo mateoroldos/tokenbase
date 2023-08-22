@@ -61,7 +61,6 @@
 	$: actionsDropdownActive = hover || open
 
 	let open: boolean
-	let dropdownOpen = false
 </script>
 
 <div>
@@ -118,8 +117,8 @@
 								<button class="flex flex-row gap-2" on:click={customItem.test}>
 									<svelte:component
 										this={customItem.component}
-										class="h-3 w-3"
-									/><span>{customItem.title}</span>
+										class="h-3 w-3 self-center"
+									/><span class="self-center">{customItem.title}</span>
 								</button>
 							</DropdownMenu.Item>
 						{/each}
