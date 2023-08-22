@@ -1,20 +1,10 @@
 <script lang="ts">
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
-	import {
-		Tooltip,
-		TooltipContent,
-		TooltipProvider,
-		TooltipTrigger
-	} from '$lib/components/ui/tooltip'
-	import {
-		Accordion,
-		AccordionContent,
-		AccordionItem,
-		AccordionTrigger
-	} from '$components/ui/accordion'
+	import * as Accordion from '$lib/components/ui/accordion'
 	import { Minus, Plus } from 'lucide-svelte'
-	import InputWrapper from '$components/InputWrapper.svelte'
 	import fontFamilySuite from '$lib/features/token-management/font-family/fontFamilySuite'
+	import InputWrapper from '$lib/components/InputWrapper.svelte'
+	import * as Tooltip from '$lib/components/ui/tooltip'
 
 	export let token: IToken<'fontFamily'>
 
@@ -41,32 +31,31 @@
 </script>
 
 <div class="flex flex-row gap-4">
-	<TooltipProvider>
-		<Tooltip>
-			<TooltipTrigger>
-				<button class="ml-3" on:click={addInput}
-					><Plus class="w-4 items-center" /></button
-				>
-			</TooltipTrigger>
-			<TooltipContent>
-				<p>Add Font Family</p>
-			</TooltipContent>
-		</Tooltip>
-	</TooltipProvider>
+	<Tooltip.Root>
+		<Tooltip.Trigger>
+			<button class="ml-3" on:click={addInput}
+				><Plus class="w-4 items-center" /></button
+			>
+		</Tooltip.Trigger>
+		<Tooltip.Content>
+			<p>Add Font Family</p>
+		</Tooltip.Content>
+	</Tooltip.Root>
+
 	<div class="flex flex-col gap-4">
-		<Accordion type="single" collapsible>
-			<AccordionItem value="item-1">
-				<AccordionTrigger
+		<Accordion.Root>
+			<Accordion.Item value="item-1">
+				<Accordion.Trigger
 					><input
 						class="mr-2 w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-xs"
 						type="text"
 						placeholder="Your fonts"
 						disabled
-					/></AccordionTrigger
+					/></Accordion.Trigger
 				>
 				{#if Array.isArray(token.value)}
 					{#each token.value as value, i}
-						<AccordionContent>
+						<Accordion.Content>
 							<div class="flex">
 								<InputWrapper
 									name="duration"
@@ -82,26 +71,25 @@
 										{...isAlias ? { disabled: true } : {}}
 									/></InputWrapper
 								>
-								<TooltipProvider>
-									<Tooltip>
-										<TooltipTrigger>
-											<button
-												class="ml-2 self-center"
-												on:click={() => removeInput(i)}
-											>
-												<Minus class="w-4" /></button
-											>
-										</TooltipTrigger>
-										<TooltipContent>
-											<p>Remove Font Family</p>
-										</TooltipContent>
-									</Tooltip>
-								</TooltipProvider>
+
+								<Tooltip.Root>
+									<Tooltip.Trigger>
+										<button
+											class="ml-2 self-center"
+											on:click={() => removeInput(i)}
+										>
+											<Minus class="w-4" /></button
+										>
+									</Tooltip.Trigger>
+									<Tooltip.Content>
+										<p>Remove Font Family</p>
+									</Tooltip.Content>
+								</Tooltip.Root>
 							</div>
-						</AccordionContent>
+						</Accordion.Content>
 					{/each}
 				{/if}
-			</AccordionItem>
-		</Accordion>
+			</Accordion.Item>
+		</Accordion.Root>
 	</div>
 </div>

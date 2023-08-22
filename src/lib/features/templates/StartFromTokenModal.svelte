@@ -1,12 +1,6 @@
 <script lang="ts">
-	import { buttonVariants } from '$components/ui/button'
-	import {
-		Dialog,
-		DialogContent,
-		DialogHeader,
-		DialogTitle,
-		DialogTrigger
-	} from '$components/ui/dialog'
+	import { buttonVariants } from '$lib/components/ui/button'
+	import * as Dialog from '$lib/components/ui/dialog'
 	import { BookCopy } from 'lucide-svelte'
 	import StartFromTokenCard from './atoms/StartFromTokenCard.svelte'
 
@@ -15,15 +9,15 @@
 	)
 </script>
 
-<Dialog>
-	<DialogTrigger class={buttonVariants({ variant: 'default' })}>
+<Dialog.Root>
+	<Dialog.Trigger class={buttonVariants({ variant: 'default' })}>
 		<BookCopy class="mr-2 h-4 w-4" />
 		Select a Token
-	</DialogTrigger>
-	<DialogContent class="min-w-[80%]">
-		<DialogHeader>
-			<DialogTitle>Design System Tokens</DialogTitle>
-		</DialogHeader>
+	</Dialog.Trigger>
+	<Dialog.Content class="min-w-[80%]">
+		<Dialog.Header>
+			<Dialog.Title>Design System Tokens</Dialog.Title>
+		</Dialog.Header>
 		{#await getSystemTokens}
 			<span>Getting tokens...</span>
 		{:then templates}
@@ -33,5 +27,5 @@
 				{/each}
 			</div>
 		{/await}
-	</DialogContent>
-</Dialog>
+	</Dialog.Content>
+</Dialog.Root>

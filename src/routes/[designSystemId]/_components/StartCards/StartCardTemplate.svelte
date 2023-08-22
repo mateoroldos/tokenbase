@@ -1,26 +1,19 @@
 <script lang="ts">
-	import {
-		Card,
-		CardContent,
-		CardDescription,
-		CardHeader,
-		CardTitle
-	} from '$components/ui/card'
-	import type { SvelteComponentTyped } from 'svelte'
+	import * as Card from '$lib/components/ui/card'
 
 	export let title: string
 	export let description: string
 	export let image: string
 </script>
 
-<Card>
-	<CardHeader>
-		<CardTitle>
+<Card.Root>
+	<Card.Header>
+		<Card.Title>
 			{title}
-		</CardTitle>
-		<CardDescription>{description}</CardDescription>
-	</CardHeader>
-	<CardContent>
+		</Card.Title>
+		<Card.Description>{description}</Card.Description>
+	</Card.Header>
+	<Card.Content>
 		<slot />
-	</CardContent>
-</Card>
+	</Card.Content>
+</Card.Root>

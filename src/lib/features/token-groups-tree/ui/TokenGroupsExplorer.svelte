@@ -3,7 +3,7 @@
 	import createTree from '../functions/createTree'
 	import { goto } from '$app/navigation'
 	import { page } from '$app/stores'
-	import ExportSheet from '$components/ExportSheet.svelte'
+	import ExportSheet from '$lib/components/ExportSheet.svelte'
 	import { SquareEqual, Plus } from 'lucide-svelte'
 	import groupsStore from '$lib/features/token-groups-store/groups'
 	import { v4 as uuidv4 } from 'uuid'
@@ -20,13 +20,13 @@
 </script>
 
 <div
-	class="flex flex-1 flex-col justify-between border-r border-r-gray-100 bg-gray-50 px-5 py-4 overflow-hidden gap-6"
+	class="flex flex-1 flex-col justify-between gap-6 overflow-hidden border-r border-r-gray-100 bg-gray-50 px-5 py-4"
 >
 	<a href="/" class="text-lg font-medium">
 		<SquareEqual class="mb-1 inline-block h-6 w-6" />
 		Tokenbase
 	</a>
-	<div class="flex flex-1 overflow-auto flex-col gap-2">
+	<div class="flex flex-1 flex-col gap-2 overflow-auto">
 		{#each tree.children as node}
 			<GroupItem {node} />
 		{/each}

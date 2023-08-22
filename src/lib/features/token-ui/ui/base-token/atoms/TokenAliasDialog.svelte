@@ -3,26 +3,10 @@
 	import { Link2 } from 'lucide-svelte'
 	import { getContext } from 'svelte'
 	import { page } from '$app/stores'
-	import {
-		Dialog,
-		DialogContent,
-		DialogDescription,
-		DialogHeader,
-		DialogTrigger
-	} from '$components/ui/dialog'
-	import {
-		Tooltip,
-		TooltipContent,
-		TooltipProvider,
-		TooltipTrigger
-	} from '$components/ui/tooltip'
+	import * as Dialog from '$lib/components/ui/dialog'
+	import * as Tooltip from '$lib/components/ui/tooltip'
 	import transformToExportColorValue from '$lib/features/token-management/color/transformToExportColorValue'
-	import {
-		Accordion,
-		AccordionContent,
-		AccordionItem,
-		AccordionTrigger
-	} from '$components/ui/accordion'
+	import * as Accordion from '$lib/components/ui/accordion'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 
 	export let token: IToken
@@ -48,38 +32,36 @@
 	}
 </script>
 
-<Dialog>
-	<DialogTrigger>
-		<TooltipProvider>
-			<Tooltip>
-				<TooltipTrigger>
-					<button on:click={toggleTokenList}>
-						<Link2 class="h-4 w-4" />
-					</button>
-				</TooltipTrigger>
-				<TooltipContent>
-					<p>Create alias</p>
-				</TooltipContent>
-			</Tooltip>
-		</TooltipProvider>
-	</DialogTrigger>
-	<DialogContent>
-		<DialogHeader>
-			<DialogDescription>
+<Dialog.Root>
+	<Dialog.Trigger>
+		<Tooltip.Root>
+			<Tooltip.Trigger>
+				<button on:click={toggleTokenList}>
+					<Link2 class="h-4 w-4" />
+				</button>
+			</Tooltip.Trigger>
+			<Tooltip.Content>
+				<p>Create alias</p>
+			</Tooltip.Content>
+		</Tooltip.Root>
+	</Dialog.Trigger>
+	<Dialog.Content>
+		<Dialog.Header>
+			<Dialog.Description>
 				<h3>Select your alias</h3>
 				<div class="flex flex-col gap-6">
 					{#each $designTokensGroupStore as group}
-						{#if group.tokens.length > 0 && group.parentGroup === $page.params.designSystemId || group.id === $page.params.groupId}
+						{#if (group.tokens.length > 0 && group.parentGroup === $page.params.designSystemId) || group.id === $page.params.groupId}
 							<div>
 								<div class="flex flex-col gap-4 pb-2">
-									<Accordion type="single" collapsible>
-										<AccordionItem value="item-1">
-											<AccordionTrigger>
+									<Accordion.Root>
+										<Accordion.Item value="item-1">
+											<Accordion.Trigger>
 												<h3 class="pb-2 text-base text-black">
 													{group.name}
 												</h3>
-											</AccordionTrigger>
-											<AccordionContent>
+											</Accordion.Trigger>
+											<Accordion.Content>
 												<div class="flex flex-col gap-2">
 													{#each group.tokens as t}
 														<div>
@@ -111,15 +93,15 @@
 														</div>
 													{/each}
 												</div>
-											</AccordionContent>
-										</AccordionItem>
-									</Accordion>
+											</Accordion.Content>
+										</Accordion.Item>
+									</Accordion.Root>
 								</div>
 							</div>
 						{/if}
 					{/each}
 				</div>
-			</DialogDescription>
-		</DialogHeader>
-	</DialogContent>
-</Dialog>
+			</Dialog.Description>
+		</Dialog.Header>
+	</Dialog.Content>
+</Dialog.Root>

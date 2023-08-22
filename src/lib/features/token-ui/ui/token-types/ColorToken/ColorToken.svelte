@@ -12,7 +12,7 @@
 	import suite from '../../validations/descriptionSuite'
 	import InputWrapper from '$lib/components/InputWrapper.svelte'
 	import colorSuite from '$lib/features/token-management/color/colorSuite'
-	import Input from '$components/ui/input/Input.svelte'
+	import { Input } from '$lib/components/ui/input'
 
 	export let token: IToken<'color'>
 
@@ -82,7 +82,7 @@
 			<Input
 				value={hex}
 				name="color"
-				class="px-1 ml-1 py-1 h-7 text-sm border-none w-20"
+				class="ml-1 h-7 w-20 border-none px-1 py-1 text-sm"
 				type="text"
 				{...isAlias ? { disabled: true } : {}}
 				on:focusout={handleHexChange}
@@ -92,7 +92,7 @@
 		</InputWrapper>
 	</div>
 	<div class="flex flex-1 flex-row items-center gap-10">
-		<div class="flex w-full flex-col gap-1 max-w-[130px]">
+		<div class="flex w-full max-w-[130px] flex-col gap-1">
 			<div class="flex flex-row items-center">
 				<span class="text-xs text-gray-500">Hue</span>
 				<input
@@ -116,7 +116,7 @@
 					})}
 			/>
 		</div>
-		<div class="flex w-full flex-col gap-1 max-w-[130px]">
+		<div class="flex w-full max-w-[130px] flex-col gap-1">
 			<div class="flex flex-row items-center">
 				<span class="text-xs text-gray-500">Chroma</span>
 				<input
@@ -140,7 +140,7 @@
 					})}
 			/>
 		</div>
-		<div class="flex w-full flex-col gap-1 max-w-[130px]">
+		<div class="flex w-full max-w-[130px] flex-col gap-1">
 			<div class="flex flex-row items-center">
 				<span class="text-xs text-gray-500">Tone</span>
 				<input

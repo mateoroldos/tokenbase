@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Button from '$lib/components/ui/button/Button.svelte'
+	import { Button } from '$lib/components/ui/button'
 	import { page } from '$app/stores'
 	import DesignSystemBreadcrumb from './Breadcrumbs/DesignSystemBreadcrumb.svelte'
 	import GroupBreadcrumb from './Breadcrumbs/GroupBreadcrumb.svelte'
@@ -39,7 +39,7 @@
 </script>
 
 <div
-	class="border-b-1 flex flex-row items-center justify-between border-b border-b-gray-100 border-solid px-4 py-4 bg-white"
+	class="border-b-1 flex flex-row items-center justify-between border-b border-solid border-b-gray-100 bg-white px-4 py-4"
 >
 	<div class="flex flex-row items-center gap-3">
 		<DesignSystemBreadcrumb />
@@ -48,9 +48,9 @@
 		{/if}
 	</div>
 	{#if activeGroupId}
-		<div class="flex flex-row gap-7 items-center">
+		<div class="flex flex-row items-center gap-7">
 			<Toolbar />
-			<Button on:click={handleAddToken} class="h-fit py-1 px-2 text-xs">
+			<Button on:click={handleAddToken} class="h-fit px-2 py-1 text-xs">
 				<Plus class="mr-2 h-4 w-4" />
 				Add Token
 			</Button>

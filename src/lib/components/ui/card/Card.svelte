@@ -1,7 +1,10 @@
 <script lang="ts">
+	import type { HTMLAttributes } from "svelte/elements";
 	import { cn } from "$lib/utils";
 
-	let className: string | undefined | null = undefined;
+	type $$Props = HTMLAttributes<HTMLDivElement>;
+
+	let className: $$Props["class"] = undefined;
 	export { className as class };
 </script>
 
@@ -11,11 +14,6 @@
 		className
 	)}
 	{...$$restProps}
-	on:click
-	on:focusin
-	on:focusout
-	on:mouseenter
-	on:mouseleave
 >
 	<slot />
 </div>

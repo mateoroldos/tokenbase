@@ -1,16 +1,19 @@
 <script lang="ts">
-	import { cva } from "class-variance-authority";
-	import { Label as LabelPrimitive } from "radix-svelte";
+	import { Label as LabelPrimitive } from "bits-ui";
 	import { cn } from "$lib/utils";
 
-	const labelVariants = cva(
-		"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-	);
+	type $$Props = LabelPrimitive.Props;
 
-	let className: string | undefined | null = undefined;
+	let className: $$Props["class"] = undefined;
 	export { className as class };
 </script>
 
-<LabelPrimitive.Root class={cn(labelVariants(), className)} {...$$restProps}>
+<LabelPrimitive.Root
+	class={cn(
+		"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+		className
+	)}
+	{...$$restProps}
+>
 	<slot />
 </LabelPrimitive.Root>

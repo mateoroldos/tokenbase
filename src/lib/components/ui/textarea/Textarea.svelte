@@ -2,9 +2,10 @@
 	import type { HTMLTextareaAttributes } from "svelte/elements";
 	import { cn } from "$lib/utils";
 
-	let className: string | undefined | null = undefined;
+	type $$Props = HTMLTextareaAttributes;
 
-	export let value: HTMLTextareaAttributes["value"] = undefined;
+	let className: $$Props["class"] = undefined;
+	export let value: $$Props["value"] = undefined;
 	export { className as class };
 </script>
 

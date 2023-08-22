@@ -1,12 +1,6 @@
 <script lang="ts">
-	import { buttonVariants } from '$components/ui/button'
-	import {
-		Dialog,
-		DialogContent,
-		DialogHeader,
-		DialogTitle,
-		DialogTrigger
-	} from '$components/ui/dialog'
+	import { buttonVariants } from '$lib/components/ui/button'
+	import * as Dialog from '$lib/components/ui/dialog'
 	import type { Template } from '$lib/features/templates/templates/template-interface'
 	import { BookCopy } from 'lucide-svelte'
 	import StartFromTemplateCard from './atoms/StartFromTemplateCard.svelte'
@@ -16,15 +10,15 @@
 	)
 </script>
 
-<Dialog>
-	<DialogTrigger class={buttonVariants({ variant: 'default' })}>
+<Dialog.Root>
+	<Dialog.Trigger class={buttonVariants({ variant: 'default' })}>
 		<BookCopy class="mr-2 h-4 w-4" />
 		Select a template
-	</DialogTrigger>
-	<DialogContent class="min-w-[95%]">
-		<DialogHeader>
-			<DialogTitle>Design System templates</DialogTitle>
-		</DialogHeader>
+	</Dialog.Trigger>
+	<Dialog.Content class="min-w-[95%]">
+		<Dialog.Header>
+			<Dialog.Title>Design System templates</Dialog.Title>
+		</Dialog.Header>
 		{#await getDesignSystemTemplates}
 			<span>Getting templates...</span>
 		{:then templates}
@@ -34,5 +28,5 @@
 				{/each}
 			</div>
 		{/await}
-	</DialogContent>
-</Dialog>
+	</Dialog.Content>
+</Dialog.Root>
