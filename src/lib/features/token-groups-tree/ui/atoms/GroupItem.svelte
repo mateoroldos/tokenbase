@@ -7,6 +7,7 @@
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu'
 	import { MoreVertical } from 'lucide-svelte'
+	import { truncate } from 'fs'
 
 	export let node: GroupsTree
 
@@ -19,7 +20,6 @@
 
 	let isOpen = false
 	let hover = false
-	let dialogOpen = false
 
 	const toggleOpen = () => {
 		isOpen = !isOpen
@@ -58,6 +58,9 @@
 		{ title: 'Delete a group', component: Trash, test: handleDeleteGroup }
 	]
 
+	$: actionsDropdownActive = hover || open
+
+	let open: boolean
 	let dropdownOpen = false
 </script>
 
@@ -66,7 +69,6 @@
 		class="flex flex-row items-center justify-between rounded-md p-1 text-gray-500 transition-all hover:bg-gray-100"
 		on:mouseenter={() => {
 			hover = true
-			dropdownOpen = true
 		}}
 		on:mouseleave={() => (hover = false)}
 		role="button"
@@ -95,30 +97,36 @@
 				>
 			{/if}
 		</div>
-
-		<DropdownMenu.Root>
-			<DropdownMenu.Trigger
-				><MoreVertical class="h-4 w-4" /></DropdownMenu.Trigger
+		{#if actionsDropdownActive}
+			<DropdownMenu.Root
+				bind:open
+				onOpenChange={() => {
+					if (!open) {
+						hover = false
+					}
+				}}
 			>
-			<DropdownMenu.Content>
-				<DropdownMenu.Group>
-					<DropdownMenu.Label>Actions</DropdownMenu.Label>
-					<DropdownMenu.Separator />
-					{#each customMenuItems as customItem}
-						<div class="flex flex-col">
-							<button on:click={customItem.test}>
-								<DropdownMenu.Item class="flex flex-row gap-2"
-									><svelte:component
+				<DropdownMenu.Trigger let:builder
+					><MoreVertical class="h-4 w-4" />
+				</DropdownMenu.Trigger>
+				<DropdownMenu.Content>
+					<DropdownMenu.Group>
+						<DropdownMenu.Label>Actions</DropdownMenu.Label>
+						<DropdownMenu.Separator />
+						{#each customMenuItems as customItem}
+							<DropdownMenu.Item>
+								<button class="flex flex-row gap-2" on:click={customItem.test}>
+									<svelte:component
 										this={customItem.component}
 										class="h-3 w-3"
-									/><span>{customItem.title}</span></DropdownMenu.Item
-								>
-							</button>
-						</div>
-					{/each}
-				</DropdownMenu.Group>
-			</DropdownMenu.Content>
-		</DropdownMenu.Root>
+									/><span>{customItem.title}</span>
+								</button>
+							</DropdownMenu.Item>
+						{/each}
+					</DropdownMenu.Group>
+				</DropdownMenu.Content>
+			</DropdownMenu.Root>
+		{/if}
 	</div>
 	{#if isOpen}
 		<div class="pl-5">
