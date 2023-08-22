@@ -49,9 +49,13 @@
 						<Text class="h-4 w-4" />
 					</button>
 				</TooltipTrigger>
-				{#if token.description?.length != 0}
-					<TooltipContent class="absolute bottom-1 left-0  z-10">
+				{#if token.description?.length != 0 && token.description != undefined}
+					<TooltipContent>
 						<p>{token.description}</p>
+					</TooltipContent>
+				{:else if token.description == undefined}
+					<TooltipContent>
+						<p>Add a description</p>
 					</TooltipContent>
 				{/if}
 			</Tooltip>
