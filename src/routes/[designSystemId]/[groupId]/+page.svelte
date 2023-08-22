@@ -16,7 +16,6 @@
 	import StartCardTemplate from '../_components/StartCards/StartCardTemplate.svelte'
 	import StartFromTokenModal from '$lib/features/templates/StartFromTokenModal.svelte'
 	import StartFromBasicTemplateModal from '$lib/features/templates/StartFromBasicTemplateModal.svelte'
-	import { Button } from '$components/ui/button'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')

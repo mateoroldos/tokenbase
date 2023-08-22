@@ -5,7 +5,7 @@
 	import { ChevronRight, Trash, Plus } from 'lucide-svelte'
 	import { page } from '$app/stores'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
-	import DropDown from '$components/DropDown.svelte'
+	import DropDown from '$lib/components/DropDown.svelte'
 
 	export let node: GroupsTree
 

@@ -6,8 +6,6 @@
 	import * as Tooltip from '$lib/components/ui/tooltip'
 	import transformToExportColorValue from '$lib/features/token-management/color/transformToExportColorValue'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
-	import Button from '$components/ui/button/Button.svelte'
-	import Textarea from '$components/ui/textarea/Textarea.svelte'
 
 	export let token: IToken
 
