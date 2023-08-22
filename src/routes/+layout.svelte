@@ -8,6 +8,6 @@
 	setContext('tokenBaseMainStore', designSystemsStore)
 </script>
 
-<div class="h-screen flex">
+<div class=" h-screen">
 	<slot />
 </div>

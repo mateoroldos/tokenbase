@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { HTMLInputAttributes } from 'svelte/elements'
-	import { cn } from "$lib/utils";
-	
-	let className: string | undefined | null = undefined;
-	
+	import { cn } from '$lib/utils'
+
+	let className: string | undefined | null = undefined
+
 	export let value: HTMLInputAttributes['value'] = undefined
 	export let autoWidth = false
 	export let autoSelect = false
