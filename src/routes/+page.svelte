@@ -29,7 +29,9 @@
 	}
 </script>
 
-<section class="flex flex-col items-start justify-center gap-8 p-20">
+<section
+	class="flex min-h-screen flex-col items-center justify-center gap-4 p-20"
+>
 	<h2 class="text-2xl font-medium">Welcome to Tokenbase</h2>
 	<div class="flex flex-row flex-wrap justify-between gap-7">
 		{#each $tokenbaseMainStore as designSystem}
@@ -47,7 +49,6 @@
 			</a>
 		{/each}
 	</div>
-
 	<Dialog.Root>
 		<Dialog.Trigger
 			><Plus class="mr-2 h-4 w-4" />
