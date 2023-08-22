@@ -43,10 +43,10 @@
 				class="text-md h-fit w-fit border-none px-1 py-0 leading-none"
 				id={`group-name-${groupId}`}
 				autoSelect={true}
+				autoWidth={true}
 				autoName="Untitled"
 				bind:value={$designTokensGroupStore[groupIndex].name}
 				on:focusout={handleUnselectNameInput}
-				autoWidth={true}
 			/>
 		{:else}
 			<a
