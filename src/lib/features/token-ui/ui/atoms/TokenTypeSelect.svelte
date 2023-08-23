@@ -19,7 +19,7 @@
 			{/each}
 		</Select.Group>
 	</Select.Content>
-	<Select.Input name="favoriteFruit" />
+	<Select.Input />
 </Select.Root>
 
 <!-- <select
