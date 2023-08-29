@@ -138,7 +138,7 @@
 			{/if}
 		</div>
 	</Table.Cell>
-	<Table.Cell>
+	<Table.Cell class="w-full">
 		<slot />
 	</Table.Cell>
 </Table.Row>
