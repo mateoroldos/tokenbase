@@ -68,7 +68,10 @@
 				{#each startCards as { title, description, image, component }}
 					<StartCardTemplate {title} {description} {image}>
 						{#if component}
-							<svelte:component this={component}  />
+							<svelte:component
+								this={component}
+								activeTemplateTypes={['design-system']}
+							/>
 						{/if}
 					</StartCardTemplate>
 				{/each}

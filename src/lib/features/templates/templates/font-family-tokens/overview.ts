@@ -1,4 +1,4 @@
-import type { Template } from '../../templates/template-interface'
+import type { Template } from '../../types/template-interface'
 
 export const overview: Template = {
 	name: 'Font Family tokens template',

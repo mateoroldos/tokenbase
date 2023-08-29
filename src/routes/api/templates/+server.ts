@@ -1,4 +1,4 @@
-import type { Template } from '$lib/features/templates/templates/template-interface.js'
+import type { Template } from '$lib/features/templates/types/template-interface.js'
 import { error, json } from '@sveltejs/kit'
 
 /** @type {import('./$types').RequestHandler} */

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { buttonVariants } from '$lib/components/ui/button'
 	import * as Dialog from '$lib/components/ui/dialog'
-	import type { Template } from '$lib/features/templates/templates/template-interface'
+	import type { Template } from '$lib/features/templates/types/template-interface'
 	import { BookCopy } from 'lucide-svelte'
 	import StartFromTemplateCard from './atoms/StartFromTemplateCard.svelte'
 
