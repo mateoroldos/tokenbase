@@ -64,8 +64,8 @@
 				<div class="flex flex-col gap-6">
 					<div class="flex flex-col gap-5">
 						{#each EXPORT_FILE_TYPES as fileType}
-							<div class=" cursor-pointer">
-								<div class="flex content-center justify-between gap-2">
+							<div class=" flex cursor-pointer flex-row justify-between">
+								<div class="flex content-center justify-start gap-6">
 									<div class="flex items-center">
 										<Icon icon={fileType.icon} class="h-6 w-6 " />
 									</div>
@@ -73,18 +73,16 @@
 										<h3 class="text-lg text-black">{fileType.name}</h3>
 										<p>File description goes here</p>
 									</div>
-									<div class="flex items-center">
-										<button on:click={() => handleToggleType(fileType.name)}>
-											<Switch />
-										</button>
-									</div>
+								</div>
+								<div class="flex items-center justify-end">
+									<button on:click={() => handleToggleType(fileType.name)}>
+										<Switch />
+									</button>
 								</div>
 							</div>
 						{/each}
 					</div>
-					<Button
-						class="bg-blue-300 px-6"
-						on:click={() => handleExport(exportTypes)}>Create file</Button
+					<Button on:click={() => handleExport(exportTypes)}>Create file</Button
 					>
 				</div>
 			</Sheet.Description>
