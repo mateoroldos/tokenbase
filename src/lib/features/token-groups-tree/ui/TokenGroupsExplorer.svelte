@@ -27,6 +27,11 @@
 		Tokenbase
 	</a>
 	<div class="flex flex-1 flex-col gap-2 overflow-auto">
+		{#if tree.children.length === 0}
+			<p class="text-sm text-gray-400">
+				No groups found. Add a new group to start.
+			</p>
+		{/if}
 		{#each tree.children as node}
 			<GroupItem {node} />
 		{/each}
