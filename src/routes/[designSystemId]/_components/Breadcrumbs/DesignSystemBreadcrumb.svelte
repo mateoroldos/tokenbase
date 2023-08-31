@@ -7,6 +7,7 @@
 	import * as Select from '$lib/components/ui/select'
 	import { Input } from '$lib/components/ui/input'
 	import { Search } from 'lucide-svelte'
+	import { Check } from 'lucide-svelte'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -37,7 +38,17 @@
 		let designSystemId = (e.target?.dataset.value).replace(/"/g, '')
 		goto(`/${designSystemId}`)
 	}
-	let filter = ''
+
+	let filteredSystems: any = []
+
+	let searchTerm = ''
+
+	const searchDesignSystems = () => {
+		return (filteredSystems = $tokenBaseMainStore.filter((designSystem) => {
+			let systemName = designSystem.name.toLowerCase()
+			return systemName.includes(searchTerm.toLowerCase())
+		}))
+	}
 </script>
 
 <div class="flex flex-row items-center">
@@ -57,28 +68,52 @@
 					/>
 					<Input
 						class="focus:ring-3 focus-visible:ring-3 border-none "
-						value={filter}
 						placeholder="Search system..."
-						on:input={(e) => (filter = e.target.value)}
+						on:input={searchDesignSystems}
+						bind:value={searchTerm}
+						on:keydown={(e) => e.stopPropagation()}
 					/>
 				</div>
 				<Select.Separator />
 				<Select.Label class="pl-6">Design Systems</Select.Label>
-				{#each $tokenBaseMainStore as designSystem}
-					{#if designSystem.name.toLowerCase().includes(filter.toLowerCase())}
-						<Select.Item
-							class="pl-6"
-							on:m-click={(e) => {
-								handleChangeDesignSystem(e)
-							}}
-							value={designSystem.id}
-						>
-							{designSystem.name}
-						</Select.Item>
-					{/if}
-				{/each}
+				{#if searchTerm && filteredSystems.length === 0}
+					<p class="pl-6 text-sm">No results</p>
+				{:else if filteredSystems.length > 0}
+					{#each filteredSystems as system}
+						<div class="flex flex-row">
+							{#if system.id === $page.params.designSystemId}
+								<Check class="absolute left-2 z-10 flex h-3 w-3 self-center" />
+							{/if}
+							<Select.Item
+								class="pl-6"
+								on:m-click={(e) => {
+									handleChangeDesignSystem(e)
+								}}
+								value={system.id}
+							>
+								{system.name}
+							</Select.Item>
+						</div>
+					{/each}
+				{:else}
+					{#each $tokenBaseMainStore as system}
+						<div class="flex flex-row">
+							{#if system.id === $page.params.designSystemId}
+								<Check class="absolute left-2 z-10 flex h-3 w-3 self-center" />
+							{/if}
+							<Select.Item
+								class="pl-6 focus:bg-none"
+								on:m-click={(e) => {
+									handleChangeDesignSystem(e)
+								}}
+								value={system.id}
+							>
+								{system.name}
+							</Select.Item>
+						</div>
+					{/each}
+				{/if}
 			</Select.Group>
 		</Select.Content>
-		<Select.Input name="favoriteFruit" />
 	</Select.Root>
 </div>
