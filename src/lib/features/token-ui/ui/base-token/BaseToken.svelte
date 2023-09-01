@@ -24,6 +24,8 @@
 		getContext('selectedTokensStore')
 
 	let hover = false
+	let selectedType: string
+
 	$: selected = $selectedTokensStore.includes(token)
 
 	$: if (!$selectedTokensStore.includes(token) && selected) {
@@ -32,8 +34,10 @@
 		selectedTokensStore.removeToken(token.id)
 	}
 
-	const handleTokenTypeChange = () => {
+	const handleTokenTypeChange = (e) => {
+		token.type = e.target.value
 		token.value = getDefaultTokenValues(token.type)
+		selectedType = token.type
 	}
 
 	let res = nameSuite.get()
@@ -74,6 +78,7 @@
 			) as HTMLInputElement
 			input?.select()
 		}
+		selectedType = token.type
 	})
 </script>
 
@@ -105,7 +110,7 @@
 	</Table.Cell>
 	<Table.Cell class="pr-0">
 		<TokenTypeSelect
-			bind:value={token.type}
+			bind:value={selectedType}
 			on:change={handleTokenTypeChange}
 		/>
 	</Table.Cell>

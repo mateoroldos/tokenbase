@@ -26,6 +26,7 @@
 				groupId,
 				tokenId
 			}
+			console.log(token.alias)
 		} else {
 			alert('Cannot select the same token as its own alias')
 		}

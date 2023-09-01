@@ -23,13 +23,13 @@
 		elements: { root, input, tag, deleteTrigger, edit },
 		states: { tags }
 	} = createTagsInput({
-		defaultTags: ['Arial'],
+		defaultTags: token.value,
 		unique: true
 	})
 
-	$: tagsArray = $tags.map((tag) => tag.value)
-	$: token.value = [...tagsArray]
-	$: console.log(token.value)
+	$: token.value = $tags.map((t) => t.value)
+
+	console.log(isAlias)
 </script>
 
 <div class="flex flex-row gap-8">
