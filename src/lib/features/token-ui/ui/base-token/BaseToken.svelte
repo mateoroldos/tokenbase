@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
-	import { GripVertical, Link2Off } from 'lucide-svelte'
+	import { Link2Off } from 'lucide-svelte'
 	import { getContext, onMount } from 'svelte'
 	import { getDefaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
@@ -24,6 +24,8 @@
 		getContext('selectedTokensStore')
 
 	let hover = false
+	let selectedType: string
+
 	$: selected = $selectedTokensStore.includes(token)
 
 	$: if (!$selectedTokensStore.includes(token) && selected) {
@@ -32,8 +34,17 @@
 		selectedTokensStore.removeToken(token.id)
 	}
 
-	const handleTokenTypeChange = () => {
-		token.value = getDefaultTokenValues(token.type)
+	const handleTokenTypeChange = (e) => {
+		let newType = e.target.value
+
+		token = {
+			...token,
+			value: getDefaultTokenValues(newType),
+			type: newType
+		}
+
+		// token.type = newType
+		// token.value = getDefaultTokenValues(newType)
 	}
 
 	let res = nameSuite.get()
@@ -74,6 +85,7 @@
 			) as HTMLInputElement
 			input?.select()
 		}
+		selectedType = token.type
 	})
 </script>
 
@@ -104,10 +116,7 @@
 		/>
 	</Table.Cell>
 	<Table.Cell class="pr-0">
-		<TokenTypeSelect
-			bind:value={token.type}
-			on:change={handleTokenTypeChange}
-		/>
+		<TokenTypeSelect value={token.type} on:change={handleTokenTypeChange} />
 	</Table.Cell>
 	<Table.Cell class="pr-0">
 		<InputWrapper
@@ -138,7 +147,7 @@
 			{/if}
 		</div>
 	</Table.Cell>
-	<Table.Cell>
+	<Table.Cell class="w-full">
 		<slot />
 	</Table.Cell>
 </Table.Row>
