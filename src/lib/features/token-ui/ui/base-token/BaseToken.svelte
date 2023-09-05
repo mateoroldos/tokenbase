@@ -1,5 +1,8 @@
 <script lang="ts">
-	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
+	import type {
+		IToken,
+		TokenType
+	} from '$lib/features/token-groups-store/types/token-interface'
 	import { Link2Off } from 'lucide-svelte'
 	import { getContext, onMount } from 'svelte'
 	import { getDefaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
@@ -34,17 +37,12 @@
 		selectedTokensStore.removeToken(token.id)
 	}
 
-	const handleTokenTypeChange = (e) => {
-		let newType = e.target.value
-
+	const handleTokenTypeChange = (tokenType: TokenType) => {
 		token = {
 			...token,
-			value: getDefaultTokenValues(newType),
-			type: newType
+			value: getDefaultTokenValues(tokenType),
+			type: tokenType
 		}
-
-		// token.type = newType
-		// token.value = getDefaultTokenValues(newType)
 	}
 
 	let res = nameSuite.get()
@@ -99,9 +97,6 @@
 	class="border-gray-200"
 >
 	<Table.Cell class="pr-0">
-		<!-- <div on:dragstart draggable={true} class="cursor-grab">
-			<GripVertical class="h-3 w-3 text-gray-500" />
-		</div> -->
 		<input
 			type="checkbox"
 			bind:checked={selected}
@@ -116,7 +111,7 @@
 		/>
 	</Table.Cell>
 	<Table.Cell class="pr-0">
-		<TokenTypeSelect value={token.type} on:change={handleTokenTypeChange} />
+		<TokenTypeSelect value={token.type} onChangeFn={handleTokenTypeChange} />
 	</Table.Cell>
 	<Table.Cell class="pr-0">
 		<InputWrapper

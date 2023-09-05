@@ -4,9 +4,10 @@
 	import * as Select from '$lib/components/ui/select'
 
 	export let value: TokenType
+	export let onChangeFn: (value: TokenType) => void
 </script>
 
-<Select.Root bind:value on:change>
+<Select.Root bind:value onValueChange={(value) => onChangeFn(value)}>
 	<Select.Trigger class="w-[140px]">
 		<Select.Value />
 	</Select.Trigger>
