@@ -16,10 +16,10 @@
 	$: isAlias = token.alias !== undefined
 	//deshabilitar componente, buscar valor y asignar ahi valores alias.
 
-	// let tokenReferenced = findTokenById(
-	// 	token.alias?.tokenId,
-	// 	$designTokensGroupStore
-	// )
+	let tokenReferenced = findTokenById(
+		token.alias?.tokenId,
+		$designTokensGroupStore
+	)
 
 	const handleChange = (input: Event) => {
 		if (isAlias) return
@@ -31,7 +31,7 @@
 
 	let res = fontFamilySuite.get()
 
-	const {
+	let {
 		elements: { root, input, tag, deleteTrigger, edit },
 		states: { tags }
 	} = createTagsInput({
@@ -39,11 +39,11 @@
 		unique: true
 	})
 
-	// $: token.value = token.alias
-	// 	? $tags.map((t) => t.value)
-	// 	: tokenReferenced?.value
-
 	$: token.value = $tags.map((t) => t.value)
+
+	// $: if (isAlias) {
+	// actualizar la store $tags para que agarre los valores de token.value
+	// }
 </script>
 
 <div class="flex flex-row gap-8">
