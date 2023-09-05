@@ -12,6 +12,7 @@
 	import { Button } from '$lib/components/ui/button'
 	import { Switch } from '$lib/components/ui/switch'
 	import { page } from '$app/stores'
+	import Icon from '@iconify/svelte'
 
 	let exportTypes: ExportFileTypes[] = []
 
@@ -60,23 +61,28 @@
 		<Sheet.Header>
 			<Sheet.Title>Choose your export type</Sheet.Title>
 			<Sheet.Description>
-				<div class="flex flex-col gap-3">
-					<div class="grid grid-cols-2 gap-5">
+				<div class="flex flex-col gap-6">
+					<div class="flex flex-col gap-5">
 						{#each EXPORT_FILE_TYPES as fileType}
-							<div
-								class="w-fit cursor-pointer"
-								on:click={() => handleToggleType(fileType)}
-							>
-								<div class="flex gap-4">
-									<Switch />
-									<p>{fileType}</p>
+							<div class=" flex cursor-pointer flex-row justify-between">
+								<div class="flex content-center justify-start gap-6">
+									<div class="flex items-center">
+										<Icon icon={fileType.icon} class="h-6 w-6 " />
+									</div>
+									<div class="flex flex-col">
+										<h3 class="text-lg text-black">{fileType.name}</h3>
+										<p>File description goes here</p>
+									</div>
+								</div>
+								<div class="flex items-center justify-end">
+									<button on:click={() => handleToggleType(fileType.name)}>
+										<Switch />
+									</button>
 								</div>
 							</div>
 						{/each}
 					</div>
-					<Button
-						class="bg-blue-300 px-6"
-						on:click={() => handleExport(exportTypes)}>Create file</Button
+					<Button on:click={() => handleExport(exportTypes)}>Create file</Button
 					>
 				</div>
 			</Sheet.Description>
