@@ -107,25 +107,3 @@
 		</Dialog.Header>
 	</Dialog.Content>
 </Dialog.Root>
-
-<style>
-	::-webkit-scrollbar {
-		width: 8px;
-	}
-
-	/* Track */
-	::-webkit-scrollbar-track {
-		background: transparent;
-	}
-
-	/* Handle */
-	::-webkit-scrollbar-thumb {
-		background: rgb(230, 229, 229);
-		border-radius: 5px;
-	}
-
-	/* Handle on hover */
-	::-webkit-scrollbar-thumb:hover {
-		background: rgb(223, 222, 222);
-	}
-</style>
