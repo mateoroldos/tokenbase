@@ -6,10 +6,10 @@
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 	import * as Select from '$lib/components/ui/select'
 	import { Input } from '$lib/components/ui/input'
-	import { MoreVertical, Search } from 'lucide-svelte'
+	import { Search } from 'lucide-svelte'
 	import { Check } from 'lucide-svelte'
-	import * as DropdownMenu from '$lib/components/ui/dropdown-menu'
 	import { Pencil, Trash } from 'lucide-svelte'
+	import Dropdown from '$lib/components/Dropdown.svelte'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -152,26 +152,6 @@
 		</Select.Content>
 	</Select.Root>
 	<div>
-		<DropdownMenu.Root>
-			<DropdownMenu.Trigger
-				><MoreVertical class="h-3 w-3" /></DropdownMenu.Trigger
-			>
-			<DropdownMenu.Content>
-				<DropdownMenu.Group>
-					<DropdownMenu.Label>Design System Menu</DropdownMenu.Label>
-					<DropdownMenu.Separator />
-					{#each customMenuItems as customItem}
-						<DropdownMenu.Item>
-							<button class="flex flex-row gap-2" on:click={customItem.test}>
-								<svelte:component
-									this={customItem.component}
-									class="h-3 w-3 self-center"
-								/><span class="self-center">{customItem.title}</span>
-							</button>
-						</DropdownMenu.Item>
-					{/each}</DropdownMenu.Group
-				>
-			</DropdownMenu.Content>
-		</DropdownMenu.Root>
+		<Dropdown menuItems={customMenuItems} />
 	</div>
 </div>
