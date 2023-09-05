@@ -6,8 +6,10 @@
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 	import * as Select from '$lib/components/ui/select'
 	import { Input } from '$lib/components/ui/input'
-	import { Search } from 'lucide-svelte'
+	import { MoreVertical, Search } from 'lucide-svelte'
 	import { Check } from 'lucide-svelte'
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu'
+	import { Pencil, Trash } from 'lucide-svelte'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -34,6 +36,12 @@
 		}
 	}
 
+	let changeNameInput = false
+
+	const toggleChangeNameInput = () => {
+		changeNameInput = !changeNameInput
+	}
+
 	const handleChangeDesignSystem = (e: Event) => {
 		let designSystemId = (e.target?.dataset.value).replace(/"/g, '')
 		goto(`/${designSystemId}`)
@@ -49,15 +57,42 @@
 			return systemName.includes(searchTerm.toLowerCase())
 		}))
 	}
+
+	const deleteDesignSystem = async () => {
+		await goto(`/`)
+		tokenBaseMainStore.deleteDesignSystem($page.params.designSystemId)
+	}
+
+	let customMenuItems = [
+		{ title: 'Edit name', component: Pencil, test: toggleChangeNameInput },
+		{
+			title: 'Delete System',
+			component: Trash,
+			test: deleteDesignSystem
+		}
+	]
 </script>
 
 <div class="flex flex-row items-center">
 	<Select.Root>
-		<Select.Trigger class="focus:ring-3 w-[180px] border-none">
-			<Select.Value
-				placeholder={$tokenBaseMainStore[activeDesignSystemIndex]?.name}
-			/>
-		</Select.Trigger>
+		<div class=" pr-3">
+			{#if changeNameInput}
+				<Input
+					placeholder={$tokenBaseMainStore[activeDesignSystemIndex]?.name}
+					on:focusout={toggleChangeNameInput}
+					bind:value={$tokenBaseMainStore[activeDesignSystemIndex].name}
+				/>
+			{:else}
+				<Select.Trigger
+					class="focus:ring-3 w-[180px] border-none"
+					chevron={true}
+				>
+					<Select.Value
+						placeholder={$tokenBaseMainStore[activeDesignSystemIndex]?.name}
+					/>
+				</Select.Trigger>
+			{/if}
+		</div>
 		<Select.Content>
 			<Select.Group>
 				<div class="flex flex-row">
@@ -116,4 +151,27 @@
 			</Select.Group>
 		</Select.Content>
 	</Select.Root>
+	<div>
+		<DropdownMenu.Root>
+			<DropdownMenu.Trigger
+				><MoreVertical class="h-3 w-3" /></DropdownMenu.Trigger
+			>
+			<DropdownMenu.Content>
+				<DropdownMenu.Group>
+					<DropdownMenu.Label>Design System Menu</DropdownMenu.Label>
+					<DropdownMenu.Separator />
+					{#each customMenuItems as customItem}
+						<DropdownMenu.Item>
+							<button class="flex flex-row gap-2" on:click={customItem.test}>
+								<svelte:component
+									this={customItem.component}
+									class="h-3 w-3 self-center"
+								/><span class="self-center">{customItem.title}</span>
+							</button>
+						</DropdownMenu.Item>
+					{/each}</DropdownMenu.Group
+				>
+			</DropdownMenu.Content>
+		</DropdownMenu.Root>
+	</div>
 </div>
