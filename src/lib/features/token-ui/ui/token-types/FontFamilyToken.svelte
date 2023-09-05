@@ -1,35 +1,9 @@
 <script lang="ts">
-	import TagsInput from '$lib/components/TagsInput.svelte'
-	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
-	import fontFamilySuite from '$lib/features/token-management/font-family/fontFamilySuite'
-	import findTokenById from '$lib/utils/findTokenById'
 	import { createTagsInput, melt } from '@melt-ui/svelte'
 	import { X } from 'lucide-svelte'
-	import { getContext } from 'svelte'
 
 	export let token: IToken<'fontFamily'>
-
-	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
-		getContext('designTokensGroupStore')
-
-	$: isAlias = token.alias !== undefined
-	//deshabilitar componente, buscar valor y asignar ahi valores alias.
-
-	let tokenReferenced = findTokenById(
-		token.alias?.tokenId,
-		$designTokensGroupStore
-	)
-
-	const handleChange = (input: Event) => {
-		if (isAlias) return
-		const target = input.target as HTMLInputElement
-		const name = target.name
-
-		res = fontFamilySuite(target.value, name)
-	}
-
-	let res = fontFamilySuite.get()
 
 	let {
 		elements: { root, input, tag, deleteTrigger, edit },
@@ -39,15 +13,14 @@
 		unique: true
 	})
 
-	$: token.value = $tags.map((t) => t.value)
-
-	// $: if (isAlias) {
-	// actualizar la store $tags para que agarre los valores de token.value
-	// }
+	$: if (token.alias !== undefined) {
+		$tags = token.value.map((t, i) => ({ value: t, id: `${i}` }))
+	} else {
+		token.value = $tags.map((t) => t.value)
+	}
 </script>
 
 <div class="flex flex-row gap-8">
-	{isAlias}
 	<div
 		use:melt={$root}
 		class="text-magnum-600 border-grey-200 flex max-h-[2rem] w-full flex-row flex-wrap gap-3 overflow-auto rounded-md border-2 border-solid px-2 py-1"

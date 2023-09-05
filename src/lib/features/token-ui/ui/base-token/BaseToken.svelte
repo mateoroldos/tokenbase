@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
-	import { GripVertical, Link2Off } from 'lucide-svelte'
+	import { Link2Off } from 'lucide-svelte'
 	import { getContext, onMount } from 'svelte'
 	import { getDefaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
@@ -13,7 +13,6 @@
 	import TokenAliasDialog from './atoms/TokenAliasDialog.svelte'
 	import * as Table from '$lib/components/ui/table'
 	import { Input } from '$lib/components/ui/input'
-	import findTokenById from '$lib/utils/findTokenById'
 
 	export let token: IToken
 	export let draggedTokenId: string | null
@@ -36,9 +35,16 @@
 	}
 
 	const handleTokenTypeChange = (e) => {
-		token.type = undefined
-		token.value = getDefaultTokenValues(e.target.value)
-		token.type = e.target.value
+		let newType = e.target.value
+
+		token = {
+			...token,
+			value: getDefaultTokenValues(newType),
+			type: newType
+		}
+
+		// token.type = newType
+		// token.value = getDefaultTokenValues(newType)
 	}
 
 	let res = nameSuite.get()
@@ -81,74 +87,67 @@
 		}
 		selectedType = token.type
 	})
-
-	console.log(token)
 </script>
 
-{#if token.type !== undefined}
-	<Table.Row
-		on:mouseenter={() => (hover = true)}
-		on:mouseleave={() => (hover = false)}
-		on:dragenter
-		on:dragend
-		ondragover="return false"
-		key={token.id}
-		class="border-gray-200"
-	>
-		<Table.Cell class="pr-0">
-			<!-- <div on:dragstart draggable={true} class="cursor-grab">
+<Table.Row
+	on:mouseenter={() => (hover = true)}
+	on:mouseleave={() => (hover = false)}
+	on:dragenter
+	on:dragend
+	ondragover="return false"
+	key={token.id}
+	class="border-gray-200"
+>
+	<Table.Cell class="pr-0">
+		<!-- <div on:dragstart draggable={true} class="cursor-grab">
 			<GripVertical class="h-3 w-3 text-gray-500" />
 		</div> -->
-			<input
-				type="checkbox"
-				bind:checked={selected}
-				class="h-4 w-4"
-				on:change={() => {
-					if ($selectedTokensStore.includes(token)) {
-						selectedTokensStore.removeToken(token.id)
-					} else {
-						selectedTokensStore.addToken(token)
-					}
-				}}
-			/>
-		</Table.Cell>
-		<Table.Cell class="pr-0">
-			<TokenTypeSelect
-				bind:value={token.type}
-				on:change={handleTokenTypeChange}
-			/>
-		</Table.Cell>
-		<Table.Cell class="pr-0">
-			<InputWrapper
+		<input
+			type="checkbox"
+			bind:checked={selected}
+			class="h-4 w-4"
+			on:change={() => {
+				if ($selectedTokensStore.includes(token)) {
+					selectedTokensStore.removeToken(token.id)
+				} else {
+					selectedTokensStore.addToken(token)
+				}
+			}}
+		/>
+	</Table.Cell>
+	<Table.Cell class="pr-0">
+		<TokenTypeSelect value={token.type} on:change={handleTokenTypeChange} />
+	</Table.Cell>
+	<Table.Cell class="pr-0">
+		<InputWrapper
+			name="name"
+			errors={res.getErrors('name')}
+			isValid={res.isValid('name')}
+		>
+			<Input
+				class="h-7 w-40 border-none px-1 py-1 pr-6 text-sm font-medium"
+				id={`${token.id}-name`}
+				placeholder="Untitled"
 				name="name"
 				errors={res.getErrors('name')}
 				isValid={res.isValid('name')}
-			>
-				<Input
-					class="h-7 w-40 border-none px-1 py-1 pr-6 text-sm font-medium"
-					id={`${token.id}-name`}
-					placeholder="Untitled"
-					name="name"
-					errors={res.getErrors('name')}
-					isValid={res.isValid('name')}
-					on:input={handleChange}
-					bind:value={token.name}
-					on:focusout={handleUnselectNameInput}
-				/>
-			</InputWrapper>
-		</Table.Cell>
-		<Table.Cell>
-			<div class="flex flex-row gap-3">
-				<DescriptionDialog bind:token />
-				{#if token.alias}
-					<button on:click={removeAlias}><Link2Off class="h-4 w-4" /></button>
-				{:else}
-					<TokenAliasDialog bind:token />
-				{/if}
-			</div>
-		</Table.Cell>
-		<Table.Cell class="w-full">
-			<slot />
-		</Table.Cell>
-	</Table.Row>
-{/if}
+				on:input={handleChange}
+				bind:value={token.name}
+				on:focusout={handleUnselectNameInput}
+			/>
+		</InputWrapper>
+	</Table.Cell>
+	<Table.Cell>
+		<div class="flex flex-row gap-3">
+			<DescriptionDialog bind:token />
+			{#if token.alias}
+				<button on:click={removeAlias}><Link2Off class="h-4 w-4" /></button>
+			{:else}
+				<TokenAliasDialog bind:token />
+			{/if}
+		</div>
+	</Table.Cell>
+	<Table.Cell class="w-full">
+		<slot />
+	</Table.Cell>
+</Table.Row>
