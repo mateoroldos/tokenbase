@@ -1,33 +1,37 @@
 <script lang="ts">
-	import InputWrapper from '$lib/components/InputWrapper.svelte'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
-	import fontWeightSuite from '$lib/features/token-management/font-weight/fontWeightSuite'
+	import * as Select from '$lib/components/ui/select'
+	import { ChevronDown } from 'lucide-svelte'
+	ChevronDown
 
 	export let token: IToken<'fontWeight'>
-	$: isAlias = token.alias !== undefined
 
-	const handleChange = (input: Event) => {
-		if (isAlias) return
-		const target = input.target as HTMLInputElement
-		const name = target.name
-
-		res = fontWeightSuite(target.value, name)
-	}
-
-	let res = fontWeightSuite.get()
+	const fontWeigthValueOptions = [
+		'thin',
+		'200',
+		'300',
+		'400',
+		'medium',
+		'600',
+		'bold',
+		'800',
+		'black'
+	]
 </script>
 
-<InputWrapper
-	name="fontWeight"
-	errors={res.getErrors('fontWeight')}
-	isValid={res.isValid('fontWeight')}
->
-	<input
-		class="w-20 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
-		type="text"
-		name="fontWeight"
-		{...isAlias ? { disabled: true } : {}}
-		bind:value={token.value}
-		on:input={handleChange}
-	/>
-</InputWrapper>
+<Select.Root bind:value={token.value}>
+	<Select.Trigger class="w-[100px] ">
+		<Select.Value placeholder={fontWeigthValueOptions[4]} />
+		<ChevronDown class="h-3 pl-3" />
+	</Select.Trigger>
+	<Select.Content>
+		<Select.Group>
+			{#each fontWeigthValueOptions as option}
+				<Select.Item class="pl-4" bind:value={option} label={option}
+					>{option}</Select.Item
+				>
+			{/each}
+		</Select.Group>
+	</Select.Content>
+	<Select.Input />
+</Select.Root>
