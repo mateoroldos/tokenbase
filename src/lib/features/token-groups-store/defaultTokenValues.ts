@@ -10,7 +10,7 @@ export const getDefaultTokenValues = (
 	if (value === 'color') {
 		return [0, 0, 0]
 	} else if (value === 'fontWeight') {
-		return 'normal'
+		return 'medium'
 	} else if (value === 'duration') {
 		return 500
 	} else if (value === 'fontFamily') {

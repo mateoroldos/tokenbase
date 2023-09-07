@@ -27,7 +27,6 @@
 		)
 
 		goto(`/${designSystemId}`)
-		console.log('añadido')
 	}
 
 	let dialogItems = {
