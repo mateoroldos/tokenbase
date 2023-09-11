@@ -34,7 +34,7 @@ export const FILE_TYPE_CONFIGS: {
 	},
 	scss: {
 		icon: 'scss-icon',
-		transformGroup: 'bi:filetype-scss',
+		transformGroup: 'scss',
 		buildPath: 'build/',
 		files: [
 			{
