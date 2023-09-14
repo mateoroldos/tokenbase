@@ -20,52 +20,17 @@
 	$: hasGroups = $designTokensGroupStore.find(
 		(group) => group.parentGroup === $page.params.designSystemId
 	)
-
-	/* const startCards = [
-		{
-			title: 'Start from a template',
-			description:
-				'Start from a template to get a head start on your design system.',
-			image: '/images/start-from-template.png',
-			component: StartFromTemplateModal
-		},
-		{
-			title: 'Create a group',
-			description: 'Start from scratch to create your own design system',
-			image: '/images/start-from-scratch.png',
-			link: `/design-systems/${$page.params.designSystemId}/start-from-scratch`,
-			linkText: 'Start from scratch'
-		},
-		{
-			title: 'Import your JSON file',
-			description: 'Import your design system from a JSON file',
-			image: '/images/import-from-json.png',
-			link: `/design-systems/${$page.params.designSystemId}/import-from-json`,
-			linkText: 'Import from JSON',
-			component: StartFromJsonModal
-		},
-		{
-			title: 'Import a Figma file',
-			description: 'Import your design system from a Figma file',
-			image: '/images/import-from-figma.png',
-			link: `/design-systems/${$page.params.designSystemId}/import-from-figma`,
-			linkText: 'Import from Figma'
-		}
-	] */
 </script>
 
 <div>
 	<Header />
 	<section class="p-14">
-		<!-- <h2 class="text-3xl font-medium">
-			{`${$tokenBaseMainStore[activeDesignSystemIndex].name}`}
-		</h2> -->
 		<StartCardTemplate
 			title="Start from a template"
 			description="Start from a template to get a head start on your design system."
 			image="/images/start-from-template.png"
 		>
-			<StartFromTemplateModal />
+			<StartFromTemplateModal activeTemplateTypes={['design-system']} />
 		</StartCardTemplate>
 	</section>
 </div>
