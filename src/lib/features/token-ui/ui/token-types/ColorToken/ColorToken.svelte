@@ -10,7 +10,6 @@
 	} from './utils/generateHctBackgroundGradients'
 	import { createEventDispatcher } from 'svelte'
 	import suite from '../../validations/descriptionSuite'
-	import InputWrapper from '$lib/components/InputWrapper.svelte'
 	import colorSuite from '$lib/features/token-management/color/colorSuite'
 	import { Input } from '$lib/components/ui/input'
 
@@ -74,22 +73,16 @@
 			class="aspect-square h-7 rounded-sm border border-gray-300"
 			style={`background-color: ${hex}`}
 		/>
-		<InputWrapper
+		<Input
+			value={hex}
 			name="color"
-			errors={res.getErrors('color')}
-			isValid={res.isValid('color')}
-		>
-			<Input
-				value={hex}
-				name="color"
-				class="ml-1 h-7 w-20 border-none px-1 py-1 text-sm"
-				type="text"
-				{...isAlias ? { disabled: true } : {}}
-				on:focusout={handleHexChange}
-				on:input={handleChange}
-				bind:this={hexInput}
-			/>
-		</InputWrapper>
+			class="ml-1 h-7 w-20 border-none px-1 py-1 text-sm"
+			type="text"
+			{...isAlias ? { disabled: true } : {}}
+			on:focusout={handleHexChange}
+			on:input={handleChange}
+			bind:this={hexInput}
+		/>
 	</div>
 	<div class="flex flex-1 flex-row items-center gap-10">
 		<div class="flex w-full max-w-[130px] flex-col gap-1">
