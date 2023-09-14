@@ -40,7 +40,7 @@
 			<Input
 				type="text"
 				placeholder="Untitled"
-				class="text-md h-fit w-fit border-none px-1 py-0 leading-none"
+				class="h-fit w-fit border-none px-1 py-0 text-sm leading-none"
 				id={`group-name-${groupId}`}
 				autoSelect={true}
 				autoWidth={true}

@@ -4,8 +4,8 @@
 	import { getContext } from 'svelte'
 	import * as Dialog from '$lib/components/ui/dialog'
 	import * as Tooltip from '$lib/components/ui/tooltip'
-	import transformToExportColorValue from '$lib/features/token-management/color/transformToExportColorValue'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import Textarea from '$lib/components/ui/textarea/textarea.svelte'
 
 	export let token: IToken
 
@@ -45,8 +45,10 @@
 	<Dialog.Content>
 		<Dialog.Header>
 			<Dialog.Description>
-				<h3>Token description</h3>
-				<textarea bind:value={token.description} />
+				<div class="flex flex-col gap-2">
+					<h3>Token description</h3>
+					<Textarea bind:value={token.description} />
+				</div>
 			</Dialog.Description>
 		</Dialog.Header>
 	</Dialog.Content>
