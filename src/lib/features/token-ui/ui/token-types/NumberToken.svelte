@@ -21,18 +21,12 @@
 </script>
 
 <div>
-	<InputWrapper
+	<Input
+		class="h-8 w-[80px] "
+		type="number"
 		name="numberToken"
-		errors={res.getErrors('numberToken')}
-		isValid={res.isValid('numberToken')}
-	>
-		<Input
-			class="h-8 w-[80px] "
-			type="number"
-			name="numberToken"
-			{...isAlias ? { disabled: true } : {}}
-			bind:value={token.value}
-			on:input={handleChange}
-		/>
-	</InputWrapper>
+		{...isAlias ? { disabled: true } : {}}
+		bind:value={token.value}
+		on:input={handleChange}
+	/>
 </div>

@@ -24,20 +24,14 @@
 
 <div class="flex gap-3">
 	<div>
-		<InputWrapper
+		<Input
 			name="dimension"
-			errors={res.getErrors('dimension')}
-			isValid={res.isValid('dimension')}
-		>
-			<Input
-				name="dimension"
-				class="h-8 w-[80px] "
-				type="number"
-				{...isAlias ? { disabled: true } : {}}
-				on:input={handleChange}
-				bind:value={token.value.value}
-			/>
-		</InputWrapper>
+			class="h-8 w-[80px] "
+			type="number"
+			{...isAlias ? { disabled: true } : {}}
+			on:input={handleChange}
+			bind:value={token.value.value}
+		/>
 	</div>
 	<div class="flex items-center">
 		<Select.Root bind:value={token.value.unit}>
