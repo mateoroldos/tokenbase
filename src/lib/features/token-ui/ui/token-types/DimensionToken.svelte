@@ -1,5 +1,7 @@
 <script lang="ts">
 	import InputWrapper from '$lib/components/InputWrapper.svelte'
+	import Input from '$lib/components/ui/input/input.svelte'
+	import * as Select from '$lib/components/ui/select'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import dimensionSuite from '$lib/features/token-management/dimension/dimensionSuite'
 
@@ -20,16 +22,16 @@
 	let options = ['px', 'rem']
 </script>
 
-<div class="flex gap-6">
+<div class="flex gap-3">
 	<div>
 		<InputWrapper
 			name="dimension"
 			errors={res.getErrors('dimension')}
 			isValid={res.isValid('dimension')}
 		>
-			<input
+			<Input
 				name="dimension"
-				class="w-20 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
+				class="h-8 w-[80px] "
 				type="number"
 				{...isAlias ? { disabled: true } : {}}
 				on:input={handleChange}
@@ -37,17 +39,24 @@
 			/>
 		</InputWrapper>
 	</div>
-	<div>
-		<select
-			class="w-20 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
-			{...isAlias ? { disabled: true } : {}}
-			bind:value={token.value.unit}
-		>
-			{#each options as option}
-				<option value={option}>
-					{option}
-				</option>
-			{/each}
-		</select>
+	<div class="flex items-center">
+		<Select.Root bind:value={token.value.unit}>
+			<Select.Trigger
+				class="h-8 w-[60px] "
+				{...isAlias ? { disabled: true } : {}}
+			>
+				<Select.Value placeholder={token.value.unit} />
+			</Select.Trigger>
+			<Select.Content>
+				<Select.Group>
+					<Select.Label class="pl-2">Unit</Select.Label>
+					{#each options as option}
+						<Select.Item class="pl-2" value={option} label={option}
+							>{option}</Select.Item
+						>
+					{/each}
+				</Select.Group>
+			</Select.Content>
+		</Select.Root>
 	</div>
 </div>

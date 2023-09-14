@@ -1,5 +1,6 @@
 <script lang="ts">
 	import InputWrapper from '$lib/components/InputWrapper.svelte'
+	import Input from '$lib/components/ui/input/input.svelte'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import cubicBezierSuite from '$lib/features/token-management/cubic-bezier/cubicBezierSuite'
 
@@ -24,9 +25,9 @@
 		isValid={res.isValid('p1x')}
 	>
 		<div class="flex flex-row gap-2">
-			<input
+			<Input
 				name="p1x"
-				class="w-14 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
+				class="h-8 w-[60px] "
 				type="number"
 				{...isAlias ? { disabled: true } : {}}
 				bind:value={token.value[0]}
@@ -47,10 +48,10 @@
 		isValid={res.isValid('p1y')}
 	>
 		<div class="flex flex-row gap-2">
-			<input
+			<Input
 				id="p1y"
 				name="p1y"
-				class="w-14 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
+				class="h-8 w-[60px] "
 				type="number"
 				size="1"
 				{...isAlias ? { disabled: true } : {}}
@@ -69,10 +70,10 @@
 		isValid={res.isValid('p2x')}
 	>
 		<div class="flex flex-row gap-2">
-			<input
+			<Input
 				id="p2x"
 				name="p2x"
-				class="w-14 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
+				class="h-8 w-[60px] "
 				type="number"
 				{...isAlias ? { disabled: true } : {}}
 				on:input={handleChange}
@@ -90,10 +91,10 @@
 		isValid={res.isValid('p2y')}
 	>
 		<div class="flex flex-row gap-2">
-			<input
+			<Input
 				id="p2y"
 				name="p2y"
-				class="w-14 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
+				class="h-8 w-[60px] "
 				type="number"
 				{...isAlias ? { disabled: true } : {}}
 				on:input={handleChange}

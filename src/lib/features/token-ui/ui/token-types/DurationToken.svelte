@@ -1,5 +1,6 @@
 <script lang="ts">
 	import InputWrapper from '$lib/components/InputWrapper.svelte'
+	import Input from '$lib/components/ui/input/input.svelte'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import durationSuite from '$lib/features/token-management/duration/durationSuite'
 
@@ -25,9 +26,9 @@
 		isValid={res.isValid('duration')}
 	>
 		<div class="flex flex-row gap-2">
-			<input
+			<Input
 				name="duration"
-				class="w-20 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
+				class="h-8 w-[80px] "
 				type="number"
 				{...isAlias ? { disabled: true } : {}}
 				on:input={handleChange}

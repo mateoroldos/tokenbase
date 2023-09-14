@@ -74,6 +74,9 @@
 </script>
 
 <div class="flex flex-row items-center">
+	<div>
+		<Dropdown menuItems={customMenuItems} />
+	</div>
 	<Select.Root>
 		<div class=" pr-3">
 			{#if changeNameInput}
@@ -151,7 +154,4 @@
 			</Select.Group>
 		</Select.Content>
 	</Select.Root>
-	<div>
-		<Dropdown menuItems={customMenuItems} />
-	</div>
 </div>

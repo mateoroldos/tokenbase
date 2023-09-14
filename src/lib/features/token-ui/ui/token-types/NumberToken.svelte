@@ -1,5 +1,6 @@
 <script lang="ts">
 	import InputWrapper from '$lib/components/InputWrapper.svelte'
+	import Input from '$lib/components/ui/input/input.svelte'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import numberSuite from '$lib/features/token-management/number/numberSuite'
 
@@ -25,8 +26,8 @@
 		errors={res.getErrors('numberToken')}
 		isValid={res.isValid('numberToken')}
 	>
-		<input
-			class="w-20 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-sm"
+		<Input
+			class="h-8 w-[80px] "
 			type="number"
 			name="numberToken"
 			{...isAlias ? { disabled: true } : {}}

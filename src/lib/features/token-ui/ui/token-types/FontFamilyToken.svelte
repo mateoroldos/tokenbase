@@ -23,7 +23,7 @@
 <div class="flex flex-row gap-8">
 	<div
 		use:melt={$root}
-		class="text-magnum-600 border-grey-200 flex max-h-[2rem] w-full flex-row flex-wrap gap-3 overflow-auto rounded-md border-2 border-solid px-2 py-1"
+		class="text-magnum-600 flex max-h-[2rem] w-full flex-row flex-wrap gap-3 overflow-auto rounded-md border-2 px-2 py-1"
 	>
 		{#each $tags as t}
 			<div
