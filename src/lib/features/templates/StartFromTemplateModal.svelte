@@ -7,7 +7,6 @@
 	import * as Dialog from '$lib/components/ui/dialog'
 	import type { Template } from '$lib/features/templates/types/template-interface'
 	import StartFromTemplateCard from './atoms/StartFromTemplateCard.svelte'
-	import Input from '$lib/components/ui/input/input.svelte'
 	import { TEMPLATE_TYPES } from './types/template-type.type'
 	import {
 		TEMPLATE_TAGS,
@@ -46,24 +45,18 @@
 
 <Dialog.Root>
 	<Dialog.Trigger class={buttonVariants({ variant: 'outline', size: 'sm' })}
-		>Templates explorer</Dialog.Trigger
+		>Explore Templates</Dialog.Trigger
 	>
 	<Dialog.Content class="h-[85vh] min-w-[85vw] overflow-hidden p-0">
-		<!-- <Dialog.Header> -->
-		<!-- <Dialog.Title class="text-md mb-5">Templates explorer</Dialog.Title> -->
-		<!-- </Dialog.Header> -->
-
-		<div class="grid grid-cols-[1fr_4fr] gap-16">
-			<aside class="align-start flex flex-col gap-5 bg-gray-50 px-8 py-12">
-				<Input placeholder="Search templates..." class="text-x h-8 p-2" />
+		<div class="grid grid-cols-[1fr_3fr] gap-16 overflow-hidden">
+			<aside class="align-start flex flex-col gap-7 bg-gray-50 px-8 py-12">
+				<h3 class="mb-2 font-medium">Template Explorer</h3>
 				<div class="align-start flex flex-col gap-1">
-					<span class="mb-1 text-xs font-medium text-gray-400"
-						>Template types</span
-					>
+					<span class="mb-1 text-xs font-medium text-gray-400">Types</span>
 					{#each TEMPLATE_TYPES as templateType}
 						<Toggle
 							size="sm"
-							class="justify-start"
+							class="justify-start text-gray-400"
 							pressed={activeTemplateTypes.includes(templateType)}
 							on:m-click={() => handleToggleTemplateType(templateType)}
 						>
@@ -72,13 +65,11 @@
 					{/each}
 				</div>
 				<div class="align-start flex flex-col gap-1">
-					<span class="mb-1 text-xs font-medium text-gray-400"
-						>Template tags</span
-					>
+					<span class="mb-1 text-xs font-medium text-gray-400">Tags</span>
 					{#each TEMPLATE_TAGS as templateTag}
 						<Toggle
 							size="sm"
-							class="justify-start"
+							class="justify-start text-gray-400"
 							pressed={activeTemplateTags.includes(templateTag)}
 							on:m-click={() => handleToggleTemplateTag(templateTag)}
 						>
@@ -88,7 +79,7 @@
 				</div>
 			</aside>
 			<div
-				class="flex h-[100px] flex-row flex-wrap gap-8 overflow-y-auto border border-red-600 py-12 pl-0 pr-10"
+				class="grid auto-rows-max grid-cols-2 gap-8 overflow-y-auto py-12 pl-0 pr-16"
 			>
 				{#await getDesignSystemTemplates}
 					<span>Getting templates...</span>

@@ -21,7 +21,7 @@
 		(group) => group.parentGroup === $page.params.designSystemId
 	)
 
-	const startCards = [
+	/* const startCards = [
 		{
 			title: 'Start from a template',
 			description:
@@ -51,31 +51,21 @@
 			link: `/design-systems/${$page.params.designSystemId}/import-from-figma`,
 			linkText: 'Import from Figma'
 		}
-	]
+	] */
 </script>
 
 <div>
 	<Header />
-	<section class="p-36">
-		<h2 class="text-3xl font-medium">
+	<section class="p-14">
+		<!-- <h2 class="text-3xl font-medium">
 			{`${$tokenBaseMainStore[activeDesignSystemIndex].name}`}
-		</h2>
-		<span class="text-gray-500">Design System</span>
-		{#if hasGroups}
-			has groups
-		{:else}
-			<div class="mt-9 grid grid-cols-2 gap-6">
-				{#each startCards as { title, description, image, component }}
-					<StartCardTemplate {title} {description} {image}>
-						{#if component}
-							<svelte:component
-								this={component}
-								activeTemplateTypes={['design-system']}
-							/>
-						{/if}
-					</StartCardTemplate>
-				{/each}
-			</div>
-		{/if}
+		</h2> -->
+		<StartCardTemplate
+			title="Start from a template"
+			description="Start from a template to get a head start on your design system."
+			image="/images/start-from-template.png"
+		>
+			<StartFromTemplateModal />
+		</StartCardTemplate>
 	</section>
 </div>
