@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Template } from '$lib/features/templates/templates/template-interface'
+	import type { Template } from '$lib/features/templates/types/template-interface'
 	import * as Card from '$lib/components/ui/card'
 	import { Separator } from '$lib/components/ui/separator'
 	import { Button } from '$lib/components/ui/button'
