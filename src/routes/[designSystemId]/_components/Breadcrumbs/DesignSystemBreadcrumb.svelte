@@ -4,6 +4,12 @@
 	import { getContext } from 'svelte'
 	import type { createDesignSystemsStore } from '$lib/features/token-groups-store/designSystemsIds'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import * as Select from '$lib/components/ui/select'
+	import { Input } from '$lib/components/ui/input'
+	import { Search } from 'lucide-svelte'
+	import { Check } from 'lucide-svelte'
+	import { Pencil, Trash } from 'lucide-svelte'
+	import Dropdown from '$lib/components/Dropdown.svelte'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -30,30 +36,122 @@
 		}
 	}
 
-	const handleChangeDesignSystem = (event: Event) => {
-		const select = event.target as HTMLSelectElement
-		const designSystemId = select.value
+	let changeNameInput = false
 
+	const toggleChangeNameInput = () => {
+		changeNameInput = !changeNameInput
+	}
+
+	const handleChangeDesignSystem = (e: Event) => {
+		let designSystemId = (e.target?.dataset.value).replace(/"/g, '')
 		goto(`/${designSystemId}`)
 	}
+
+	let filteredSystems: any = []
+
+	let searchTerm = ''
+
+	const searchDesignSystems = () => {
+		return (filteredSystems = $tokenBaseMainStore.filter((designSystem) => {
+			let systemName = designSystem.name.toLowerCase()
+			return systemName.includes(searchTerm.toLowerCase())
+		}))
+	}
+
+	const deleteDesignSystem = async () => {
+		await goto(`/`)
+		tokenBaseMainStore.deleteDesignSystem($page.params.designSystemId)
+	}
+
+	let customMenuItems = [
+		{ title: 'Edit name', component: Pencil, test: toggleChangeNameInput },
+		{
+			title: 'Delete System',
+			component: Trash,
+			test: deleteDesignSystem
+		}
+	]
 </script>
 
 <div class="flex flex-row items-center">
-	<a
-		href={`/${$page.params.designSystemId}`}
-		class="text-md text-gray-500 hover:underline"
-	>
-		{$tokenBaseMainStore[activeDesignSystemIndex]?.name}
-	</a>
-
-	<!-- TODO: replace with select component -->
-	<!-- <select
-		name="design-system"
-		id="design-system"
-		on:change={handleChangeDesignSystem}
-	>
-		{#each $tokenBaseMainStore.designSystems as designSystem}
-			<option value={designSystem.id}>{designSystem.name}</option>
-		{/each}
-	</select> -->
+	<Select.Root>
+		<div class=" pr-3">
+			{#if changeNameInput}
+				<Input
+					placeholder={$tokenBaseMainStore[activeDesignSystemIndex]?.name}
+					on:focusout={toggleChangeNameInput}
+					bind:value={$tokenBaseMainStore[activeDesignSystemIndex].name}
+				/>
+			{:else}
+				<Select.Trigger
+					class="focus:ring-3 w-[180px] border-none"
+					chevron={true}
+				>
+					<Select.Value
+						placeholder={$tokenBaseMainStore[activeDesignSystemIndex]?.name}
+					/>
+				</Select.Trigger>
+			{/if}
+		</div>
+		<Select.Content>
+			<Select.Group>
+				<div class="flex flex-row">
+					<Search
+						class=" 
+					 ml-3 mr-0 flex h-4 w-4  self-center "
+						color="gray"
+					/>
+					<Input
+						class="focus:ring-3 focus-visible:ring-3 border-none "
+						placeholder="Search system..."
+						on:input={searchDesignSystems}
+						bind:value={searchTerm}
+						on:keydown={(e) => e.stopPropagation()}
+					/>
+				</div>
+				<Select.Separator />
+				<Select.Label class="pl-6">Design Systems</Select.Label>
+				{#if searchTerm && filteredSystems.length === 0}
+					<p class="pl-6 text-sm">No results</p>
+				{:else if filteredSystems.length > 0}
+					{#each filteredSystems as system}
+						<div class="flex flex-row">
+							{#if system.id === $page.params.designSystemId}
+								<Check class="absolute left-2 z-10 flex h-3 w-3 self-center" />
+							{/if}
+							<Select.Item
+								class="pl-6"
+								on:m-click={(e) => {
+									handleChangeDesignSystem(e)
+								}}
+								value={system.id}
+							>
+								{system.name}
+							</Select.Item>
+						</div>
+					{/each}
+				{:else}
+					{#each $tokenBaseMainStore as system}
+						<div class="flex flex-row">
+							{#if system.id === $page.params.designSystemId}
+								<Check class="absolute left-2 z-10 flex h-3 w-3 self-center" />
+							{/if}
+							<Select.Item
+								class="pl-6 focus:bg-none"
+								on:m-click={(e) => {
+									handleChangeDesignSystem(e)
+								}}
+								value={system.id}
+							>
+								{system.name}
+							</Select.Item>
+						</div>
+					{/each}
+				{/if}
+			</Select.Group>
+		</Select.Content>
+	</Select.Root>
+	<div>
+		<Dropdown menuItems={customMenuItems} />
+	</div>
 </div>

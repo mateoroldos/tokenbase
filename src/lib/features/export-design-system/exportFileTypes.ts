@@ -1,13 +1,13 @@
 export const EXPORT_FILE_TYPES = [
-	'css',
-	'scss',
-	'less',
-	'android',
-	'ios-swift',
-	'flutter'
+	{ name: 'css', icon: 'bxl:css3' },
+	{ name: 'scss', icon: 'bi:filetype-scss' },
+	{ name: 'less', icon: 'bxl:less' },
+	{ name: 'android', icon: 'material-symbols:android' },
+	{ name: 'ios-swift', icon: 'simple-icons:ios' },
+	{ name: 'flutter', icon: 'material-symbols:flutter' }
 ] as const
 
-export type ExportFileTypes = (typeof EXPORT_FILE_TYPES)[number]
+export type ExportFileTypes = (typeof EXPORT_FILE_TYPES)[number]['name']
 
 export interface FileTypeConfig {
 	transformGroup: string
@@ -19,9 +19,10 @@ export interface FileTypeConfig {
 }
 
 export const FILE_TYPE_CONFIGS: {
-	[key in ExportFileTypes]: FileTypeConfig
+	[key in ExportFileTypes]: FileTypeConfig & { icon: string }
 } = {
 	css: {
+		icon: 'bxl:css3',
 		transformGroup: 'css',
 		buildPath: 'build/',
 		files: [
@@ -32,7 +33,8 @@ export const FILE_TYPE_CONFIGS: {
 		]
 	},
 	scss: {
-		transformGroup: 'scss',
+		icon: 'scss-icon',
+		transformGroup: 'bi:filetype-scss',
 		buildPath: 'build/',
 		files: [
 			{
@@ -42,6 +44,7 @@ export const FILE_TYPE_CONFIGS: {
 		]
 	},
 	less: {
+		icon: 'bxl:less',
 		transformGroup: 'less',
 		buildPath: 'build/',
 		files: [
@@ -52,6 +55,7 @@ export const FILE_TYPE_CONFIGS: {
 		]
 	},
 	android: {
+		icon: 'material-symbols:android',
 		transformGroup: 'android',
 		buildPath: 'build/',
 		files: [
@@ -62,6 +66,7 @@ export const FILE_TYPE_CONFIGS: {
 		]
 	},
 	'ios-swift': {
+		icon: 'simple-icons:ios',
 		transformGroup: 'ios-swift',
 		buildPath: 'build/',
 		files: [
@@ -72,6 +77,7 @@ export const FILE_TYPE_CONFIGS: {
 		]
 	},
 	flutter: {
+		icon: 'material-symbols:flutter',
 		transformGroup: 'flutter',
 		buildPath: 'build/',
 		files: [

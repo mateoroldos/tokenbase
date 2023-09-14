@@ -1,9 +1,5 @@
 <script lang="ts">
-	import type {
-		IToken,
-		TokenType,
-		TokenValue
-	} from '$lib/features/token-groups-store/types/token-interface'
+	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import BaseToken from './base-token/BaseToken.svelte'
 	import ColorToken from './token-types/ColorToken/ColorToken.svelte'
 	import CubicBezierToken from './token-types/CubicBezierToken.svelte'
@@ -14,9 +10,7 @@
 	import FontWeight from './token-types/FontWeight.svelte'
 	import { getContext } from 'svelte'
 	import findTokenById from '$lib/utils/findTokenById'
-	import { Link2Off } from 'lucide-svelte'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
-	import TokenAliasDialog from './base-token/atoms/TokenAliasDialog.svelte'
 
 	export let token: IToken
 	export let draggedTokenId: string | null
@@ -27,7 +21,10 @@
 	// This function gets the alias value and type and assigns it to the token
 	const connectTokenToAliasValues = () => {
 		if (token.alias) {
-			const aliasOriginToken = findTokenById(token.alias.tokenId, $designTokensGroupStore)
+			const aliasOriginToken = findTokenById(
+				token.alias.tokenId,
+				$designTokensGroupStore
+			)
 
 			if (aliasOriginToken) {
 				token = {

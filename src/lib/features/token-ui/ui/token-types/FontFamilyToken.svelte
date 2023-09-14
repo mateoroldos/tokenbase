@@ -1,95 +1,56 @@
 <script lang="ts">
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
-	import * as Accordion from '$lib/components/ui/accordion'
-	import { Minus, Plus } from 'lucide-svelte'
-	import fontFamilySuite from '$lib/features/token-management/font-family/fontFamilySuite'
-	import InputWrapper from '$lib/components/InputWrapper.svelte'
-	import * as Tooltip from '$lib/components/ui/tooltip'
+	import { createTagsInput, melt } from '@melt-ui/svelte'
+	import { X } from 'lucide-svelte'
 
 	export let token: IToken<'fontFamily'>
 
-	$: isAlias = token.alias !== undefined
+	let {
+		elements: { root, input, tag, deleteTrigger, edit },
+		states: { tags }
+	} = createTagsInput({
+		defaultTags: token.value,
+		unique: true
+	})
 
-	const handleChange = (input: Event) => {
-		if (isAlias) return
-		const target = input.target as HTMLInputElement
-		const name = target.name
-
-		res = fontFamilySuite(target.value, name)
-	}
-
-	let res = fontFamilySuite.get()
-
-	function addInput() {
-		token.value = [...token.value, '']
-	}
-
-	function removeInput(index: number) {
-		token.value.splice(index, 1)
-		token.value = [...token.value]
+	$: if (token.alias !== undefined) {
+		$tags = token.value.map((t, i) => ({ value: t, id: `${i}` }))
+	} else {
+		token.value = $tags.map((t) => t.value)
 	}
 </script>
 
-<div class="flex flex-row gap-4">
-	<Tooltip.Root>
-		<Tooltip.Trigger>
-			<button class="ml-3" on:click={addInput}
-				><Plus class="w-4 items-center" /></button
+<div class="flex flex-row gap-8">
+	<div
+		use:melt={$root}
+		class="text-magnum-600 border-grey-200 flex max-h-[2rem] w-full flex-row flex-wrap gap-3 overflow-auto rounded-md border-2 border-solid px-2 py-1"
+	>
+		{#each $tags as t}
+			<div
+				use:melt={$tag(t)}
+				class="bg-magnum-200 text-magnum-900 data-[disabled]:bg-magnum-300 data-[selected]:bg-magnum-400 flex items-center overflow-hidden rounded-md [word-break:break-word] data-[disabled]:hover:cursor-default data-[disabled]:focus:!outline-none data-[disabled]:focus:!ring-0"
 			>
-		</Tooltip.Trigger>
-		<Tooltip.Content>
-			<p>Add Font Family</p>
-		</Tooltip.Content>
-	</Tooltip.Root>
-
-	<div class="flex flex-col gap-4">
-		<Accordion.Root>
-			<Accordion.Item value="item-1">
-				<Accordion.Trigger
-					><input
-						class="mr-2 w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1 text-xs"
-						type="text"
-						placeholder="Your fonts"
-						disabled
-					/></Accordion.Trigger
+				<span
+					class="flex items-center border-r border-white/10 bg-slate-100 px-1.5"
+					>{t.value}</span
 				>
-				{#if Array.isArray(token.value)}
-					{#each token.value as value, i}
-						<Accordion.Content>
-							<div class="flex">
-								<InputWrapper
-									name="duration"
-									errors={res.getErrors('fontFamilyToken')}
-									isValid={res.isValid('fontFamilyToken')}
-								>
-									<input
-										name="fontFamilyToken"
-										class="mr-2 w-52 rounded-md border-2 border-solid border-gray-200 px-2 py-1"
-										type="text"
-										bind:value
-										on:input={handleChange}
-										{...isAlias ? { disabled: true } : {}}
-									/></InputWrapper
-								>
-
-								<Tooltip.Root>
-									<Tooltip.Trigger>
-										<button
-											class="ml-2 self-center"
-											on:click={() => removeInput(i)}
-										>
-											<Minus class="w-4" /></button
-										>
-									</Tooltip.Trigger>
-									<Tooltip.Content>
-										<p>Remove Font Family</p>
-									</Tooltip.Content>
-								</Tooltip.Root>
-							</div>
-						</Accordion.Content>
-					{/each}
-				{/if}
-			</Accordion.Item>
-		</Accordion.Root>
+				<button
+					use:melt={$deleteTrigger(t)}
+					class="enabled:hover:bg-magnum-300 flex h-full items-center bg-slate-100 px-1"
+				>
+					<X class="h-4 w-4 bg-slate-100" />
+				</button>
+			</div>
+			<div
+				use:melt={$edit(t)}
+				class="flex items-center overflow-hidden rounded-md px-1.5 [word-break:break-word] data-[invalid-edit]:focus:!ring-red-500"
+			/>
+		{/each}
+		<input
+			use:melt={$input}
+			type="text"
+			placeholder="Enter fonts..."
+			class="min-w-[4.5rem] shrink grow basis-0 border-0 bg-transparent text-black outline-none focus:!ring-0 data-[invalid]:text-red-500"
+		/>
 	</div>
 </div>

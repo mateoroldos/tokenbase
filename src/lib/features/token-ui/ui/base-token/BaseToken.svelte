@@ -1,6 +1,9 @@
 <script lang="ts">
-	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
-	import { GripVertical, Link2Off } from 'lucide-svelte'
+	import type {
+		IToken,
+		TokenType
+	} from '$lib/features/token-groups-store/types/token-interface'
+	import { Link2Off } from 'lucide-svelte'
 	import { getContext, onMount } from 'svelte'
 	import { getDefaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
@@ -24,6 +27,8 @@
 		getContext('selectedTokensStore')
 
 	let hover = false
+	let selectedType: string
+
 	$: selected = $selectedTokensStore.includes(token)
 
 	$: if (!$selectedTokensStore.includes(token) && selected) {
@@ -32,8 +37,12 @@
 		selectedTokensStore.removeToken(token.id)
 	}
 
-	const handleTokenTypeChange = () => {
-		token.value = getDefaultTokenValues(token.type)
+	const handleTokenTypeChange = (tokenType: TokenType) => {
+		token = {
+			...token,
+			value: getDefaultTokenValues(tokenType),
+			type: tokenType
+		}
 	}
 
 	let res = nameSuite.get()
@@ -74,6 +83,7 @@
 			) as HTMLInputElement
 			input?.select()
 		}
+		selectedType = token.type
 	})
 </script>
 
@@ -87,9 +97,6 @@
 	class="border-gray-200"
 >
 	<Table.Cell class="pr-0">
-		<!-- <div on:dragstart draggable={true} class="cursor-grab">
-			<GripVertical class="h-3 w-3 text-gray-500" />
-		</div> -->
 		<input
 			type="checkbox"
 			bind:checked={selected}
@@ -104,10 +111,7 @@
 		/>
 	</Table.Cell>
 	<Table.Cell class="pr-0">
-		<TokenTypeSelect
-			bind:value={token.type}
-			on:change={handleTokenTypeChange}
-		/>
+		<TokenTypeSelect value={token.type} onChangeFn={handleTokenTypeChange} />
 	</Table.Cell>
 	<Table.Cell class="pr-0">
 		<InputWrapper
@@ -138,7 +142,7 @@
 			{/if}
 		</div>
 	</Table.Cell>
-	<Table.Cell>
+	<Table.Cell class="w-full">
 		<slot />
 	</Table.Cell>
 </Table.Row>
