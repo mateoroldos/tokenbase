@@ -51,11 +51,15 @@
 
 		a.click()
 	}
+
+	const resetExportTypes = () => {
+		exportTypes = []
+	}
 </script>
 
 <Sheet.Root>
 	<Sheet.Trigger>
-		<Button class="w-full">Export</Button>
+		<Button class="w-full" on:click={resetExportTypes}>Export</Button>
 	</Sheet.Trigger>
 	<Sheet.Content>
 		<Sheet.Header>
