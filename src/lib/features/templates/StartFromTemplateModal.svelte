@@ -49,14 +49,14 @@
 	>
 	<Dialog.Content class="h-[85vh] min-w-[85vw] overflow-hidden p-0">
 		<div class="grid grid-cols-[1fr_3fr] gap-16 overflow-hidden">
-			<aside class="align-start flex flex-col gap-7 bg-gray-50 px-8 py-12">
+			<aside class="align-start flex flex-col gap-7 bg-slate-50 px-8 py-12">
 				<h3 class="mb-2 font-medium">Template Explorer</h3>
 				<div class="align-start flex flex-col gap-1">
-					<span class="mb-1 text-xs font-medium text-gray-400">Types</span>
+					<span class="mb-1 text-xs font-medium text-slate-400">Types</span>
 					{#each TEMPLATE_TYPES as templateType}
 						<Toggle
 							size="sm"
-							class="justify-start text-gray-400"
+							class="justify-start text-slate-400"
 							pressed={activeTemplateTypes.includes(templateType)}
 							on:m-click={() => handleToggleTemplateType(templateType)}
 						>
@@ -65,11 +65,11 @@
 					{/each}
 				</div>
 				<div class="align-start flex flex-col gap-1">
-					<span class="mb-1 text-xs font-medium text-gray-400">Tags</span>
+					<span class="mb-1 text-xs font-medium text-slate-400">Tags</span>
 					{#each TEMPLATE_TAGS as templateTag}
 						<Toggle
 							size="sm"
-							class="justify-start text-gray-400"
+							class="justify-start text-slate-400"
 							pressed={activeTemplateTags.includes(templateTag)}
 							on:m-click={() => handleToggleTemplateTag(templateTag)}
 						>
@@ -91,7 +91,7 @@
 							{/if}
 						{/each}
 					{:else}
-						<span class="text-gray-400"><em>No templates found</em></span>
+						<span class="text-slate-400"><em>No templates found</em></span>
 					{/if}
 				{/await}
 			</div>

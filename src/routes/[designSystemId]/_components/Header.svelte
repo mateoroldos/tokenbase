@@ -39,7 +39,7 @@
 </script>
 
 <div
-	class="border-b-1 flex flex-row items-center justify-between border-b border-solid border-b-gray-100 bg-white px-4 py-4"
+	class="border-b-1 flex flex-row items-center justify-between border-b border-solid border-b-slate-100 bg-white px-4 py-4"
 >
 	<div class="flex flex-row items-center gap-4">
 		<DesignSystemBreadcrumb />

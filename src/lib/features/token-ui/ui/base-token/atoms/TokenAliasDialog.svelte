@@ -76,17 +76,17 @@
 
 																	{#if t.type === 'color'}
 																		<div
-																			class="mr-4 h-6 min-w-[1.5rem] rounded border border-gray-400 text-black"
+																			class="mr-4 h-6 min-w-[1.5rem] rounded border border-slate-400 text-black"
 																			style={`background-color: ${transformToExportColorValue(
 																				t.value
 																			)}`}
 																		/>
 																	{:else if t.type === 'dimension'}
-																		<p class="mr-4 text-gray-400">
+																		<p class="mr-4 text-slate-400">
 																			{t.value.value}
 																		</p>
 																	{:else}
-																		<p class=" mr-4 text-gray-400">
+																		<p class=" mr-4 text-slate-400">
 																			{t.value}
 																		</p>
 																	{/if}

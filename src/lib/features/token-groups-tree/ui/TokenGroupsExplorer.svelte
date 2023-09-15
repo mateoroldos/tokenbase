@@ -20,7 +20,7 @@
 </script>
 
 <div
-	class="flex flex-1 flex-col justify-between gap-6 overflow-hidden border-r border-r-gray-100 bg-gray-50 px-5 py-4"
+	class="flex flex-1 flex-col justify-between gap-6 overflow-hidden border-r border-r-slate-100 bg-slate-50 px-5 py-4"
 >
 	<a href="/" class="text-lg font-medium">
 		<SquareEqual class="mb-1 inline-block h-6 w-6" />
@@ -28,13 +28,13 @@
 	</a>
 	<div class="flex flex-1 flex-col gap-2 overflow-auto">
 		{#if tree.children.length === 0}
-			<p class="text-sm text-gray-400">Add a new group to start.</p>
+			<p class="text-sm text-slate-400">Add a new group to start.</p>
 		{/if}
 		{#each tree.children as node}
 			<GroupItem {node} />
 		{/each}
 		<button
-			class="align-center font-small mt-3 flex flex-row items-center gap-1 border-t border-solid border-t-gray-200 pl-2 pt-1 text-sm text-gray-400 transition-colors hover:text-gray-500"
+			class="align-center font-small mt-3 flex flex-row items-center gap-1 border-t border-solid border-t-slate-200 pl-2 pt-1 text-sm text-slate-400 transition-colors hover:text-slate-500"
 			on:click={handleAddNewGroup}
 		>
 			<Plus class="h-3 w-3" />

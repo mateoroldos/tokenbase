@@ -7,10 +7,8 @@
 	import { v4 as uuidv4 } from 'uuid'
 	import Input from '$lib/components/ui/input/input.svelte'
 	import Separator from '$lib/components/ui/separator/separator.svelte'
-	import Label from '$lib/components/ui/label/label.svelte'
-	import SpecificDialog from '$lib/components/SpecificDialog.svelte'
 	import Button from '$lib/components/ui/button/button.svelte'
-	import { Plus } from 'lucide-svelte'
+	import { SquareEqual } from 'lucide-svelte'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -19,14 +17,15 @@
 
 	let desingSystemName = ''
 
-	const handleAddDesignSystem = () => {
+	const handleAddDesignSystem = async () => {
 		const designSystemId = uuidv4()
+
+		await goto(`/${designSystemId}`)
+
 		tokenbaseMainStore.addDesignSystem(
 			designSystemId,
 			desingSystemName ?? 'New Design System'
 		)
-
-		goto(`/${designSystemId}`)
 	}
 
 	let dialogItems = {
@@ -38,48 +37,65 @@
 	}
 </script>
 
-<section
-	class="flex min-h-screen flex-col items-center justify-center gap-4 p-20"
+<header
+	class="flex flex-row items-center justify-between px-20 py-6 shadow-2xl"
 >
-	<h2 class="text-2xl font-medium">Welcome to Tokenbase</h2>
-	<div class="flex flex-row flex-wrap justify-between gap-7">
+	<a href="/" class="text-lg font-medium">
+		<SquareEqual class="mb-1 inline-block h-6 w-6" />
+		Tokenbase
+	</a>
+	<nav>
+		<ul>
+			<li>
+				<a
+					href="/blog"
+					class="text-slate-400 transition-colors hover:text-slate-900">Blog</a
+				>
+			</li>
+		</ul>
+	</nav>
+</header>
+<section
+	class="flex flex-1 flex-col items-center justify-center gap-20 border bg-slate-100 p-20"
+>
+	<form
+		on:submit|preventDefault={() => handleAddDesignSystem()}
+		class="relative flex w-2/5 flex-row gap-2"
+	>
+		<Input
+			id="name"
+			bind:value={desingSystemName}
+			class="w-full rounded-full border border-slate-200 bg-white p-6 pr-14 text-lg font-medium shadow-lg placeholder:font-normal placeholder:text-slate-300"
+			placeholder="Enter the name of your Design System"
+			autocomplete="off"
+			autoSelect={$tokenbaseMainStore.length > 0 ? false : true}
+		/>
+		<Button
+			class={`absolute right-4 top-1/2 flex -translate-y-1/2 transform items-center px-2 font-normal  ${
+				desingSystemName.length > 0 ? 'text-slate-500' : 'text-slate-300'
+			}`}
+			variant="ghost"
+			type="submit"
+		>
+			⏎
+		</Button>
+	</form>
+	<div class="flex flex-row flex-wrap justify-center gap-7">
 		{#each $tokenbaseMainStore as designSystem}
 			<a href={`/${designSystem.id}`}>
-				<Card.Root class="min-w-[200px] max-w-md">
+				<Card.Root
+					class="min-w-[200px] max-w-md rounded-xl  bg-slate-100 shadow-none transition-all duration-500 hover:bg-white hover:shadow-lg"
+				>
 					<Card.Header>
-						<Card.Title>{designSystem.name}</Card.Title>
-						<Card.Description>Design System</Card.Description>
+						<Card.Title class="text-sm font-medium"
+							>{designSystem.name}</Card.Title
+						>
+						<!-- <Card.Description class="text-xs text-slate-400"
+							>Design System</Card.Description
+						> -->
 					</Card.Header>
-					<Separator class="mb-3" />
-					<Card.Content>
-						<span class="text-xs">Card Content</span>
-					</Card.Content>
 				</Card.Root>
 			</a>
 		{/each}
 	</div>
-	{#if $tokenbaseMainStore.length === 0}
-		<div class="relative flex w-3/6 flex-row gap-2">
-			<Input
-				id="name"
-				bind:value={desingSystemName}
-				class="bg-red col-span-5 w-full pr-12 drop-shadow placeholder:text-slate-400"
-				placeholder="Write the name of your first design system"
-			/>
-			<Button
-				on:click={handleAddDesignSystem}
-				class="  flex  items-center px-2 font-normal"
-			>
-				<Plus class="mr-1 h-4" />
-				Create
-			</Button>
-		</div>
-	{:else}
-		<SpecificDialog {dialogItems}>
-			<div class="flex flex-col gap-4">
-				<Label>Create design system</Label>
-				<Input id="name" bind:value={desingSystemName} class="col-span-3" />
-			</div>
-		</SpecificDialog>
-	{/if}
 </section>

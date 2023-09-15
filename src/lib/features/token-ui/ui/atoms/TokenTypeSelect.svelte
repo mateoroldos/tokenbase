@@ -6,9 +6,20 @@
 
 	export let value: TokenType
 	export let onChangeFn: (value: TokenType) => void
+
+	// Workaround to prevent onChangeFn firing on first render
+	let firstChange = 0
 </script>
 
-<Select.Root bind:value onValueChange={(value) => onChangeFn(value)}>
+<Select.Root
+	bind:value
+	onValueChange={(val) => {
+		if (firstChange > 0) {
+			onChangeFn(val)
+		}
+		firstChange++
+	}}
+>
 	<Select.Trigger class="w-[140px]">
 		<Select.Value />
 	</Select.Trigger>

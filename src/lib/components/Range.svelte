@@ -198,14 +198,14 @@
 		on:touchstart={onTrackEvent}
 	>
 		<div
-			class="h-2 cursor-pointer rounded-full border border-gray-300"
-			class:bg-gray-200={background === undefined}
+			class="h-2 cursor-pointer rounded-full border border-slate-300"
+			class:bg-slate-200={background === undefined}
 			style={`background: ${background}`}
 			bind:this={container}
 		>
 			<div class="absolute h-2 w-0 rounded-full" bind:this={progressBar} />
 			<div
-				class="border-1 absolute -mt-[0.3rem] flex h-4 w-4 items-center justify-center rounded-full border border-gray-300 bg-white shadow-lg"
+				class="border-1 absolute -mt-[0.3rem] flex h-4 w-4 items-center justify-center rounded-full border border-slate-300 bg-white shadow-lg"
 				bind:this={thumb}
 				on:touchstart={onDragStart}
 				on:mousedown={onDragStart}
@@ -216,7 +216,7 @@
 			>
 				{#if (holding || thumbHover) && showTooltip}
 					<div
-						class="range-tooltip pointer-events-none absolute -top-9 rounded-sm bg-gray-200 p-1 text-center after:absolute after:block after:h-2 after:w-2 after:bg-gray-200"
+						class="range-tooltip pointer-events-none absolute -top-9 rounded-sm bg-slate-200 p-1 text-center after:absolute after:block after:h-2 after:w-2 after:bg-slate-200"
 						in:fly={{ y: 7, duration: 200 }}
 						out:fade={{ duration: 100 }}
 					>

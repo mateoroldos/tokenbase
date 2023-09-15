@@ -9,7 +9,7 @@
 	import { Search } from 'lucide-svelte'
 	import { Check } from 'lucide-svelte'
 	import { Pencil, Trash } from 'lucide-svelte'
-	import Dropdown from '$lib/components/Dropdown.svelte'
+	import DropDown from '$lib/components/DropDown.svelte'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -74,84 +74,78 @@
 </script>
 
 <div class="flex flex-row items-center">
-	<div>
-		<Dropdown menuItems={customMenuItems} />
-	</div>
-	<Select.Root>
-		<div class=" pr-3">
-			{#if changeNameInput}
-				<Input
+	<DropDown menuItems={customMenuItems} />
+	{#if changeNameInput}
+		<Input
+			placeholder={$tokenBaseMainStore[activeDesignSystemIndex]?.name}
+			on:focusout={toggleChangeNameInput}
+			bind:value={$tokenBaseMainStore[activeDesignSystemIndex].name}
+			class="h-fit px-2 py-1"
+		/>
+	{:else}
+		<Select.Root>
+			<Select.Trigger class="focus:ring-3 w-fit border-none">
+				<Select.Value
 					placeholder={$tokenBaseMainStore[activeDesignSystemIndex]?.name}
-					on:focusout={toggleChangeNameInput}
-					bind:value={$tokenBaseMainStore[activeDesignSystemIndex].name}
 				/>
-			{:else}
-				<Select.Trigger
-					class="focus:ring-3 w-[180px] border-none"
-					chevron={true}
-				>
-					<Select.Value
-						placeholder={$tokenBaseMainStore[activeDesignSystemIndex]?.name}
-					/>
-				</Select.Trigger>
-			{/if}
-		</div>
-		<Select.Content>
-			<Select.Group>
-				<div class="flex flex-row">
-					<Search
-						class=" 
-					 ml-3 mr-0 flex h-4 w-4  self-center "
-						color="gray"
-					/>
-					<Input
-						class="focus:ring-3 focus-visible:ring-3 border-none "
-						placeholder="Search system..."
-						on:input={searchDesignSystems}
-						bind:value={searchTerm}
-						on:keydown={(e) => e.stopPropagation()}
-					/>
-				</div>
-				<Select.Separator />
-				<Select.Label class="pl-6">Design Systems</Select.Label>
-				{#if searchTerm && filteredSystems.length === 0}
-					<p class="pl-6 text-sm">No results</p>
-				{:else if filteredSystems.length > 0}
-					{#each filteredSystems as system}
-						<div class="flex flex-row">
-							{#if system.id === $page.params.designSystemId}
-								<Check class="absolute left-2 z-10 flex h-3 w-3 self-center" />
-							{/if}
-							<Select.Item
-								class="pl-6"
-								on:m-click={(e) => {
-									handleChangeDesignSystem(e)
-								}}
-								value={system.id}
-							>
-								{system.name}
-							</Select.Item>
-						</div>
-					{/each}
-				{:else}
-					{#each $tokenBaseMainStore as system}
-						<div class="flex flex-row">
-							{#if system.id === $page.params.designSystemId}
-								<Check class="absolute left-2 z-10 flex h-3 w-3 self-center" />
-							{/if}
-							<Select.Item
-								class="pl-6 focus:bg-none"
-								on:m-click={(e) => {
-									handleChangeDesignSystem(e)
-								}}
-								value={system.id}
-							>
-								{system.name}
-							</Select.Item>
-						</div>
-					{/each}
-				{/if}
-			</Select.Group>
-		</Select.Content>
-	</Select.Root>
+			</Select.Trigger>
+			<Select.Content>
+				<Select.Group>
+					<div class="flex flex-row">
+						<Search class="ml-3 mr-0 flex h-4 w-4 self-center" />
+						<Input
+							class="focus:ring-3 focus-visible:ring-3 border-none "
+							placeholder="Search system..."
+							on:input={searchDesignSystems}
+							bind:value={searchTerm}
+							on:keydown={(e) => e.stopPropagation()}
+						/>
+					</div>
+					<Select.Separator />
+					<Select.Label class="pl-6">Design Systems</Select.Label>
+					{#if searchTerm && filteredSystems.length === 0}
+						<p class="pl-6 text-sm">No results</p>
+					{:else if filteredSystems.length > 0}
+						{#each filteredSystems as system}
+							<div class="flex flex-row">
+								{#if system.id === $page.params.designSystemId}
+									<Check
+										class="absolute left-2 z-10 flex h-3 w-3 self-center"
+									/>
+								{/if}
+								<Select.Item
+									class="pl-6"
+									on:m-click={(e) => {
+										handleChangeDesignSystem(e)
+									}}
+									value={system.id}
+								>
+									{system.name}
+								</Select.Item>
+							</div>
+						{/each}
+					{:else}
+						{#each $tokenBaseMainStore as system}
+							<div class="flex flex-row">
+								{#if system.id === $page.params.designSystemId}
+									<Check
+										class="absolute left-2 z-10 flex h-3 w-3 self-center"
+									/>
+								{/if}
+								<Select.Item
+									class="pl-6 focus:bg-none"
+									on:m-click={(e) => {
+										handleChangeDesignSystem(e)
+									}}
+									value={system.id}
+								>
+									{system.name}
+								</Select.Item>
+							</div>
+						{/each}
+					{/if}
+				</Select.Group>
+			</Select.Content>
+		</Select.Root>
+	{/if}
 </div>

@@ -55,9 +55,9 @@
 			<InputFiles id="picture" bind:files={jsonFile} />
 		</div>
 		<div class="flex w-full items-center gap-6">
-			<span class="w-full border border-gray-300" />
-			<p class="text-xs text-zinc-300">OR</p>
-			<span class="w-full border border-gray-300" />
+			<span class="w-full border border-slate-300" />
+			<p class="text-xs text-slate-300">OR</p>
+			<span class="w-full border border-slate-300" />
 		</div>
 		<InputWrapper
 			name="jsonFile"

@@ -25,7 +25,7 @@
 			<Tooltip.Trigger>
 				<button
 					on:click={toggleTokenList}
-					class:text-gray-300={token.description?.length === 0 ||
+					class:text-slate-300={token.description?.length === 0 ||
 						!token.description}
 				>
 					<Text class="h-4 w-4" />

@@ -16,14 +16,14 @@
 				class="flex flex-col items-center"
 				on:click={action}
 				disabled={!active}
-				class:text-gray-300={!active}
-				class:text-gray-600={active}
+				class:text-slate-300={!active}
+				class:text-slate-600={active}
 			>
 				<svelte:component this={icon} class="w-4" />
 			</button>
 		</div>
 	</Tooltip.Trigger>
 	<Tooltip.Content>
-		<span class="text-xs text-gray-700">{name}</span>
+		<span class="text-xs text-slate-700">{name}</span>
 	</Tooltip.Content>
 </Tooltip.Root>

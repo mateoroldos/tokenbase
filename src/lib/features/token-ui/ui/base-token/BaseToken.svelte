@@ -94,7 +94,7 @@
 	on:dragend
 	ondragover="return false"
 	key={token.id}
-	class="border-gray-200"
+	class="border-slate-200"
 >
 	<Table.Cell class="pr-0">
 		<input
@@ -111,26 +111,27 @@
 		/>
 	</Table.Cell>
 	<Table.Cell class="pr-0">
-		<TokenTypeSelect value={token.type} onChangeFn={handleTokenTypeChange} />
+		<TokenTypeSelect
+			bind:value={token.type}
+			onChangeFn={handleTokenTypeChange}
+		/>
 	</Table.Cell>
 	<Table.Cell class="pr-0">
-		<InputWrapper
+		<!-- <InputWrapper
 			name="name"
 			errors={res.getErrors('name')}
 			isValid={res.isValid('name')}
-		>
-			<Input
-				class="h-7 w-40 border-none px-1 py-1 pr-6 text-sm font-medium"
-				id={`${token.id}-name`}
-				placeholder="Untitled"
-				name="name"
-				errors={res.getErrors('name')}
-				isValid={res.isValid('name')}
-				on:input={handleChange}
-				bind:value={token.name}
-				on:focusout={handleUnselectNameInput}
-			/>
-		</InputWrapper>
+		> -->
+		<Input
+			class="h-7 w-40 border-none px-1 py-1 pr-6 text-sm font-medium"
+			id={`${token.id}-name`}
+			placeholder="Untitled"
+			name="name"
+			on:input={handleChange}
+			bind:value={token.name}
+			on:focusout={handleUnselectNameInput}
+		/>
+		<!-- </InputWrapper> -->
 	</Table.Cell>
 	<Table.Cell>
 		<div class="flex flex-row gap-3">

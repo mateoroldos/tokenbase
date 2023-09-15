@@ -44,8 +44,8 @@
 			<div class="mt-6 flex justify-end gap-4">
 				<button
 					use:melt={$close}
-					class="inline-flex h-8 items-center justify-center rounded-sm bg-zinc-100 px-4
-                    text-sm font-medium leading-none text-zinc-600"
+					class="inline-flex h-8 items-center justify-center rounded-sm bg-slate-100 px-4
+                    text-sm font-medium leading-none text-slate-600"
 				>
 					Cancel
 				</button>

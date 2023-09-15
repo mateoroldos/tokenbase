@@ -9,23 +9,11 @@
 		generateToneBackgroundGradient
 	} from './utils/generateHctBackgroundGradients'
 	import { createEventDispatcher } from 'svelte'
-	import suite from '../../validations/descriptionSuite'
-	import InputWrapper from '$lib/components/InputWrapper.svelte'
-	import colorSuite from '$lib/features/token-management/color/colorSuite'
 	import { Input } from '$lib/components/ui/input'
 
 	export let token: IToken<'color'>
 
 	$: isAlias = token.alias !== undefined
-
-	const handleChange = (input: Event) => {
-		if (isAlias) return
-		const target = input.target as HTMLInputElement
-
-		res = colorSuite(target.value, 'color')
-	}
-
-	let res = suite.get()
 
 	const dispatch = createEventDispatcher()
 
@@ -71,7 +59,7 @@
 <div class="flex flex-1 flex-row items-center gap-10">
 	<div class="flex flex-row items-center gap-1">
 		<div
-			class="aspect-square h-7 rounded-sm border border-gray-300"
+			class="aspect-square h-7 rounded-sm border border-slate-300"
 			style={`background-color: ${hex}`}
 		/>
 		<Input
@@ -81,14 +69,13 @@
 			type="text"
 			{...isAlias ? { disabled: true } : {}}
 			on:focusout={handleHexChange}
-			on:input={handleChange}
 			bind:this={hexInput}
 		/>
 	</div>
 	<div class="flex flex-1 flex-row items-center gap-10">
 		<div class="flex w-full max-w-[130px] flex-col gap-1">
 			<div class="flex flex-row items-center">
-				<span class="text-xs text-gray-500">Hue</span>
+				<span class="text-xs text-slate-500">Hue</span>
 				<input
 					type="number"
 					class="w-14 rounded-md bg-transparent px-1 text-xs"
@@ -112,7 +99,7 @@
 		</div>
 		<div class="flex w-full max-w-[130px] flex-col gap-1">
 			<div class="flex flex-row items-center">
-				<span class="text-xs text-gray-500">Chroma</span>
+				<span class="text-xs text-slate-500">Chroma</span>
 				<input
 					type="number"
 					class="w-14 rounded-md bg-transparent px-1 text-xs"
@@ -136,7 +123,7 @@
 		</div>
 		<div class="flex w-full max-w-[130px] flex-col gap-1">
 			<div class="flex flex-row items-center">
-				<span class="text-xs text-gray-500">Tone</span>
+				<span class="text-xs text-slate-500">Tone</span>
 				<input
 					type="number"
 					class="w-14 rounded-md bg-transparent px-1 text-xs"

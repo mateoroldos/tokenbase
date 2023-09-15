@@ -35,7 +35,7 @@
 		{#if parentGroupId != undefined && parentGroupId != $page.params.designSystemId}
 			<svelte:self groupId={parentGroupId} lastItem={false} />
 		{/if}
-		<span class="text-md text-gray-200"> / </span>
+		<span class="text-md text-slate-200"> / </span>
 		{#if lastItem}
 			<Input
 				type="text"
@@ -51,7 +51,7 @@
 		{:else}
 			<a
 				href={`/${$page.params.designSystemId}/${groupId}`}
-				class="text-md text-gray-500 hover:underline"
+				class="text-sm text-slate-500 hover:underline"
 			>
 				{$designTokensGroupStore[groupIndex].name}
 			</a>

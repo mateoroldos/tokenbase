@@ -65,7 +65,7 @@
 
 <div>
 	<div
-		class="flex flex-row items-center justify-between rounded-md p-1 text-gray-500 transition-all hover:bg-gray-100"
+		class="flex flex-row items-center justify-between rounded-md p-1 text-slate-500 transition-all hover:bg-slate-100"
 		on:mouseenter={() => {
 			hover = true
 		}}
@@ -134,7 +134,7 @@
 					<svelte:self node={childNode} />
 				{/each}
 			{:else}
-				<span class="text-xs text-gray-500">Group has no children</span>
+				<span class="text-xs text-slate-500">Group has no children</span>
 			{/if}
 		</div>
 	{/if}
