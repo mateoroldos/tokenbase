@@ -9,6 +9,6 @@
 	setContext('tokenBaseMainStore', designSystemsStore)
 </script>
 
-<div class="flex min-h-screen flex-col">
+<div class="flex h-screen flex-col overflow-hidden">
 	<slot />
 </div>

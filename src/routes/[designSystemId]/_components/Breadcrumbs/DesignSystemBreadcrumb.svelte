@@ -84,8 +84,9 @@
 		/>
 	{:else}
 		<Select.Root>
-			<Select.Trigger class="focus:ring-3 w-fit border-none">
+			<Select.Trigger class="focus:ring-3 w-fit border-none p-0 pl-1">
 				<Select.Value
+					class="font-medium"
 					placeholder={$tokenBaseMainStore[activeDesignSystemIndex]?.name}
 				/>
 			</Select.Trigger>

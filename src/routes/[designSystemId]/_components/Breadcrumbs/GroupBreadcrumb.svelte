@@ -40,7 +40,7 @@
 			<Input
 				type="text"
 				placeholder="Untitled"
-				class="h-fit w-fit border-none px-1 py-0 text-sm leading-none"
+				class="h-fit w-fit border-none px-0 py-0 text-sm  text-slate-700"
 				id={`group-name-${groupId}`}
 				autoSelect={true}
 				autoWidth={true}
@@ -51,7 +51,7 @@
 		{:else}
 			<a
 				href={`/${$page.params.designSystemId}/${groupId}`}
-				class="text-sm text-slate-500 hover:underline"
+				class="text-sm text-slate-400 transition-colors hover:text-slate-500"
 			>
 				{$designTokensGroupStore[groupIndex].name}
 			</a>

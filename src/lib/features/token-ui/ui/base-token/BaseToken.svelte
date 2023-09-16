@@ -94,7 +94,7 @@
 	on:dragend
 	ondragover="return false"
 	key={token.id}
-	class="border-slate-200"
+	class="border-slate-100"
 >
 	<Table.Cell class="pr-0">
 		<input

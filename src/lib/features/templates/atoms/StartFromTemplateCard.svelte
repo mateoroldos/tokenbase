@@ -7,8 +7,11 @@
 	import { Box, Boxes } from 'lucide-svelte'
 	import * as Avatar from '$lib/components/ui/avatar'
 	import Badge from '$lib/components/ui/badge/badge.svelte'
+	import { createEventDispatcher } from 'svelte'
 
 	export let templateOverview: Template
+
+	const dispatch = createEventDispatcher()
 
 	const handleCreateGroupFromTemplate = async () => {
 		const templateFile = await import(templateOverview.path)
@@ -22,6 +25,8 @@
 		}
 
 		importStyleDictionary(JSON.stringify(templateFile.default), parentId)
+
+		dispatch('load-template', templateOverview)
 	}
 </script>
 

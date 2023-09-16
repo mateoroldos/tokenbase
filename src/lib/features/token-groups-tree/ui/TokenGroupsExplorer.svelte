@@ -7,6 +7,7 @@
 	import { SquareEqual, Plus } from 'lucide-svelte'
 	import groupsStore from '$lib/features/token-groups-store/groups'
 	import { v4 as uuidv4 } from 'uuid'
+	import Separator from '$lib/components/ui/separator/separator.svelte'
 
 	const handleAddNewGroup = () => {
 		const id = uuidv4()
@@ -20,25 +21,28 @@
 </script>
 
 <div
-	class="flex flex-1 flex-col justify-between gap-6 overflow-hidden border-r border-r-slate-100 bg-slate-50 px-5 py-4"
+	class="border-red flex h-screen flex-1 flex-col justify-between gap-6 overflow-hidden border-r border-r-slate-100 bg-slate-50 px-5 py-4"
 >
-	<a href="/" class="text-lg font-medium">
+	<a href="/" class="text-lg font-medium text-slate-900">
 		<SquareEqual class="mb-1 inline-block h-6 w-6" />
 		Tokenbase
 	</a>
 	<div class="flex flex-1 flex-col gap-2 overflow-auto">
 		{#if tree.children.length === 0}
-			<p class="text-sm text-slate-400">Add a new group to start.</p>
+			<p class="text-sm text-slate-300">Add a new group to start.</p>
 		{/if}
-		{#each tree.children as node}
+		{#each tree.children as node, i (node.group.id)}
 			<GroupItem {node} />
 		{/each}
+		<Separator
+			class="mt-4 bg-gradient-to-r from-slate-100 via-slate-200 to-slate-100"
+		/>
 		<button
-			class="align-center font-small mt-3 flex flex-row items-center gap-1 border-t border-solid border-t-slate-200 pl-2 pt-1 text-sm text-slate-400 transition-colors hover:text-slate-500"
+			class="align-center font-small flex flex-row items-center gap-1 pl-1 text-sm text-slate-400 transition-colors hover:text-slate-500"
 			on:click={handleAddNewGroup}
 		>
 			<Plus class="h-3 w-3" />
-			Add group
+			New group
 		</button>
 	</div>
 	<div class="flex flex-col gap-3">

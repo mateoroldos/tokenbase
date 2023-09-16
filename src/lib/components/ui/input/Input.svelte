@@ -11,7 +11,7 @@
 	export { className as class }
 
 	export let autoWidth = false
-	export let autoSelect = false
+	export let autoSelect: boolean = false
 	export let autoName: string | undefined = undefined
 
 	let input: HTMLInputElement

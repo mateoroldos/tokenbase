@@ -85,7 +85,7 @@
 </script>
 
 {#if $designTokensGroupStore[groupIndex]}
-	<section class="flex flex-1 flex-col overflow-y-hidden">
+	<section class="flex h-full flex-1 flex-col overflow-hidden">
 		<GroupHeader />
 		<Table.Root>
 			<Table.Header class="sticky top-0 z-30 bg-slate-50">
@@ -117,9 +117,9 @@
 					<Table.Head class="h-10 text-xs">Controls</Table.Head>
 				</Table.Row>
 			</Table.Header>
-			<Table.Body class="border-b border-b-slate-200">
+			<Table.Body class="overflow-y-auto border-b border-b-slate-100">
 				{#if $designTokensGroupStore[groupIndex].tokens.length > 0}
-					{#each $designTokensGroupStore[groupIndex].tokens as token (token.id)}
+					{#each $designTokensGroupStore[groupIndex].tokens as token, i (token.id)}
 						<Token
 							bind:token
 							bind:draggedTokenId

@@ -2,27 +2,31 @@
 	import { goto } from '$app/navigation'
 	import { getContext, onMount } from 'svelte'
 	import type { GroupsTree } from '../../types/groups-tree'
-	import { ChevronRight, Trash, Plus } from 'lucide-svelte'
+	import { ChevronRight, Trash, Plus, MoreHorizontal } from 'lucide-svelte'
 	import { page } from '$app/stores'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu'
 	import { MoreVertical } from 'lucide-svelte'
-	import { truncate } from 'fs'
 
 	export let node: GroupsTree
+	export let nestNumber: number = 0
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
 
 	$: groupId = $page.params.groupId as string
 
-	$: isActive = groupId === node.group.id
+	$: isActive = groupId === node.group?.id
 
 	let isOpen = false
 	let hover = false
 
 	const toggleOpen = () => {
 		isOpen = !isOpen
+	}
+
+	const openToggle = () => {
+		isOpen = true
 	}
 
 	const handleClick = (event: Event) => {
@@ -44,13 +48,12 @@
 				$designTokensGroupStore[$designTokensGroupStore.length - 1]!.id
 			}`
 		)
-		toggleOpen()
+		openToggle()
 	}
 
 	const handleDeleteGroup = async () => {
 		await goto(`/${$page.params.designSystemId}`)
 		designTokensGroupStore.deleteGroup(node.group?.id)
-		toggleOpen()
 	}
 
 	let customMenuItems = [
@@ -61,80 +64,98 @@
 	$: actionsDropdownActive = hover || open
 
 	let open: boolean
+
+	$: padding = `${nestNumber * 15}px`
 </script>
 
 <div>
-	<div
-		class="flex flex-row items-center justify-between rounded-md p-1 text-slate-500 transition-all hover:bg-slate-100"
+	<a
+		class={`flex flex-row items-center justify-between rounded-md px-1 py-1 text-slate-400 transition-all hover:bg-slate-100`}
 		on:mouseenter={() => {
 			hover = true
 		}}
 		on:mouseleave={() => (hover = false)}
 		role="button"
 		tabindex="0"
+		href={`/${$page.params.designSystemId}/${node.group?.id}`}
+		style={nestNumber > 0 ? `padding-left: ${padding}` : ''}
 	>
 		<div class="flex flex-row items-center gap-1">
 			<div
 				class="cursor-pointer transition-transform"
 				class:rotate-90={isOpen}
-				on:click={handleClick}
-				on:keypress={handleClick}
-				role="button"
+				on:click|preventDefault={handleClick}
+				on:keypress|preventDefault={handleClick}
 				tabindex="0"
+				role="button"
 			>
 				<ChevronRight class="h-3 w-3" />
 			</div>
-			<a
-				class:text-black={isActive}
-				href={`/${$page.params.designSystemId}/${node.group?.id}`}
-				class="text-sm font-medium">{node.group?.name}</a
-			>
 			{#if node.group?.name === ''}
-				<a
-					href={`/${$page.params.designSystemId}/${node.group.id}`}
-					class="text-sm font-medium text-black">Untitled</a
+				<span class="text-sm font-medium text-slate-600">Untitled</span>
+			{:else}
+				<span
+					class:text-slate-900={isActive}
+					class="text-sm font-medium text-slate-400">{node.group?.name}</span
 				>
 			{/if}
 		</div>
-		{#if actionsDropdownActive}
-			<DropdownMenu.Root
-				bind:open
-				onOpenChange={() => {
-					if (!open) {
-						hover = false
-					}
-				}}
-			>
-				<DropdownMenu.Trigger let:builder
-					><MoreVertical class="h-4 w-4" />
-				</DropdownMenu.Trigger>
-				<DropdownMenu.Content>
-					<DropdownMenu.Group>
-						<DropdownMenu.Label>Actions</DropdownMenu.Label>
-						<DropdownMenu.Separator />
-						{#each customMenuItems as customItem}
-							<DropdownMenu.Item>
-								<button class="flex flex-row gap-2" on:click={customItem.test}>
-									<svelte:component
-										this={customItem.component}
-										class="h-3 w-3 self-center"
-									/><span class="self-center">{customItem.title}</span>
-								</button>
-							</DropdownMenu.Item>
-						{/each}
-					</DropdownMenu.Group>
-				</DropdownMenu.Content>
-			</DropdownMenu.Root>
-		{/if}
-	</div>
+		<div class="flex flex-row">
+			{#if actionsDropdownActive}
+				<DropdownMenu.Root
+					bind:open
+					onOpenChange={() => {
+						if (!open) {
+							hover = false
+						}
+					}}
+				>
+					<DropdownMenu.Trigger
+						let:builder
+						class="rounded-sm p-[2px] hover:bg-slate-200"
+						><MoreHorizontal class="h-4 w-4" />
+					</DropdownMenu.Trigger>
+					<DropdownMenu.Content>
+						<DropdownMenu.Group>
+							<DropdownMenu.Label>Actions</DropdownMenu.Label>
+							<DropdownMenu.Separator />
+							{#each customMenuItems as customItem}
+								<DropdownMenu.Item>
+									<button
+										class="flex flex-row gap-2"
+										on:click={customItem.test}
+									>
+										<svelte:component
+											this={customItem.component}
+											class="h-3 w-3 self-center"
+										/><span class="self-center">{customItem.title}</span>
+									</button>
+								</DropdownMenu.Item>
+							{/each}
+						</DropdownMenu.Group>
+					</DropdownMenu.Content>
+				</DropdownMenu.Root>
+			{/if}
+			{#if hover}
+				<button
+					on:click|preventDefault={handleAddNewGroup}
+					class="rounded-sm p-[2px] hover:bg-slate-200"
+				>
+					<Plus class="h-4 w-4" />
+				</button>
+			{/if}
+		</div>
+	</a>
 	{#if isOpen}
-		<div class="pl-5">
+		<div>
 			{#if node.children.length > 0}
 				{#each node.children as childNode}
-					<svelte:self node={childNode} />
+					<svelte:self node={childNode} nestNumber={nestNumber + 1} />
 				{/each}
 			{:else}
-				<span class="text-xs text-slate-500">Group has no children</span>
+				<span class="text-xs text-slate-400" style={`padding-left: ${padding}`}
+					>Group has no children</span
+				>
 			{/if}
 		</div>
 	{/if}
