@@ -11,6 +11,9 @@
 	import GroupHeader from './_components/GroupHeader.svelte'
 	import * as Table from '$lib/components/ui/table'
 	import StartFromTemplateModal from '$lib/features/templates/StartFromTemplateModal.svelte'
+	import StartCardTemplate from '../_components/StartCards/StartCardTemplate.svelte'
+	import StartFromTemplateCard from '$lib/features/templates/atoms/StartFromTemplateCard.svelte'
+	import StartFromTokenCard from '$lib/features/templates/atoms/StartFromTokenCard.svelte'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -82,6 +85,10 @@
 		}, 1) // This is setTimeout is a workaround to make the clear tokens work.
 		//If we did it at the same time as the $navigation it didn't work
 	}
+
+	const getDesignSystemTemplates = fetch(`/api/templates`).then(
+		async (data) => (await data.json()) as Token[]
+	)
 </script>
 
 {#if $designTokensGroupStore[groupIndex]}
@@ -130,9 +137,38 @@
 						/>
 					{/each}
 				{:else}
-					<div class="mt-9 grid grid-cols-2 gap-6 px-5 py-4">
-						<StartFromTemplateModal activeTemplateTypes={['group']} />
-					</div>
+					<section class="flex flex-col gap-8 p-14">
+						<div class="flex flex-col gap-2">
+							<h1 class="text-3xl">Get started!</h1>
+							<p class="text-sm text-muted-foreground">
+								Explore, create and organize your design system
+							</p>
+						</div>
+						<div class="flex max-w-lg flex-col gap-6">
+							<h3 class="font-semibold">Actions</h3>
+							<StartCardTemplate
+								title="Explore all templates"
+								description="Choose the template that best suits to you!"
+								image="/images/start-from-template.png"
+							>
+								<StartFromTemplateModal activeTemplateTypes={['group']} />
+							</StartCardTemplate>
+						</div>
+						<div class="flex flex-col gap-8">
+							<h3 class="font-semibold">Popular templates</h3>
+							<div class="grid grid-cols-2 gap-8">
+								{#await getDesignSystemTemplates}
+									<span>Getting templates...</span>
+								{:then templates}
+									{#each templates as template}
+										{#if template.type === 'group'}
+											<StartFromTemplateCard templateOverview={template} />
+										{/if}
+									{/each}
+								{/await}
+							</div>
+						</div>
+					</section>
 				{/if}
 			</Table.Body>
 		</Table.Root>

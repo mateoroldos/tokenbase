@@ -6,7 +6,6 @@
 	import { page } from '$app/stores'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu'
-	import { MoreVertical } from 'lucide-svelte'
 
 	export let node: GroupsTree
 	export let nestNumber: number = 0
@@ -136,7 +135,7 @@
 					</DropdownMenu.Content>
 				</DropdownMenu.Root>
 			{/if}
-			{#if hover}
+			{#if actionsDropdownActive}
 				<button
 					on:click|preventDefault={handleAddNewGroup}
 					class="rounded-sm p-[2px] hover:bg-slate-200"
