@@ -11,6 +11,16 @@ const config = {
 			protocolImports: true
 		})
 	],
+	build: {
+		rollupOptions: {
+			plugins: [
+				nodePolyfills({
+					exclude: ['fs'],
+					protocolImports: true
+				})
+			]
+		}
+	},
 	resolve: {
 		alias: {
 			fs: 'memfs'
