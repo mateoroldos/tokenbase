@@ -27,6 +27,7 @@
 		"browser-style-dictionary": "3.1.1-browser.2",
 		"color": "^4.2.3",
 		"devalue": "^4.2.3",
+		"esbuild": "^0.19.3",
 		"esbuild-plugin-alias": "^0.2.1",
 		"eslint": "^8.33.0",
 		"eslint-config-prettier": "^8.6.0",
@@ -49,6 +50,7 @@
 		"uuid": "^9.0.0",
 		"vest": "^4.6.11",
 		"vite": "^4.4.9",
+		"vite-plugin-cloudflare": "^0.4.1",
 		"vite-plugin-node-polyfills": "^0.8.2",
 		"zod": "^3.20.2"
 	},

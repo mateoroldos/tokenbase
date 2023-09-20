@@ -1,6 +1,7 @@
 import { sveltekit } from '@sveltejs/kit/vite'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import polyfillNode from 'rollup-plugin-polyfill-node'
+import vpc from 'vite-plugin-cloudflare'
 
 /** @type {import('vite').UserConfig} */
 const config = {
@@ -11,16 +12,6 @@ const config = {
 			protocolImports: true
 		})
 	],
-	build: {
-		rollupOptions: {
-			plugins: [
-				nodePolyfills({
-					exclude: ['fs'],
-					protocolImports: true
-				})
-			]
-		}
-	},
 	resolve: {
 		alias: {
 			fs: 'memfs'
