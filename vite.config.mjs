@@ -6,7 +6,7 @@ import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
 const config = {
 	plugins: [
 		sveltekit(),
-		nodePolyfills({
+		rollupNodePolyFill({
 			exclude: ['fs'],
 			protocolImports: true
 		})
