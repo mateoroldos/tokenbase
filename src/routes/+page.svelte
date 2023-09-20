@@ -5,10 +5,10 @@
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 	import { getContext } from 'svelte'
 	import { v4 as uuidv4 } from 'uuid'
-	import Input from '$lib/components/ui/input/input.svelte'
-	import Button from '$lib/components/ui/button/button.svelte'
+	import { Input } from '$lib/components/ui/input'
+	import { Button } from '$lib/components/ui/button'
 	import { SquareEqual } from 'lucide-svelte'
-	import Separator from '$lib/components/ui/separator/separator.svelte'
+	import { Separator } from '$lib/components/ui/separator'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')

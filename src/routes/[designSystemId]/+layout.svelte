@@ -4,7 +4,7 @@
 	import { getContext, onMount } from 'svelte'
 	import { page } from '$app/stores'
 	import { Home, SquareEqual } from 'lucide-svelte'
-	import Button from '$lib/components/ui/button/button.svelte'
+	import { Button } from '$lib/components/ui/button'
 
 	const tokenBaseMainStore: ReturnType<typeof createDesignSystemsStore> =
 		getContext('tokenBaseMainStore')
