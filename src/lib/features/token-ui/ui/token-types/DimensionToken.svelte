@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Input from '$lib/components/ui/input/input.svelte'
+	import { Input } from '$lib/components/ui/input'
 	import * as Select from '$lib/components/ui/select'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 

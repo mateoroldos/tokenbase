@@ -13,7 +13,7 @@
 	import { Switch } from '$lib/components/ui/switch'
 	import { page } from '$app/stores'
 	import Icon from '@iconify/svelte'
-	import Separator from './ui/separator/separator.svelte'
+	import { Separator } from './ui/separator'
 	import { Code, Download } from 'lucide-svelte'
 
 	let exportTypes: ExportFileTypes[] = []

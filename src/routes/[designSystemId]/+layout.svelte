@@ -3,7 +3,7 @@
 	import type { createDesignSystemsStore } from '$lib/features/token-groups-store/designSystemsIds'
 	import { getContext, onMount } from 'svelte'
 	import { page } from '$app/stores'
-	import { Home, SquareEqual } from 'lucide-svelte'
+	import { SquareEqual } from 'lucide-svelte'
 	import { Button } from '$lib/components/ui/button'
 
 	const tokenBaseMainStore: ReturnType<typeof createDesignSystemsStore> =

@@ -1,6 +1,5 @@
 <script lang="ts">
-	import InputWrapper from '$lib/components/InputWrapper.svelte'
-	import Input from '$lib/components/ui/input/input.svelte'
+	import { Input } from '$lib/components/ui/input'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import cubicBezierSuite from '$lib/features/token-management/cubic-bezier/cubicBezierSuite'
 
@@ -41,7 +40,7 @@
 			name="p1y"
 			class="h-8 w-[60px] "
 			type="number"
-			size="1"
+			size={1}
 			{...isAlias ? { disabled: true } : {}}
 			on:input={handleChange}
 			bind:value={token.value[1]}

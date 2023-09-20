@@ -1,6 +1,5 @@
 <script lang="ts">
-	import InputWrapper from '$lib/components/InputWrapper.svelte'
-	import Input from '$lib/components/ui/input/input.svelte'
+	import { Input } from '$lib/components/ui/input'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import durationSuite from '$lib/features/token-management/duration/durationSuite'
 

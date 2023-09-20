@@ -5,7 +5,7 @@
 	import * as Dialog from '$lib/components/ui/dialog'
 	import * as Tooltip from '$lib/components/ui/tooltip'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
-	import Textarea from '$lib/components/ui/textarea/textarea.svelte'
+	import { Textarea } from '$lib/components/ui/textarea'
 
 	export let token: IToken
 
