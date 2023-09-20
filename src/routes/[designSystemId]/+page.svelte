@@ -90,7 +90,9 @@
 											icon={fileType.icon}
 											class="h-6 w-6 justify-center text-slate-500"
 										/>
-										<h3 class="text-slate-500">{fileType.name}</h3>
+										<h3 class="flex items-center text-slate-500">
+											{fileType.name}
+										</h3>
 									</div></Card.Title
 								>
 							</Card.Header>
