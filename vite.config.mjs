@@ -1,6 +1,6 @@
 import { sveltekit } from '@sveltejs/kit/vite'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
-import rollupNodePolyFill from "rollup-plugin-node-polyfills";
+import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
 
 /** @type {import('vite').UserConfig} */
 const config = {
@@ -12,9 +12,10 @@ const config = {
 		})
 	],
 	build: {
-    rollupOptions: {
-      plugins: [rollupNodePolyFill()],
-    },
+		rollupOptions: {
+			plugins: [rollupNodePolyFill()]
+		}
+	},
 	resolve: {
 		alias: {
 			fs: 'memfs'
