@@ -1,13 +1,31 @@
 import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 
-const checkValidShade = (tokens: IToken[]): boolean => {
-	return (
-		tokens.length === 2 &&
-		(checkValidColors(tokens) ||
-			(checkValidDimension(tokens) && checkValidDimesionUnits(tokens)) ||
-			checkValidNumber(tokens) ||
-			checkValidDuration(tokens))
-	)
+const checkValidShade = (
+	tokens: IToken[],
+	selectedTokensIds: string[]
+): boolean => {
+	if (selectedTokensIds.length === 2) {
+		let firstToken = tokens.find(
+			(token) => token.id === selectedTokensIds[0]
+		) as IToken
+		let secondToken = tokens.find(
+			(token) => token.id === selectedTokensIds[1]
+		) as IToken
+
+		if (firstToken && secondToken) {
+			let selectedTokens = [firstToken, secondToken]
+
+			return (
+				checkValidColors(selectedTokens) ||
+				(checkValidDimension(selectedTokens) &&
+					checkValidDimesionUnits(selectedTokens)) ||
+				checkValidNumber(selectedTokens) ||
+				checkValidDuration(selectedTokens)
+			)
+		}
+	}
+
+	return false
 }
 
 const checkValidColors = (tokens: IToken[]): boolean => {

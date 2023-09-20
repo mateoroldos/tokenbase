@@ -1,23 +1,23 @@
 <script lang="ts">
-	import { Trash } from "lucide-svelte"
-	import ToolbarButton from "../../ui/atoms/ToolbarButton.svelte"
-	import { getContext } from "svelte"
-	import type { createSelectedTokensStore } from "$lib/features/select-tokens/selectedTokensStore"
-	import type { createGroupsStore } from "$lib/features/token-groups-store/groups"
+	import { Trash } from 'lucide-svelte'
+	import ToolbarButton from '../../ui/atoms/ToolbarButton.svelte'
+	import { getContext } from 'svelte'
+	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
+	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
 	const selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
 		getContext('selectedTokensStore')
 
-  const handleDeleteTokens = () => {
+	const handleDeleteTokens = () => {
 		let tokensToDelete = [...$selectedTokensStore]
-		
+
 		for (let i = 0; i < tokensToDelete.length; i++) {
-			const token = tokensToDelete[i];
-			
-			if (token) {
-				designTokensGroupStore.deleteToken(token.id)
+			const tokenId = tokensToDelete[i]
+
+			if (tokenId) {
+				designTokensGroupStore.deleteToken(tokenId)
 			}
 		}
 
@@ -27,4 +27,9 @@
 	$: validDeleteToken = $selectedTokensStore.length > 0
 </script>
 
-<ToolbarButton icon={Trash} action={handleDeleteTokens} name="Delete tokens" active={validDeleteToken} />
+<ToolbarButton
+	icon={Trash}
+	action={handleDeleteTokens}
+	name="Delete tokens"
+	active={validDeleteToken}
+/>

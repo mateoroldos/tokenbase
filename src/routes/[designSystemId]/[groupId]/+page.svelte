@@ -54,11 +54,11 @@
 	const handleColorChange = (e: CustomEvent, token: IToken) => {
 		if (
 			$selectedTokensStore.length > 1 &&
-			$selectedTokensStore.includes(token)
+			$selectedTokensStore.includes(token.id)
 		) {
-			const colorTokensToChange = $selectedTokensStore.filter(
-				(tkn) => tkn.id !== token.id && token.type === 'color'
-			)
+			const colorTokensToChange = $designTokensGroupStore[
+				groupIndex
+			].tokens.filter((tkn) => tkn.id !== token.id && token.type === 'color')
 
 			for (let index = 0; index < colorTokensToChange.length; index++) {
 				;(colorTokensToChange[index] as IToken<'color'>).value[
@@ -72,9 +72,9 @@
 	}
 
 	$: allTokensSelected =
-		$selectedTokensStore.length ===
-			$designTokensGroupStore[groupIndex].tokens.length &&
-		$selectedTokensStore.length > 0
+		$designTokensGroupStore[groupIndex].tokens.every((tkn) =>
+			$selectedTokensStore.includes(tkn.id)
+		) && $designTokensGroupStore[groupIndex].tokens.length > 0
 
 	$: if ($navigating) {
 		setTimeout(() => {
@@ -95,16 +95,15 @@
 							<input
 								type="checkbox"
 								class="h-4 w-4"
-								checked={allTokensSelected}
+								bind:checked={allTokensSelected}
 								on:change={() => {
-									if (
-										$selectedTokensStore.length ===
-										$designTokensGroupStore[groupIndex].tokens.length
-									) {
+									if (allTokensSelected) {
 										selectedTokensStore.clearTokens()
 									} else {
 										selectedTokensStore.setTokens(
-											$designTokensGroupStore[groupIndex].tokens
+											$designTokensGroupStore[groupIndex].tokens.map(
+												(tkn) => tkn.id
+											)
 										)
 									}
 								}}

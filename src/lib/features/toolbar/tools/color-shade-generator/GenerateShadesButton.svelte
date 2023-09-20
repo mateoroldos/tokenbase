@@ -5,6 +5,7 @@
 	import { getContext } from 'svelte'
 	import { generateShades } from './GenerateShades'
 	import type {
+		IToken,
 		TokenType,
 		TokenValue
 	} from '$lib/features/token-groups-store/types/token-interface'
@@ -12,51 +13,72 @@
 	import checkValidShade from './checkValidShade'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 	import ToolbarButton from '../../ui/atoms/ToolbarButton.svelte'
+	import type { Group } from '$lib/features/token-groups-store/types/group-interface'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
 	const selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
 		getContext('selectedTokensStore')
 
+	$: groupId = $page.params.groupId as string
+
+	$: groupIndex = $designTokensGroupStore.findIndex(
+		(group) => group.id === groupId
+	)
+
 	let amountOfShades = 10
 
 	const handleGenerateShades = () => {
 		if (validShade) {
+			const firstToken = (
+				$designTokensGroupStore[groupIndex] as Group
+			).tokens.find((token) => token.id === $selectedTokensStore[0]) as IToken
+			const secondToken = (
+				$designTokensGroupStore[groupIndex] as Group
+			).tokens.find((token) => token.id === $selectedTokensStore[1]) as IToken
+
 			const tokenShades = generateShades(
-				$selectedTokensStore[0]?.value as TokenValue<
+				firstToken.value as TokenValue<
 					'color' | 'dimension' | 'number' | 'duration'
 				>,
-				$selectedTokensStore[1]?.value as TokenValue<
+				secondToken.value as TokenValue<
 					'color' | 'dimension' | 'number' | 'duration'
 				>,
 				amountOfShades
 			)
 
-			const shadeTokens = tokenShades.map((shade, i) => ({
-				type: $selectedTokensStore[0]?.type as TokenType,
-				value: shade,
-				name: `${$selectedTokensStore[0]?.name}-shade-${i}`
-			}))
+			const shadeTokens = tokenShades
+				.map((shade, i) => ({
+					type: firstToken.type as TokenType,
+					value: shade,
+					name: `${firstToken.name}-shade-${i + 1}`
+				}))
+				.reverse()
 
-			const firstSelectedTokenIndex = $designTokensGroupStore.findIndex(
-				(token) => token.name === $selectedTokensStore[0]?.name
-			)
+			const firstTokenIndex = (
+				$designTokensGroupStore[groupIndex] as Group
+			).tokens.findIndex((token) => token.id === $selectedTokensStore[0])
 
-			const lastSelectedTokenIndex = $designTokensGroupStore.findIndex(
-				(token) => token.name === $selectedTokensStore[1]?.name
-			)
+			const secondTokenIndex = (
+				$designTokensGroupStore[groupIndex] as Group
+			).tokens.findIndex((token) => token.id === $selectedTokensStore[1])
 
 			designTokensGroupStore.bulkAddTokens(
 				$page.params.groupId as string,
 				shadeTokens,
-				firstSelectedTokenIndex > lastSelectedTokenIndex
-					? lastSelectedTokenIndex - 1
-					: firstSelectedTokenIndex
+				firstTokenIndex > secondTokenIndex
+					? firstTokenIndex - 1
+					: secondTokenIndex
 			)
 		}
 	}
 
-	$: validShade = checkValidShade($selectedTokensStore)
+	$: validShade =
+		$selectedTokensStore.length === 2 &&
+		checkValidShade(
+			$designTokensGroupStore[groupIndex].tokens,
+			$selectedTokensStore
+		)
 </script>
 
 <ToolbarButton

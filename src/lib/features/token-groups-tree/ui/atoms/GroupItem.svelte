@@ -61,9 +61,9 @@
 		{ title: 'Delete a group', component: Trash, test: handleDeleteGroup }
 	]
 
-	$: actionsDropdownActive = hover || open
-
 	let open: boolean
+
+	$: showButtons = hover || open
 
 	$: padding = `${nestNumber * 15}px`
 </script>
@@ -71,9 +71,7 @@
 <div>
 	<a
 		class={`flex flex-row items-center justify-between rounded-md px-1 py-1 text-slate-400 transition-all hover:bg-slate-100`}
-		on:mouseenter={() => {
-			hover = true
-		}}
+		on:mouseenter={() => (hover = true)}
 		on:mouseleave={() => (hover = false)}
 		role="button"
 		tabindex="0"
@@ -101,15 +99,8 @@
 			{/if}
 		</div>
 		<div class="flex flex-row">
-			{#if actionsDropdownActive}
-				<DropdownMenu.Root
-					bind:open
-					onOpenChange={() => {
-						if (!open) {
-							hover = false
-						}
-					}}
-				>
+			{#if showButtons}
+				<DropdownMenu.Root bind:open>
 					<DropdownMenu.Trigger
 						let:builder
 						class="rounded-sm p-[2px] hover:bg-slate-200"
@@ -136,7 +127,7 @@
 					</DropdownMenu.Content>
 				</DropdownMenu.Root>
 			{/if}
-			{#if hover}
+			{#if showButtons}
 				<button
 					on:click|preventDefault={handleAddNewGroup}
 					class="rounded-sm p-[2px] hover:bg-slate-200"
