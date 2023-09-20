@@ -4,19 +4,16 @@ import polyfillNode from 'rollup-plugin-polyfill-node'
 
 /** @type {import('vite').UserConfig} */
 const config = {
-	plugins: [sveltekit(), polyfillNode()],
+	plugins: [
+		sveltekit(),
+		nodePolyfills({
+			exclude: ['fs'],
+			protocolImports: true
+		})
+	],
 	resolve: {
 		alias: {
-			http: false,
-			https: false,
-			crypto: 'crypto-browserify',
-			events: 'events/',
 			fs: 'memfs'
-		}
-	},
-	build: {
-		commonjsOptions: {
-			include: [/node_modules/]
 		}
 	},
 	css: {
