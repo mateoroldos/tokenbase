@@ -13,6 +13,7 @@
 		"@material/material-color-utilities": "^0.2.6",
 		"@melt-ui/pp": "^0.1.2",
 		"@sveltejs/adapter-auto": "^2.0.0",
+		"@sveltejs/adapter-cloudflare": "^2.3.3",
 		"@sveltejs/kit": "^1.8.6",
 		"@tanstack/svelte-query": "^4.24.4",
 		"@trpc/client": "^10.9.1",

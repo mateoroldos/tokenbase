@@ -1,8 +1,8 @@
 import { vitePreprocess } from '@sveltejs/kit/vite'
-import adapter from '@sveltejs/adapter-auto'
 import preprocess from 'svelte-preprocess'
 import { preprocessMeltUI } from '@melt-ui/pp'
 import sequence from 'svelte-sequential-preprocessor'
+import adapter from '@sveltejs/adapter-cloudflare'
 
 /** @type {import('@sveltejs/kit').Config}*/
 const config = {

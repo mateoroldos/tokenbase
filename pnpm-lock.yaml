@@ -42,6 +42,9 @@ devDependencies:
   '@sveltejs/adapter-auto':
     specifier: ^2.0.0
     version: 2.0.0(@sveltejs/kit@1.8.6)
+  '@sveltejs/adapter-cloudflare':
+    specifier: ^2.3.3
+    version: 2.3.3(@sveltejs/kit@1.8.6)
   '@sveltejs/kit':
     specifier: ^1.8.6
     version: 1.8.6(svelte@4.2.0)(vite@4.4.9)
@@ -157,6 +160,10 @@ packages:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.3
       '@jridgewell/trace-mapping': 0.3.19
+
+  /@cloudflare/workers-types@4.20230914.0:
+    resolution: {integrity: sha512-OVeN4lFVu1O0PJGZ2d0FwpK8lelFcr33qYOgCh77ErEYmEBO4adwnIxcIsdQbFbhF0ffN6joiVcljD4zakdaeQ==}
+    dev: true
 
   /@esbuild/android-arm64@0.18.20:
     resolution: {integrity: sha512-Nz4rJcchGDtENV0eMKUNa6L12zz2zBDXuhj/Vjh18zGqB44Bi7MBMSXjgunJgjRhCmKOjnPuZp4Mb6OKqtMHLQ==}
@@ -566,6 +573,17 @@ packages:
     dependencies:
       '@sveltejs/kit': 1.8.6(svelte@4.2.0)(vite@4.4.9)
       import-meta-resolve: 2.2.2
+    dev: true
+
+  /@sveltejs/adapter-cloudflare@2.3.3(@sveltejs/kit@1.8.6):
+    resolution: {integrity: sha512-bbcm6kq4dEluFtFJZed3KSRG4f5GUElYkVfOmnPruTqZ29nTElPJTomAu5QCp7GLkwA26O3h1Dk7+d9yLTQEXg==}
+    peerDependencies:
+      '@sveltejs/kit': ^1.0.0
+    dependencies:
+      '@cloudflare/workers-types': 4.20230914.0
+      '@sveltejs/kit': 1.8.6(svelte@4.2.0)(vite@4.4.9)
+      esbuild: 0.18.20
+      worktop: 0.8.0-next.15
     dev: true
 
   /@sveltejs/adapter-vercel@3.0.3(@sveltejs/kit@1.8.6):
@@ -2922,6 +2940,11 @@ packages:
     dependencies:
       picomatch: 2.3.1
 
+  /regexparam@2.0.1:
+    resolution: {integrity: sha512-zRgSaYemnNYxUv+/5SeoHI0eJIgTL/A2pUtXUPLHQxUldagouJ9p+K6IbIZ/JiQuCEv2E2B1O11SjVQy3aMCkw==}
+    engines: {node: '>=8'}
+    dev: true
+
   /regexpp@3.2.0:
     resolution: {integrity: sha512-pq2bWo9mVD43nbts2wGv17XLiNLya+GklZ8kaDLV2Z08gDCsGpnKn9BFMepvWuHCbyVvY7J5o5+BVvoQbmlJLg==}
     engines: {node: '>=8'}
@@ -3749,6 +3772,14 @@ packages:
   /word-wrap@1.2.3:
     resolution: {integrity: sha512-Hz/mrNwitNRh/HUAtM/VT/5VH+ygD6DV7mYKZAtHOrbs8U7lvPS6xf7EJKMF0uW1KJCl0H701g3ZGus+muE5vQ==}
     engines: {node: '>=0.10.0'}
+    dev: true
+
+  /worktop@0.8.0-next.15:
+    resolution: {integrity: sha512-0ycNO52P6nVwsjr1y20zuf0nqJatAb8L7MODBfQIxbxndHV5O4s50oZZMHWhJG1RLpHwbK0Epq8aaQK4E2GlgQ==}
+    engines: {node: '>=12'}
+    dependencies:
+      mrmime: 1.0.1
+      regexparam: 2.0.1
     dev: true
 
   /wrappy@1.0.2:
