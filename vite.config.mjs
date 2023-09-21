@@ -19,6 +19,9 @@ const config = {
 			util: 'node:util'
 		}
 	},
+	ssr: {
+		noExternal: true
+	},
 	css: {
 		preprocessorOptions: {
 			scss: {
