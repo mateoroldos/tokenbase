@@ -1,7 +1,5 @@
 import { sveltekit } from '@sveltejs/kit/vite'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
-import polyfillNode from 'rollup-plugin-polyfill-node'
-import vpc from 'vite-plugin-cloudflare'
 
 /** @type {import('vite').UserConfig} */
 const config = {
@@ -14,7 +12,11 @@ const config = {
 	],
 	resolve: {
 		alias: {
-			fs: 'memfs'
+			fs: 'memfs',
+			path: 'node:path',
+			stream: 'node:stream',
+			url: 'node:url',
+			util: 'node:util'
 		}
 	},
 	css: {
