@@ -14,6 +14,9 @@
 	} from '$lib/features/export-design-system/exportFileTypes'
 	import Icon from '@iconify/svelte'
 	import * as Card from '$lib/components/ui/card'
+	import StartFromJsonModal from '$lib/features/templates/StartFromJsonModal.svelte'
+	import { Upload } from 'lucide-svelte'
+	import { Separator } from '$lib/components/ui/separator'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -32,7 +35,6 @@
 		async (data) => (await data.json()) as Template[]
 	)
 	let exportTypes: ExportFileTypes[] = []
-	console.log($designTokensGroupStore.length)
 </script>
 
 <div>
@@ -47,13 +49,33 @@
 			</div>
 			<div class="flex max-w-lg flex-col gap-6">
 				<h3 class="font-semibold">Actions</h3>
-				<StartCardTemplate
-					title="Explore all templates"
-					description="Choose the template that best suits to you!"
-					image="/images/start-from-template.png"
-				>
-					<StartFromTemplateModal activeTemplateTypes={['design-system']} />
-				</StartCardTemplate>
+				<div class="grid grid-cols-2 gap-6">
+					<StartCardTemplate
+						title="Explore templates"
+						description="All templates"
+						content="Start from the template that fits your needs"
+					>
+						<StartFromTemplateModal activeTemplateTypes={['design-system']} />
+					</StartCardTemplate>
+					<Card.Root class="flex h-full  flex-1 flex-col">
+						<Card.Header>
+							<Card.Title class="text-md font-medium"
+								>Upload your file</Card.Title
+							>
+							<Card.Description
+								class="flex flex-row items-center text-xs leading-[0] text-slate-400"
+							>
+								<Upload class="mr-1 h-3 w-3" />
+								<span>Import files</span>
+							</Card.Description>
+						</Card.Header>
+						<Separator class="mb-3" />
+						<Card.Content>Start your project from a personal file</Card.Content>
+						<Card.Footer>
+							<StartFromJsonModal />
+						</Card.Footer>
+					</Card.Root>
+				</div>
 			</div>
 			<div class="flex flex-col gap-8">
 				<h3 class="font-semibold">Popular templates</h3>
@@ -80,7 +102,7 @@
 			</div>
 			<div class="flex max-w-lg flex-col gap-6">
 				<h3 class="font-semibold">Export options</h3>
-				<div class="grid grid-cols-3 gap-6">
+				<div class="grid grid-cols-2 gap-6">
 					{#each EXPORT_FILE_TYPES as fileType, i}
 						<Card.Root class=" bg-transparent">
 							<Card.Header class="p-4">
