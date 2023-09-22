@@ -4,12 +4,12 @@
 	import { getContext } from 'svelte'
 	import type { createDesignSystemsStore } from '$lib/features/token-groups-store/designSystemsIds'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
-	import * as Select from '$lib/components/ui/select'
 	import { Input } from '$lib/components/ui/input'
 	import { Search } from 'lucide-svelte'
 	import { Check } from 'lucide-svelte'
 	import { Pencil, Trash } from 'lucide-svelte'
 	import DropDown from '$lib/components/DropDown.svelte'
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -43,7 +43,8 @@
 	}
 
 	const handleChangeDesignSystem = (e: Event) => {
-		let designSystemId = (e.target?.dataset.value).replace(/"/g, '')
+		console.log(e.target?.attributes.value.nodeValue)
+		let designSystemId = e.target?.attributes.value.nodeValue
 		goto(`/${designSystemId}`)
 	}
 
@@ -71,6 +72,15 @@
 			test: deleteDesignSystem
 		}
 	]
+
+	let designSystemItems = [
+		{ title: 'Edit name', component: Pencil, test: toggleChangeNameInput },
+		{
+			title: 'Delete System',
+			component: Trash,
+			test: deleteDesignSystem
+		}
+	]
 </script>
 
 <div class="flex flex-row items-center">
@@ -83,15 +93,13 @@
 			class="h-fit px-2 py-1"
 		/>
 	{:else}
-		<Select.Root>
-			<Select.Trigger class="focus:ring-3 w-fit border-none p-0 pl-1">
-				<Select.Value
-					class="font-medium"
-					placeholder={$tokenBaseMainStore[activeDesignSystemIndex]?.name}
-				/>
-			</Select.Trigger>
-			<Select.Content>
-				<Select.Group>
+		<DropdownMenu.Root>
+			<DropdownMenu.Trigger
+				>{$tokenBaseMainStore[activeDesignSystemIndex]
+					?.name}</DropdownMenu.Trigger
+			>
+			<DropdownMenu.Content>
+				<DropdownMenu.Group>
 					<div class="flex flex-row">
 						<Search class="ml-3 mr-0 flex h-4 w-4 self-center" />
 						<Input
@@ -102,51 +110,51 @@
 							on:keydown={(e) => e.stopPropagation()}
 						/>
 					</div>
-					<Select.Separator />
-					<Select.Label class="pl-6">Design Systems</Select.Label>
+
+					<DropdownMenu.Label class="pl-4">Design Systems</DropdownMenu.Label>
 					{#if searchTerm && filteredSystems.length === 0}
 						<p class="pl-6 text-sm">No results</p>
 					{:else if filteredSystems.length > 0}
 						{#each filteredSystems as system}
-							<div class="flex flex-row">
+							<div class="flex w-full flex-row">
 								{#if system.id === $page.params.designSystemId}
 									<Check
 										class="absolute left-2 z-10 flex h-3 w-3 self-center"
 									/>
 								{/if}
-								<Select.Item
-									class="pl-6"
+								<DropdownMenu.Item
+									class="min-w-full pl-4"
 									on:m-click={(e) => {
 										handleChangeDesignSystem(e)
 									}}
 									value={system.id}
 								>
 									{system.name}
-								</Select.Item>
+								</DropdownMenu.Item>
 							</div>
 						{/each}
 					{:else}
 						{#each $tokenBaseMainStore as system}
-							<div class="flex flex-row">
+							<div class="flex w-full flex-row">
 								{#if system.id === $page.params.designSystemId}
 									<Check
 										class="absolute left-2 z-10 flex h-3 w-3 self-center"
 									/>
 								{/if}
-								<Select.Item
-									class="pl-6 focus:bg-none"
+								<DropdownMenu.Item
+									class="min-w-full pl-6 focus:bg-none"
 									on:m-click={(e) => {
 										handleChangeDesignSystem(e)
 									}}
 									value={system.id}
 								>
 									{system.name}
-								</Select.Item>
+								</DropdownMenu.Item>
 							</div>
 						{/each}
 					{/if}
-				</Select.Group>
-			</Select.Content>
-		</Select.Root>
+				</DropdownMenu.Group>
+			</DropdownMenu.Content>
+		</DropdownMenu.Root>
 	{/if}
 </div>

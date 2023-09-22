@@ -43,8 +43,7 @@
 </script>
 
 <Dialog.Root>
-	<Dialog.Trigger class={buttonVariants({ variant: 'default' })}>
-		<BookCopy class="mr-2 h-4 w-4" />
+	<Dialog.Trigger class={buttonVariants({ variant: 'outline', size: 'sm' })}>
 		Upload your file
 	</Dialog.Trigger>
 	<Dialog.Content>
