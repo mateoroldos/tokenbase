@@ -7,7 +7,7 @@
 	import { SquareEqual, Plus } from 'lucide-svelte'
 	import groupsStore from '$lib/features/token-groups-store/groups'
 	import { v4 as uuidv4 } from 'uuid'
-	import Separator from '$lib/components/ui/separator/separator.svelte'
+	import { Separator } from '$lib/components/ui/separator'
 
 	const handleAddNewGroup = () => {
 		const id = uuidv4()

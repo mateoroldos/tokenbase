@@ -1,7 +1,7 @@
-import Root from "./switch.svelte";
+import Root from './Switch.svelte'
 
 export {
 	Root,
 	//
 	Root as Switch
-};
+}

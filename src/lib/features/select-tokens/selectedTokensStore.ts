@@ -2,23 +2,23 @@ import { writable } from 'svelte/store'
 import type { IToken } from '../token-groups-store/types/token-interface'
 
 export const createSelectedTokensStore = () => {
-	const { subscribe, update, set } = writable<IToken[]>([])
+	const { subscribe, update, set } = writable<string[]>([])
 
-	const addToken = (token: IToken): void => {
+	const addToken = (tokenId: string): void => {
 		update((tokens) => {
-			tokens.push(token)
+			tokens.push(tokenId)
 
 			return tokens
 		})
 	}
 
-	const setTokens = (tokens: IToken[]): void => {
-		set(tokens)
+	const setTokens = (tokensIds: string[]): void => {
+		set(tokensIds)
 	}
 
 	const removeToken = (tokenId: string): void => {
 		update((tokens) => {
-			const index = tokens.findIndex((t) => t.id === tokenId)
+			const index = tokens.findIndex((id) => id === tokenId)
 
 			if (index !== -1) {
 				tokens.splice(index, 1)
@@ -41,7 +41,3 @@ export const createSelectedTokensStore = () => {
 		clearTokens
 	}
 }
-
-// const selectedTokensStore = createSelectedTokensStore()
-
-// export default selectedTokensStore

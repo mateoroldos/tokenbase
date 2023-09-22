@@ -2,7 +2,7 @@
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import * as Select from '$lib/components/ui/select'
 	import { ChevronDown } from 'lucide-svelte'
-	import Input from '$lib/components/ui/input/input.svelte'
+	import { Input } from '$lib/components/ui/input'
 
 	export let token: IToken<'fontWeight'>
 
