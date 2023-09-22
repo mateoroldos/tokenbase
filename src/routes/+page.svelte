@@ -58,7 +58,7 @@
 		<ul>
 			<li>
 				<a
-					href="https://blog.token-base.com/"
+					href="https://token-base.com/"
 					class="text-slate-400 transition-colors hover:text-slate-900">Blog</a
 				>
 			</li>
