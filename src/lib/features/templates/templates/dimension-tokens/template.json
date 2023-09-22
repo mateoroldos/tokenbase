@@ -1,0 +1,11 @@
+{
+	"dimension": {
+		"font": {
+			"small": {
+				"value": { "value": 0.75, "unit": "px" },
+				"type": "dimension",
+				"description": "the small size of the font"
+			}
+		}
+	}
+}
