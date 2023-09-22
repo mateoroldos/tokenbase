@@ -14,6 +14,7 @@
 		type TemplateTag
 	} from './types/template-tag.type.js'
 	import Toggle from '$lib/components/ui/toggle/toggle.svelte'
+	import StartFromTokenCard from './atoms/StartFromTokenCard.svelte'
 
 	const getDesignSystemTemplates = fetch(`/api/templates`).then(
 		async (data) => (await data.json()) as Template[]
@@ -46,6 +47,7 @@
 	const closeModal = () => {
 		open = false
 	}
+	console.log(getDesignSystemTemplates)
 </script>
 
 <Dialog.Root bind:open portal="yes">
@@ -93,10 +95,14 @@
 						{#if templates.length > 0}
 							{#each templates as template}
 								{#if activeTemplateTypes.includes(template.type) || activeTemplateTags.some((r) => template.tags.indexOf(r) >= 0) || (activeTemplateTypes.length === 0 && activeTemplateTags.length === 0)}
-									<StartFromTemplateCard
-										templateOverview={template}
-										on:load-template={() => closeModal()}
-									/>
+									{#if template.type !== 'token'}
+										<StartFromTemplateCard
+											templateOverview={template}
+											on:load-template={() => closeModal()}
+										/>
+									{:else}
+										<StartFromTokenCard tokenTemplateOverview={template} />
+									{/if}
 								{/if}
 							{/each}
 						{:else}

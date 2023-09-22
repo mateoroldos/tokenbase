@@ -1,10 +1,17 @@
 {
-	"dimension": {
+	"base": {
 		"font": {
 			"small": {
-				"value": { "value": 0.75, "unit": "px" },
-				"type": "dimension",
-				"description": "the small size of the font"
+				"value": "12px",
+				"type": "dimension"
+			},
+			"medium": {
+				"value": "16px",
+				"type": "dimension"
+			},
+			"large": {
+				"value": "20px",
+				"type": "dimension"
 			}
 		}
 	}
