@@ -47,7 +47,6 @@
 	const closeModal = () => {
 		open = false
 	}
-	console.log(getDesignSystemTemplates)
 </script>
 
 <Dialog.Root bind:open portal="yes">
@@ -101,7 +100,10 @@
 											on:load-template={() => closeModal()}
 										/>
 									{:else}
-										<StartFromTokenCard tokenTemplateOverview={template} />
+										<StartFromTokenCard
+											tokenTemplateOverview={template}
+											on:load-template={() => closeModal()}
+										/>
 									{/if}
 								{/if}
 							{/each}

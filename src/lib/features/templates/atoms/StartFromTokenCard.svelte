@@ -8,8 +8,11 @@
 	import { Braces } from 'lucide-svelte'
 	import Badge from '$lib/components/ui/badge/badge.svelte'
 	import { goto } from '$app/navigation'
+	import { createEventDispatcher } from 'svelte'
 
 	export let tokenTemplateOverview: Template
+
+	const dispatch = createEventDispatcher()
 
 	const handleCreateSystemFromTemplate = async () => {
 		const templateFile = await import(tokenTemplateOverview.path)
@@ -17,6 +20,7 @@
 		const desingSystemId = $page.params.designSystemId as string
 
 		importStyleDictionary(JSON.stringify(templateFile.default), desingSystemId)
+		dispatch('load-template', tokenTemplateOverview)
 	}
 </script>
 

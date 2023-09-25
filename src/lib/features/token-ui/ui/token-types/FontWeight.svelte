@@ -23,8 +23,6 @@
 
 	const handleCustomInputChange = (e) => {
 		token.value = e.srcElement.value
-		console.log(e.srcElement.value)
-		console.log(token.value)
 	}
 
 	const handleOptionChange = (value) => {
