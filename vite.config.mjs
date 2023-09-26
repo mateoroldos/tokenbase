@@ -20,7 +20,7 @@ const config = {
 		}
 	},
 	ssr: {
-		noExternal: import.meta.env.MODE === 'production'
+		noExternal: process.env.NODE_ENV === 'production'
 	},
 	css: {
 		preprocessorOptions: {
