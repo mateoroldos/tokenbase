@@ -20,7 +20,7 @@ const config = {
 		}
 	},
 	ssr: {
-		noExternal: process.env.NODE_ENV === 'production'
+		noExternal: process.env.NODE_ENV === 'production' ? true : []
 	},
 	css: {
 		preprocessorOptions: {
