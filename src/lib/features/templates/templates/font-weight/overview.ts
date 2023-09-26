@@ -1,7 +1,7 @@
 export const overview = {
-	name: 'Duration Token',
+	name: 'Font-Weight Token',
 	description: 'Material Design is a design system created by Google.',
-	path: '/src/lib/features/templates/tokens/color/token.json',
+	path: '/src/lib/features/templates/templates/font-weight/token.json',
 	tags: ['color', 'token'],
 	type: 'token'
 }

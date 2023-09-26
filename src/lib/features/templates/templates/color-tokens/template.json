@@ -1,44 +1,16 @@
 {
-	"color-1": {
-		"value": "#CDB4DB",
-		"type": "color"
-	},
-	"color-2": {
-		"value": "#FFC8DD",
-		"type": "color"
-	},
-	"color-3": {
-		"value": "#FFAFCC",
-		"type": "color"
-	},
-	"color-4": {
-		"value": "#BDE0FE",
-		"type": "color"
-	},
-	"color-5": {
-		"value": "#A2D2FF",
-		"type": "color"
-	},
-	"color-basic-template": {
-		"color-1": {
-			"value": "#BDE0FE",
-			"type": "color"
-		},
-		"color-2": {
-			"value": "#FFC8DD",
-			"type": "color"
-		},
-		"color-3": {
-			"value": "#FFAFCC",
-			"type": "color"
-		},
-		"color-4": {
-			"value": "#BDE0FE",
-			"type": "color"
-		},
-		"color-5": {
-			"value": "#BDE0FE",
-			"type": "color"
+	"color": {
+		"base": {
+			"gray": {
+				"light": { "value": "#CCCCCC", "type": "color" },
+				"medium": { "value": "#999999", "type": "color" },
+				"dark": { "value": "#111111", "type": "color" }
+			},
+			"color-1": { "value": "#606c38", "type": "color" },
+			"color-2": { "value": "#283618", "type": "color" },
+			"color-3": { "value": "#fefae0", "type": "color" },
+			"color-4": { "value": "#dda15e", "type": "color" },
+			"color-5": { "value": "#bc6c25", "type": "color" }
 		}
 	}
 }
