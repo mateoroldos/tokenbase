@@ -34,15 +34,35 @@
 						designSystemId
 					)
 					await styleDictionaryBuild(styleDictionaryJSON, [exportType])
+
+					downloadFile(`/${buildPath}${destination}`)
 				} else {
 					const jsonContent = buildStyleDictionaryJson(
 						$designTokensGroupStore,
 						designSystemId
 					)
-					fs.writeFileSync(`/${buildPath}${destination}`, jsonContent)
-				}
 
-				downloadFile(`/${buildPath}${destination}`)
+					if (!fs.existsSync(`/build`)) {
+						await fs.mkdir(`/build`, (err) => {
+							if (err) {
+								return console.error(err)
+							}
+							console.log('Directory created successfully!')
+						})
+					}
+
+					await fs.writeFile(
+						`/${buildPath}${destination}`,
+						jsonContent,
+						(err) => {
+							if (err) {
+								return console.error(err)
+							}
+							console.log('File created successfully!')
+							downloadFile(`/${buildPath}${destination}`)
+						}
+					)
+				}
 			}
 		}
 	}

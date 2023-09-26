@@ -89,7 +89,7 @@ export const FILE_TYPE_CONFIGS: {
 		]
 	},
 	json: {
-		icon: 'material-symbols:flutter',
+		icon: 'bx:file-blank',
 		transformGroup: 'json',
 		buildPath: 'build/',
 		files: [
