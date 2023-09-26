@@ -2,7 +2,6 @@
 	import type { Template } from '$lib/features/templates/types/template-interface'
 	import * as Card from '$lib/components/ui/card'
 	import { Separator } from '$lib/components/ui/separator'
-	import { Button } from '$lib/components/ui/button'
 	import importStyleDictionary from '$lib/features/import-style-dictionary/importStyleDictionary'
 	import { page } from '$app/stores'
 	import { Braces } from 'lucide-svelte'

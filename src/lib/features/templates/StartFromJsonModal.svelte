@@ -7,7 +7,7 @@
 	import { page } from '$app/stores'
 	import importStyleDictionary from '../import-style-dictionary/importStyleDictionary'
 	import jsonSuite from '../token-management/jsonSuite'
-	import InputWrapper from '$lib/components/InputWrapper.svelte'
+	import InputFiles from '$lib/components/ui/input/InputFiles.svelte'
 
 	let json: string
 	let desingSystemId: string
@@ -43,8 +43,7 @@
 </script>
 
 <Dialog.Root>
-	<Dialog.Trigger class={buttonVariants({ variant: 'default' })}>
-		<BookCopy class="mr-2 h-4 w-4" />
+	<Dialog.Trigger class={buttonVariants({ variant: 'outline', size: 'sm' })}>
 		Upload your file
 	</Dialog.Trigger>
 	<Dialog.Content>
@@ -59,18 +58,13 @@
 			<p class="text-xs text-slate-300">OR</p>
 			<span class="w-full border border-slate-300" />
 		</div>
-		<InputWrapper
+
+		<Textarea
+			on:input={handleSubmit}
+			placeholder="Type your JSON here."
 			name="jsonFile"
-			errors={res.getErrors('jsonFile')}
-			isValid={res.isValid('jsonFile')}
-			errorIcon
-		>
-			<Textarea
-				on:input={handleSubmit}
-				placeholder="Type your JSON here."
-				name="jsonFile"
-			/>
-		</InputWrapper>
+			class="w-full"
+		/>
 
 		<Button on:click={createDesignSystemFromJson}>Upload</Button>
 	</Dialog.Content>

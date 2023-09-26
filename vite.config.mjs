@@ -12,8 +12,15 @@ const config = {
 	],
 	resolve: {
 		alias: {
-			fs: 'memfs'
+			fs: 'memfs',
+			path: 'node:path',
+			stream: 'node:stream',
+			url: 'node:url',
+			util: 'node:util'
 		}
+	},
+	ssr: {
+		noExternal: true
 	},
 	css: {
 		preprocessorOptions: {
