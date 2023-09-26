@@ -125,6 +125,8 @@ const convertTokensToStyleDictonaryTokens = (
 		dictionary[name ?? 'undefined'] = dictionaryToken
 	})
 
+	console.log(dictionary)
+
 	return dictionary
 }
 

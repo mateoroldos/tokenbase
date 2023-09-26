@@ -58,5 +58,8 @@
 		"vite-plugin-cloudflare": "^0.4.1",
 		"vite-plugin-node-polyfills": "^0.8.2",
 		"zod": "^3.20.2"
+	},
+	"dependencies": {
+		"sd-tailwindcss-transformer": "^1.4.0"
 	}
 }
