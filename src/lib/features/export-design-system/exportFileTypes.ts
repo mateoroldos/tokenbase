@@ -4,7 +4,8 @@ export const EXPORT_FILE_TYPES = [
 	{ name: 'less', icon: 'bxl:less' },
 	{ name: 'android', icon: 'material-symbols:android' },
 	{ name: 'ios-swift', icon: 'simple-icons:ios' },
-	{ name: 'flutter', icon: 'material-symbols:flutter' }
+	{ name: 'flutter', icon: 'material-symbols:flutter' },
+	{ name: 'json', icon: 'bx:file-blank' }
 ] as const
 
 export type ExportFileTypes = (typeof EXPORT_FILE_TYPES)[number]['name']
@@ -84,6 +85,17 @@ export const FILE_TYPE_CONFIGS: {
 			{
 				destination: 'variables.dart',
 				format: 'flutter/class.dart'
+			}
+		]
+	},
+	json: {
+		icon: 'bx:file-blank',
+		transformGroup: 'json',
+		buildPath: 'build/',
+		files: [
+			{
+				destination: 'variables.json',
+				format: 'json/flat'
 			}
 		]
 	}

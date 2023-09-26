@@ -14,7 +14,7 @@
 	import { page } from '$app/stores'
 	import Icon from '@iconify/svelte'
 	import { Separator } from './ui/separator'
-	import { Code, Download } from 'lucide-svelte'
+	import { Code } from 'lucide-svelte'
 
 	let exportTypes: ExportFileTypes[] = []
 
@@ -22,18 +22,47 @@
 		let designSystemId = $page.params.designSystemId
 
 		if (designSystemId) {
-			await styleDictionaryBuild(
-				buildStyleDictionaryJson($designTokensGroupStore, designSystemId),
-				exportTypes
-			)
-
 			for (let i = 0; i < exportTypes.length; i++) {
-				downloadFile(
-					`/${FILE_TYPE_CONFIGS[exportTypes[i] as ExportFileTypes].buildPath}${
-						FILE_TYPE_CONFIGS[exportTypes[i] as ExportFileTypes].files[0]
-							?.destination
-					}`
-				)
+				const exportType = exportTypes[i] as ExportFileTypes
+				const fileTypeConfig = FILE_TYPE_CONFIGS[exportType]
+				const buildPath = fileTypeConfig.buildPath
+				const destination = fileTypeConfig.files[0]?.destination
+
+				if (exportType !== 'json') {
+					const styleDictionaryJSON = buildStyleDictionaryJson(
+						$designTokensGroupStore,
+						designSystemId
+					)
+					await styleDictionaryBuild(styleDictionaryJSON, [exportType])
+
+					downloadFile(`/${buildPath}${destination}`)
+				} else {
+					const jsonContent = buildStyleDictionaryJson(
+						$designTokensGroupStore,
+						designSystemId
+					)
+
+					if (!fs.existsSync(`/build`)) {
+						await fs.mkdir(`/build`, (err) => {
+							if (err) {
+								return console.error(err)
+							}
+							console.log('Directory created successfully!')
+						})
+					}
+
+					await fs.writeFile(
+						`/${buildPath}${destination}`,
+						jsonContent,
+						(err) => {
+							if (err) {
+								return console.error(err)
+							}
+							console.log('File created successfully!')
+							downloadFile(`/${buildPath}${destination}`)
+						}
+					)
+				}
 			}
 		}
 	}
