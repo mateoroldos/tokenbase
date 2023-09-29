@@ -21,13 +21,8 @@ const styleDictionaryBuild = async (
 
 	for (let i = 0; i < exportTypes.length; i++) {
 		if (exportTypes[i] === 'tailwind') {
-			const types = ['colors']
-
-			for (let index = 0; index < types.length; index++) {
-				styleDictionary = await StyleDictionary.extend(
-					makeSdTailwindConfig({ type: 'all', source: ['/tokens'] })
-				)
-			}
+			const config = makeSdTailwindConfig({ type: 'all', source: ['/tokens'] })
+			styleDictionary = await styleDictionary.extend(config)
 		} else {
 			styleDictionaryConfig.platforms[exportTypes[i] as ExportFileTypes] =
 				FILE_TYPE_CONFIGS[exportTypes[i] as ExportFileTypes]

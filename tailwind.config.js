@@ -6,56 +6,49 @@ const config = {
 	darkMode: ['class'],
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 	theme: {
-		container: {
-			center: true,
-			padding: '2rem',
-			screens: {
-				'2xl': '1400px'
-			}
-		},
 		extend: {
 			colors: {
-				border: 'hsl(var(--border))',
-				input: 'hsl(var(--input))',
-				ring: 'hsl(var(--ring))',
-				background: 'hsl(var(--background))',
-				foreground: 'hsl(var(--foreground))',
+				border: '#D9EBEB',
+				input: '#D9EBEB',
+				ring: '#D7D7D7',
+				background: '#FFFFFF',
+				foreground: '#DEDEDE',
 				primary: {
-					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					DEFAULT: '#A4BA97',
+					foreground: '#FFEBE5'
 				},
 				secondary: {
-					DEFAULT: 'hsl(var(--secondary))',
-					foreground: 'hsl(var(--secondary-foreground))'
+					DEFAULT: '#B9FFCE',
+					foreground: '#395D61'
 				},
 				destructive: {
-					DEFAULT: 'hsl(var(--destructive))',
-					foreground: 'hsl(var(--destructive-foreground))'
+					DEFAULT: '#00436B',
+					foreground: '#D6F5F6'
 				},
 				muted: {
-					DEFAULT: 'hsl(var(--muted))',
-					foreground: 'hsl(var(--muted-foreground))'
+					DEFAULT: '#D6F5F6',
+					foreground: '#27AECC'
 				},
 				accent: {
-					DEFAULT: 'hsl(var(--accent))',
-					foreground: 'hsl(var(--accent-foreground))'
+					DEFAULT: '#AF7600',
+					foreground: '#717272'
 				},
 				popover: {
-					DEFAULT: 'hsl(var(--popover))',
-					foreground: 'hsl(var(--popover-foreground))'
+					DEFAULT: '#FFFFFF',
+					foreground: '#FFD8A8'
 				},
 				card: {
-					DEFAULT: 'hsl(var(--card))',
-					foreground: 'hsl(var(--card-foreground))'
+					DEFAULT: '#FFFFFF',
+					foreground: '#DEDEDE'
 				}
 			},
 			borderRadius: {
-				lg: 'var(--radius)',
-				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				lg: '0.5rem',
+				md: '0.375rem',
+				sm: '0.25em'
 			},
 			fontFamily: {
-				sans: [...fontFamily.sans]
+				sans: ['arial']
 			}
 		}
 	},

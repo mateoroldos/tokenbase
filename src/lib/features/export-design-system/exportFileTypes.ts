@@ -106,7 +106,7 @@ export const FILE_TYPE_CONFIGS: {
 		buildPath: 'build/',
 		files: [
 			{
-				destination: 'web/colors.tailwind.js',
+				destination: 'web/tailwind.config.js',
 				format: 'js'
 			}
 		]
