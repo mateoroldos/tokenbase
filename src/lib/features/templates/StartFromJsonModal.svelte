@@ -8,6 +8,7 @@
 	import importStyleDictionary from '../import-style-dictionary/importStyleDictionary'
 	import jsonSuite from '../token-management/jsonSuite'
 	import InputFiles from '$lib/components/ui/input/InputFiles.svelte'
+	import { createEventDispatcher } from 'svelte'
 
 	let json: string
 	let desingSystemId: string
@@ -19,7 +20,7 @@
 		desingSystemId = $page.params.designSystemId as string
 		res = jsonSuite(json, event.target.name)
 	}
-
+	const dispatch = createEventDispatcher()
 	let res = jsonSuite.get()
 
 	const createDesignSystemFromJson = async () => {
@@ -30,19 +31,31 @@
 					fileReader.readAsText(jsonFile[0])
 					fileReader.onload = () => {
 						const desingSystemId = $page.params.designSystemId as string
+						console.log('hola')
 						importStyleDictionary(fileReader.result as string, desingSystemId)
+						dispatch('load-template', jsonFile)
+						console.log('hola')
+						closeModal()
 					}
 				})
 			} else {
 				importStyleDictionary(json, desingSystemId)
+				dispatch('load-template', jsonFile)
+				console.log('hola 2')
+				closeModal()
 			}
 		} catch (error) {
 			alert('JSON is not valid')
 		}
 	}
+
+	let open: boolean
+	const closeModal = () => {
+		open = false
+	}
 </script>
 
-<Dialog.Root>
+<Dialog.Root bind:open portal="yes">
 	<Dialog.Trigger class={buttonVariants({ variant: 'outline', size: 'sm' })}>
 		Upload your file
 	</Dialog.Trigger>
