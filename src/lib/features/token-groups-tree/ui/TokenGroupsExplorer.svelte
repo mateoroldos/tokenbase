@@ -24,7 +24,12 @@
 	class="border-red flex h-screen flex-1 flex-col justify-between gap-6 overflow-hidden border-r border-r-slate-100 bg-slate-50 px-5 py-4"
 >
 	<a href="/" class="text-lg font-medium text-slate-900">
-		<SquareEqual class="mb-1 inline-block h-6 w-6" />
+		<!-- <SquareEqual class="mb-1 inline-block h-6 w-6" /> -->
+		<img
+			src="/LOGO_TOKENBASE.png"
+			alt="Token-base logo"
+			class="mb-1 inline-block h-6 w-6"
+		/>
 		Tokenbase
 	</a>
 	<div class="flex flex-1 flex-col gap-2 overflow-auto">

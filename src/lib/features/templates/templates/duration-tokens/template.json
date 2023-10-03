@@ -1,0 +1,16 @@
+{
+	"duration-group": {
+		"slow": {
+			"value": "700ms",
+			"type": "duration"
+		},
+		"normal": {
+			"value": "500ms",
+			"type": "duration"
+		},
+		"fast": {
+			"value": "300ms",
+			"type": "duration"
+		}
+	}
+}

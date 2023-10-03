@@ -1,0 +1,16 @@
+{
+	"number-tokens": {
+		"number-example-1": {
+			"value": 100,
+			"type": "number"
+		},
+		"number-example-2": {
+			"value": 200,
+			"type": "number"
+		},
+		"number-example-3": {
+			"value": 300,
+			"type": "number"
+		}
+	}
+}
