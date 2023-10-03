@@ -6,7 +6,7 @@ export const EXPORT_FILE_TYPES = [
 	{ name: 'ios-swift', icon: 'simple-icons:ios' },
 	{ name: 'flutter', icon: 'material-symbols:flutter' },
 	{ name: 'json', icon: 'bx:file-blank' },
-	{ name: 'tailwind', icon: 'bx:file-blank' }
+	{ name: 'tailwind', icon: 'mdi:tailwind' }
 ] as const
 
 export type ExportFileTypes = (typeof EXPORT_FILE_TYPES)[number]['name']
@@ -101,7 +101,7 @@ export const FILE_TYPE_CONFIGS: {
 		]
 	},
 	tailwind: {
-		icon: 'bx:file-blank',
+		icon: 'mdi:tailwind',
 		transformGroup: 'tailwind',
 		buildPath: 'build/',
 		files: [

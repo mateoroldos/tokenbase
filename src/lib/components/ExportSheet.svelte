@@ -15,12 +15,6 @@
 	import Icon from '@iconify/svelte'
 	import { Separator } from './ui/separator'
 	import { Code } from 'lucide-svelte'
-	import StyleDictionary, { type Config } from 'browser-style-dictionary'
-	import tailwindTransformer from 'sd-tailwindcss-transformer'
-
-	console.log(tailwindTransformer)
-
-	// const { makeSdTailwindConfig } = require('sd-tailwindcss-transformer')
 
 	let exportTypes: ExportFileTypes[] = []
 
@@ -68,12 +62,6 @@
 							downloadFile(`/${buildPath}${destination}`)
 						}
 					)
-				} else {
-					// const StyleDictionary = StyleDictionaryModule.extend(
-					// 	makeSdTailwindConfig({ type: 'all' })
-					// )
-					// await StyleDictionary.buildAllPlatforms()
-					// downloadFile('/build/tailwind.css')
 				}
 			}
 		}
