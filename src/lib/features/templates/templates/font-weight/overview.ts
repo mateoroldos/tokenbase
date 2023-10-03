@@ -1,7 +1,7 @@
 export const overview = {
-	name: 'Font-Weight Token',
-	description: 'Material Design is a design system created by Google.',
+	name: 'Font Weight Token',
+	description: 'Basic example of a font weight token.',
 	path: '/src/lib/features/templates/templates/font-weight/token.json',
-	tags: ['color', 'token'],
+	tags: ['font-weight', 'token'],
 	type: 'token'
 }

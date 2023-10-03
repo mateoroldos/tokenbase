@@ -1,0 +1,16 @@
+{
+	"font-weight-group": {
+		"thin": {
+			"value": "thin",
+			"type": "fontWeight"
+		},
+		"medium": {
+			"value": "medium",
+			"type": "fontWeight"
+		},
+		"bold": {
+			"value": "bold",
+			"type": "fontWeight"
+		}
+	}
+}
