@@ -23,105 +23,62 @@
 	const tokenBaseMainStore: ReturnType<typeof createDesignSystemsStore> =
 		getContext('tokenBaseMainStore')
 
-	$: activeDesignSystemIndex = $tokenBaseMainStore.findIndex(
-		(designSystem) => designSystem.id === $page.params.designSystemId
-	)
-
-	$: hasGroups = $designTokensGroupStore.find(
-		(group) => group.parentGroup === $page.params.designSystemId
-	)
-
 	const getDesignSystemTemplates = fetch(`/api/templates`).then(
 		async (data) => (await data.json()) as Template[]
 	)
-	let exportTypes: ExportFileTypes[] = []
 </script>
 
 <div>
 	<Header />
-	{#if $designTokensGroupStore.length <= 0}
-		<section class="flex flex-col gap-8 p-14">
-			<div class="flex flex-col gap-2">
-				<h1 class="text-3xl">Get started!</h1>
-				<p class="text-sm text-muted-foreground">
-					Explore, create and organize your design system
-				</p>
+	<section class="flex flex-col gap-8 p-14">
+		<div class="flex flex-col gap-2">
+			<h1 class="text-3xl">Get started!</h1>
+			<p class="text-sm text-muted-foreground">
+				Explore, create and organize your design system
+			</p>
+		</div>
+		<div class="flex max-w-lg flex-col gap-6">
+			<h3 class="font-semibold">Actions</h3>
+			<div class="grid grid-cols-2 gap-6">
+				<StartCardTemplate
+					title="Explore templates"
+					description="All templates"
+					content="Start from the template that fits your needs"
+				>
+					<StartFromTemplateModal activeTemplateTypes={['design-system']} />
+				</StartCardTemplate>
+				<Card.Root class="flex h-full  flex-1 flex-col">
+					<Card.Header>
+						<Card.Title class="text-md font-medium">Upload your file</Card.Title
+						>
+						<Card.Description
+							class="flex flex-row items-center text-xs leading-[0] text-slate-400"
+						>
+							<Upload class="mr-1 h-3 w-3" />
+							<span>Import files</span>
+						</Card.Description>
+					</Card.Header>
+					<Separator class="mb-3" />
+					<Card.Content>Start your project from a personal file</Card.Content>
+					<Card.Footer>
+						<StartFromJsonModal />
+					</Card.Footer>
+				</Card.Root>
 			</div>
-			<div class="flex max-w-lg flex-col gap-6">
-				<h3 class="font-semibold">Actions</h3>
-				<div class="grid grid-cols-2 gap-6">
-					<StartCardTemplate
-						title="Explore templates"
-						description="All templates"
-						content="Start from the template that fits your needs"
-					>
-						<StartFromTemplateModal activeTemplateTypes={['design-system']} />
-					</StartCardTemplate>
-					<Card.Root class="flex h-full  flex-1 flex-col">
-						<Card.Header>
-							<Card.Title class="text-md font-medium"
-								>Upload your file</Card.Title
-							>
-							<Card.Description
-								class="flex flex-row items-center text-xs leading-[0] text-slate-400"
-							>
-								<Upload class="mr-1 h-3 w-3" />
-								<span>Import files</span>
-							</Card.Description>
-						</Card.Header>
-						<Separator class="mb-3" />
-						<Card.Content>Start your project from a personal file</Card.Content>
-						<Card.Footer>
-							<StartFromJsonModal />
-						</Card.Footer>
-					</Card.Root>
-				</div>
-			</div>
-			<div class="flex flex-col gap-8">
-				<h3 class="font-semibold">Popular templates</h3>
-				<div class="grid grid-cols-4 gap-8">
-					{#await getDesignSystemTemplates}
-						<span>Getting templates...</span>
-					{:then templates}
-						{#each templates as template}
-							{#if template.type === 'design-system'}
-								<StartFromTemplateCard templateOverview={template} />
-							{/if}
-						{/each}
-					{/await}
-				</div>
-			</div>
-		</section>
-	{:else}
-		<section class="flex flex-col gap-8 p-14">
-			<div class="flex flex-col gap-2">
-				<h1 class="text-3xl">Export your tokens!</h1>
-				<p class="text-sm text-muted-foreground">
-					Choose the export types that best suits your project
-				</p>
-			</div>
-			<div class="flex max-w-lg flex-col gap-6">
-				<h3 class="font-semibold">Export options</h3>
-				<div class="grid grid-cols-2 gap-6">
-					{#each EXPORT_FILE_TYPES as fileType, i}
-						<Card.Root class=" bg-transparent">
-							<Card.Header class="p-4">
-								<Card.Title class="text-sm font-medium"
-									><div class="flex flex-row gap-2">
-										<Icon
-											icon={fileType.icon}
-											class="h-6 w-6 justify-center text-slate-500"
-										/>
-										<h3 class="flex items-center text-slate-500">
-											{fileType.name}
-										</h3>
-									</div></Card.Title
-								>
-							</Card.Header>
-						</Card.Root>
+		</div>
+		<div class="flex flex-col gap-8">
+			<h3 class="font-semibold">Popular templates</h3>
+			<div class="grid grid-cols-4 gap-8">
+				{#await getDesignSystemTemplates}
+					<span>Getting templates...</span>
+				{:then templates}
+					{#each templates as template}
+						{#if template.type === 'design-system'}
+							<StartFromTemplateCard templateOverview={template} />
+						{/if}
 					{/each}
-				</div>
+				{/await}
 			</div>
-		</section>
-	{/if}
+		</div>
+	</section>
 </div>
