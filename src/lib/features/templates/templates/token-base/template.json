@@ -1,0 +1,114 @@
+{
+	"colors": {
+		"border": {
+			"value": "#E2E8F0",
+			"type": "color"
+		},
+		"input": {
+			"value": "#E2E8F0",
+			"type": "color"
+		},
+		"ring": {
+			"value": "#020817",
+			"type": "color"
+		},
+		"background": {
+			"value": "#ffffff",
+			"type": "color"
+		},
+		"foreground": {
+			"value": "#020817",
+			"type": "color"
+		},
+		"primary": {
+			"DEFAULT": {
+				"value": "#0F172A",
+				"type": "color"
+			},
+			"foreground": {
+				"value": "#F8FAFC",
+				"type": "color"
+			}
+		},
+		"secondary": {
+			"DEFAULT": {
+				"value": "#F1F5F9",
+				"type": "color"
+			},
+			"foreground": {
+				"value": "#0F172A",
+				"type": "color"
+			}
+		},
+		"destructive": {
+			"DEFAULT": {
+				"value": "#EF4444",
+				"type": "color"
+			},
+			"foreground": {
+				"value": "#F8FAFC",
+				"type": "color"
+			}
+		},
+		"muted": {
+			"DEFAULT": {
+				"value": "#F1F5F9",
+				"type": "color"
+			},
+			"foreground": {
+				"value": "#64748B",
+				"type": "color"
+			}
+		},
+		"accent": {
+			"DEFAULT": {
+				"value": "#F1F5F9",
+				"type": "color"
+			},
+			"foreground": {
+				"value": "#0F172A",
+				"type": "color"
+			}
+		},
+		"popover": {
+			"DEFAULT": {
+				"value": "#ffffff",
+				"type": "color"
+			},
+			"foreground": {
+				"value": "#020817",
+				"type": "color"
+			}
+		},
+		"card": {
+			"DEFAULT": {
+				"value": "#ffffff",
+				"type": "color"
+			},
+			"foreground": {
+				"value": "#020817",
+				"type": "color"
+			}
+		}
+	},
+	"borderRadius": {
+		"lg": {
+			"value": "0.5rem",
+			"type": "dimension"
+		},
+		"md": {
+			"value": "0.375rem",
+			"type": "dimension"
+		},
+		"sm": {
+			"value": "0.25rem",
+			"type": "dimension"
+		}
+	},
+	"fontFamily": {
+		"sans": {
+			"value": ["sans", "serif", "mono"],
+			"type": "fontFamily"
+		}
+	}
+}
