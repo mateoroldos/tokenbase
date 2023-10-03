@@ -1,7 +1,8 @@
-export const overview = {
+import type { Template } from '../../types/template-interface'
+
+export const overview: Template = {
 	name: 'Font Weight Token',
 	description: 'Basic example of a font weight token.',
-	path: '/src/lib/features/templates/templates/font-weight/template.json',
-	tags: ['font-weight', 'token'],
+	tags: [],
 	type: 'token'
 }

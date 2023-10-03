@@ -1,7 +1,8 @@
-export const overview = {
+import type { Template } from '../../types/template-interface'
+
+export const overview: Template = {
 	name: 'Font Family Token',
 	description: 'Basic example of a Font Family token.',
-	path: '/src/lib/features/templates/templates/font-family/template.json',
-	tags: ['font-family', 'token'],
+	tags: [],
 	type: 'token'
 }
