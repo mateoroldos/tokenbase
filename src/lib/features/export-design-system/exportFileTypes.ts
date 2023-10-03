@@ -5,7 +5,8 @@ export const EXPORT_FILE_TYPES = [
 	{ name: 'android', icon: 'material-symbols:android' },
 	{ name: 'ios-swift', icon: 'simple-icons:ios' },
 	{ name: 'flutter', icon: 'material-symbols:flutter' },
-	{ name: 'json', icon: 'bx:file-blank' }
+	{ name: 'json', icon: 'bx:file-blank' },
+	{ name: 'tailwind', icon: 'mdi:tailwind' }
 ] as const
 
 export type ExportFileTypes = (typeof EXPORT_FILE_TYPES)[number]['name']
@@ -96,6 +97,17 @@ export const FILE_TYPE_CONFIGS: {
 			{
 				destination: 'variables.json',
 				format: 'json/flat'
+			}
+		]
+	},
+	tailwind: {
+		icon: 'mdi:tailwind',
+		transformGroup: 'tailwind',
+		buildPath: 'build/',
+		files: [
+			{
+				destination: 'web/tailwind.config.js',
+				format: 'js'
 			}
 		]
 	}

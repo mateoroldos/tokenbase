@@ -36,7 +36,7 @@
 					await styleDictionaryBuild(styleDictionaryJSON, [exportType])
 
 					downloadFile(`/${buildPath}${destination}`)
-				} else {
+				} else if (exportType === 'json') {
 					const jsonContent = buildStyleDictionaryJson(
 						$designTokensGroupStore,
 						designSystemId
