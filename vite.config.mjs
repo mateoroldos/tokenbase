@@ -19,9 +19,9 @@ const config = {
 			util: 'node:util'
 		}
 	},
-	// ssr: {
-	// 	noExternal: import.meta.env.MODE === 'production'
-	// },
+	ssr: {
+		noExternal: process.env.NODE_ENV === 'production' ? true : []
+	},
 	css: {
 		preprocessorOptions: {
 			scss: {
