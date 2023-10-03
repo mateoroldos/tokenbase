@@ -8,3 +8,7 @@ export interface Template {
 	tags: TemplateTag[]
 	type: TemplateType
 }
+
+export interface TemplateWithSlug extends Template {
+	slug: string
+}

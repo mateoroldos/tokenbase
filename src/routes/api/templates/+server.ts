@@ -2,7 +2,7 @@ import type { Template } from '$lib/features/templates/types/template-interface.
 import { error, json } from '@sveltejs/kit'
 
 /** @type {import('./$types').RequestHandler} */
-export async function GET({ url }) {
+export async function GET() {
 	const overviewsDirectories = import.meta.glob(
 		'/src/lib/features/templates/templates/*/overview.ts'
 	)
@@ -11,15 +11,19 @@ export async function GET({ url }) {
 		throw error(400, 'Templates not found')
 	}
 
-	const iterableOverviews = Object.values(overviewsDirectories)
+	const iterableOverviews = Object.entries(overviewsDirectories)
 
 	const overviews = await Promise.all(
-		iterableOverviews.map(async (resolver) => {
+		iterableOverviews.map(async ([path, resolver]) => {
 			const { overview } = await (resolver() as Promise<{
 				overview: Template
 			}>)
 
-			return overview
+			return {
+				...overview,
+				path,
+				slug: path.split('/').slice(-2)[0]
+			}
 		})
 	)
 

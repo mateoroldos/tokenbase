@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Template } from '$lib/features/templates/types/template-interface'
+	import type { TemplateWithSlug } from '$lib/features/templates/types/template-interface'
 	import * as Card from '$lib/components/ui/card'
 	import { Separator } from '$lib/components/ui/separator'
 	import importStyleDictionary from '$lib/features/import-style-dictionary/importStyleDictionary'
@@ -9,12 +9,16 @@
 	import Badge from '$lib/components/ui/badge/badge.svelte'
 	import { createEventDispatcher } from 'svelte'
 
-	export let templateOverview: Template
+	export let templateOverview: TemplateWithSlug
 
 	const dispatch = createEventDispatcher()
 
 	const handleCreateGroupFromTemplate = async () => {
-		const templateFile = await import(templateOverview.path)
+		const templateFile = (
+			await fetch(`/api/templates/${templateOverview.slug}`).then((res) =>
+				res.json()
+			)
+		).template as string
 
 		let parentId: string
 
@@ -24,7 +28,7 @@
 			parentId = $page.params.designSystemId as string
 		}
 
-		importStyleDictionary(JSON.stringify(templateFile.default), parentId)
+		importStyleDictionary(JSON.stringify(templateFile), parentId)
 
 		dispatch('load-template', templateOverview)
 	}
