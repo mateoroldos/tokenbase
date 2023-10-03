@@ -51,7 +51,11 @@
 	class="z-10 flex flex-row items-center justify-between px-20 py-6 shadow-sm"
 >
 	<a href="/" class="text-lg font-medium">
-		<SquareEqual class="mb-1 inline-block h-6 w-6" />
+		<img
+			src="/LOGO_TOKENBASE.png"
+			alt="Token-base logo"
+			class="mb-1 inline-block h-6 w-6"
+		/>
 		Tokenbase
 	</a>
 	<nav>
