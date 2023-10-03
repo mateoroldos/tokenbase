@@ -43,7 +43,6 @@
 	}
 
 	const handleChangeDesignSystem = (e: Event) => {
-		console.log(e.target?.attributes.value.nodeValue)
 		let designSystemId = e.target?.attributes.value.nodeValue
 		goto(`/${designSystemId}`)
 	}

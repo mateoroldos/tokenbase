@@ -31,17 +31,14 @@
 					fileReader.readAsText(jsonFile[0])
 					fileReader.onload = () => {
 						const desingSystemId = $page.params.designSystemId as string
-						console.log('hola')
 						importStyleDictionary(fileReader.result as string, desingSystemId)
 						dispatch('load-template', jsonFile)
-						console.log('hola')
 						closeModal()
 					}
 				})
 			} else {
 				importStyleDictionary(json, desingSystemId)
 				dispatch('load-template', jsonFile)
-				console.log('hola 2')
 				closeModal()
 			}
 		} catch (error) {
