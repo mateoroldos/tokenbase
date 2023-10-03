@@ -1,24 +1,27 @@
 <script lang="ts">
-	import type { Template } from '$lib/features/templates/types/template-interface'
+	import type { TemplateWithSlug } from '$lib/features/templates/types/template-interface'
 	import * as Card from '$lib/components/ui/card'
 	import { Separator } from '$lib/components/ui/separator'
 	import importStyleDictionary from '$lib/features/import-style-dictionary/importStyleDictionary'
 	import { page } from '$app/stores'
 	import { Braces } from 'lucide-svelte'
 	import Badge from '$lib/components/ui/badge/badge.svelte'
-	import { goto } from '$app/navigation'
 	import { createEventDispatcher } from 'svelte'
 
-	export let tokenTemplateOverview: Template
+	export let tokenTemplateOverview: TemplateWithSlug
 
 	const dispatch = createEventDispatcher()
 
 	const handleCreateSystemFromTemplate = async () => {
-		const templateFile = await import(tokenTemplateOverview.path)
+		const templateFile = (
+			await fetch(`/api/templates/${tokenTemplateOverview.slug}`).then((res) =>
+				res.json()
+			)
+		).template as string
 
 		const desingSystemId = $page.params.designSystemId as string
 
-		importStyleDictionary(JSON.stringify(templateFile.default), desingSystemId)
+		importStyleDictionary(JSON.stringify(templateFile), desingSystemId)
 		dispatch('load-template', tokenTemplateOverview)
 	}
 </script>
