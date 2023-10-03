@@ -33,7 +33,7 @@ const buildStyleDictionaryNode = (
 	// 2. Es un grupo
 	Object.entries(styleDictionaryGroup).forEach(([key, data]) => {
 		// Caso 1. Es un token
-		if (data.type && data.value) {
+		if (data.value) {
 			const token: StyleDictionaryToken = data as StyleDictionaryToken
 
 			tokens.push(styleDictionaryTokenToIToken(token, key))
@@ -72,7 +72,7 @@ const buildStyleDictionaryNode = (
 
 		// Caso 2. Estamos armando un grupo que no existe en nuestra store
 		// Si el grupo no existe en nuestra store, lo que hacemos es crear un nuevo grupo con los tokens que acabamos de recorrer
-	} else {
+	} else if (!isRoot) {
 		const newGroup: Group = {
 			id: groupId,
 			name: name || 'Unnamed group',

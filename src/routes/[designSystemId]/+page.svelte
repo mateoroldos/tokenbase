@@ -2,17 +2,11 @@
 	import Header from './_components/Header.svelte'
 	import type { createDesignSystemsStore } from '$lib/features/token-groups-store/designSystemsIds'
 	import { getContext } from 'svelte'
-	import { page } from '$app/stores'
 	import StartCardTemplate from './_components/StartCards/StartCardTemplate.svelte'
 	import StartFromTemplateModal from '$lib/features/templates/StartFromTemplateModal.svelte'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
-	import type { Template } from '$lib/features/templates/types/template-interface'
+	import type { TemplateWithSlug } from '$lib/features/templates/types/template-interface'
 	import StartFromTemplateCard from '$lib/features/templates/atoms/StartFromTemplateCard.svelte'
-	import {
-		type ExportFileTypes,
-		EXPORT_FILE_TYPES
-	} from '$lib/features/export-design-system/exportFileTypes'
-	import Icon from '@iconify/svelte'
 	import * as Card from '$lib/components/ui/card'
 	import StartFromJsonModal from '$lib/features/templates/StartFromJsonModal.svelte'
 	import { Upload } from 'lucide-svelte'
@@ -24,13 +18,13 @@
 		getContext('tokenBaseMainStore')
 
 	const getDesignSystemTemplates = fetch(`/api/templates`).then(
-		async (data) => (await data.json()) as Template[]
+		async (data) => (await data.json()) as TemplateWithSlug[]
 	)
 </script>
 
-<div>
+<div class="overflow-hidden">
 	<Header />
-	<section class="flex flex-col gap-8 p-14">
+	<section class="flex h-full flex-col gap-8 overflow-y-auto p-14">
 		<div class="flex flex-col gap-2">
 			<h1 class="text-3xl">Get started!</h1>
 			<p class="text-sm text-muted-foreground">

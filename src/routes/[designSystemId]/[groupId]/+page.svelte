@@ -14,10 +14,9 @@
 	import StartFromTemplateModal from '$lib/features/templates/StartFromTemplateModal.svelte'
 	import StartCardTemplate from '../_components/StartCards/StartCardTemplate.svelte'
 	import StartFromTemplateCard from '$lib/features/templates/atoms/StartFromTemplateCard.svelte'
-	import StartFromTokenCard from '$lib/features/templates/atoms/StartFromTokenCard.svelte'
 	import * as Card from '$lib/components/ui/card'
 	import StartFromJsonModal from '$lib/features/templates/StartFromJsonModal.svelte'
-	import { Box, Boxes, Upload } from 'lucide-svelte'
+	import { Upload } from 'lucide-svelte'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -98,37 +97,37 @@
 {#if $designTokensGroupStore[groupIndex]}
 	<section class="flex h-full flex-1 flex-col overflow-hidden">
 		<GroupHeader />
-		<Table.Root>
-			<Table.Header class="sticky top-0 z-30 bg-slate-50">
-				<Table.Row class="shadow-[0_1px_0] shadow-slate-100">
-					<Table.Head class="h-10">
-						<div class="flex items-center">
-							<input
-								type="checkbox"
-								class="h-4 w-4"
-								bind:checked={allTokensSelected}
-								on:change={() => {
-									if (allTokensSelected) {
-										selectedTokensStore.clearTokens()
-									} else {
-										selectedTokensStore.setTokens(
-											$designTokensGroupStore[groupIndex].tokens.map(
-												(tkn) => tkn.id
+		{#if $designTokensGroupStore[groupIndex].tokens.length > 0}
+			<Table.Root>
+				<Table.Header class="sticky top-0 z-30 bg-slate-50">
+					<Table.Row class="shadow-[0_1px_0] shadow-slate-100">
+						<Table.Head class="h-10">
+							<div class="flex items-center">
+								<input
+									type="checkbox"
+									class="h-4 w-4"
+									bind:checked={allTokensSelected}
+									on:change={() => {
+										if (allTokensSelected) {
+											selectedTokensStore.clearTokens()
+										} else {
+											selectedTokensStore.setTokens(
+												$designTokensGroupStore[groupIndex].tokens.map(
+													(tkn) => tkn.id
+												)
 											)
-										)
-									}
-								}}
-							/>
-						</div>
-					</Table.Head>
-					<Table.Head class="h-10 text-xs">Type</Table.Head>
-					<Table.Head class="h-10 text-xs">Name</Table.Head>
-					<Table.Head class="h-10 text-xs">Tools</Table.Head>
-					<Table.Head class="h-10 text-xs">Controls</Table.Head>
-				</Table.Row>
-			</Table.Header>
-			<Table.Body class="overflow-y-auto border-b border-b-slate-100">
-				{#if $designTokensGroupStore[groupIndex].tokens.length > 0}
+										}
+									}}
+								/>
+							</div>
+						</Table.Head>
+						<Table.Head class="h-10 text-xs">Type</Table.Head>
+						<Table.Head class="h-10 text-xs">Name</Table.Head>
+						<Table.Head class="h-10 text-xs">Tools</Table.Head>
+						<Table.Head class="h-10 text-xs">Controls</Table.Head>
+					</Table.Row>
+				</Table.Header>
+				<Table.Body class="overflow-y-auto border-b border-b-slate-100">
 					{#each $designTokensGroupStore[groupIndex].tokens as token, i (token.id)}
 						<Token
 							bind:token
@@ -139,64 +138,64 @@
 							on:colorChange={(e) => handleColorChange(e, token)}
 						/>
 					{/each}
-				{:else}
-					<section class="flex flex-col gap-8 p-14">
-						<div class="flex flex-col gap-2">
-							<h1 class="text-3xl">Get started!</h1>
-							<p class="text-sm text-muted-foreground">
-								Explore, create and organize your design system
-							</p>
-						</div>
-						<div class="flex max-w-lg flex-col gap-6">
-							<h3 class="font-semibold">Actions</h3>
-							<div class="grid grid-cols-2 gap-8">
-								<StartCardTemplate
-									title="Explore templates"
-									description="All templates"
-									content="Start from the template that fits your needs"
+				</Table.Body>
+			</Table.Root>
+		{:else}
+			<section class="flex flex-col gap-8 p-14">
+				<div class="flex flex-col gap-2">
+					<h1 class="text-3xl">Get started!</h1>
+					<p class="text-sm text-muted-foreground">
+						Explore, create and organize your design system
+					</p>
+				</div>
+				<div class="flex max-w-lg flex-col gap-6">
+					<h3 class="font-semibold">Actions</h3>
+					<div class="grid grid-cols-2 gap-8">
+						<StartCardTemplate
+							title="Explore templates"
+							description="All templates"
+							content="Start from the template that fits your needs"
+						>
+							<StartFromTemplateModal activeTemplateTypes={['group']} />
+						</StartCardTemplate>
+						<Card.Root class="flex h-full  flex-1 flex-col">
+							<Card.Header>
+								<Card.Title class="text-md font-medium"
+									>Upload your file
+								</Card.Title>
+								<Card.Description
+									class="flex flex-row items-center text-xs leading-[0] text-slate-400"
 								>
-									<StartFromTemplateModal activeTemplateTypes={['group']} />
-								</StartCardTemplate>
-								<Card.Root class="flex h-full  flex-1 flex-col">
-									<Card.Header>
-										<Card.Title class="text-md font-medium"
-											>Upload your file
-										</Card.Title>
-										<Card.Description
-											class="flex flex-row items-center text-xs leading-[0] text-slate-400"
-										>
-											<Upload class="mr-1 h-3 w-3" />
-											<span>Import files</span>
-										</Card.Description>
-									</Card.Header>
-									<Separator class="mb-3" />
-									<Card.Content
-										>Start your project from a personal file</Card.Content
-									>
-									<Card.Footer>
-										<StartFromJsonModal />
-									</Card.Footer>
-								</Card.Root>
-							</div>
-						</div>
-						<div class="flex flex-col gap-8">
-							<h3 class="font-semibold">Popular templates</h3>
-							<div class="grid grid-cols-2 gap-8">
-								{#await getDesignSystemTemplates}
-									<span>Getting templates...</span>
-								{:then templates}
-									{#each templates as template}
-										{#if template.type === 'group'}
-											<StartFromTemplateCard templateOverview={template} />
-										{/if}
-									{/each}
-								{/await}
-							</div>
-						</div>
-					</section>
-				{/if}
-			</Table.Body>
-		</Table.Root>
+									<Upload class="mr-1 h-3 w-3" />
+									<span>Import files</span>
+								</Card.Description>
+							</Card.Header>
+							<Separator class="mb-3" />
+							<Card.Content
+								>Start your project from a personal file</Card.Content
+							>
+							<Card.Footer>
+								<StartFromJsonModal />
+							</Card.Footer>
+						</Card.Root>
+					</div>
+				</div>
+				<div class="flex flex-col gap-8">
+					<h3 class="font-semibold">Popular templates</h3>
+					<div class="grid grid-cols-2 gap-8">
+						{#await getDesignSystemTemplates}
+							<span>Getting templates...</span>
+						{:then templates}
+							{#each templates as template}
+								{#if template.type === 'group'}
+									<StartFromTemplateCard templateOverview={template} />
+								{/if}
+							{/each}
+						{/await}
+					</div>
+				</div>
+			</section>
+		{/if}
 	</section>
 {:else}
 	<p>Group not found</p>

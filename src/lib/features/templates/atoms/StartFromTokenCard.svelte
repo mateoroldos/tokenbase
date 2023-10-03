@@ -12,21 +12,21 @@
 
 	const dispatch = createEventDispatcher()
 
-	const handleCreateSystemFromTemplate = async () => {
+	const handleAddTokenFromTemplate = async () => {
 		const templateFile = (
 			await fetch(`/api/templates/${tokenTemplateOverview.slug}`).then((res) =>
 				res.json()
 			)
 		).template as string
 
-		const desingSystemId = $page.params.designSystemId as string
+		const groupId = $page.params.groupId as string
 
-		importStyleDictionary(JSON.stringify(templateFile), desingSystemId)
+		importStyleDictionary(JSON.stringify(templateFile), groupId)
 		dispatch('load-template', tokenTemplateOverview)
 	}
 </script>
 
-<div class="h-full cursor-pointer" on:click={handleCreateSystemFromTemplate}>
+<div class="h-full cursor-pointer" on:click={handleAddTokenFromTemplate}>
 	<Card.Root class="flex h-full  flex-1 flex-col">
 		<Card.Header>
 			<Card.Title class="text-md font-medium"

@@ -5,7 +5,7 @@
 	} from './types/template-type.type'
 	import { buttonVariants } from '$lib/components/ui/button'
 	import * as Dialog from '$lib/components/ui/dialog'
-	import type { Template } from '$lib/features/templates/types/template-interface'
+	import type { TemplateWithSlug } from '$lib/features/templates/types/template-interface'
 	import StartFromTemplateCard from './atoms/StartFromTemplateCard.svelte'
 	import { TEMPLATE_TYPES } from './types/template-type.type'
 	import {
@@ -17,7 +17,7 @@
 	import StartFromTokenCard from './atoms/StartFromTokenCard.svelte'
 
 	const getDesignSystemTemplates = fetch(`/api/templates`).then(
-		async (data) => (await data.json()) as Template[]
+		async (data) => (await data.json()) as TemplateWithSlug[]
 	)
 
 	export let activeTemplateTypes: TemplateType[] = []
