@@ -11,6 +11,7 @@
 	import StartFromJsonModal from '$lib/features/templates/StartFromJsonModal.svelte'
 	import { Upload } from 'lucide-svelte'
 	import { Separator } from '$lib/components/ui/separator'
+	import ConnectWithFigmaModal from '$lib/features/conect-with-figma/ConnectWithFigmaModal.svelte'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -33,7 +34,7 @@
 		</div>
 		<div class="flex max-w-lg flex-col gap-6">
 			<h3 class="font-semibold">Actions</h3>
-			<div class="grid grid-cols-2 gap-6">
+			<div class="grid grid-cols-2 gap-8">
 				<StartCardTemplate
 					title="Explore templates"
 					description="All templates"
@@ -56,6 +57,26 @@
 					<Card.Content>Start your project from a personal file</Card.Content>
 					<Card.Footer>
 						<StartFromJsonModal />
+					</Card.Footer>
+				</Card.Root>
+				<Card.Root class="flex h-full  flex-1 flex-col">
+					<Card.Header>
+						<Card.Title class="text-md font-medium"
+							>Connect with Figma</Card.Title
+						>
+						<Card.Description
+							class="flex flex-row items-center text-xs leading-[0] text-slate-400"
+						>
+							<Upload class="mr-1 h-3 w-3" />
+							<span>Connect with figma</span>
+						</Card.Description>
+					</Card.Header>
+					<Separator class="mb-3" />
+					<Card.Content
+						>Collect and synchronise design tokens from Figma to Tokenbase.</Card.Content
+					>
+					<Card.Footer>
+						<ConnectWithFigmaModal />
 					</Card.Footer>
 				</Card.Root>
 			</div>
