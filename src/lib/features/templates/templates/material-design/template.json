@@ -1,28 +1,103 @@
 {
-	"gwegew": {
-		"gew": {
-			"value": "#ADEE37",
-			"comment": "gew",
-			"type": "color"
-		},
-		"gewgwe": {
-			"value": "#006FB1",
-			"comment": "gewge",
-			"type": "color"
-		},
-		"subgroup": {
-			"token": {
-				"value": "#006FB1",
-				"comment": "gewge",
+	"colors": {
+		"primary": {
+			"DEFAULT": {
+				"value": "#6200EA",
+				"type": "color"
+			},
+			"dark": {
+				"value": "#3700B3",
+				"type": "color"
+			},
+			"light": {
+				"value": "#BB86FC",
 				"type": "color"
 			}
+		},
+		"secondary": {
+			"DEFAULT": {
+				"value": "#03DAC6",
+				"type": "color"
+			},
+			"dark": {
+				"value": "#018786",
+				"type": "color"
+			},
+			"light": {
+				"value": "#BB86FC",
+				"type": "color"
+			}
+		},
+		"error": {
+			"value": "#B00020",
+			"type": "color"
+		},
+		"onPrimary": {
+			"value": "#FFFFFF",
+			"type": "color"
+		},
+		"onSecondary": {
+			"value": "#000000",
+			"type": "color"
+		},
+		"onError": {
+			"value": "#FFFFFF",
+			"type": "color"
 		}
 	},
-	"text": {
-		"gwe": {
-			"value": "{gwegew.subgroup.token}",
-			"comment": "gew",
+	"borderRadius": {
+		"default": {
+			"value": "4px",
+			"type": "dimension"
+		}
+	},
+	"fontFamily": {
+		"roboto": {
+			"value": [
+				"Roboto",
+				"-apple-system",
+				"BlinkMacSystemFont",
+				"Segoe UI",
+				"Arial",
+				"sans-serif"
+			],
 			"type": "fontFamily"
+		}
+	},
+	"fontWeight": {
+		"regular": {
+			"value": "400",
+			"type": "fontWeight"
+		},
+		"medium": {
+			"value": "500",
+			"type": "fontWeight"
+		},
+		"bold": {
+			"value": "700",
+			"type": "fontWeight"
+		}
+	},
+	"duration": {
+		"shortest": {
+			"value": "150",
+			"type": "duration"
+		},
+		"shorter": {
+			"value": "200",
+			"type": "duration"
+		}
+	},
+	"cubicBezier": {
+		"standard": {
+			"value": "cubic-bezier(0.4, 0.0, 0.2, 1)",
+			"type": "cubicBezier"
+		}
+	},
+	"number": {
+		"maxWidth": {
+			"value": "1240",
+			"type": "number"
 		}
 	}
 }

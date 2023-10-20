@@ -1,0 +1,92 @@
+{
+	"colors": {
+		"label": {
+			"default": {
+				"value": "#000000",
+				"type": "color"
+			},
+			"secondary": {
+				"value": "#3C3C43",
+				"type": "color"
+			},
+			"tertiary": {
+				"value": "#3C3C43",
+				"type": "color"
+			}
+		},
+		"background": {
+			"default": {
+				"value": "#FFFFFF",
+				"type": "color"
+			},
+			"secondary": {
+				"value": "#F2F2F7",
+				"type": "color"
+			}
+		},
+		"system": {
+			"blue": {
+				"value": "#007AFF",
+				"type": "color"
+			},
+			"red": {
+				"value": "#FF3B30",
+				"type": "color"
+			}
+		}
+	},
+	"borderRadius": {
+		"default": {
+			"value": "10px",
+			"type": "dimension"
+		}
+	},
+	"fontFamily": {
+		"SFProText": {
+			"value": [
+				"SF Pro Text",
+				"-apple-system",
+				"BlinkMacSystemFont",
+				"Helvetica Neue",
+				"sans-serif"
+			],
+			"type": "fontFamily"
+		},
+		"SFProDisplay": {
+			"value": [
+				"SF Pro Display",
+				"-apple-system",
+				"BlinkMacSystemFont",
+				"Helvetica Neue",
+				"sans-serif"
+			],
+			"type": "fontFamily"
+		}
+	},
+	"fontWeight": {
+		"regular": {
+			"value": "400",
+			"type": "fontWeight"
+		},
+		"semibold": {
+			"value": "600",
+			"type": "fontWeight"
+		},
+		"bold": {
+			"value": "700",
+			"type": "fontWeight"
+		}
+	},
+	"duration": {
+		"defaultTransition": {
+			"value": "250ms",
+			"type": "duration"
+		}
+	},
+	"number": {
+		"navigationBarHeight": {
+			"value": "44",
+			"type": "number"
+		}
+	}
+}
