@@ -404,7 +404,7 @@
 				},
 				"label-small": {
 					"font": {
-						"value": [],
+						"value": ["Roboto"],
 						"type": "fontFamily"
 					},
 					"weight": {

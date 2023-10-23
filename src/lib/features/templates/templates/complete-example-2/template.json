@@ -2,7 +2,7 @@
 	"fontFamily": {
 		"display": {
 			"family": {
-				"value": "DM Serif Display",
+				"value": ["DM Serif Display"],
 				"type": "fontFamily"
 			},
 			"fontWeight": {

@@ -79,7 +79,7 @@
 	},
 	"duration": {
 		"defaultTransition": {
-			"value": "250ms",
+			"value": "250",
 			"type": "duration"
 		}
 	},

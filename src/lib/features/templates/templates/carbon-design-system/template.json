@@ -85,11 +85,11 @@
 	},
 	"duration": {
 		"fastTransition": {
-			"value": "110ms",
+			"value": "110",
 			"type": "duration"
 		},
 		"standardTransition": {
-			"value": "150ms",
+			"value": "150",
 			"type": "duration"
 		}
 	}
