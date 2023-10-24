@@ -63,7 +63,7 @@
 		</ul>
 	</nav>
 </header>
-<section class="flex flex-1 items-center justify-center bg-slate-100 p-20">
+<section class="flex flex-1 items-center justify-center p-20">
 	<div
 		class="flex max-w-2xl flex-1 flex-col items-center justify-center gap-20"
 	>
@@ -148,3 +148,19 @@
 		{/if}
 	</div>
 </section>
+
+<style>
+	section {
+		background: linear-gradient(
+				rgba(242, 245, 249, 0.8),
+				rgba(242, 245, 249, 0.99),
+				rgba(242, 245, 249, 1),
+				rgba(242, 245, 249, 1)
+			),
+			conic-gradient(
+					from 90deg at 1px 1px,
+					hsla(0, 0%, 0%, 0) 90deg,
+					rgb(230, 230, 230) 0
+				) -2px -2px/25px 25px;
+	}
+</style>
