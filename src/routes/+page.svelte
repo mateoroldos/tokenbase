@@ -48,6 +48,10 @@
 	)
 </script>
 
+<svelte:head>
+	<title>Tokenbase</title>
+</svelte:head>
+
 <header
 	class="z-10 flex flex-row items-center justify-between px-20 py-6 shadow-sm"
 >
