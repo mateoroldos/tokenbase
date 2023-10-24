@@ -22,9 +22,9 @@
 	)
 </script>
 
-<div class="overflow-hidden">
+<div class="h-full overflow-hidden">
 	<Header />
-	<section class="flex h-full flex-col gap-8 overflow-y-auto p-14">
+	<section class="flex h-full flex-col gap-8 overflow-y-auto p-16">
 		<div class="flex flex-col gap-2">
 			<h1 class="text-3xl">Get started!</h1>
 			<p class="text-sm text-muted-foreground">
@@ -60,9 +60,9 @@
 				</Card.Root>
 			</div>
 		</div>
-		<div class="flex flex-col gap-8">
+		<div class="flex flex-col gap-6">
 			<h3 class="font-semibold">Popular templates</h3>
-			<div class="grid grid-cols-4 gap-8">
+			<div class="grid grid-cols-4 gap-8 pb-8">
 				{#await getDesignSystemTemplates}
 					<span>Getting templates...</span>
 				{:then templates}

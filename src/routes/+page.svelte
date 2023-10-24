@@ -9,6 +9,7 @@
 	import { Button } from '$lib/components/ui/button'
 	import { SquareEqual } from 'lucide-svelte'
 	import { Separator } from '$lib/components/ui/separator'
+	import Logo from '$lib/components/Logo.svelte'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -50,14 +51,7 @@
 <header
 	class="z-10 flex flex-row items-center justify-between px-20 py-6 shadow-sm"
 >
-	<a href="/" class="text-lg font-medium">
-		<img
-			src="/LOGO_TOKENBASE.png"
-			alt="Token-base logo"
-			class="mb-1 inline-block h-6 w-6"
-		/>
-		Tokenbase
-	</a>
+	<Logo />
 	<nav>
 		<ul>
 			<li>
@@ -73,6 +67,23 @@
 	<div
 		class="flex max-w-2xl flex-1 flex-col items-center justify-center gap-20"
 	>
+		<div class="flex flex-col gap-2">
+			<h1 class="text-center text-xl font-medium">
+				Welcome to Our Open BETA Version
+			</h1>
+			<span class="text-center text-slate-500">
+				As we are currently in the exciting phase of our open BETA version, your
+				feedback and experience are invaluable in shaping the future of our
+				application.
+			</span>
+			<span class="text-center text-slate-500">
+				Join our <a
+					class="text-blue-700"
+					href="https://discord.gg/Xt36BDhdXj"
+					target="_blank">Discord community</a
+				> and share your feedback with us!
+			</span>
+		</div>
 		<form
 			on:submit|preventDefault={() => handleSubmitForm()}
 			class="relative flex w-full flex-row gap-2"

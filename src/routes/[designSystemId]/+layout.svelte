@@ -37,7 +37,7 @@
 		</div>
 	</div>
 {:else if activeDesignSystemIndex >= 0}
-	<main class="grid h-full flex-1 grid-cols-[250px_1fr] overflow-hidden">
+	<main class="grid h-screen grid-cols-[250px_1fr] overflow-hidden">
 		<TokenGroupsExplorer />
 		<slot />
 	</main>
