@@ -14,7 +14,7 @@
 		},
 		"sans": {
 			"family": {
-				"value": "Inter",
+				"value": ["Inter"],
 				"type": "fontFamily"
 			},
 			"fontWeight": {
@@ -59,7 +59,7 @@
 	},
 	"dimension": {
 		"xs": {
-			"value": "0.75rem",
+			"value": "0.75 rem",
 			"type": "dimension",
 			"dimension": {
 				"value": "1rem",

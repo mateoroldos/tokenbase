@@ -3,15 +3,15 @@
 		"global": {
 			"ff": {
 				"satoshi": {
-					"value": "Satoshi Variable",
+					"value": ["Satoshi Variable"],
 					"type": "fontFamily"
 				},
 				"inter": {
-					"value": "Inter",
+					"value": ["Inter"],
 					"type": "fontFamily"
 				},
 				"jetbrains-mono": {
-					"value": "JetBrains Mono",
+					"value": ["JetBrains Mono"],
 					"type": "fontFamily"
 				}
 			},
@@ -100,12 +100,6 @@
 				},
 				"7": {
 					"value": "0.1rem",
-					"type": "dimension"
-				}
-			},
-			"paragraphdimension": {
-				"0": {
-					"value": "0",
 					"type": "dimension"
 				}
 			},
