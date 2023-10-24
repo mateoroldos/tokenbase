@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { buttonVariants } from '$lib/components/ui/button'
 	import * as Dialog from '$lib/components/ui/dialog'
-	import { BookCopy } from 'lucide-svelte'
 	import { Textarea } from '$lib/components/ui/textarea'
 	import { Button } from '$lib/components/ui/button'
 	import { page } from '$app/stores'
@@ -53,8 +52,8 @@
 </script>
 
 <Dialog.Root bind:open portal="yes">
-	<Dialog.Trigger class={buttonVariants({ variant: 'outline', size: 'sm' })}>
-		Upload your file
+	<Dialog.Trigger class={buttonVariants({ size: 'sm' })}>
+		Upload JSON
 	</Dialog.Trigger>
 	<Dialog.Content>
 		<Dialog.Header>

@@ -50,7 +50,7 @@
 </script>
 
 <Dialog.Root bind:open portal="yes">
-	<Dialog.Trigger class={buttonVariants({ variant: 'outline', size: 'sm' })}
+	<Dialog.Trigger class={buttonVariants({ size: 'sm' })}
 		>Explore Templates</Dialog.Trigger
 	>
 	<Dialog.Portal>

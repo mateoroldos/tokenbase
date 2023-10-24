@@ -3,7 +3,6 @@
 		moveToken,
 		type createGroupsStore
 	} from '$lib/features/token-groups-store/groups'
-	import { Separator } from '$lib/components/ui/separator'
 	import { navigating, page } from '$app/stores'
 	import { getContext, setContext } from 'svelte'
 	import Token from '$lib/features/token-ui/ui/Token.svelte'
@@ -14,9 +13,8 @@
 	import StartFromTemplateModal from '$lib/features/templates/StartFromTemplateModal.svelte'
 	import StartCardTemplate from '../_components/StartCards/StartCardTemplate.svelte'
 	import StartFromTemplateCard from '$lib/features/templates/atoms/StartFromTemplateCard.svelte'
-	import * as Card from '$lib/components/ui/card'
-	import StartFromJsonModal from '$lib/features/templates/StartFromJsonModal.svelte'
-	import { Upload } from 'lucide-svelte'
+	import * as EmptyStatePage from '.././_components/EmptyStatePage'
+	import StartFromJsonCard from '../_components/StartFromJsonCard/StartFromJsonCard.svelte'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -141,48 +139,35 @@
 				</Table.Body>
 			</Table.Root>
 		{:else}
-			<section class="flex flex-col gap-8 p-14">
-				<div class="flex flex-col gap-2">
-					<h1 class="text-3xl">Get started!</h1>
-					<p class="text-sm text-muted-foreground">
-						Explore, create and organize your design system
-					</p>
-				</div>
-				<div class="flex max-w-lg flex-col gap-6">
-					<h3 class="font-semibold">Actions</h3>
-					<div class="grid grid-cols-2 gap-8">
+			<EmptyStatePage.Root>
+				<EmptyStatePage.Section>
+					<EmptyStatePage.Heading
+						>Add Tokens to your group</EmptyStatePage.Heading
+					>
+					<EmptyStatePage.Description
+						>You can add Tokens manualy or quickstart with a Template or JSON
+						file.</EmptyStatePage.Description
+					>
+				</EmptyStatePage.Section>
+				<EmptyStatePage.Section>
+					<EmptyStatePage.SectionHeading
+						>Quickstarts</EmptyStatePage.SectionHeading
+					>
+					<div class="grid grid-cols-[2fr_3fr] gap-6">
 						<StartCardTemplate
 							title="Explore templates"
-							description="All templates"
 							content="Start from the template that fits your needs"
 						>
 							<StartFromTemplateModal activeTemplateTypes={['group']} />
 						</StartCardTemplate>
-						<Card.Root class="flex h-full  flex-1 flex-col">
-							<Card.Header>
-								<Card.Title class="text-md font-medium"
-									>Upload your file
-								</Card.Title>
-								<Card.Description
-									class="flex flex-row items-center text-xs leading-[0] text-slate-400"
-								>
-									<Upload class="mr-1 h-3 w-3" />
-									<span>Import files</span>
-								</Card.Description>
-							</Card.Header>
-							<Separator class="mb-3" />
-							<Card.Content
-								>Start your project from a personal file</Card.Content
-							>
-							<Card.Footer>
-								<StartFromJsonModal />
-							</Card.Footer>
-						</Card.Root>
+						<StartFromJsonCard />
 					</div>
-				</div>
-				<div class="flex flex-col gap-8">
-					<h3 class="font-semibold">Popular templates</h3>
-					<div class="grid grid-cols-2 gap-8">
+				</EmptyStatePage.Section>
+				<EmptyStatePage.Section>
+					<EmptyStatePage.SectionHeading
+						>Popular templates</EmptyStatePage.SectionHeading
+					>
+					<div class="grid grid-cols-3 gap-6 pb-8">
 						{#await getDesignSystemTemplates}
 							<span>Getting templates...</span>
 						{:then templates}
@@ -193,8 +178,8 @@
 							{/each}
 						{/await}
 					</div>
-				</div>
-			</section>
+				</EmptyStatePage.Section>
+			</EmptyStatePage.Root>
 		{/if}
 	</section>
 {:else}

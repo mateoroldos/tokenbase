@@ -48,7 +48,7 @@
 					<span>Group template</span>
 				{:else}
 					<Boxes class="mr-1 h-3 w-3" />
-					<span>Design system template</span>
+					<span>Design System Template</span>
 				{/if}
 			</Card.Description>
 		</Card.Header>
