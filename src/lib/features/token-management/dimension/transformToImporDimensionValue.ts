@@ -5,13 +5,18 @@ const transformToImportDimensionValue = (
 	exportDimension: ExportDimensionTokenValue
 ): DimensionTokenValue => {
 	const numericValue = parseFloat(exportDimension)
-	const unit = exportDimension.slice(-2) as 'px' | 'rem'
-	const dimensionToken: DimensionTokenValue = {
-		value: numericValue,
-		unit: unit
-	}
+	const unitMatch = exportDimension.match(/(px|rem)$/)
 
-	return dimensionToken
+	if (unitMatch) {
+		const unit = unitMatch[0] as 'px' | 'rem'
+		const dimensionToken: DimensionTokenValue = {
+			value: numericValue,
+			unit: unit
+		}
+		return dimensionToken
+	} else {
+		throw new Error(`Invalid unit in exportDimension: ${exportDimension}`)
+	}
 }
 
 export default transformToImportDimensionValue
