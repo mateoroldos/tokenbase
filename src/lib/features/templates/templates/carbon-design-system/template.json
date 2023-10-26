@@ -1,0 +1,96 @@
+{
+	"colors": {
+		"interactive": {
+			"01": {
+				"value": "#E0182D",
+				"type": "color"
+			},
+			"02": {
+				"value": "#F1F3F4",
+				"type": "color"
+			},
+			"03": {
+				"value": "#0062FF",
+				"type": "color"
+			},
+			"04": {
+				"value": "#408BFC",
+				"type": "color"
+			}
+		},
+		"ui": {
+			"background": {
+				"value": "#161616",
+				"type": "color"
+			},
+			"field": {
+				"value": "#262626",
+				"type": "color"
+			},
+			"border": {
+				"value": "#525252",
+				"type": "color"
+			}
+		},
+		"text": {
+			"01": {
+				"value": "#F3F3F3",
+				"type": "color"
+			},
+			"02": {
+				"value": "#BEBEBE",
+				"type": "color"
+			},
+			"03": {
+				"value": "#6F6F6F",
+				"type": "color"
+			}
+		}
+	},
+	"borderRadius": {
+		"default": {
+			"value": "2px",
+			"type": "dimension"
+		}
+	},
+	"fontFamily": {
+		"plexSans": {
+			"value": [
+				"IBM Plex Sans",
+				"-apple-system",
+				"BlinkMacSystemFont",
+				"Helvetica Neue",
+				"sans-serif"
+			],
+			"type": "fontFamily"
+		},
+		"plexMono": {
+			"value": ["IBM Plex Mono", "monospace"],
+			"type": "fontFamily"
+		}
+	},
+	"fontWeight": {
+		"regular": {
+			"value": "400",
+			"type": "fontWeight"
+		},
+		"semibold": {
+			"value": "600",
+			"type": "fontWeight"
+		},
+		"bold": {
+			"value": "700",
+			"type": "fontWeight"
+		}
+	},
+	"duration": {
+		"fastTransition": {
+			"value": "110",
+			"type": "duration"
+		},
+		"standardTransition": {
+			"value": "150",
+			"type": "duration"
+		}
+	}
+}

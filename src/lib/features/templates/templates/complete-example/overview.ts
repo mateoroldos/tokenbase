@@ -1,6 +1,6 @@
 export const overview = {
-	name: 'Kickstart 3',
+	name: 'Kickstart 1',
 	description: 'Start your work with one of Tokenbase favourite design system.',
-	tags: ['design system', 'color', 'token'],
+	tags: ['token', 'design system'],
 	type: 'design-system'
 }
