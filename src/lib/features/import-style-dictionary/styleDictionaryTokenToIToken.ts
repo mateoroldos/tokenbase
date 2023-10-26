@@ -5,7 +5,7 @@ import type { FontWeightTokenValue } from '$lib/features/token-management/font-w
 import type { ExportNumberTokenValue } from '$lib/features/token-management/number/export-number-value.type'
 import type { IToken } from '../token-groups-store/types/token-interface'
 import transformToImportColorValue from '../token-management/color/transformToImportColorValue'
-import transformToImportDimensionValue from '../token-management/dimension/transformToImporDimensionValue'
+import transformToImportDimensionValue from '../token-management/dimension/transformToImportDimensionValue'
 import type { StyleDictionaryToken } from './types/style-dictionary-token.interface'
 import { v4 as uuidv4 } from 'uuid'
 
