@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { activeThemeIndex } from '$lib/features/themes/activeThemeIndexStore'
 	import Range from '$lib/components/Range.svelte'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import { Hct } from '@material/material-color-utilities'
@@ -15,11 +16,17 @@
 
 	$: isAlias = token.alias !== undefined
 
+	$: activeThemeTokenValue = token.value[$activeThemeIndex]
+
 	const dispatch = createEventDispatcher()
 
 	let hexInput: HTMLInputElement
 
-	$: argb = Hct.from(token.value[0], token.value[1], token.value[2]).argb
+	$: argb = Hct.from(
+		activeThemeTokenValue[0],
+		activeThemeTokenValue[1],
+		activeThemeTokenValue[2]
+	).argb
 	$: hex = Color(argb).hex()
 
 	const handleHexChange = (e: Event) => {
@@ -32,7 +39,7 @@
 				const newArgbColor = Color(value).rgbNumber()
 				const hct = Hct.fromInt(newArgbColor)
 
-				token.value = [hct.hue, hct.chroma, hct.tone]
+				activeThemeTokenValue = [hct.hue, hct.chroma, hct.tone]
 				hex = target.value
 			} catch (error) {
 				hexInput.value = hex
@@ -41,18 +48,18 @@
 	}
 
 	$: hueBackground = generateHueBackgroundGradient(
-		token.value[1],
-		token.value[2]
+		activeThemeTokenValue[1],
+		activeThemeTokenValue[2]
 	)
 
 	$: chromaBackground = generateChromaBackgroundGradient(
-		token.value[0],
-		token.value[2]
+		activeThemeTokenValue[0],
+		activeThemeTokenValue[2]
 	)
 
 	$: toneBackground = generateToneBackgroundGradient(
-		token.value[0],
-		token.value[1]
+		activeThemeTokenValue[0],
+		activeThemeTokenValue[1]
 	)
 </script>
 
@@ -80,7 +87,7 @@
 					type="number"
 					class="w-14 rounded-md bg-transparent px-1 text-xs"
 					{...isAlias ? { disabled: true } : {}}
-					bind:value={token.value[0]}
+					bind:value={activeThemeTokenValue[0]}
 				/>
 			</div>
 			<Range
@@ -89,7 +96,7 @@
 				id={`${token.id}-hue-range`}
 				background={hueBackground}
 				{...isAlias ? { disabled: true } : {}}
-				bind:value={token.value[0]}
+				bind:value={activeThemeTokenValue[0]}
 				on:change={(e) =>
 					dispatch('colorChange', {
 						valueChanged: 0,
@@ -104,7 +111,7 @@
 					type="number"
 					class="w-14 rounded-md bg-transparent px-1 text-xs"
 					{...isAlias ? { disabled: true } : {}}
-					bind:value={token.value[1]}
+					bind:value={activeThemeTokenValue[1]}
 				/>
 			</div>
 			<Range
@@ -113,7 +120,7 @@
 				id={`${token.id}-chroma-range`}
 				background={chromaBackground}
 				{...isAlias ? { disabled: true } : {}}
-				bind:value={token.value[1]}
+				bind:value={activeThemeTokenValue[1]}
 				on:change={(e) =>
 					dispatch('colorChange', {
 						valueChanged: 1,
@@ -128,7 +135,7 @@
 					type="number"
 					class="w-14 rounded-md bg-transparent px-1 text-xs"
 					{...isAlias ? { disabled: true } : {}}
-					bind:value={token.value[2]}
+					bind:value={activeThemeTokenValue[2]}
 				/>
 			</div>
 			<Range
@@ -137,7 +144,7 @@
 				id={`${token.id}-saturation-range`}
 				background={toneBackground}
 				{...isAlias ? { disabled: true } : {}}
-				bind:value={token.value[2]}
+				bind:value={activeThemeTokenValue[2]}
 				on:change={(e) =>
 					dispatch('colorChange', {
 						valueChanged: 2,

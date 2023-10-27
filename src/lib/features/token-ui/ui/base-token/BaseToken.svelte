@@ -28,7 +28,7 @@
 	const handleTokenTypeChange = (tokenType: TokenType) => {
 		token = {
 			...token,
-			value: getDefaultTokenValues(tokenType),
+			value: [getDefaultTokenValues(tokenType)],
 			type: tokenType
 		}
 	}

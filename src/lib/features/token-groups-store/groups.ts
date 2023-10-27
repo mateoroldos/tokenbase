@@ -36,10 +36,10 @@ export const createGroupsStore = () => {
 	}
 
 	const deleteGroup = (groupId: string): void => {
-		update((designTokens) => {
-			deepDeleteGroups(groupId, designTokens)
+		update((groups) => {
+			deepDeleteGroups(groupId, groups)
 
-			return designTokens
+			return groups
 		})
 	}
 
@@ -62,7 +62,7 @@ export const createGroupsStore = () => {
 			group.tokens.push({
 				id: uuidv4(),
 				type,
-				value: value ?? getDefaultTokenValues(type),
+				value: value ? [value] : [getDefaultTokenValues(type)],
 				name: name ?? undefined
 			})
 
@@ -80,13 +80,13 @@ export const createGroupsStore = () => {
 		}[],
 		index?: number
 	) => {
-		update((designTokens) => {
+		update((groups) => {
 			// Find the group to add the token to
-			const group = designTokens.find((group) => group.id === groupId)
+			const group = groups.find((group) => group.id === groupId)
 
 			if (!group) {
 				console.error(`Group with ID ${groupId} not found`)
-				return designTokens
+				return groups
 			}
 
 			const i = index || group.tokens.length
@@ -97,31 +97,39 @@ export const createGroupsStore = () => {
 					id: uuidv4(),
 					name: token.name || '',
 					description: token.description || '',
-					value: token.value,
+					value: [token.value],
 					type: token.type
 				})
 			})
 
-			return designTokens
+			return groups
 		})
 	}
 
 	const deleteToken = (tokenId: string): void => {
-		update((designTokens) => {
+		update((groups) => {
 			// Find the group that contains the token
-			const group = designTokens.find((group) =>
+			const group = groups.find((group) =>
 				group.tokens.find((token) => token.id === tokenId)
 			)
 
 			if (!group) {
 				console.error(`Token with ID ${tokenId} not found`)
-				return designTokens
+				return groups
 			}
 
 			// Delete the token from the group's tokens array
 			deleteTokenById(tokenId, group.tokens)
 
-			return designTokens
+			return groups
+		})
+	}
+
+	const addTheme = (groupId: string) => {
+		update((groups) => {
+			deepAddTheme(groupId, groups)
+
+			return groups
 		})
 	}
 
@@ -132,7 +140,8 @@ export const createGroupsStore = () => {
 		deleteGroup,
 		addToken,
 		bulkAddTokens,
-		deleteToken
+		deleteToken,
+		addTheme
 	}
 }
 
@@ -151,17 +160,43 @@ const deepDeleteGroups = (id: string, groups: Group[]): void => {
 	})
 }
 
-const deleteGroupById = (id: string, groups: Group[]): void => {
-	const index = groups.findIndex((group) => group.id === id)
-	if (index !== -1) {
-		groups.splice(index, 1)
-	}
-}
-
 const deleteTokenById = (id: string, tokens: IToken[]): void => {
 	const index = tokens.findIndex((token) => token.id === id)
 	if (index !== -1) {
 		tokens.splice(index, 1)
+	}
+}
+
+const addTheme = (id: string, tokens: IToken[]) => {
+	tokens.forEach((token) => {
+		// let defaultValue = getDefaultTokenValues(token.type)getDefaultTokenValues(token.type)
+		token.value.push(getDefaultTokenValues(token.type))
+	})
+}
+
+const deepAddTheme = (parentId: string, groups: Group[]) => {
+	// Add values to current group
+	if (groups.find((group) => group.parentGroup === parentId) !== undefined) {
+		const childGroups = groups.filter((group) => group.parentGroup === parentId)
+
+		childGroups.forEach((group) => {
+			addTheme(group.id, group.tokens)
+		})
+	}
+
+	const childrenGroups = groups.filter(
+		(group) => group.parentGroup === parentId
+	)
+
+	childrenGroups.forEach((group) => {
+		deepAddTheme(group.id, groups)
+	})
+}
+
+const deleteGroupById = (id: string, groups: Group[]): void => {
+	const index = groups.findIndex((group) => group.id === id)
+	if (index !== -1) {
+		groups.splice(index, 1)
 	}
 }
 

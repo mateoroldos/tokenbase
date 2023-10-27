@@ -1,10 +1,13 @@
 <script lang="ts">
+	import { activeThemeIndex } from '$lib/features/themes/activeThemeIndexStore'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import * as Select from '$lib/components/ui/select'
 	import { ChevronDown } from 'lucide-svelte'
 	import { Input } from '$lib/components/ui/input'
 
 	export let token: IToken<'fontWeight'>
+
+	$: activeThemeTokenValue = token.value[$activeThemeIndex]
 
 	const fontWeigthValueOptions = [
 		'thin',
@@ -22,7 +25,7 @@
 	let isCustom = false
 
 	const handleCustomInputChange = (e) => {
-		token.value = e.srcElement.value
+		activeThemeTokenValue = e.srcElement.value
 	}
 
 	const handleOptionChange = (value) => {
@@ -31,7 +34,7 @@
 </script>
 
 <div class="flex flex-row gap-2">
-	<Select.Root bind:value={token.value}>
+	<Select.Root bind:value={activeThemeTokenValue}>
 		<Select.Trigger class="w-[100px] ">
 			<Select.Value
 				placeholder={isCustom ? 'custom' : fontWeigthValueOptions[4]}
@@ -56,7 +59,7 @@
 		<Input
 			class="h-8 w-[100px]"
 			type="text"
-			bind:value={token.value}
+			bind:value={activeThemeTokenValue}
 			on:input={handleCustomInputChange}
 		/>
 	{/if}

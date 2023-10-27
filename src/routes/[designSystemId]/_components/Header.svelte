@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { activeThemeIndex } from './../../../lib/features/themes/activeThemeIndexStore.ts'
 	import { Button } from '$lib/components/ui/button'
 	import { page } from '$app/stores'
 	import DesignSystemBreadcrumb from './Breadcrumbs/DesignSystemBreadcrumb.svelte'
@@ -9,11 +10,16 @@
 	import type { createDesignSystemsStore } from '$lib/features/token-groups-store/designSystemsIds'
 	import type { TokenType } from '$lib/features/token-groups-store/types/token-interface'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import Input from '$lib/components/ui/input/Input.svelte'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
 	const tokenBaseMainStore: ReturnType<typeof createDesignSystemsStore> =
 		getContext('tokenBaseMainStore')
+
+	$: activeDesignSystemIndex = $tokenBaseMainStore.findIndex(
+		(designSystem) => designSystem.id === $page.params.designSystemId
+	)
 
 	$: groupId = $page.params.groupId as string
 	$: groupIndex = $designTokensGroupStore.findIndex(
@@ -33,6 +39,19 @@
 				: 'color'
 
 		designTokensGroupStore.addToken(groupId, tokenType)
+	}
+
+	let newThemeName: string = ''
+
+	const handleAddTheme = () => {
+		tokenBaseMainStore.addTheme(
+			$page.params.designSystemId as string,
+			newThemeName
+		)
+
+		designTokensGroupStore.addTheme($page.params.designSystemId as string)
+
+		newThemeName = ''
 	}
 
 	$: activeGroupId = $page.params.groupId
@@ -56,4 +75,27 @@
 			</Button>
 		</div>
 	{/if}
+	<div class="flex flex-row gap-7">
+		<select
+			name="active-theme"
+			id="active-theme"
+			bind:value={$activeThemeIndex}
+		>
+			{#each $tokenBaseMainStore[activeDesignSystemIndex]?.themes as theme, i}
+				<option value={i}>
+					{theme}
+				</option>
+			{/each}
+			{activeThemeIndex}
+		</select>
+		<div class="flex flex-row gap-3">
+			<Input
+				bind:value={newThemeName}
+				type="text"
+				name="new-theme-name"
+				id="new-theme-name"
+			/>
+			<Button on:click={handleAddTheme}>Add Theme</Button>
+		</div>
+	</div>
 </div>

@@ -1,22 +1,25 @@
 <script lang="ts">
+	import { activeThemeIndex } from '$lib/features/themes/activeThemeIndexStore'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import { createTagsInput, melt } from '@melt-ui/svelte'
 	import { X } from 'lucide-svelte'
 
 	export let token: IToken<'fontFamily'>
 
+	$: activeThemeTokenValue = token.value[$activeThemeIndex]
+
 	let {
 		elements: { root, input, tag, deleteTrigger, edit },
 		states: { tags }
 	} = createTagsInput({
-		defaultTags: token.value,
+		defaultTags: activeThemeTokenValue,
 		unique: true
 	})
 
 	$: if (token.alias !== undefined) {
-		$tags = token.value.map((t, i) => ({ value: t, id: `${i}` }))
+		$tags = activeThemeTokenValue.map((t, i) => ({ value: t, id: `${i}` }))
 	} else {
-		token.value = $tags.map((t) => t.value)
+		activeThemeTokenValue = $tags.map((t) => t.value)
 	}
 </script>
 

@@ -23,6 +23,7 @@
 		(designSystem) => designSystem.id === $page.params.designSystemId
 	)
 	$: activeDesignSystemName = $tokenBaseMainStore[activeDesignSystemIndex]?.name
+	$: activeThemeIndex = 0
 </script>
 
 <svelte:head>

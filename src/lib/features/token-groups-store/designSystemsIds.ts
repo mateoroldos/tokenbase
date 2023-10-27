@@ -3,6 +3,7 @@ import persistentWritable from '../../stores/custom/persistentWritable'
 interface DesignSystemData {
 	id: string
 	name: string
+	themes: string[]
 }
 
 export const createDesignSystemsStore = () => {
@@ -15,7 +16,8 @@ export const createDesignSystemsStore = () => {
 		update((designSystems) => {
 			designSystems.push({
 				id,
-				name
+				name,
+				themes: ['Default']
 			})
 
 			return designSystems
@@ -30,11 +32,24 @@ export const createDesignSystemsStore = () => {
 		})
 	}
 
+	const addTheme = (id: string, themeName: string): void => {
+		update((designSystems) => {
+			const designSystem = designSystems.find((system) => system.id === id)
+
+			if (designSystem) {
+				designSystem.themes.push(themeName)
+			}
+
+			return designSystems
+		})
+	}
+
 	return {
 		subscribe,
 		set,
 		addDesignSystem,
-		deleteDesignSystem
+		deleteDesignSystem,
+		addTheme
 	}
 }
 

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { activeThemeIndex } from '$lib/features/themes/activeThemeIndexStore'
 	import { Input } from '$lib/components/ui/input'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import numberSuite from '$lib/features/token-management/number/numberSuite'
@@ -6,6 +7,8 @@
 	export let token: IToken<'number'>
 
 	$: isAlias = token.alias !== undefined
+
+	$: activeThemeTokenValue = token.value[$activeThemeIndex]
 
 	const handleChange = (input: Event) => {
 		if (isAlias) return
@@ -25,7 +28,7 @@
 		type="number"
 		name="numberToken"
 		{...isAlias ? { disabled: true } : {}}
-		bind:value={token.value}
+		bind:value={activeThemeTokenValue}
 		on:input={handleChange}
 	/>
 </div>
