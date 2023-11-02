@@ -2,8 +2,15 @@
 	import { Input } from '$lib/components/ui/input'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import durationSuite from '$lib/features/token-management/duration/durationSuite'
+	import { Import } from 'lucide-svelte'
+	import { viewMode } from '../../../stores/viewMode';
 
 	export let token: IToken<'duration'>
+
+	let viewModeValue: boolean;
+	viewMode.subscribe(value => {
+		viewModeValue = value;
+	});
 
 	$: isAlias = token.alias !== undefined
 
@@ -20,9 +27,9 @@
 
 <div>
 	<div class="flex flex-row gap-2">
-		<Input
+		<Input disabled={viewModeValue}
 			name="duration"
-			class="h-8 w-[80px] "
+			class="h-8 w-[80px] disabled:opacity-1"
 			type="number"
 			{...isAlias ? { disabled: true } : {}}
 			on:input={handleChange}

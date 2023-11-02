@@ -1,9 +1,15 @@
 <script lang="ts">
+	import { viewMode } from '../../../stores/viewMode';
 	import { Input } from '$lib/components/ui/input'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import numberSuite from '$lib/features/token-management/number/numberSuite'
 
 	export let token: IToken<'number'>
+	
+	let viewModeValue: boolean;
+	viewMode.subscribe(value => {
+		viewModeValue = value;
+	});
 
 	$: isAlias = token.alias !== undefined
 
@@ -20,8 +26,9 @@
 </script>
 
 <div>
-	<Input
-		class="h-8 w-[80px] "
+
+	<Input disabled={viewModeValue}
+		class="h-8 w-[80px] disabled:opacity-1"
 		type="number"
 		name="numberToken"
 		{...isAlias ? { disabled: true } : {}}

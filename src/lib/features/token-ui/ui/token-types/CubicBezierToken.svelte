@@ -2,8 +2,13 @@
 	import { Input } from '$lib/components/ui/input'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import cubicBezierSuite from '$lib/features/token-management/cubic-bezier/cubicBezierSuite'
-
+	import { viewMode } from '../../../stores/viewMode';
 	export let token: IToken<'cubicBezier'>
+
+	let viewModeValue: boolean;
+	viewMode.subscribe(value => {
+		viewModeValue = value;
+	});
 
 	$: isAlias = token.alias !== undefined
 
@@ -19,9 +24,9 @@
 
 <div class="flex gap-x-3">
 	<div class="flex flex-row gap-2">
-		<Input
+		<Input disabled={viewModeValue}
 			name="p1x"
-			class="h-8 w-[60px] "
+			class="h-8 w-[60px] disabled:opacity-1"
 			type="number"
 			{...isAlias ? { disabled: true } : {}}
 			bind:value={token.value[0]}
@@ -35,10 +40,10 @@
 		>
 	</div>
 	<div class="flex flex-row gap-2">
-		<Input
+		<Input disabled={viewModeValue}
 			id="p1y"
 			name="p1y"
-			class="h-8 w-[60px] "
+			class="h-8 w-[60px] disabled:opacity-1"
 			type="number"
 			size={1}
 			{...isAlias ? { disabled: true } : {}}
@@ -50,10 +55,10 @@
 		>
 	</div>
 	<div class="flex flex-row gap-2">
-		<Input
+		<Input disabled={viewModeValue}
 			id="p2x"
 			name="p2x"
-			class="h-8 w-[60px] "
+			class="h-8 w-[60px] disabled:opacity-1"
 			type="number"
 			{...isAlias ? { disabled: true } : {}}
 			on:input={handleChange}
@@ -64,10 +69,10 @@
 		>
 	</div>
 	<div class="flex flex-row gap-2">
-		<Input
+		<Input disabled={viewModeValue}
 			id="p2y"
 			name="p2y"
-			class="h-8 w-[60px] "
+			class="h-8 w-[60px] disabled:opacity-1"
 			type="number"
 			{...isAlias ? { disabled: true } : {}}
 			on:input={handleChange}

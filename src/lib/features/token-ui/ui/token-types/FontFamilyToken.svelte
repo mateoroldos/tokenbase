@@ -2,8 +2,13 @@
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import { createTagsInput, melt } from '@melt-ui/svelte'
 	import { X } from 'lucide-svelte'
-
+	import { viewMode } from '../../../stores/viewMode';
 	export let token: IToken<'fontFamily'>
+
+	let viewModeValue: boolean;
+	viewMode.subscribe(value => {
+		viewModeValue = value;
+	});
 
 	let {
 		elements: { root, input, tag, deleteTrigger, edit },
@@ -34,23 +39,27 @@
 					class="flex items-center border-r border-white/10 bg-slate-100 px-1.5"
 					>{t.value}</span
 				>
-				<button
-					use:melt={$deleteTrigger(t)}
-					class="enabled:hover:bg-magnum-300 flex h-full items-center bg-slate-100 px-1"
-				>
-					<X class="h-4 w-4 bg-slate-100" />
-				</button>
+				{#if !viewModeValue}
+					<button
+						use:melt={$deleteTrigger(t)}
+						class="enabled:hover:bg-magnum-300 flex h-full items-center bg-slate-100 px-1"
+					>
+						<X class="h-4 w-4 bg-slate-100" />
+					</button>
+				{/if}
 			</div>
 			<div
 				use:melt={$edit(t)}
 				class="flex items-center overflow-hidden rounded-md px-1.5 [word-break:break-word] data-[invalid-edit]:focus:!ring-red-500"
 			/>
 		{/each}
-		<input
-			use:melt={$input}
-			type="text"
-			placeholder="Enter fonts..."
-			class="min-w-[4.5rem] shrink grow basis-0 border-0 bg-transparent text-black outline-none focus:!ring-0 data-[invalid]:text-red-500"
-		/>
+		{#if !viewModeValue}
+			<input
+				use:melt={$input}
+				type="text"
+				placeholder="Enter fonts..."
+				class="min-w-[4.5rem] shrink grow basis-0 border-0 bg-transparent text-black outline-none focus:!ring-0 data-[invalid]:text-red-500"
+			/>
+		{/if}
 	</div>
 </div>

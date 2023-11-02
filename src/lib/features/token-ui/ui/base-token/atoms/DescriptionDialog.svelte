@@ -6,8 +6,14 @@
 	import * as Tooltip from '$lib/components/ui/tooltip'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 	import { Textarea } from '$lib/components/ui/textarea'
+	import { viewMode } from '../../../../stores/viewMode'
 
 	export let token: IToken
+
+	let viewModeValue: boolean;
+	viewMode.subscribe(value => {
+		viewModeValue = value;
+	});
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -47,7 +53,7 @@
 			<Dialog.Description>
 				<div class="flex flex-col gap-2">
 					<h3>Token description</h3>
-					<Textarea bind:value={token.description} />
+					<Textarea bind:value={token.description} disabled={viewModeValue}/>
 				</div>
 			</Dialog.Description>
 		</Dialog.Header>

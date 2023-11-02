@@ -10,8 +10,14 @@
 	} from './utils/generateHctBackgroundGradients'
 	import { createEventDispatcher } from 'svelte'
 	import { Input } from '$lib/components/ui/input'
+	import { viewMode } from '../../../../stores/viewMode'
 
 	export let token: IToken<'color'>
+
+	let viewModeValue: boolean;
+	viewMode.subscribe(value => {
+		viewModeValue = value;
+	});
 
 	$: isAlias = token.alias !== undefined
 
@@ -62,10 +68,10 @@
 			class="aspect-square h-7 rounded-sm border border-slate-300"
 			style={`background-color: ${hex}`}
 		/>
-		<Input
+		<Input disabled={viewModeValue}
 			value={hex}
 			name="color"
-			class="ml-1 h-7 w-20 border-none px-1 py-1 text-sm"
+			class="ml-1 h-7 w-20 border-none px-1 py-1 text-sm disabled:opacity-1"
 			type="text"
 			{...isAlias ? { disabled: true } : {}}
 			on:focusout={handleHexChange}
@@ -76,14 +82,14 @@
 		<div class="flex w-full max-w-[130px] flex-col gap-1">
 			<div class="flex flex-row items-center">
 				<span class="text-xs text-slate-500">Hue</span>
-				<input
+				<input disabled={viewModeValue}
 					type="number"
 					class="w-14 rounded-md bg-transparent px-1 text-xs"
 					{...isAlias ? { disabled: true } : {}}
 					bind:value={token.value[0]}
 				/>
 			</div>
-			<Range
+			<Range disabled={viewModeValue}
 				min={0}
 				max={360}
 				id={`${token.id}-hue-range`}
@@ -100,14 +106,14 @@
 		<div class="flex w-full max-w-[130px] flex-col gap-1">
 			<div class="flex flex-row items-center">
 				<span class="text-xs text-slate-500">Chroma</span>
-				<input
+				<input disabled={viewModeValue}
 					type="number"
 					class="w-14 rounded-md bg-transparent px-1 text-xs"
 					{...isAlias ? { disabled: true } : {}}
 					bind:value={token.value[1]}
 				/>
 			</div>
-			<Range
+			<Range disabled={viewModeValue}
 				min={0}
 				max={100}
 				id={`${token.id}-chroma-range`}
@@ -131,7 +137,7 @@
 					bind:value={token.value[2]}
 				/>
 			</div>
-			<Range
+			<Range disabled={viewModeValue}
 				min={0}
 				max={100}
 				id={`${token.id}-saturation-range`}

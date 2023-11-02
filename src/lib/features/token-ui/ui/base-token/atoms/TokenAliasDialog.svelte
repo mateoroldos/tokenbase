@@ -8,8 +8,14 @@
 	import transformToExportColorValue from '$lib/features/token-management/color/transformToExportColorValue'
 	import * as Accordion from '$lib/components/ui/accordion'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import { viewMode } from '../../../../stores/viewMode'
 
 	export let token: IToken
+
+	let viewModeValue: boolean;
+	viewMode.subscribe(value => {
+		viewModeValue = value;
+	});	
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -36,7 +42,7 @@
 	<Dialog.Trigger>
 		<Tooltip.Root>
 			<Tooltip.Trigger>
-				<button on:click={toggleTokenList}>
+				<button on:click={toggleTokenList} disabled={viewModeValue}>
 					<Link2 class="h-4 w-4" />
 				</button>
 			</Tooltip.Trigger>
