@@ -6,7 +6,10 @@
 		"dev": "vite dev",
 		"lint": "eslint --max-warnings 0 --fix . && svelte-check",
 		"preview": "vite preview",
-		"build": "vite build"
+		"build": "vite build",
+		"db:generate": "drizzle-kit generate:pg",
+		"db:push": "drizzle-kit push:pg",
+		"db:up": "drizzle-kit up:pg"
 	},
 	"devDependencies": {
 		"@iconify/svelte": "^3.1.3",
@@ -31,6 +34,7 @@
 		"clsx": "^1.2.1",
 		"color": "^4.2.3",
 		"devalue": "^4.2.3",
+		"drizzle-kit": "^0.19.13",
 		"eslint": "^8.33.0",
 		"eslint-config-prettier": "^8.6.0",
 		"eslint-plugin-svelte3": "^4.0.0",
@@ -41,6 +45,7 @@
 		"prettier": "^2.8.3",
 		"prettier-plugin-svelte": "^2.10.0",
 		"prettier-plugin-tailwindcss": "^0.2.8",
+		"prisma": "^5.5.2",
 		"radix-svelte": "^0.7.1",
 		"svelte": "^4.2.0",
 		"svelte-check": "^3.0.3",
@@ -60,6 +65,15 @@
 		"zod": "^3.20.2"
 	},
 	"dependencies": {
-		"sd-tailwindcss-transformer": "^1.4.0"
+		"@lucia-auth/adapter-mysql": "^2.1.0",
+		"@lucia-auth/adapter-prisma": "^3.0.2",
+		"@lucia-auth/sveltekit": "^0.6.11",
+		"@planetscale/database": "^1.11.0",
+		"@prisma/client": "^5.5.2",
+		"drizzle-orm": "^0.28.6",
+		"lucia": "^2.7.2",
+		"lucia-auth": "^1.8.0",
+		"sd-tailwindcss-transformer": "^1.4.0",
+		"sveltekit-superforms": "^1.9.0"
 	}
 }
