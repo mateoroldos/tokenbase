@@ -2,19 +2,20 @@
 	import { page } from '$app/stores'
 	import { getContext, onMount } from 'svelte'
 	import { goto } from '$app/navigation'
-	import type { TokenType } from '$lib/features/token-groups-store/types/token-interface'
 	import { Plus } from 'lucide-svelte'
 	import mockTemplate from '$lib/features/import-style-dictionary/templates/mockTemplate.json'
 	import importStyleDictionary from '$lib/features/import-style-dictionary/importStyleDictionary'
 	import { Button } from '$lib/components/ui/button'
-	import type { createDesignSystemsStore } from '$lib/features/token-groups-store/designSystemsIds'
 	import Header from '../../_components/Header.svelte'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import type { createDesignSystemsOverviewsStore } from '$lib/features/token-groups-store/designSystemsOverviewsStore'
+	import type { TokenType } from '$lib/features/token-groups-store/types/token.interface'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
-	const tokenBaseMainStore: ReturnType<typeof createDesignSystemsStore> =
-		getContext('tokenBaseMainStore')
+	const tokenBaseMainStore: ReturnType<
+		typeof createDesignSystemsOverviewsStore
+	> = getContext('tokenBaseMainStore')
 
 	$: activeDesignSystemIndex = $tokenBaseMainStore.findIndex(
 		(designSystem) => designSystem.id === $page.params.designSystemId

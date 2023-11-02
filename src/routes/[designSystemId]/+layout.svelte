@@ -1,12 +1,13 @@
 <script lang="ts">
 	import TokenGroupsExplorer from '$lib/features/token-groups-tree/ui/TokenGroupsExplorer.svelte'
-	import type { createDesignSystemsStore } from '$lib/features/token-groups-store/designSystemsIds'
 	import { getContext, onMount } from 'svelte'
 	import { page } from '$app/stores'
 	import { Button } from '$lib/components/ui/button'
+	import type { createDesignSystemsOverviewsStore } from '$lib/features/token-groups-store/designSystemsOverviewsStore'
 
-	const tokenBaseMainStore: ReturnType<typeof createDesignSystemsStore> =
-		getContext('tokenBaseMainStore')
+	const tokenBaseMainStore: ReturnType<
+		typeof createDesignSystemsOverviewsStore
+	> = getContext('tokenBaseMainStore')
 
 	let loading = true
 	let activeDesignSystemIndex: number

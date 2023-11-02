@@ -3,7 +3,7 @@ import type { CubicBezierTokenValue } from '$lib/features/token-management/cubic
 import type { FontFamilyTokenValue } from '$lib/features/token-management/font-family/internal-font-family-value.type'
 import type { FontWeightTokenValue } from '$lib/features/token-management/font-weight/internal-font-weight-value.type'
 import type { ExportNumberTokenValue } from '$lib/features/token-management/number/export-number-value.type'
-import type { IToken } from '../token-groups-store/types/token-interface'
+import type { IToken } from '../token-groups-store/types/token.interface'
 import transformToImportColorValue from '../token-management/color/transformToImportColorValue'
 import transformToImportDimensionValue from '../token-management/dimension/transformToImportDimensionValue'
 import type { StyleDictionaryToken } from './types/style-dictionary-token.interface'

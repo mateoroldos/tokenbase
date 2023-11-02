@@ -1,13 +1,8 @@
 import persistentWritable from '../../stores/custom/persistentWritable'
+import type { DesignSystemOverview } from './types/design-system-overview.interface'
 
-interface DesignSystemData {
-	id: string
-	name: string
-	themes: string[]
-}
-
-export const createDesignSystemsStore = () => {
-	const { subscribe, update, set } = persistentWritable<DesignSystemData[]>(
+export const createDesignSystemsOverviewsStore = () => {
+	const { subscribe, update, set } = persistentWritable<DesignSystemOverview[]>(
 		'tokenbase-design-systems',
 		[]
 	)
@@ -53,6 +48,6 @@ export const createDesignSystemsStore = () => {
 	}
 }
 
-const designSystemsStore = createDesignSystemsStore()
+const designSystemsOverviewsStore = createDesignSystemsOverviewsStore()
 
-export default designSystemsStore
+export default designSystemsOverviewsStore

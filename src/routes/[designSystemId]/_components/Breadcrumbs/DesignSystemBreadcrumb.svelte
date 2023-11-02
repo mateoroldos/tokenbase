@@ -2,7 +2,6 @@
 	import { goto } from '$app/navigation'
 	import { page } from '$app/stores'
 	import { getContext } from 'svelte'
-	import type { createDesignSystemsStore } from '$lib/features/token-groups-store/designSystemsIds'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 	import { Input } from '$lib/components/ui/input'
 	import { Search } from 'lucide-svelte'
@@ -10,11 +9,13 @@
 	import { Pencil, Trash } from 'lucide-svelte'
 	import DropDown from '$lib/components/DropDown.svelte'
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu'
+	import type { createDesignSystemsOverviewsStore } from '$lib/features/token-groups-store/designSystemsOverviewsStore'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
-	const tokenBaseMainStore: ReturnType<typeof createDesignSystemsStore> =
-		getContext('tokenBaseMainStore')
+	const tokenBaseMainStore: ReturnType<
+		typeof createDesignSystemsOverviewsStore
+	> = getContext('tokenBaseMainStore')
 
 	$: activeDesignSystemIndex = $tokenBaseMainStore.findIndex(
 		(designSystem) => designSystem.id === $page.params.designSystemId

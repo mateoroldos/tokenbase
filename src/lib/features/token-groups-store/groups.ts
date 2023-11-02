@@ -1,11 +1,11 @@
 import persistentWritable from '../../stores/custom/persistentWritable'
 import { v4 as uuidv4 } from 'uuid'
-import type { Group } from '$lib/features/token-groups-store/types/group-interface'
+import type { Group } from '$lib/features/token-groups-store/types/group.interface'
 import type {
 	IToken,
 	TokenType,
 	TokenValue
-} from '$lib/features/token-groups-store/types/token-interface'
+} from '$lib/features/token-groups-store/types/token.interface'
 import { getDefaultTokenValues } from './defaultTokenValues'
 
 export const createGroupsStore = () => {

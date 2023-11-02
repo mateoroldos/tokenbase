@@ -1,5 +1,5 @@
-import type { IToken } from '../token-groups-store/types/token-interface'
-import type { Group } from '../token-groups-store/types/group-interface'
+import type { IToken } from '../token-groups-store/types/token.interface'
+import type { Group } from '../token-groups-store/types/group.interface'
 import { v4 as uuidv4 } from 'uuid'
 import { get } from 'svelte/store'
 import designTokensGroupStore from '../token-groups-store/groups'

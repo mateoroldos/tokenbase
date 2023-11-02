@@ -1,4 +1,4 @@
-import type { TokenType } from '$lib/features/token-groups-store/types/token-interface'
+import type { TokenType } from '$lib/features/token-groups-store/types/token.interface'
 
 function formatTokenType(tokenType: TokenType) {
 	let formattedType = tokenType.replace(/([a-z])([A-Z])/g, '$1 $2')

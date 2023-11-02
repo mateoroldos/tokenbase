@@ -1,4 +1,4 @@
-import type { Group } from '../features/token-groups-store/types/group-interface'
+import type { Group } from '../features/token-groups-store/types/group.interface'
 
 const findGroupNameById = (
 	groupId: string,

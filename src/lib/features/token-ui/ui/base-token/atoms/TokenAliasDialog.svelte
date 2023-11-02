@@ -8,6 +8,7 @@
 	import transformToExportColorValue from '$lib/features/token-management/color/transformToExportColorValue'
 	import * as Accordion from '$lib/components/ui/accordion'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import { activeThemeIndex } from '$lib/features/themes/activeThemeIndexStore'
 
 	export let token: IToken
 
@@ -22,10 +23,10 @@
 
 	const createTokenAlias = (groupId: string, tokenId: string) => {
 		if (tokenId !== token.id) {
-			token.alias = {
-				groupId,
-				tokenId
-			}
+			token.value[$activeThemeIndex] = `{
+				${groupId}.
+				${tokenId}
+			}`
 		} else {
 			alert('Cannot select the same token as its own alias')
 		}
@@ -74,22 +75,22 @@
 																	<p class="text-black">{t.name}</p>
 																	<p>{t.type}</p>
 
-																	{#if t.type === 'color'}
+																	<!-- {#if t.type === 'color'}
 																		<div
 																			class="mr-4 h-6 min-w-[1.5rem] rounded border border-slate-400 text-black"
 																			style={`background-color: ${transformToExportColorValue(
-																				t.value
+																				t.value[$activeThemeIndex]
 																			)}`}
 																		/>
 																	{:else if t.type === 'dimension'}
 																		<p class="mr-4 text-slate-400">
-																			{t.value.value}
+																			{t.value[$activeThemeIndex].value}
 																		</p>
 																	{:else}
 																		<p class=" mr-4 text-slate-400">
-																			{t.value}
+																			{t[$activeThemeIndex].value}
 																		</p>
-																	{/if}
+																	{/if} -->
 																</button>
 															</div>
 														{/each}

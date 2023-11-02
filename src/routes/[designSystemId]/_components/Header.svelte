@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { activeThemeIndex } from './../../../lib/features/themes/activeThemeIndexStore.ts'
+	import { activeThemeIndex } from '$lib/features/themes/activeThemeIndexStore'
 	import { Button } from '$lib/components/ui/button'
 	import { page } from '$app/stores'
 	import DesignSystemBreadcrumb from './Breadcrumbs/DesignSystemBreadcrumb.svelte'
@@ -7,15 +7,16 @@
 	import { getContext } from 'svelte'
 	import { Plus } from 'lucide-svelte'
 	import Toolbar from '$lib/features/toolbar/ui/Toolbar.svelte'
-	import type { createDesignSystemsStore } from '$lib/features/token-groups-store/designSystemsIds'
-	import type { TokenType } from '$lib/features/token-groups-store/types/token-interface'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 	import Input from '$lib/components/ui/input/Input.svelte'
+	import type { createDesignSystemsOverviewsStore } from '$lib/features/token-groups-store/designSystemsOverviewsStore.js'
+	import type { TokenType } from '$lib/features/token-groups-store/types/token.interface.js'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
-	const tokenBaseMainStore: ReturnType<typeof createDesignSystemsStore> =
-		getContext('tokenBaseMainStore')
+	const tokenBaseMainStore: ReturnType<
+		typeof createDesignSystemsOverviewsStore
+	> = getContext('tokenBaseMainStore')
 
 	$: activeDesignSystemIndex = $tokenBaseMainStore.findIndex(
 		(designSystem) => designSystem.id === $page.params.designSystemId
