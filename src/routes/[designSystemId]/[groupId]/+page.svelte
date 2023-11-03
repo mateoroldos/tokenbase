@@ -70,11 +70,11 @@
 
 			for (let index = 0; index < colorTokensToChange.length; index++) {
 				;(colorTokensToChange[index] as IToken<'color'>).value[
-					e.detail.valueChanged
-				] =
+					$activeThemeStore.id
+				][e.detail.valueChanged] =
 					(colorTokensToChange[index] as IToken<'color'>).value[
-						e.detail.valueChanged
-					] + e.detail.value
+						$activeThemeStore.id
+					][e.detail.valueChanged] + e.detail.value
 			}
 		}
 	}

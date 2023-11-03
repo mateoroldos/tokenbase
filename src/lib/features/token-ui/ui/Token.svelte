@@ -35,7 +35,7 @@
 		: (activeTokenValue as TokenValueWithNoAlias<typeof token.value>)
 
 	const resolveAlias = () => {
-		const { value, type } = resolveAliasIdToAliasValueAndType(
+		const { value } = resolveAliasIdToAliasValueAndType(
 			(activeTokenValue as AliasValue).tokenId,
 			(activeTokenValue as AliasValue).groupId,
 			$designTokensGroupStore,
