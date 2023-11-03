@@ -4,7 +4,8 @@ import type { StyleDictionaryToken } from '$lib/features/import-style-dictionary
 import type {
 	AliasValue,
 	ITokenExpanded,
-	TokenValue
+	TokenValue,
+	TokenValueWithNoAlias
 } from '$lib/features/token-groups-store/types/token.interface'
 import { transformTokenValueToStyleDictionaryValue } from './transformTokenValueToStyleDictionaryValue'
 
@@ -21,7 +22,10 @@ export const transformTokenToStyleDictionaryToken = (
 					(value as AliasValue).groupId,
 					(value as AliasValue).tokenId
 			  )
-			: transformTokenValueToStyleDictionaryValue(value, type)
+			: transformTokenValueToStyleDictionaryValue(
+					value as TokenValueWithNoAlias,
+					type
+			  )
 
 		const dictionaryToken: StyleDictionaryToken = {
 			value: transformedValue as TokenValue,

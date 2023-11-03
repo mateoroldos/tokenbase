@@ -2,7 +2,7 @@ import { fs } from 'memfs'
 import { FILE_TYPE_CONFIGS, type ExportFileType } from './exportFileTypes'
 import { get } from 'svelte/store'
 import transformDesignSystemToStyleDictionaryJsons from './transforms'
-import designTokensGroupStore from '$lib/features/token-groups-store/groups'
+import designTokensGroupStore from '$lib/features/token-groups-store/groupsStore'
 import buildStyleDictionaryJson from './buildStyleDictionaryJson'
 import { downloadDirectory } from './utils/downloadDirectory'
 import type { DesignSystemOverview } from '../token-groups-store/types/design-system-overview.interface'
@@ -20,7 +20,7 @@ export const downloadDesignSystem = async (
 	const downloadPromises = []
 
 	for (const theme of designSystemOverview.themes) {
-		const DIRECTORY_PATH = `/${theme}`
+		const DIRECTORY_PATH = `/${theme.name}`
 
 		if (!fs.existsSync(DIRECTORY_PATH)) {
 			fs.mkdirSync(DIRECTORY_PATH)
@@ -28,7 +28,7 @@ export const downloadDesignSystem = async (
 
 		for (const exportType of exportTypes) {
 			const EXPORT_TYPE_CONFIG = FILE_TYPE_CONFIGS[exportType]
-			const styleDictionaryJson = styleDictionaryJsons[theme]
+			const styleDictionaryJson = styleDictionaryJsons[theme.name]
 
 			if (styleDictionaryJson) {
 				if (exportType !== 'json') {
@@ -55,7 +55,7 @@ export const downloadDesignSystem = async (
 
 	// Clean up: Delete all directories and their contents
 	for (const theme of designSystemOverview.themes) {
-		const DIRECTORY_PATH = `/${theme}`
+		const DIRECTORY_PATH = `/${theme.name}`
 		fs.rmdirSync(DIRECTORY_PATH, { recursive: true })
 	}
 }

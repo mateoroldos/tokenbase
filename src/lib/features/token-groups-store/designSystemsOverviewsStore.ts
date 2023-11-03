@@ -1,5 +1,6 @@
 import persistentWritable from '../../stores/custom/persistentWritable'
 import type { DesignSystemOverview } from './types/design-system-overview.interface'
+import { v4 as uuidv4 } from 'uuid'
 
 export const createDesignSystemsOverviewsStore = () => {
 	const { subscribe, update, set } = persistentWritable<DesignSystemOverview[]>(
@@ -12,7 +13,12 @@ export const createDesignSystemsOverviewsStore = () => {
 			designSystems.push({
 				id,
 				name,
-				themes: ['Default']
+				themes: [
+					{
+						id: uuidv4(),
+						name: 'Main'
+					}
+				]
 			})
 
 			return designSystems
@@ -27,12 +33,15 @@ export const createDesignSystemsOverviewsStore = () => {
 		})
 	}
 
-	const addTheme = (id: string, themeName: string): void => {
+	const addTheme = (id: string, themeName: string, themeId: string): void => {
 		update((designSystems) => {
 			const designSystem = designSystems.find((system) => system.id === id)
 
 			if (designSystem) {
-				designSystem.themes.push(themeName)
+				designSystem.themes.push({
+					id: themeId,
+					name: themeName
+				})
 			}
 
 			return designSystems

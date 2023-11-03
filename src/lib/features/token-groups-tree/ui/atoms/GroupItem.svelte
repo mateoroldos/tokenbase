@@ -4,7 +4,7 @@
 	import type { GroupsTree } from '../../types/groups-tree'
 	import { ChevronRight, Trash, Plus, MoreHorizontal } from 'lucide-svelte'
 	import { page } from '$app/stores'
-	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu'
 
 	export let node: GroupsTree

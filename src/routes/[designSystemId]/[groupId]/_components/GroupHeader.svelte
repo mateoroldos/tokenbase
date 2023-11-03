@@ -7,7 +7,7 @@
 	import importStyleDictionary from '$lib/features/import-style-dictionary/importStyleDictionary'
 	import { Button } from '$lib/components/ui/button'
 	import Header from '../../_components/Header.svelte'
-	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
 	import type { createDesignSystemsOverviewsStore } from '$lib/features/token-groups-store/designSystemsOverviewsStore'
 	import type { TokenType } from '$lib/features/token-groups-store/types/token.interface'
 

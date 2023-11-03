@@ -1,14 +1,12 @@
 <script lang="ts">
-	import { activeThemeIndex } from '$lib/features/themes/activeThemeIndexStore'
+	import { activeThemeIndex } from '$lib/features/themes/stores/activeThemeIndexStore'
 	import { Input } from '$lib/components/ui/input'
-	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
+	import type { IToken } from '$lib/features/token-groups-store/types/token.interface'
 	import numberSuite from '$lib/features/token-management/number/numberSuite'
+	import type { NumberTokenValue } from '$lib/features/token-management/number/internal-number-value.type'
 
-	export let token: IToken<'number'>
-
-	$: isAlias = token.alias !== undefined
-
-	$: activeThemeTokenValue = token.value[$activeThemeIndex]
+	export let tokenValue: NumberTokenValue
+	export let isAlias: boolean
 
 	const handleChange = (input: Event) => {
 		if (isAlias) return
@@ -28,7 +26,7 @@
 		type="number"
 		name="numberToken"
 		{...isAlias ? { disabled: true } : {}}
-		bind:value={activeThemeTokenValue}
+		bind:value={tokenValue}
 		on:input={handleChange}
 	/>
 </div>

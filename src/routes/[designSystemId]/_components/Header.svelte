@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { activeThemeIndex } from '$lib/features/themes/activeThemeIndexStore'
+	import ThemeSelector from './../../../lib/features/themes/components/ThemeSelector.svelte'
 	import { Button } from '$lib/components/ui/button'
 	import { page } from '$app/stores'
 	import DesignSystemBreadcrumb from './Breadcrumbs/DesignSystemBreadcrumb.svelte'
@@ -7,10 +7,10 @@
 	import { getContext } from 'svelte'
 	import { Plus } from 'lucide-svelte'
 	import Toolbar from '$lib/features/toolbar/ui/Toolbar.svelte'
-	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
-	import Input from '$lib/components/ui/input/Input.svelte'
+	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
 	import type { createDesignSystemsOverviewsStore } from '$lib/features/token-groups-store/designSystemsOverviewsStore.js'
 	import type { TokenType } from '$lib/features/token-groups-store/types/token.interface.js'
+	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -39,20 +39,11 @@
 				  ]!.type
 				: 'color'
 
-		designTokensGroupStore.addToken(groupId, tokenType)
-	}
-
-	let newThemeName: string = ''
-
-	const handleAddTheme = () => {
-		tokenBaseMainStore.addTheme(
-			$page.params.designSystemId as string,
-			newThemeName
+		designTokensGroupStore.addToken(
+			groupId,
+			tokenType,
+			$tokenBaseMainStore[activeDesignSystemIndex]?.themes as Theme[]
 		)
-
-		designTokensGroupStore.addTheme($page.params.designSystemId as string)
-
-		newThemeName = ''
 	}
 
 	$: activeGroupId = $page.params.groupId
@@ -76,27 +67,8 @@
 			</Button>
 		</div>
 	{/if}
-	<div class="flex flex-row gap-7">
-		<select
-			name="active-theme"
-			id="active-theme"
-			bind:value={$activeThemeIndex}
-		>
-			{#each $tokenBaseMainStore[activeDesignSystemIndex]?.themes as theme, i}
-				<option value={i}>
-					{theme}
-				</option>
-			{/each}
-			{activeThemeIndex}
-		</select>
-		<div class="flex flex-row gap-3">
-			<Input
-				bind:value={newThemeName}
-				type="text"
-				name="new-theme-name"
-				id="new-theme-name"
-			/>
-			<Button on:click={handleAddTheme}>Add Theme</Button>
-		</div>
-	</div>
+	<ThemeSelector
+		themes={$tokenBaseMainStore[activeDesignSystemIndex].themes}
+		designSystemId={$page.params.designSystemId}
+	/>
 </div>

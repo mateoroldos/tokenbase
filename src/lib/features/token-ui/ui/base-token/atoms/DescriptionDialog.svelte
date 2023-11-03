@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
+	import type { IToken } from '$lib/features/token-groups-store/types/token.interface'
 	import { Text } from 'lucide-svelte'
 	import { getContext } from 'svelte'
 	import * as Dialog from '$lib/components/ui/dialog'
 	import * as Tooltip from '$lib/components/ui/tooltip'
-	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
 	import { Textarea } from '$lib/components/ui/textarea'
 
 	export let token: IToken

@@ -2,7 +2,7 @@
 	import { page } from '$app/stores'
 	import { getContext } from 'svelte'
 	import { Input } from '$lib/components/ui/input'
-	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')

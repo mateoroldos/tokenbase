@@ -1,6 +1,6 @@
 import type {
 	TokenType,
-	TokenValue
+	TokenValueWithNoAlias
 } from '$lib/features/token-groups-store/types/token.interface'
 import type { ColorTokenValue } from '$lib/features/token-management/color/internal-color-value.type'
 import transformToExportColorValue from '$lib/features/token-management/color/transformToExportColorValue'
@@ -10,7 +10,7 @@ import type { DurationTokenValue } from '$lib/features/token-management/duration
 import transformToExportDurationValue from '$lib/features/token-management/duration/transformToExportDurationValue'
 
 export const transformTokenValueToStyleDictionaryValue = <T extends TokenType>(
-	value: TokenValue<T>,
+	value: TokenValueWithNoAlias<T>,
 	type: T
 ) => {
 	switch (type) {

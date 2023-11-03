@@ -1,16 +1,19 @@
 <script lang="ts">
-	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
+	import type {
+		AliasValue,
+		IToken
+	} from '$lib/features/token-groups-store/types/token.interface'
 	import { Link2 } from 'lucide-svelte'
 	import { getContext } from 'svelte'
 	import { page } from '$app/stores'
 	import * as Dialog from '$lib/components/ui/dialog'
 	import * as Tooltip from '$lib/components/ui/tooltip'
-	import transformToExportColorValue from '$lib/features/token-management/color/transformToExportColorValue'
 	import * as Accordion from '$lib/components/ui/accordion'
-	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
-	import { activeThemeIndex } from '$lib/features/themes/activeThemeIndexStore'
+	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
+	import { resolveAliasIdToAliasType } from '../utils/resolveAliasIdToAliasType'
 
 	export let token: IToken
+	export let activeThemeId: string
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -23,10 +26,15 @@
 
 	const createTokenAlias = (groupId: string, tokenId: string) => {
 		if (tokenId !== token.id) {
-			token.value[$activeThemeIndex] = `{
-				${groupId}.
-				${tokenId}
-			}`
+			token.value[activeThemeId] = {
+				groupId: groupId,
+				tokenId: tokenId
+			} as AliasValue
+			token.type = resolveAliasIdToAliasType(
+				tokenId,
+				groupId,
+				$designTokensGroupStore
+			)
 		} else {
 			alert('Cannot select the same token as its own alias')
 		}

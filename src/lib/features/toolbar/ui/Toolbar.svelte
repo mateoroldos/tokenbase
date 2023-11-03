@@ -3,7 +3,7 @@
 	import DeleteTokensButton from '../tools/delete-tokens/DeleteTokensButton.svelte'
 </script>
 
-<div class="flex flex-row gap-6 items-center">
+<div class="flex flex-row items-center gap-6">
 	<GenerateShadesButton />
 	<DeleteTokensButton />
 </div>

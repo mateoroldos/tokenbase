@@ -6,7 +6,7 @@
 	import { page } from '$app/stores'
 	import ExportSheet from '$lib/components/ExportSheet.svelte'
 	import { Plus } from 'lucide-svelte'
-	import groupsStore from '$lib/features/token-groups-store/groups'
+	import groupsStore from '$lib/features/token-groups-store/groupsStore'
 	import { v4 as uuidv4 } from 'uuid'
 	import { Separator } from '$lib/components/ui/separator'
 

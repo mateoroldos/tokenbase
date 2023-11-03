@@ -1,5 +1,5 @@
 import { get } from 'svelte/store'
-import designTokensGroupStore from '../token-groups-store/groups'
+import designTokensGroupStore from '../token-groups-store/groupsStore'
 import styleDictionaryToGroups from './buildGroupsFromJson'
 
 const importStyleDictionary = (template: string, parentId: string) => {

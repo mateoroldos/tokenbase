@@ -2,12 +2,12 @@
 	import {
 		moveToken,
 		type createGroupsStore
-	} from '$lib/features/token-groups-store/groups'
+	} from '$lib/features/token-groups-store/groupsStore'
 	import { navigating, page } from '$app/stores'
 	import { getContext, setContext } from 'svelte'
 	import Token from '$lib/features/token-ui/ui/Token.svelte'
 	import { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
-	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
+	import type { IToken } from '$lib/features/token-groups-store/types/token.interface'
 	import GroupHeader from './_components/GroupHeader.svelte'
 	import * as Table from '$lib/components/ui/table'
 	import StartFromTemplateModal from '$lib/features/templates/StartFromTemplateModal.svelte'
@@ -15,9 +15,13 @@
 	import StartFromTemplateCard from '$lib/features/templates/atoms/StartFromTemplateCard.svelte'
 	import * as EmptyStatePage from '.././_components/EmptyStatePage'
 	import StartFromJsonCard from '../_components/StartFromJsonCard/StartFromJsonCard.svelte'
+	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
+	import type { Readable } from 'svelte/store'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
+
+	const activeThemeStore: Readable<Theme> = getContext('activeThemeStore')
 
 	let selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
 		createSelectedTokensStore()
@@ -128,6 +132,7 @@
 				<Table.Body class="overflow-y-auto border-b border-b-slate-100">
 					{#each $designTokensGroupStore[groupIndex].tokens as token, i (token.id)}
 						<Token
+							activeThemeId={$activeThemeStore.id}
 							bind:token
 							bind:draggedTokenId
 							on:dragstart={() => handleDragStart(token.id)}

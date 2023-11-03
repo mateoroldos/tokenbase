@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation'
 	import { page } from '$app/stores'
 	import { getContext } from 'svelte'
-	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
 	import { Input } from '$lib/components/ui/input'
 	import { Search } from 'lucide-svelte'
 	import { Check } from 'lucide-svelte'

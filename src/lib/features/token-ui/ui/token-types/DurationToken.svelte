@@ -1,14 +1,11 @@
 <script lang="ts">
-	import { activeThemeIndex } from '$lib/features/themes/activeThemeIndexStore'
+	import { activeThemeIndex } from '$lib/features/themes/stores/activeThemeIndexStore'
 	import { Input } from '$lib/components/ui/input'
-	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import durationSuite from '$lib/features/token-management/duration/durationSuite'
+	import type { DurationTokenValue } from '$lib/features/token-management/duration/internal-duration.value.type'
 
-	export let token: IToken<'duration'>
-
-	$: isAlias = token.alias !== undefined
-
-	$: activeThemeTokenValue = token.value[$activeThemeIndex]
+	export let tokenValue: DurationTokenValue
+	export let isAlias: boolean
 
 	const handleChange = (input: Event) => {
 		if (isAlias) return
@@ -29,7 +26,7 @@
 			type="number"
 			{...isAlias ? { disabled: true } : {}}
 			on:input={handleChange}
-			bind:value={activeThemeTokenValue}
+			bind:value={tokenValue}
 		/>
 		<span
 			class=" flex items-center

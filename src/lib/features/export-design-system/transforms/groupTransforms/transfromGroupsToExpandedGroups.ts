@@ -1,3 +1,4 @@
+import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 import type {
 	GroupExpanded,
 	Group
@@ -6,24 +7,24 @@ import type { TokenValue } from '$lib/features/token-groups-store/types/token.in
 
 export const transformGroupsToExpandedGroups = (
 	groups: Group[],
-	themes: string[]
+	themes: Theme[]
 ): {
-	[key: (typeof themes)[number]]: GroupExpanded[]
+	[key: string]: GroupExpanded[]
 } => {
 	const expandedGroups = themes.reduce((acc, theme) => {
-		acc[theme] = groups.map((group) => {
+		acc[theme.name] = groups.map((group) => {
 			return {
 				...group,
 				tokens: group.tokens.map((token) => {
 					return {
 						...token,
-						value: token.value[themes.indexOf(theme)] as TokenValue
+						value: token.value[theme.id] as TokenValue
 					}
 				})
 			}
 		})
 		return acc
-	}, {} as { [key: (typeof themes)[number]]: GroupExpanded[] })
+	}, {} as { [key: string]: GroupExpanded[] })
 
 	return expandedGroups
 }

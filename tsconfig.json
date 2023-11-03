@@ -11,6 +11,6 @@
 		"strict": true,
 		"alwaysStrict": true,
 		"allowSyntheticDefaultImports": true,
-		"noUncheckedIndexedAccess": true,
+		"noUncheckedIndexedAccess": true
 	}
 }

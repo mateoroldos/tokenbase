@@ -1,14 +1,10 @@
 <script lang="ts">
-	import { activeThemeIndex } from '$lib/features/themes/activeThemeIndexStore'
 	import { Input } from '$lib/components/ui/input'
-	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import cubicBezierSuite from '$lib/features/token-management/cubic-bezier/cubicBezierSuite'
+	import type { CubicBezierTokenValue } from '$lib/features/token-management/cubic-bezier/internal-cubic-bezier-value.type'
 
-	export let token: IToken<'cubicBezier'>
-
-	$: isAlias = token.alias !== undefined
-
-	$: activeThemeTokenValue = token.value[$activeThemeIndex]
+	export let tokenValue: CubicBezierTokenValue
+	export let isAlias: boolean
 
 	const handleChange = (input: Event) => {
 		const target = input.target as HTMLInputElement
@@ -27,7 +23,7 @@
 			class="h-8 w-[60px] "
 			type="number"
 			{...isAlias ? { disabled: true } : {}}
-			bind:value={activeThemeTokenValue[0]}
+			bind:value={tokenValue[0]}
 			on:input={handleChange}
 			min="0"
 			max="1"
@@ -46,7 +42,7 @@
 			size={1}
 			{...isAlias ? { disabled: true } : {}}
 			on:input={handleChange}
-			bind:value={activeThemeTokenValue[1]}
+			bind:value={tokenValue[1]}
 		/><span
 			class=" flex items-center
 		text-sm">p1y</span
@@ -60,7 +56,7 @@
 			type="number"
 			{...isAlias ? { disabled: true } : {}}
 			on:input={handleChange}
-			bind:value={activeThemeTokenValue[2]}
+			bind:value={tokenValue[2]}
 		/><span
 			class=" flex items-center
 		text-sm">p2x</span
@@ -74,7 +70,7 @@
 			type="number"
 			{...isAlias ? { disabled: true } : {}}
 			on:input={handleChange}
-			bind:value={activeThemeTokenValue[3]}
+			bind:value={tokenValue[3]}
 			min="0"
 			max="1"
 		/><span

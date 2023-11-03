@@ -1,3 +1,4 @@
+import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 import type {
 	Group,
 	GroupExpanded
@@ -8,30 +9,25 @@ import { transformGroupsToStyleDictionaryJson } from './groupTransforms/transfro
 
 const transformDesignSystemToStyleDictionaryJsons = (
 	groups: Group[],
-	themes: string[],
+	themes: Theme[],
 	designSystemId: string
 ): {
-	[key: (typeof themes)[number]]: StyleDictionaryJson
+	[key: string]: StyleDictionaryJson
 } => {
 	const expandedDesignSystem = transformGroupsToExpandedGroups(groups, themes)
-
-	console.log('Expanded groups', groups)
-	console.log(themes)
 
 	// Transform each GroupExtended[] to StyleDictionaryJsons
 	const styleDictionaryJsons = themes.reduce((acc, theme) => {
 		const styleDictionaryJson = transformGroupsToStyleDictionaryJson(
-			expandedDesignSystem[theme] as GroupExpanded[],
+			expandedDesignSystem[theme.name] as GroupExpanded[],
 			designSystemId
 		)
 
 		return {
 			...acc,
-			[theme]: styleDictionaryJson
+			[theme.name]: styleDictionaryJson
 		}
 	}, {})
-
-	console.log(styleDictionaryJsons)
 
 	return styleDictionaryJsons
 }

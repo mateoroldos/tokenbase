@@ -16,7 +16,9 @@ interface BaseToken<T = TokenType> {
 // In the internal use of the application, the token is an array of values,
 // Each value corresponds to a theme of the design system
 export interface IToken<T = TokenType> extends BaseToken {
-	value: TokenValue<T>[]
+	value: {
+		[key in string]: TokenValue<T>
+	}
 }
 
 // Some times we need to expand the token to a single value
@@ -57,4 +59,20 @@ export type TokenValue<T = TokenType> = T extends 'color'
 	? CubicBezierTokenValue | AliasValue
 	: T extends 'number'
 	? NumberTokenValue | AliasValue
+	: never
+
+export type TokenValueWithNoAlias<T = TokenType> = T extends 'color'
+	? ColorTokenValue
+	: T extends 'dimension'
+	? DimensionTokenValue
+	: T extends 'fontFamily'
+	? FontFamilyTokenValue
+	: T extends 'fontWeight'
+	? FontWeightTokenValue
+	: T extends 'duration'
+	? DurationTokenValue
+	: T extends 'cubicBezier'
+	? CubicBezierTokenValue
+	: T extends 'number'
+	? NumberTokenValue
 	: never

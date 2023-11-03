@@ -7,6 +7,7 @@ import type {
 	TokenValue
 } from '$lib/features/token-groups-store/types/token.interface'
 import { getDefaultTokenValues } from './defaultTokenValues'
+import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 
 export const createGroupsStore = () => {
 	const { subscribe, update, set } = persistentWritable<Group[]>(
@@ -46,6 +47,7 @@ export const createGroupsStore = () => {
 	const addToken = <T extends TokenType>(
 		groupId: string,
 		type: T,
+		themes: Theme[],
 		value?: TokenValue<T>,
 		name?: string
 	): void => {
@@ -58,11 +60,22 @@ export const createGroupsStore = () => {
 				return designTokens
 			}
 
+			const resolvedValue =
+				value ?? (getDefaultTokenValues(type) as TokenValue<T>)
+
+			const tokenValues: {
+				[themeId: string]: TokenValue<T>
+			} = {}
+
+			themes.forEach((theme) => {
+				tokenValues[theme.id] = resolvedValue
+			})
+
 			// Add the new token to the group's tokens array
 			group.tokens.push({
 				id: uuidv4(),
 				type,
-				value: value ? [value] : [getDefaultTokenValues(type)],
+				value: tokenValues,
 				name: name ?? undefined
 			})
 
@@ -72,6 +85,7 @@ export const createGroupsStore = () => {
 
 	const bulkAddTokens = <T extends TokenType>(
 		groupId: string,
+		themes: Theme[],
 		tokens: {
 			type: T
 			value: TokenValue<T>
@@ -93,11 +107,19 @@ export const createGroupsStore = () => {
 
 			// Add the new token to the group's tokens array
 			tokens.forEach((token) => {
+				const tokenValues: {
+					[themeId: string]: TokenValue<T>
+				} = {}
+
+				themes.forEach((theme) => {
+					tokenValues[theme.id] = token.value
+				})
+
 				group.tokens.splice(i, 0, {
 					id: uuidv4(),
 					name: token.name || '',
 					description: token.description || '',
-					value: [token.value],
+					value: tokenValues,
 					type: token.type
 				})
 			})
@@ -125,9 +147,9 @@ export const createGroupsStore = () => {
 		})
 	}
 
-	const addTheme = (groupId: string) => {
+	const addTheme = (groupId: string, themeId: string) => {
 		update((groups) => {
-			deepAddTheme(groupId, groups)
+			deepAddTheme(groupId, groups, themeId)
 
 			return groups
 		})
@@ -167,20 +189,19 @@ const deleteTokenById = (id: string, tokens: IToken[]): void => {
 	}
 }
 
-const addTheme = (id: string, tokens: IToken[]) => {
+const addTheme = (themeId: string, tokens: IToken[]) => {
 	tokens.forEach((token) => {
-		// let defaultValue = getDefaultTokenValues(token.type)getDefaultTokenValues(token.type)
-		token.value.push(getDefaultTokenValues(token.type))
+		token.value[themeId] = getDefaultTokenValues(token.type)
 	})
 }
 
-const deepAddTheme = (parentId: string, groups: Group[]) => {
+const deepAddTheme = (parentId: string, groups: Group[], themeId: string) => {
 	// Add values to current group
 	if (groups.find((group) => group.parentGroup === parentId) !== undefined) {
 		const childGroups = groups.filter((group) => group.parentGroup === parentId)
 
 		childGroups.forEach((group) => {
-			addTheme(group.id, group.tokens)
+			addTheme(themeId, group.tokens)
 		})
 	}
 
@@ -189,7 +210,7 @@ const deepAddTheme = (parentId: string, groups: Group[]) => {
 	)
 
 	childrenGroups.forEach((group) => {
-		deepAddTheme(group.id, groups)
+		deepAddTheme(group.id, groups, themeId)
 	})
 }
 
