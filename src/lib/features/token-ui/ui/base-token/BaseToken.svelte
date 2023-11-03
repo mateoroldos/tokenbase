@@ -19,6 +19,7 @@
 	import type { Readable } from 'svelte/store'
 	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 	import { resolveAliasIdToAliasType } from '$lib/features/aliases/utils/resolveAliasIdToAliasType'
+	import { deleteTokenAlias } from '$lib/features/aliases/functions/deleteTokenAlias'
 
 	export let token: IToken
 	export let isAlias: boolean
@@ -64,10 +65,7 @@
 	}
 
 	const removeAlias = () => {
-		// token = JSON.parse(JSON.stringify(token))
-		// isAlias = undefined
-
-		alert('remove alias')
+		deleteTokenAlias(token, $activeThemeStore.id)
 	}
 
 	const handleUnselectNameInput = () => {

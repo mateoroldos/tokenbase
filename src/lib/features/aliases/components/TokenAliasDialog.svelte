@@ -1,8 +1,5 @@
 <script lang="ts">
-	import type {
-		AliasValue,
-		IToken
-	} from '$lib/features/token-groups-store/types/token.interface'
+	import type { IToken } from '$lib/features/token-groups-store/types/token.interface'
 	import { Link2 } from 'lucide-svelte'
 	import { getContext } from 'svelte'
 	import { page } from '$app/stores'
@@ -10,7 +7,7 @@
 	import * as Tooltip from '$lib/components/ui/tooltip'
 	import * as Accordion from '$lib/components/ui/accordion'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
-	import { resolveAliasIdToAliasType } from '../utils/resolveAliasIdToAliasType'
+	import { createTokenAlias } from '../functions/createTokenAlias'
 
 	export let token: IToken
 	export let activeThemeId: string
@@ -24,20 +21,19 @@
 		showTokenList = !showTokenList
 	}
 
-	const createTokenAlias = (groupId: string, tokenId: string) => {
-		if (tokenId !== token.id) {
-			token.value[activeThemeId] = {
-				groupId: groupId,
-				tokenId: tokenId
-			} as AliasValue
-			token.type = resolveAliasIdToAliasType(
-				tokenId,
-				groupId,
-				$designTokensGroupStore
-			)
-		} else {
-			alert('Cannot select the same token as its own alias')
-		}
+	const handleCreateTokenAlias = (
+		aliasGroupId: string,
+		aliasTokenId: string
+	) => {
+		createTokenAlias(
+			token,
+			activeThemeId,
+			aliasGroupId,
+			aliasTokenId,
+			$designTokensGroupStore
+		)
+
+		token.value = token.value
 	}
 </script>
 
@@ -78,7 +74,7 @@
 																<button
 																	class="flex flex-row gap-2"
 																	on:click={() =>
-																		createTokenAlias(group.id, t.id)}
+																		handleCreateTokenAlias(group.id, t.id)}
 																>
 																	<p class="text-black">{t.name}</p>
 																	<p>{t.type}</p>
