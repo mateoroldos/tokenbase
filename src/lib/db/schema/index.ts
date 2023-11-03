@@ -1,9 +1,10 @@
-import { pgTable, varchar } from 'drizzle-orm/pg-core'
+import { mysqlTable, bigint, varchar } from 'drizzle-orm/mysql-core'
 
-export const user = pgTable('auth_user', {
+export const user = mysqlTable('auth_user', {
 	id: varchar('id', {
-		length: 15
+		length: 15 // change this when using custom user ids
 	}).primaryKey(),
+	// other user attributes
 	username: varchar('username', {
 		length: 55
 	}),
@@ -15,22 +16,29 @@ export const user = pgTable('auth_user', {
 	})
 })
 
-export const session = pgTable('user_session', {
+export const session = mysqlTable('user_session', {
 	id: varchar('id', {
 		length: 128
 	}).primaryKey(),
 	userId: varchar('user_id', {
 		length: 15
+	}).notNull(),
+	activeExpires: bigint('active_expires', {
+		mode: 'number'
+	}).notNull(),
+	idleExpires: bigint('idle_expires', {
+		mode: 'number'
 	}).notNull()
 })
 
-export const key = pgTable('user_key', {
+export const key = mysqlTable('user_key', {
 	id: varchar('id', {
 		length: 255
 	}).primaryKey(),
 	userId: varchar('user_id', {
 		length: 15
 	}).notNull(),
+	// .references(() => user.id),
 	hashedPassword: varchar('hashed_password', {
 		length: 255
 	})

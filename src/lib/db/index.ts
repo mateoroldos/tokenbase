@@ -4,7 +4,7 @@ import { drizzle } from 'drizzle-orm/planetscale-serverless'
 import * as schema from '$lib/db/schema'
 
 export const connection = connect({
-	url: 'postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public'
+	url: SECRET_DATABASE_URL
 })
 
 export const db = drizzle(connection, { schema })

@@ -7,9 +7,9 @@
 		"lint": "eslint --max-warnings 0 --fix . && svelte-check",
 		"preview": "vite preview",
 		"build": "vite build",
-		"db:generate": "drizzle-kit generate:pg",
-		"db:push": "drizzle-kit push:pg",
-		"db:up": "drizzle-kit up:pg"
+		"db:generate": "drizzle-kit generate:mysql",
+		"db:push": "drizzle-kit push:mysql",
+		"db:up": "drizzle-kit up:mysql"
 	},
 	"devDependencies": {
 		"@iconify/svelte": "^3.1.3",

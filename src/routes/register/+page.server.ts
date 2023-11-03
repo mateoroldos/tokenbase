@@ -25,26 +25,20 @@ export const actions = {
 	register: async ({ request }) => {
 		const form = await superValidate(request, signupSchema)
 
-		console.log(form, 'formdata')
-
 		if (!form.valid) {
-			console.log(form)
 			return fail(400, {
 				form
 			})
 		}
+
 		try {
-			console.log('form valid')
+			console.log(form, 'formdata')
+
 			// this does two things:
 			// 1. create a user in the database
 			// 2. create a key in the database
 			const user = await auth.createUser({
-				key: {
-					providerId: 'username',
-					providerUserId: form.data.username,
-					// lucia gonna hash the password automatically for you and saved it in the collection of keys in the database
-					password: form.data.password
-				},
+				key: null,
 				// this is the user attributes we put into model of user, this data gonna be saved in the collection of users in the database
 				attributes: {
 					username: form.data.username,
@@ -56,10 +50,10 @@ export const actions = {
 			})
 			console.log('user creted', { user })
 		} catch (error) {
-			console.error('error2')
+			console.error(error)
 			return fail(400)
 		}
-		console.log('error3')
-		throw redirect(303, '/login')
+		console.log('Salió!!')
+		throw redirect(303, '/')
 	}
 } satisfies Actions
