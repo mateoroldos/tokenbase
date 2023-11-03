@@ -10,6 +10,7 @@
 	import { SquareEqual } from 'lucide-svelte'
 	import { Separator } from '$lib/components/ui/separator'
 	import Logo from '$lib/components/Logo.svelte'
+	import { enhance } from '$app/forms'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -63,6 +64,9 @@
 					href="https://token-base.com/"
 					class="text-slate-400 transition-colors hover:text-slate-900">Blog</a
 				>
+				<form action="?/logout" method="post" use:enhance>
+					<button class="btn btn-error" type="submit">Logout</button>
+				</form>
 			</li>
 		</ul>
 	</nav>

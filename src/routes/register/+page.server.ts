@@ -38,7 +38,12 @@ export const actions = {
 			// 1. create a user in the database
 			// 2. create a key in the database
 			const user = await auth.createUser({
-				key: null,
+				key: {
+					providerId: 'username',
+					providerUserId: form.data.username,
+					// lucia gonna hash the password automatically for you and saved it in the collection of keys in the database
+					password: form.data.password
+				},
 				// this is the user attributes we put into model of user, this data gonna be saved in the collection of users in the database
 				attributes: {
 					username: form.data.username,
