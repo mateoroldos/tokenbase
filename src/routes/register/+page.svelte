@@ -1,5 +1,8 @@
 <script lang="ts">
 	import { enhance } from '$app/forms'
+	import { AlertCircle } from 'lucide-svelte'
+
+	export let form
 </script>
 
 <form
@@ -13,6 +16,7 @@
 		<label class="label">
 			<span class="label-text">Nombres</span>
 		</label>
+
 		<input
 			type="text"
 			autocomplete="off"
@@ -21,7 +25,14 @@
 			name="names"
 			required
 		/>
-
+		{#if form?.incorrect && form?.errors.nameError !== null}
+			<div class="flex flex-row items-center text-red-600 bg-blend-color-burn">
+				<AlertCircle class="mr-2 h-4 w-4" />
+				<p class=" text-red-600">
+					{form?.errors.nameError[0]}
+				</p>
+			</div>
+		{/if}
 		<!-- svelte-ignore a11y-label-has-associated-control -->
 		<label class="label">
 			<span class="label-text">Last Names</span>
@@ -34,6 +45,14 @@
 			name="last_names"
 			required
 		/>
+		{#if form?.incorrect && form?.errors.lastNameError !== null}
+			<div class="flex flex-row items-center text-red-600 bg-blend-color-burn">
+				<AlertCircle class="mr-2 h-4 w-4" />
+				<p class=" text-red-600">
+					{form?.errors.lastNameError[0]}
+				</p>
+			</div>
+		{/if}
 	</div>
 	<div class="form-control w-full max-w-xs">
 		<!-- svelte-ignore a11y-label-has-associated-control -->
@@ -48,6 +67,20 @@
 			name="username"
 			required
 		/>
+		{#if form?.incorrect && form?.errors.usernameError !== null}
+			<div class="flex flex-row items-center text-red-600 bg-blend-color-burn">
+				<AlertCircle class="mr-2 h-4 w-4" />
+				<p class=" text-red-600">
+					{form?.errors.usernameError[0]}
+				</p>
+			</div>
+		{/if}
+		{#if form?.duplicated}
+			<div class="flex flex-row items-center text-red-600 bg-blend-color-burn">
+				<AlertCircle class="mr-2 h-4 w-4" />
+				<p class=" text-red-600">Username already exists</p>
+			</div>
+		{/if}
 	</div>
 
 	<div class="form-control w-full max-w-xs">
@@ -63,6 +96,14 @@
 			name="password"
 			required
 		/>
+		{#if form?.incorrect && form?.errors.passwordError !== null}
+			<div class="flex flex-row items-center text-red-600 bg-blend-color-burn">
+				<AlertCircle class="mr-2 h-4 w-4" />
+				<p class="text-red-600">
+					{form?.errors.passwordError[0]}
+				</p>
+			</div>
+		{/if}
 	</div>
 
 	<button class="btn btn-primary mt-4 max-w-xs" type="submit"
