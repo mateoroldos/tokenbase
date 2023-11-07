@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ThemeSelector from './../../../lib/features/themes/components/ThemeSelector.svelte'
+	import ThemeSelector from '$lib/features/themes/components/ThemeSelector.svelte'
 	import { Button } from '$lib/components/ui/button'
 	import { page } from '$app/stores'
 	import DesignSystemBreadcrumb from './Breadcrumbs/DesignSystemBreadcrumb.svelte'
@@ -26,6 +26,8 @@
 	$: groupIndex = $designTokensGroupStore.findIndex(
 		(group) => group.id === groupId
 	)
+
+	$: themes = $tokenBaseMainStore[activeDesignSystemIndex]?.themes as Theme[]
 
 	const handleAddToken = () => {
 		const tokenType: TokenType =
@@ -60,6 +62,9 @@
 	</div>
 	{#if activeGroupId}
 		<div class="flex flex-row items-center gap-7">
+			{#if $page.params.designSystemId}
+				<ThemeSelector {themes} designSystemId={$page.params.designSystemId} />
+			{/if}
 			<Toolbar />
 			<Button on:click={handleAddToken} class="h-fit px-2 py-1 text-xs">
 				<Plus class="mr-2 h-4 w-4" />
@@ -67,8 +72,4 @@
 			</Button>
 		</div>
 	{/if}
-	<ThemeSelector
-		themes={$tokenBaseMainStore[activeDesignSystemIndex].themes}
-		designSystemId={$page.params.designSystemId}
-	/>
 </div>

@@ -49,5 +49,6 @@
 	on:focusout
 	on:paste
 	on:input
+	autocomplete="false"
 	{...$$restProps}
 />

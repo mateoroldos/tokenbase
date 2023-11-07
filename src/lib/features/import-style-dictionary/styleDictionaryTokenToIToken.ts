@@ -3,25 +3,40 @@ import type { CubicBezierTokenValue } from '$lib/features/token-management/cubic
 import type { FontFamilyTokenValue } from '$lib/features/token-management/font-family/internal-font-family-value.type'
 import type { FontWeightTokenValue } from '$lib/features/token-management/font-weight/internal-font-weight-value.type'
 import type { ExportNumberTokenValue } from '$lib/features/token-management/number/export-number-value.type'
-import type { IToken } from '../token-groups-store/types/token.interface'
+import type {
+	IToken,
+	TokenValue
+} from '../token-groups-store/types/token.interface'
 import transformToImportColorValue from '../token-management/color/transformToImportColorValue'
 import transformToImportDimensionValue from '../token-management/dimension/transformToImportDimensionValue'
 import type { StyleDictionaryToken } from './types/style-dictionary-token.interface'
 import { v4 as uuidv4 } from 'uuid'
+import type { Theme } from '../token-groups-store/types/design-system-overview.interface'
 
 const styleDictionaryTokenToIToken = (
 	styleDictionaryToken: StyleDictionaryToken,
-	name: string
+	name: string,
+	themes: Theme[]
 ): IToken => {
 	const { type, value, comment } = styleDictionaryToken
 
 	const isAlias =
 		value.toString().startsWith('{') && value.toString().endsWith('}')
 
+	const resolvedValues: {
+		[key in string]: TokenValue
+	} = {}
+
+	themes.map((theme) => {
+		resolvedValues[theme.id] = isAlias
+			? value
+			: transformTokenValue(value, type)
+	})
+
 	const token: IToken = {
 		id: uuidv4(),
 		name,
-		value: isAlias ? value : transformTokenValue(value, type),
+		value: resolvedValues,
 		description: comment,
 		type
 	}

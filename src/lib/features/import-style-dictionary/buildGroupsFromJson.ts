@@ -1,4 +1,7 @@
-import type { IToken } from '../token-groups-store/types/token.interface'
+import type {
+	AliasValue,
+	IToken
+} from '../token-groups-store/types/token.interface'
 import type { Group } from '../token-groups-store/types/group.interface'
 import { v4 as uuidv4 } from 'uuid'
 import { get } from 'svelte/store'
@@ -6,11 +9,15 @@ import designTokensGroupStore from '../token-groups-store/groupsStore'
 import type { StyleDictionaryGroup } from './types/style-dictionary-group.interface'
 import styleDictionaryTokenToIToken from './styleDictionaryTokenToIToken'
 import type { StyleDictionaryToken } from './types/style-dictionary-token.interface'
+import type { Theme } from '../token-groups-store/types/design-system-overview.interface'
+import { resolveAliasRouteToIds } from '../aliases/utils/resolveAliasRouteToIds'
 
 const buildStyleDictionaryNode = (
 	styleDictionaryGroup: StyleDictionaryGroup,
 	parentId: string,
 	isRoot: boolean,
+	themes: Theme[],
+	designSystemId: string,
 	name?: string
 ): Group[] => {
 	// Esta funcion recorre cada uno de los grupos y tokens de un objeto de Style Dictionary (StyleDictionaryGroup)
@@ -36,7 +43,7 @@ const buildStyleDictionaryNode = (
 		if (data.value) {
 			const token: StyleDictionaryToken = data as StyleDictionaryToken
 
-			tokens.push(styleDictionaryTokenToIToken(token, key))
+			tokens.push(styleDictionaryTokenToIToken(token, key, themes))
 			// Caso 2. Es un grupo
 		} else {
 			// Build all child groups
@@ -44,6 +51,8 @@ const buildStyleDictionaryNode = (
 				data as StyleDictionaryGroup,
 				isRoot ? parentId : groupId, // Si es root, el parentId del nodo es el que viene por parametro, sino es el groupId que estamos recorriendo
 				false,
+				themes,
+				designSystemId,
 				key
 			)
 
@@ -90,41 +99,28 @@ const buildStyleDictionaryNode = (
 	if (isRoot) {
 		groups.forEach((group) => {
 			group.tokens.forEach((token) => {
-				if (
-					token.value.toString().startsWith('{') &&
-					token.value.toString().endsWith('}')
-				) {
-					const alias = token.value.toString().replace('{', '').replace('}', '')
+				themes.forEach((theme) => {
+					if (
+						token.value[theme.id] &&
+						token.value[theme.id]?.toString().startsWith('{') &&
+						token.value[theme.id]?.toString().endsWith('}')
+					) {
+						const resolvedValue: AliasValue | undefined =
+							resolveAliasRouteToIds(
+								token.value[theme.id] as `{${string}}`,
+								groups,
+								designSystemId
+							)
 
-					const aliasRouteArray = alias.split('.')
-
-					// {group1.gtoup2.fwefewf.paragraphSpacing.0}
-					// {group2.gtoup3.gew.paragraphSpacing.0}
-
-					const referencedGroupName =
-						aliasRouteArray[aliasRouteArray.length - 2] // paragraphSpacing
-					const referencedTokenName =
-						aliasRouteArray[aliasRouteArray.length - 1] // 0
-
-					const referencedGroup = groups.find(
-						(g) => g.name === referencedGroupName
-					)
-
-					let referencedToken: IToken | undefined
-
-					if (referencedGroup) {
-						referencedToken = referencedGroup.tokens.find(
-							(t) => t.name === referencedTokenName
-						)
-					}
-
-					if (referencedGroup && referencedToken) {
-						token.alias = {
-							groupId: referencedGroup.id,
-							tokenId: referencedToken.id
+						if (resolvedValue) {
+							token.value[theme.id] = resolvedValue
+						} else {
+							throw new Error(
+								`Alias ${token.value[theme.id]} not found in theme ${theme.id}`
+							)
 						}
 					}
-				}
+				})
 			})
 		})
 	}
@@ -132,10 +128,20 @@ const buildStyleDictionaryNode = (
 	return groups
 }
 
-const styleDictionaryToGroups = (json: string, parentId: string): Group[] => {
+const styleDictionaryToGroups = (
+	json: string,
+	designSystemId: string,
+	themes: Theme[]
+): Group[] => {
 	const styleDictionaryGroup: StyleDictionaryGroup = JSON.parse(json)
 
-	return buildStyleDictionaryNode(styleDictionaryGroup, parentId, true)
+	return buildStyleDictionaryNode(
+		styleDictionaryGroup,
+		designSystemId,
+		true,
+		themes,
+		designSystemId
+	)
 }
 
 export default styleDictionaryToGroups

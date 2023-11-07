@@ -60,14 +60,14 @@ export const createGroupsStore = () => {
 				return designTokens
 			}
 
-			const resolvedValue =
-				value ?? (getDefaultTokenValues(type) as TokenValue<T>)
-
 			const tokenValues: {
 				[themeId: string]: TokenValue<T>
 			} = {}
 
 			themes.forEach((theme) => {
+				const resolvedValue =
+					value ?? (getDefaultTokenValues(type) as TokenValue<T>)
+
 				tokenValues[theme.id] = resolvedValue
 			})
 

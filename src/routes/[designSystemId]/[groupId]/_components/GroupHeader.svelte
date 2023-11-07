@@ -10,12 +10,18 @@
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
 	import type { createDesignSystemsOverviewsStore } from '$lib/features/token-groups-store/designSystemsOverviewsStore'
 	import type { TokenType } from '$lib/features/token-groups-store/types/token.interface'
+	import type { Readable } from 'svelte/store'
+	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
 	const tokenBaseMainStore: ReturnType<
 		typeof createDesignSystemsOverviewsStore
 	> = getContext('tokenBaseMainStore')
+
+	const activeDesignSystemThemesStore: Readable<Theme[]> = getContext(
+		'activeDesignSystemThemesStore'
+	)
 
 	$: activeDesignSystemIndex = $tokenBaseMainStore.findIndex(
 		(designSystem) => designSystem.id === $page.params.designSystemId
@@ -29,7 +35,8 @@
 	const handleAddNewTemplate = () => {
 		importStyleDictionary(
 			JSON.stringify(mockTemplate),
-			$designTokensGroupStore[groupIndex]!.id
+			$designTokensGroupStore[groupIndex]!.id,
+			$activeDesignSystemThemesStore
 		)
 		goto(`/${$designTokensGroupStore[$designTokensGroupStore.length - 1]!.id}`)
 	}

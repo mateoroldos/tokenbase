@@ -14,25 +14,6 @@
 
 	let loading = true
 
-	const activeThemeStore: Readable<Theme> = derived(
-		[activeThemeIndex, tokenBaseMainStore],
-		([$activeThemeIndex, $tokenBaseMainStore]) => {
-			return $tokenBaseMainStore[activeDesignSystemIndex]?.themes[
-				$activeThemeIndex
-			]
-		}
-	)
-
-	const activeDesignSystemThemesStore: Readable<Theme[]> = derived(
-		[activeThemeIndex, tokenBaseMainStore],
-		([$activeDesignSystemIndex, $tokenBaseMainStore]) => {
-			return $tokenBaseMainStore[$activeDesignSystemIndex]?.themes
-		}
-	)
-
-	setContext('activeThemeStore', activeThemeStore)
-	setContext('activeDesignSystemThemesStore', activeDesignSystemThemesStore)
-
 	onMount(() => {
 		activeDesignSystemIndex = $tokenBaseMainStore.findIndex(
 			(designSystem) => designSystem.id === $page.params.designSystemId
@@ -41,13 +22,33 @@
 		loading = false
 	})
 
+	$: activeDesignSystemIndex = $tokenBaseMainStore.findIndex(
+		(designSystem) => designSystem.id === $page.params.designSystemId
+	)
+
+	const activeThemeStore: Readable<Theme | undefined> = derived(
+		[activeThemeIndex, tokenBaseMainStore],
+		([$activeThemeIndex, $tokenBaseMainStore]) => {
+			return $tokenBaseMainStore[activeDesignSystemIndex]?.themes[
+				$activeThemeIndex
+			]
+		}
+	)
+
+	const activeDesignSystemThemesStore: Readable<Theme[] | undefined> = derived(
+		[tokenBaseMainStore, tokenBaseMainStore],
+		([$tokenBaseMainStore]) => {
+			return $tokenBaseMainStore[activeDesignSystemIndex]?.themes
+		}
+	)
+
+	setContext('activeThemeStore', activeThemeStore)
+	setContext('activeDesignSystemThemesStore', activeDesignSystemThemesStore)
+
 	onMount(() => {
 		$activeThemeIndex = 0
 	})
 
-	$: activeDesignSystemIndex = $tokenBaseMainStore.findIndex(
-		(designSystem) => designSystem.id === $page.params.designSystemId
-	)
 	$: activeDesignSystemName = $tokenBaseMainStore[activeDesignSystemIndex]?.name
 </script>
 

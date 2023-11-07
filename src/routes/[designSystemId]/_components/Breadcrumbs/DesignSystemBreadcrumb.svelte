@@ -83,7 +83,7 @@
 	]
 </script>
 
-<div class="flex flex-row items-center">
+<div class="flex flex-row items-center gap-2">
 	<DropDown menuItems={customMenuItems} />
 	{#if changeNameInput}
 		<Input
@@ -94,7 +94,7 @@
 		/>
 	{:else}
 		<DropdownMenu.Root>
-			<DropdownMenu.Trigger
+			<DropdownMenu.Trigger class="text-sm font-medium"
 				>{$tokenBaseMainStore[activeDesignSystemIndex]
 					?.name}</DropdownMenu.Trigger
 			>
@@ -110,8 +110,9 @@
 							on:keydown={(e) => e.stopPropagation()}
 						/>
 					</div>
-
-					<DropdownMenu.Label class="pl-4">Design Systems</DropdownMenu.Label>
+					<DropdownMenu.Label class="pl-4 text-sm"
+						>Design Systems</DropdownMenu.Label
+					>
 					{#if searchTerm && filteredSystems.length === 0}
 						<p class="pl-6 text-sm">No results</p>
 					{:else if filteredSystems.length > 0}

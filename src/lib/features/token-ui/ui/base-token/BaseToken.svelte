@@ -13,7 +13,7 @@
 	import TokenTypeSelect from '../atoms/TokenTypeSelect.svelte'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
 	import DescriptionDialog from './atoms/DescriptionDialog.svelte'
-	import TokenAliasDialog from '../../../aliases/components/TokenAliasDialog.svelte'
+	import TokenAliasDialog from '$lib/features/aliases/components/TokenAliasDialog.svelte'
 	import * as Table from '$lib/components/ui/table'
 	import { Input } from '$lib/components/ui/input'
 	import type { Readable } from 'svelte/store'
@@ -55,7 +55,7 @@
 					? token.value[theme.id]
 					: (getDefaultTokenValues(tokenType) as TokenValue)
 
-			tokenValues[theme.id] = resolvedValue as TokenValue
+			tokenValues[theme.id] = getDefaultTokenValues(tokenType) as TokenValue
 		})
 		token = {
 			...token,
