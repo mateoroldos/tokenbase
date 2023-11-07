@@ -4,13 +4,26 @@ import type { PageServerLoad } from './$types'
 import { z } from 'zod'
 import { superValidate } from 'sveltekit-superforms/server'
 import { LuciaError } from 'lucia'
+import { sendEmailVerificationLink } from '$lib/features/user-management/email'
+import { generateEmailVerificationToken } from '$lib/features/user-management/token'
+import { verifyUniqueUsername } from '$lib/features/user-management/username'
 
 const signupSchema = z.object({
 	username: z.string().min(3).max(20),
 	password: z.string().min(6).max(100),
-	names: z.string().min(3).max(100),
-	last_names: z.string().min(3).max(100)
+	email: z.string().email()
 })
+
+export const load = (async ({ locals }) => {
+	const session = await locals.auth.validate()
+
+	if (session) {
+		if (!session.user.emailVerified) throw redirect(302, '/email-verification')
+		throw redirect(302, '/')
+	}
+
+	return {}
+}) satisfies PageServerLoad
 
 function findErrorByName(errors, name) {
 	if (errors.hasOwnProperty(name)) {
@@ -20,50 +33,57 @@ function findErrorByName(errors, name) {
 	}
 }
 
-export const load = (async ({ locals }) => {
-	const session = await locals.auth.validate()
-
-	if (!session) return {}
-
-	throw redirect(303, '/')
-}) satisfies PageServerLoad
-
 export const actions = {
-	register: async ({ request }) => {
+	register: async ({ request, locals }) => {
 		const form = await superValidate(request, signupSchema)
 
 		if (!form.valid) {
 			const usernameError = findErrorByName(form.errors, 'username')
 			const passwordError = findErrorByName(form.errors, 'password')
-			const nameError = findErrorByName(form.errors, 'names')
-			const lastNameError = findErrorByName(form.errors, 'last_names')
+			const emailError = findErrorByName(form.errors, 'email')
 
 			return fail(400, {
 				errors: {
 					usernameError,
 					passwordError,
-					nameError,
-					lastNameError
+					emailError
 				},
 				incorrect: true
+			})
+		}
+
+		const usernameExists = await verifyUniqueUsername(form.data.username)
+
+		if (usernameExists) {
+			return fail(400, {
+				duplicatedUsername: true
 			})
 		}
 
 		try {
 			const user = await auth.createUser({
 				key: {
-					providerId: 'username',
-					providerUserId: form.data.username,
+					providerId: 'email',
+					providerUserId: form.data.email.toLowerCase(),
 					password: form.data.password
 				},
 				attributes: {
 					username: form.data.username,
-					names: form.data.names,
-					last_names: form.data.last_names
+					email: form.data.email.toLowerCase(),
+					email_verified: false
 				}
 			})
 
-			console.log('user creted', { user })
+			const session = await auth.createSession({
+				userId: user.userId,
+				attributes: {}
+			})
+
+			locals.auth.setSession(session) // set session cookie
+
+			const token = await generateEmailVerificationToken(user.userId)
+
+			await sendEmailVerificationLink(token)
 		} catch (e) {
 			let message
 
@@ -78,6 +98,6 @@ export const actions = {
 			}
 		}
 
-		throw redirect(303, '/')
+		throw redirect(302, '/email-verification')
 	}
 } satisfies Actions

@@ -1,4 +1,4 @@
-import { mysqlTable, bigint, varchar } from 'drizzle-orm/mysql-core'
+import { mysqlTable, bigint, varchar, boolean } from 'drizzle-orm/mysql-core'
 
 export const user = mysqlTable('auth_user', {
 	id: varchar('id', {
@@ -7,13 +7,11 @@ export const user = mysqlTable('auth_user', {
 	// other user attributes
 	username: varchar('username', {
 		length: 55
-	}),
-	names: varchar('names', {
+	}).unique(),
+	email: varchar('email', {
 		length: 255
 	}),
-	lastNames: varchar('last_names', {
-		length: 255
-	})
+	email_verified: boolean('email_verified')
 })
 
 export const session = mysqlTable('user_session', {
@@ -42,4 +40,24 @@ export const key = mysqlTable('user_key', {
 	hashedPassword: varchar('hashed_password', {
 		length: 255
 	})
+})
+
+export const emailToken = mysqlTable('email_verification_token', {
+	id: varchar('id', { length: 255 }).primaryKey(),
+	userId: varchar('user_id', {
+		length: 15
+	}).notNull(),
+	expires: bigint('expires', {
+		mode: 'number'
+	}).notNull()
+})
+
+export const passwordResetToken = mysqlTable('password_reset_token', {
+	id: varchar('id', { length: 255 }).primaryKey(),
+	userId: varchar('user_id', {
+		length: 15
+	}).notNull(),
+	expires: bigint('expires', {
+		mode: 'number'
+	}).notNull()
 })
