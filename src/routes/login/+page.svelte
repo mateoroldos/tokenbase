@@ -35,22 +35,22 @@
 						<div class="form-control flex w-full max-w-xs flex-col gap-2 pt-3">
 							<!-- svelte-ignore a11y-label-has-associated-control -->
 							<label class="label">
-								<span class="label-text">Username</span>
+								<span class="label-text">Email</span>
 							</label>
 							<Input
 								type="text"
-								placeholder="Username"
+								placeholder="Email"
 								class="input input-bordered w-full max-w-xs"
-								name="username"
+								name="email"
 								required
 							/>
-							{#if form?.incorrect && form?.errors.usernameError !== null}
+							{#if form?.incorrect && form?.errors.emailError !== null}
 								<div
 									class="flex flex-row items-center text-red-600 bg-blend-color-burn"
 								>
 									<AlertCircle class="mr-2 h-4 w-4" />
 									<p class=" text-red-600">
-										{form?.errors.usernameError[0]}
+										{form?.errors.emailError[0]}
 									</p>
 								</div>
 							{/if}
@@ -81,12 +81,12 @@
 								</div>
 							{/if}
 						</div>
-						{#if form?.usernameError}
+						{#if form?.emailError}
 							<div
 								class="flex flex-row items-center text-red-600 bg-blend-color-burn"
 							>
 								<AlertCircle class="mr-2 h-4 w-4" />
-								<p class=" text-red-600">Username doesn't exist</p>
+								<p class=" text-red-600">Email is not registered</p>
 							</div>
 						{/if}
 						{#if form?.passwordError}

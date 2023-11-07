@@ -34,49 +34,33 @@
 						<div class="form-control flex w-full max-w-xs flex-col gap-2 pt-3">
 							<!-- svelte-ignore a11y-label-has-associated-control -->
 							<label class="label">
-								<span class="label-text">Name</span>
+								<span class="label-text">Email</span>
 							</label>
 
 							<Input
 								type="text"
 								autocomplete="off"
-								placeholder="Name"
+								placeholder="Email"
 								class="input input-bordered w-full max-w-xs"
-								name="names"
+								name="email"
 								required
 							/>
-							{#if form?.incorrect && form?.errors.nameError !== null}
+							{#if form?.incorrect && form?.errors.emailError !== null}
 								<div
 									class="flex flex-row items-center text-red-600 bg-blend-color-burn"
 								>
 									<AlertCircle class="mr-2 h-4 w-4" />
 									<p class=" text-red-600">
-										{form?.errors.nameError[0]}
+										{form?.errors.emailError[0]}
 									</p>
 								</div>
 							{/if}
-						</div>
-						<div class="form-control flex w-full max-w-xs flex-col gap-2 pt-4">
-							<!-- svelte-ignore a11y-label-has-associated-control -->
-							<label class="label">
-								<span class="label-text">Last Name</span>
-							</label>
-							<Input
-								type="text"
-								autocomplete="off"
-								placeholder="Last Name"
-								class="input input-bordered w-full max-w-xs"
-								name="last_names"
-								required
-							/>
-							{#if form?.incorrect && form?.errors.lastNameError !== null}
+							{#if form?.duplicated}
 								<div
 									class="flex flex-row items-center text-red-600 bg-blend-color-burn"
 								>
 									<AlertCircle class="mr-2 h-4 w-4" />
-									<p class=" text-red-600">
-										{form?.errors.lastNameError[0]}
-									</p>
+									<p class=" text-red-600">Email already registered</p>
 								</div>
 							{/if}
 						</div>
@@ -103,7 +87,7 @@
 									</p>
 								</div>
 							{/if}
-							{#if form?.duplicated}
+							{#if form?.duplicatedUsername}
 								<div
 									class="flex flex-row items-center text-red-600 bg-blend-color-burn"
 								>
