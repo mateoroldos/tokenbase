@@ -1,112 +1,154 @@
 <script lang="ts">
 	import { enhance } from '$app/forms'
 	import { AlertCircle } from 'lucide-svelte'
+	import * as Card from '$lib/components/ui/card'
+	import { Input } from '$lib/components/ui/input'
+	import Button from '$lib/components/ui/button/Button.svelte'
+	import HeroSection from '$lib/components/login/HeroSection.svelte'
 
 	export let form
 </script>
 
-<form
-	class="bg-base-200 mx-auto mt-20 flex max-w-sm flex-col items-center justify-center rounded-lg py-6"
-	use:enhance
-	action="?/register"
-	method="post"
->
-	<div class="form-control w-full max-w-xs">
-		<!-- svelte-ignore a11y-label-has-associated-control -->
-		<label class="label">
-			<span class="label-text">Nombres</span>
-		</label>
+<section class="flex flex-1 items-center justify-center bg-slate-50 p-20">
+	<div class="grid grid-cols-3 gap-10">
+		<div class="max-w-l col col-span-1 items-center justify-center">
+			<Card.Root
+				class=" shadow-m flex h-full w-full flex-1 flex-col justify-center border-slate-200 p-4"
+			>
+				<Card.Header>
+					<img
+						src="/LOGO_TOKENBASE.png"
+						alt="Logo"
+						class="mb-6 h-8 w-8 object-cover"
+					/>
+					<Card.Title class=" text-2xl ">Create Account</Card.Title>
+				</Card.Header>
 
-		<input
-			type="text"
-			autocomplete="off"
-			placeholder="Name"
-			class="input input-bordered w-full max-w-xs"
-			name="names"
-			required
-		/>
-		{#if form?.incorrect && form?.errors.nameError !== null}
-			<div class="flex flex-row items-center text-red-600 bg-blend-color-burn">
-				<AlertCircle class="mr-2 h-4 w-4" />
-				<p class=" text-red-600">
-					{form?.errors.nameError[0]}
-				</p>
-			</div>
-		{/if}
-		<!-- svelte-ignore a11y-label-has-associated-control -->
-		<label class="label">
-			<span class="label-text">Last Names</span>
-		</label>
-		<input
-			type="text"
-			autocomplete="off"
-			placeholder="Name"
-			class="input input-bordered w-full max-w-xs"
-			name="last_names"
-			required
-		/>
-		{#if form?.incorrect && form?.errors.lastNameError !== null}
-			<div class="flex flex-row items-center text-red-600 bg-blend-color-burn">
-				<AlertCircle class="mr-2 h-4 w-4" />
-				<p class=" text-red-600">
-					{form?.errors.lastNameError[0]}
-				</p>
-			</div>
-		{/if}
-	</div>
-	<div class="form-control w-full max-w-xs">
-		<!-- svelte-ignore a11y-label-has-associated-control -->
-		<label class="label">
-			<span class="label-text">Nombre de usuario</span>
-		</label>
-		<input
-			type="text"
-			autocomplete="off"
-			placeholder="Username"
-			class="input input-bordered w-full max-w-xs"
-			name="username"
-			required
-		/>
-		{#if form?.incorrect && form?.errors.usernameError !== null}
-			<div class="flex flex-row items-center text-red-600 bg-blend-color-burn">
-				<AlertCircle class="mr-2 h-4 w-4" />
-				<p class=" text-red-600">
-					{form?.errors.usernameError[0]}
-				</p>
-			</div>
-		{/if}
-		{#if form?.duplicated}
-			<div class="flex flex-row items-center text-red-600 bg-blend-color-burn">
-				<AlertCircle class="mr-2 h-4 w-4" />
-				<p class=" text-red-600">Username already exists</p>
-			</div>
-		{/if}
-	</div>
+				<Card.Content class="text-sm">
+					<form
+						class="bg-base-200 flex flex-col rounded-lg"
+						use:enhance
+						action="?/register"
+						method="post"
+					>
+						<div class="form-control flex w-full max-w-xs flex-col gap-2 pt-3">
+							<!-- svelte-ignore a11y-label-has-associated-control -->
+							<label class="label">
+								<span class="label-text">Name</span>
+							</label>
 
-	<div class="form-control w-full max-w-xs">
-		<!-- svelte-ignore a11y-label-has-associated-control -->
-		<label class="label">
-			<span class="label-text">Contraseña</span>
-		</label>
-		<input
-			type="text"
-			autocomplete="off"
-			placeholder="Password"
-			class="input input-bordered w-full max-w-xs"
-			name="password"
-			required
-		/>
-		{#if form?.incorrect && form?.errors.passwordError !== null}
-			<div class="flex flex-row items-center text-red-600 bg-blend-color-burn">
-				<AlertCircle class="mr-2 h-4 w-4" />
-				<p class="text-red-600">
-					{form?.errors.passwordError[0]}
-				</p>
-			</div>
-		{/if}
-	</div>
+							<Input
+								type="text"
+								autocomplete="off"
+								placeholder="Name"
+								class="input input-bordered w-full max-w-xs"
+								name="names"
+								required
+							/>
+							{#if form?.incorrect && form?.errors.nameError !== null}
+								<div
+									class="flex flex-row items-center text-red-600 bg-blend-color-burn"
+								>
+									<AlertCircle class="mr-2 h-4 w-4" />
+									<p class=" text-red-600">
+										{form?.errors.nameError[0]}
+									</p>
+								</div>
+							{/if}
+						</div>
+						<div class="form-control flex w-full max-w-xs flex-col gap-2 pt-4">
+							<!-- svelte-ignore a11y-label-has-associated-control -->
+							<label class="label">
+								<span class="label-text">Last Name</span>
+							</label>
+							<Input
+								type="text"
+								autocomplete="off"
+								placeholder="Last Name"
+								class="input input-bordered w-full max-w-xs"
+								name="last_names"
+								required
+							/>
+							{#if form?.incorrect && form?.errors.lastNameError !== null}
+								<div
+									class="flex flex-row items-center text-red-600 bg-blend-color-burn"
+								>
+									<AlertCircle class="mr-2 h-4 w-4" />
+									<p class=" text-red-600">
+										{form?.errors.lastNameError[0]}
+									</p>
+								</div>
+							{/if}
+						</div>
+						<div class="form-control flex w-full max-w-xs flex-col gap-2 pt-4">
+							<!-- svelte-ignore a11y-label-has-associated-control -->
+							<label class="label">
+								<span class="label-text">Username</span>
+							</label>
+							<Input
+								type="text"
+								autocomplete="off"
+								placeholder="Username"
+								class="input input-bordered w-full max-w-xs"
+								name="username"
+								required
+							/>
+							{#if form?.incorrect && form?.errors.usernameError !== null}
+								<div
+									class="flex flex-row items-center text-red-600 bg-blend-color-burn"
+								>
+									<AlertCircle class="mr-2 h-4 w-4" />
+									<p class=" text-red-600">
+										{form?.errors.usernameError[0]}
+									</p>
+								</div>
+							{/if}
+							{#if form?.duplicated}
+								<div
+									class="flex flex-row items-center text-red-600 bg-blend-color-burn"
+								>
+									<AlertCircle class="mr-2 h-4 w-4" />
+									<p class=" text-red-600">Username already exists</p>
+								</div>
+							{/if}
+						</div>
 
-	<button class="btn btn-primary mt-4 max-w-xs" type="submit"
-		>Crear cuenta</button
-	>
-</form>
+						<div
+							class="form-control flex w-full max-w-xs flex-col gap-2 pb-3 pt-4"
+						>
+							<!-- svelte-ignore a11y-label-has-associated-control -->
+							<label class="label">
+								<span class="label-text">Password</span>
+							</label>
+							<Input
+								type="text"
+								autocomplete="off"
+								placeholder="Password"
+								class="input input-bordered w-full max-w-xs"
+								name="password"
+								required
+							/>
+							{#if form?.incorrect && form?.errors.passwordError !== null}
+								<div
+									class="flex flex-row items-center text-red-600 bg-blend-color-burn"
+								>
+									<AlertCircle class="mr-2 h-4 w-4" />
+									<p class="text-red-600">
+										{form?.errors.passwordError[0]}
+									</p>
+								</div>
+							{/if}
+						</div>
+
+						<Button class="btn btn-primary mt-4 max-w-xs " type="submit"
+							>Create account</Button
+						>
+					</form>
+				</Card.Content>
+			</Card.Root>
+		</div>
+		<div class="col-span-2 flex items-center justify-center bg-slate-50">
+			<HeroSection />
+		</div>
+	</div>
+</section>
