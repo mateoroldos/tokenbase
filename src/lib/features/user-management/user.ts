@@ -14,3 +14,8 @@ export const verifyUniqueUsername = async (username: string) => {
 		return false
 	}
 }
+
+export const getStoredUser = async (email: string) => {
+	const [storedUser] = await db.select().from(user).where(eq(user.email, email))
+	return storedUser
+}

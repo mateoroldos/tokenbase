@@ -6,7 +6,7 @@ import { superValidate } from 'sveltekit-superforms/server'
 import { LuciaError } from 'lucia'
 import { sendEmailVerificationLink } from '$lib/features/user-management/email'
 import { generateEmailVerificationToken } from '$lib/features/user-management/token'
-import { verifyUniqueUsername } from '$lib/features/user-management/username'
+import { verifyUniqueUsername } from '$lib/features/user-management/user'
 
 const signupSchema = z.object({
 	username: z.string().min(3).max(20),
