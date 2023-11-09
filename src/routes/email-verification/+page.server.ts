@@ -27,7 +27,10 @@ export const actions: Actions = {
 
 		try {
 			const token = await generateEmailVerificationToken(session.user.userId)
-			await sendEmailVerificationLink(token)
+			await sendEmailVerificationLink(token, {
+				username: session.user.username,
+				email: session.user.email
+			})
 
 			return {
 				success: true

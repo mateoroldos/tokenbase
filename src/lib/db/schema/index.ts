@@ -7,11 +7,13 @@ export const user = mysqlTable('auth_user', {
 	// other user attributes
 	username: varchar('username', {
 		length: 55
-	}).unique(),
+	})
+		.unique()
+		.notNull(),
 	email: varchar('email', {
 		length: 255
-	}),
-	email_verified: boolean('email_verified')
+	}).notNull(),
+	email_verified: boolean('email_verified').notNull()
 })
 
 export const session = mysqlTable('user_session', {

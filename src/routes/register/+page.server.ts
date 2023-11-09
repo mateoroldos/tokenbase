@@ -83,7 +83,10 @@ export const actions = {
 
 			const token = await generateEmailVerificationToken(user.userId)
 
-			await sendEmailVerificationLink(token)
+			await sendEmailVerificationLink(token, {
+				username: form.data.username,
+				email: form.data.email
+			})
 		} catch (e) {
 			let message
 
