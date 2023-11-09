@@ -42,7 +42,7 @@
 							</p>
 						</div>
 					{/if}
-					<div class="flex flex-col items-center justify-center">
+					<div class="flex flex-col">
 						<Button type="submit" class="btn btn-primary max-w-xs"
 							>Submit</Button
 						>
