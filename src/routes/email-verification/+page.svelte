@@ -1,17 +1,35 @@
 <script lang="ts">
 	import { enhance } from '$app/forms'
-
+	import * as Card from '$lib/components/ui/card'
 	import type { ActionData } from './$types'
 
 	export let form: ActionData
 </script>
 
-<h1>Email verification</h1>
-<p>Your email verification link was sent to your inbox (i.e. console).</p>
-<h2>Resend verification link</h2>
-<form method="post" use:enhance>
-	<button type="submit">Resend</button>
-</form>
-{#if form?.success}
-	<p>Your verification link was resent</p>
-{/if}
+<section class="flex flex-1 items-center justify-center bg-slate-50 p-20">
+	<Card.Root class="shadow-m mx-auto flex flex-col border-slate-200">
+		<Card.Header>
+			<img
+				src="/LOGO_TOKENBASE.png"
+				alt="Logo"
+				class="mb-6 h-8 w-8 object-cover"
+			/>
+			<Card.Title class="text-xl">Email verification</Card.Title>
+		</Card.Header>
+		<Card.Content class="text-m">
+			<p>Your email verification link was sent to your inbox (i.e. console).</p>
+		</Card.Content>
+		<Card.Footer class="text-center">
+			<p class=" text-sm">Didn't receive the link? &nbsp</p>
+			<form method="post" use:enhance>
+				<button type="submit" class="text-sm font-semibold">Resend</button>
+			</form>
+
+			{#if form?.success}
+				<div>
+					<p class="text-sm">&nbsp Your verification link was resent</p>
+				</div>
+			{/if}
+		</Card.Footer>
+	</Card.Root>
+</section>
