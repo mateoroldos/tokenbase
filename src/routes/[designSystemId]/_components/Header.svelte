@@ -64,7 +64,7 @@
 		</div>
 	{/if}
 	{#if $preview && !activeGroupId }
-		<div class="flex flex-row items-center gap-4">
+		<div class="flex flex-row items-center gap-6">
 			<StartFromTemplateModal/>
 			<ImportDesignSystem/>
 		</div>
