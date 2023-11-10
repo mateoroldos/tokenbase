@@ -16,8 +16,8 @@
 			/>
 			<Card.Title class="text-xl">Email verification</Card.Title>
 		</Card.Header>
-		<Card.Content class="text-m">
-			<p>Your email verification link was sent to your inbox (i.e. console).</p>
+		<Card.Content class="text-sm">
+			<p>A verification link was sent to the email address provided.</p>
 		</Card.Content>
 		<Card.Footer class="text-center">
 			<p class=" text-sm">Didn't receive the link? &nbsp</p>
@@ -27,7 +27,7 @@
 
 			{#if form?.success}
 				<div>
-					<p class="text-sm">&nbsp Your verification link was resent</p>
+					<p class="text-sm">&nbsp The verification link was resent</p>
 				</div>
 			{/if}
 		</Card.Footer>

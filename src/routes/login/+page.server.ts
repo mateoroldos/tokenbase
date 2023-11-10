@@ -22,11 +22,11 @@ const loginSchema = z.object({
 	password: z.string().min(6).max(100)
 })
 
-function findErrorByName(errors, name) {
+function findErrorByName(errors: { [key: string]: any }, name: string) {
 	if (errors.hasOwnProperty(name)) {
 		return errors[name]
 	} else {
-		return null // Return null if not found
+		return null
 	}
 }
 

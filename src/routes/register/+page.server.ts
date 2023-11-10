@@ -25,7 +25,7 @@ export const load = (async ({ locals }) => {
 	return {}
 }) satisfies PageServerLoad
 
-function findErrorByName(errors, name) {
+function findErrorByName(errors: { [key: string]: any }, name: string) {
 	if (errors.hasOwnProperty(name)) {
 		return errors[name]
 	} else {
@@ -79,7 +79,7 @@ export const actions = {
 				attributes: {}
 			})
 
-			locals.auth.setSession(session) // set session cookie
+			locals.auth.setSession(session)
 
 			const token = await generateEmailVerificationToken(user.userId)
 
@@ -96,7 +96,7 @@ export const actions = {
 
 			if (message === 'AUTH_DUPLICATE_KEY_ID') {
 				return fail(400, {
-					duplicated: true
+					duplicatedEmail: true
 				})
 			}
 		}

@@ -1,12 +1,10 @@
 <script>
 	import { enhance } from '$app/forms'
 	import * as Card from '$lib/components/ui/card'
-	import { AlertCircle } from 'lucide-svelte'
+	import { AlertCircle, Eye, EyeOff } from 'lucide-svelte'
 	import { Input } from '$lib/components/ui/input'
 	import Button from '$lib/components/ui/button/Button.svelte'
 	import HeroSection from '$lib/components/login/HeroSection.svelte'
-	import { Eye } from 'lucide-svelte'
-	import { EyeOff } from 'lucide-svelte'
 
 	export let form
 
@@ -47,7 +45,7 @@
 							</label>
 							<Input
 								type="text"
-								placeholder="Email"
+								placeholder="johndoe@example.com"
 								class="input input-bordered w-full max-w-xs"
 								name="email"
 								required
@@ -56,8 +54,8 @@
 								<div
 									class="flex flex-row items-center text-red-600 bg-blend-color-burn"
 								>
-									<AlertCircle class="mr-2 h-4 w-4" />
-									<p class=" text-red-600">
+									<AlertCircle class="mr-1 h-3 w-3" />
+									<p class="text-sm text-red-600">
 										{form?.errors.emailError[0]}
 									</p>
 								</div>
@@ -73,8 +71,9 @@
 							</label>
 							<div class="relative">
 								<Input
+									autocomplete="off"
 									type={showPassword ? 'text' : 'password'}
-									placeholder="Password"
+									placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"
 									class="input input-bordered w-full max-w-xs pr-10"
 									name="password"
 									required
@@ -98,8 +97,8 @@
 								<div
 									class="flex flex-row items-center text-red-600 bg-blend-color-burn"
 								>
-									<AlertCircle class="mr-2 h-4 w-4" />
-									<p class="text-red-600">
+									<AlertCircle class="mr-1 h-3 w-3" />
+									<p class="text-sm text-red-600">
 										{form?.errors.passwordError[0]}
 									</p>
 								</div>
@@ -109,16 +108,16 @@
 							<div
 								class="flex flex-row items-center text-red-600 bg-blend-color-burn"
 							>
-								<AlertCircle class="mr-2 h-4 w-4" />
-								<p class=" text-red-600">Email is not registered</p>
+								<AlertCircle class="mr-1 h-3 w-3" />
+								<p class="text-sm text-red-600">Email is not registered</p>
 							</div>
 						{/if}
 						{#if form?.passwordError}
 							<div
 								class="flex flex-row items-center text-red-600 bg-blend-color-burn"
 							>
-								<AlertCircle class="mr-2 h-4 w-4" />
-								<p class=" text-red-600">Wrong password</p>
+								<AlertCircle class="mr-1 h-3 w-3" />
+								<p class="text-sm text-red-600">Invalid password</p>
 							</div>
 						{/if}
 

@@ -14,6 +14,7 @@ export const GET: RequestHandler = async ({ params, locals }) => {
 		await auth.updateUserAttributes(user.userId, {
 			email_verified: true
 		})
+
 		const session = await auth.createSession({
 			userId: user.userId,
 			attributes: {}
