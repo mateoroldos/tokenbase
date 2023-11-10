@@ -1,11 +1,10 @@
-import type { Group } from '../features/token-groups-store/types/group-interface'
+import type { Group } from '../features/token-groups-store/types/group.interface'
 
-const findGroupNameById = (
+export const findGroupById = (
 	groupId: string,
 	groups: Group[]
-): string | undefined => {
+): Group | null => {
 	const group = groups.find((group) => group.id === groupId)
-	return group ? group.name : undefined
-}
 
-export default findGroupNameById
+	return group ?? null
+}

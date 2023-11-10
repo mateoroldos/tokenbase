@@ -1,15 +1,16 @@
 <script lang="ts">
-	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
+	import type { IToken } from '$lib/features/token-groups-store/types/token.interface'
 	import { Link2 } from 'lucide-svelte'
 	import { getContext } from 'svelte'
 	import { page } from '$app/stores'
 	import * as Dialog from '$lib/components/ui/dialog'
 	import * as Tooltip from '$lib/components/ui/tooltip'
-	import transformToExportColorValue from '$lib/features/token-management/color/transformToExportColorValue'
 	import * as Accordion from '$lib/components/ui/accordion'
-	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
+	import { createTokenAlias } from '../functions/createTokenAlias'
 
 	export let token: IToken
+	export let activeThemeId: string
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -20,15 +21,19 @@
 		showTokenList = !showTokenList
 	}
 
-	const createTokenAlias = (groupId: string, tokenId: string) => {
-		if (tokenId !== token.id) {
-			token.alias = {
-				groupId,
-				tokenId
-			}
-		} else {
-			alert('Cannot select the same token as its own alias')
-		}
+	const handleCreateTokenAlias = (
+		aliasGroupId: string,
+		aliasTokenId: string
+	) => {
+		createTokenAlias(
+			token,
+			activeThemeId,
+			aliasGroupId,
+			aliasTokenId,
+			$designTokensGroupStore
+		)
+
+		token.value = token.value
 	}
 </script>
 
@@ -69,27 +74,27 @@
 																<button
 																	class="flex flex-row gap-2"
 																	on:click={() =>
-																		createTokenAlias(group.id, t.id)}
+																		handleCreateTokenAlias(group.id, t.id)}
 																>
 																	<p class="text-black">{t.name}</p>
 																	<p>{t.type}</p>
 
-																	{#if t.type === 'color'}
+																	<!-- {#if t.type === 'color'}
 																		<div
 																			class="mr-4 h-6 min-w-[1.5rem] rounded border border-slate-400 text-black"
 																			style={`background-color: ${transformToExportColorValue(
-																				t.value
+																				t.value[$activeThemeIndex]
 																			)}`}
 																		/>
 																	{:else if t.type === 'dimension'}
 																		<p class="mr-4 text-slate-400">
-																			{t.value.value}
+																			{t.value[$activeThemeIndex].value}
 																		</p>
 																	{:else}
 																		<p class=" mr-4 text-slate-400">
-																			{t.value}
+																			{t[$activeThemeIndex].value}
 																		</p>
-																	{/if}
+																	{/if} -->
 																</button>
 															</div>
 														{/each}

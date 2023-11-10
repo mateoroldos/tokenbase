@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { TokenType } from '$lib/features/token-groups-store/types/token-interface'
+	import type { TokenType } from '$lib/features/token-groups-store/types/token.interface'
 	import tokenTypesArray from '$lib/utils/tokenTypesArray'
 	import * as Select from '$lib/components/ui/select'
 	import formatTokenType from '$lib/utils/formatTokenType'

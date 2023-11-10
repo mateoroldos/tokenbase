@@ -9,7 +9,7 @@ export const EXPORT_FILE_TYPES = [
 	{ name: 'tailwind', icon: 'mdi:tailwind' }
 ] as const
 
-export type ExportFileTypes = (typeof EXPORT_FILE_TYPES)[number]['name']
+export type ExportFileType = (typeof EXPORT_FILE_TYPES)[number]['name']
 
 export interface FileTypeConfig {
 	transformGroup: string
@@ -21,7 +21,7 @@ export interface FileTypeConfig {
 }
 
 export const FILE_TYPE_CONFIGS: {
-	[key in ExportFileTypes]: FileTypeConfig & { icon: string }
+	[key in ExportFileType]: FileTypeConfig & { icon: string }
 } = {
 	css: {
 		icon: 'bxl:css3',

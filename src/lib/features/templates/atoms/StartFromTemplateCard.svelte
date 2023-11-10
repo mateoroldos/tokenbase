@@ -7,9 +7,15 @@
 	import { Box, Boxes } from 'lucide-svelte'
 	import * as Avatar from '$lib/components/ui/avatar'
 	import Badge from '$lib/components/ui/badge/badge.svelte'
-	import { createEventDispatcher } from 'svelte'
+	import { createEventDispatcher, getContext } from 'svelte'
+	import type { Readable } from 'svelte/store'
+	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 
 	export let templateOverview: TemplateWithSlug
+
+	const activeDesignSystemThemesStore: Readable<Theme[]> = getContext(
+		'activeDesignSystemThemesStore'
+	)
 
 	const dispatch = createEventDispatcher()
 
@@ -28,7 +34,11 @@
 			parentId = $page.params.designSystemId as string
 		}
 
-		importStyleDictionary(JSON.stringify(templateFile), parentId)
+		importStyleDictionary(
+			JSON.stringify(templateFile),
+			parentId,
+			$activeDesignSystemThemesStore
+		)
 
 		dispatch('load-template', templateOverview)
 	}

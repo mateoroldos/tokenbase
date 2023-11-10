@@ -1,15 +1,18 @@
 <script lang="ts">
 	import TokenGroupsExplorer from '$lib/features/token-groups-tree/ui/TokenGroupsExplorer.svelte'
-	import type { createDesignSystemsStore } from '$lib/features/token-groups-store/designSystemsIds'
-	import { getContext, onMount } from 'svelte'
+	import { getContext, onMount, setContext } from 'svelte'
 	import { page } from '$app/stores'
 	import { Button } from '$lib/components/ui/button'
+	import type { createDesignSystemsOverviewsStore } from '$lib/features/token-groups-store/designSystemsOverviewsStore'
+	import { activeThemeIndex } from '$lib/features/themes/stores/activeThemeIndexStore'
+	import { derived, type Readable } from 'svelte/store'
+	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 
-	const tokenBaseMainStore: ReturnType<typeof createDesignSystemsStore> =
-		getContext('tokenBaseMainStore')
+	const tokenBaseMainStore: ReturnType<
+		typeof createDesignSystemsOverviewsStore
+	> = getContext('tokenBaseMainStore')
 
 	let loading = true
-	let activeDesignSystemIndex: number
 
 	onMount(() => {
 		activeDesignSystemIndex = $tokenBaseMainStore.findIndex(
@@ -22,6 +25,30 @@
 	$: activeDesignSystemIndex = $tokenBaseMainStore.findIndex(
 		(designSystem) => designSystem.id === $page.params.designSystemId
 	)
+
+	const activeThemeStore: Readable<Theme | undefined> = derived(
+		[activeThemeIndex, tokenBaseMainStore],
+		([$activeThemeIndex, $tokenBaseMainStore]) => {
+			return $tokenBaseMainStore[activeDesignSystemIndex]?.themes[
+				$activeThemeIndex
+			]
+		}
+	)
+
+	const activeDesignSystemThemesStore: Readable<Theme[] | undefined> = derived(
+		[tokenBaseMainStore, tokenBaseMainStore],
+		([$tokenBaseMainStore]) => {
+			return $tokenBaseMainStore[activeDesignSystemIndex]?.themes
+		}
+	)
+
+	setContext('activeThemeStore', activeThemeStore)
+	setContext('activeDesignSystemThemesStore', activeDesignSystemThemesStore)
+
+	onMount(() => {
+		$activeThemeIndex = 0
+	})
+
 	$: activeDesignSystemName = $tokenBaseMainStore[activeDesignSystemIndex]?.name
 </script>
 

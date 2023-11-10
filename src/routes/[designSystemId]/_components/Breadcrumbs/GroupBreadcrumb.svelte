@@ -2,7 +2,8 @@
 	import { page } from '$app/stores'
 	import { getContext } from 'svelte'
 	import { Input } from '$lib/components/ui/input'
-	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
+	import { ChevronRight } from 'lucide-svelte'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -35,12 +36,14 @@
 		{#if parentGroupId != undefined && parentGroupId != $page.params.designSystemId}
 			<svelte:self groupId={parentGroupId} lastItem={false} />
 		{/if}
-		<span class="text-md text-slate-200"> / </span>
+		<span class="text-xs font-medium text-slate-200">
+			<ChevronRight class="w-4" />
+		</span>
 		{#if lastItem}
 			<Input
 				type="text"
 				placeholder="Untitled"
-				class="h-fit w-fit border-none px-0 py-0 text-sm  text-slate-700"
+				class="h-fit w-fit border-none px-0 py-0 text-sm font-medium text-slate-700"
 				id={`group-name-${groupId}`}
 				autoSelect={true}
 				autoWidth={true}
@@ -51,7 +54,7 @@
 		{:else}
 			<a
 				href={`/${$page.params.designSystemId}/${groupId}`}
-				class="text-sm text-slate-400 transition-colors hover:text-slate-500"
+				class="text-sm font-medium text-slate-400 transition-colors hover:text-slate-500"
 			>
 				{$designTokensGroupStore[groupIndex].name}
 			</a>

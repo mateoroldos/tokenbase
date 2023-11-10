@@ -1,4 +1,4 @@
-import type { TokenValue } from '$lib/features/token-groups-store/types/token-interface'
+import type { TokenValue } from '$lib/features/token-groups-store/types/token.interface'
 import roundNumber from '$lib/utils/roundNumber'
 
 export const generateShades = <

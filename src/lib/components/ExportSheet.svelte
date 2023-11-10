@@ -1,13 +1,9 @@
 <script lang="ts">
-	import designTokensGroupStore from '$lib/features/token-groups-store/groups'
-	import buildStyleDictionaryJson from '$lib/features/export-design-system/buildStyleDictonaryJson'
-	import { fs } from 'memfs'
-	import styleDictionaryBuild from '$lib/features/export-design-system/styleDictionaryBuild'
+	import designSystemsOverviewsStore from '$lib/features/token-groups-store/designSystemsOverviewsStore'
 	import {
-		FILE_TYPE_CONFIGS,
-		type ExportFileTypes,
+		type ExportFileType,
 		EXPORT_FILE_TYPES
-	} from '$lib/features/export-design-system/exportFileTypes'
+	} from '$lib/features/export-design-system/config/exportFileTypes'
 	import * as Sheet from '$lib/components/ui/sheet'
 	import { Button } from '$lib/components/ui/button'
 	import { Switch } from '$lib/components/ui/switch'
@@ -15,72 +11,28 @@
 	import Icon from '@iconify/svelte'
 	import { Separator } from './ui/separator'
 	import { Code } from 'lucide-svelte'
+	import { downloadDesignSystem } from '$lib/features/export-design-system/downloadDesignSystem'
 
-	let exportTypes: ExportFileTypes[] = []
+	let exportTypes: ExportFileType[] = []
 
-	const handleExport = async (exportTypes: ExportFileTypes[]) => {
+	const handleExport = async (exportTypes: ExportFileType[]) => {
 		let designSystemId = $page.params.designSystemId
 
-		if (designSystemId) {
-			for (let i = 0; i < exportTypes.length; i++) {
-				const exportType = exportTypes[i] as ExportFileTypes
-				const fileTypeConfig = FILE_TYPE_CONFIGS[exportType]
-				const buildPath = fileTypeConfig.buildPath
-				const destination = fileTypeConfig.files[0]?.destination
+		const designSystemOverview = $designSystemsOverviewsStore.find(
+			(designSystem) => designSystem.id === designSystemId
+		)
 
-				if (exportType !== 'json') {
-					const styleDictionaryJSON = buildStyleDictionaryJson(
-						$designTokensGroupStore,
-						designSystemId
-					)
-					await styleDictionaryBuild(styleDictionaryJSON, [exportType])
-
-					downloadFile(`/${buildPath}${destination}`)
-				} else if (exportType === 'json') {
-					const jsonContent = buildStyleDictionaryJson(
-						$designTokensGroupStore,
-						designSystemId
-					)
-
-					if (!fs.existsSync(`/build`)) {
-						await fs.mkdir(`/build`, (err) => {
-							if (err) {
-								return console.error(err)
-							}
-							console.log('Directory created successfully!')
-						})
-					}
-
-					await fs.writeFile(
-						`/${buildPath}${destination}`,
-						jsonContent,
-						(err) => {
-							if (err) {
-								return console.error(err)
-							}
-							console.log('File created successfully!')
-							downloadFile(`/${buildPath}${destination}`)
-						}
-					)
-				}
-			}
+		if (designSystemOverview) {
+			downloadDesignSystem(designSystemOverview, exportTypes)
 		}
 	}
 
-	const handleToggleType = (type: ExportFileTypes) => {
+	const handleToggleType = (type: ExportFileType) => {
 		if (exportTypes.includes(type)) {
 			exportTypes = exportTypes.filter((exportType) => exportType !== type)
 		} else {
 			exportTypes = [...exportTypes, type]
 		}
-	}
-
-	const downloadFile = (path: string) => {
-		const a = document.createElement('a')
-		a.href = URL.createObjectURL(new Blob([fs.readFileSync(path)]))
-		a.download = path
-
-		a.click()
 	}
 
 	const resetExportTypes = () => {

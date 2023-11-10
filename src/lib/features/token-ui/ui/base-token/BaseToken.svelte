@@ -1,24 +1,38 @@
 <script lang="ts">
+	import { checkIfValueIsAlias } from '$lib/features/aliases/utils/checkIfValueIsAlias'
 	import type {
+		AliasValue,
 		IToken,
-		TokenType
-	} from '$lib/features/token-groups-store/types/token-interface'
+		TokenType,
+		TokenValue
+	} from '$lib/features/token-groups-store/types/token.interface'
 	import { Link2Off } from 'lucide-svelte'
 	import { getContext, onMount } from 'svelte'
 	import { getDefaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import TokenTypeSelect from '../atoms/TokenTypeSelect.svelte'
-	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
 	import DescriptionDialog from './atoms/DescriptionDialog.svelte'
-	import TokenAliasDialog from './atoms/TokenAliasDialog.svelte'
+	import TokenAliasDialog from '$lib/features/aliases/components/TokenAliasDialog.svelte'
 	import * as Table from '$lib/components/ui/table'
 	import { Input } from '$lib/components/ui/input'
+	import type { Readable } from 'svelte/store'
+	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
+	import { resolveAliasIdToAliasType } from '$lib/features/aliases/utils/resolveAliasIdToAliasType'
+	import { deleteTokenAlias } from '$lib/features/aliases/functions/deleteTokenAlias'
 
 	export let token: IToken
+	export let isAlias: boolean
 	export let draggedTokenId: string | null
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
+
+	const activeDesignSystemThemesStore: Readable<Theme[]> = getContext(
+		'activeDesignSystemThemesStore'
+	)
+
+	const activeThemeStore: Readable<Theme> = getContext('activeThemeStore')
 
 	const selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
 		getContext('selectedTokensStore')
@@ -26,16 +40,32 @@
 	$: selected = $selectedTokensStore.includes(token.id)
 
 	const handleTokenTypeChange = (tokenType: TokenType) => {
+		const tokenValues: {
+			[themeId: string]: TokenValue<typeof tokenType>
+		} = {}
+
+		$activeDesignSystemThemesStore.forEach((theme) => {
+			const resolvedValue =
+				checkIfValueIsAlias(token.value[theme.id] as TokenValue) &&
+				resolveAliasIdToAliasType(
+					(token.value[theme.id] as AliasValue).tokenId as string,
+					(token.value[theme.id] as AliasValue).groupId as string,
+					$designTokensGroupStore
+				) === token.type
+					? token.value[theme.id]
+					: (getDefaultTokenValues(tokenType) as TokenValue)
+
+			tokenValues[theme.id] = getDefaultTokenValues(tokenType) as TokenValue
+		})
 		token = {
 			...token,
-			value: getDefaultTokenValues(tokenType),
+			value: tokenValues,
 			type: tokenType
 		}
 	}
 
 	const removeAlias = () => {
-		token = JSON.parse(JSON.stringify(token))
-		token.alias = undefined
+		deleteTokenAlias(token, $activeThemeStore.id)
 	}
 
 	const handleUnselectNameInput = () => {
@@ -94,10 +124,10 @@
 	<Table.Cell>
 		<div class="flex flex-row gap-3">
 			<DescriptionDialog bind:token />
-			{#if token.alias}
+			{#if isAlias}
 				<button on:click={removeAlias}><Link2Off class="h-4 w-4" /></button>
 			{:else}
-				<TokenAliasDialog bind:token />
+				<TokenAliasDialog bind:token activeThemeId={$activeThemeStore.id} />
 			{/if}
 		</div>
 	</Table.Cell>

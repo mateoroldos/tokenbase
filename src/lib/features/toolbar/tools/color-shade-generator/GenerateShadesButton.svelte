@@ -6,19 +6,27 @@
 	import { generateShades } from './GenerateShades'
 	import type {
 		IToken,
-		TokenType,
 		TokenValue
-	} from '$lib/features/token-groups-store/types/token-interface'
+	} from '$lib/features/token-groups-store/types/token.interface'
 	import { Input } from '$lib/components/ui/input'
 	import checkValidShade from './checkValidShade'
-	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
 	import ToolbarButton from '../../ui/atoms/ToolbarButton.svelte'
-	import type { Group } from '$lib/features/token-groups-store/types/group-interface'
+	import type { Group } from '$lib/features/token-groups-store/types/group.interface'
+	import { activeThemeIndex } from '$lib/features/themes/stores/activeThemeIndexStore'
+	import type { createDesignSystemsOverviewsStore } from '$lib/features/token-groups-store/designSystemsOverviewsStore'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
 	const selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
 		getContext('selectedTokensStore')
+	const tokenBaseMainStore: ReturnType<
+		typeof createDesignSystemsOverviewsStore
+	> = getContext('tokenBaseMainStore')
+
+	$: activeDesignSystemIndex = $tokenBaseMainStore.findIndex(
+		(designSystem) => designSystem.id === $page.params.designSystemId
+	)
 
 	$: groupId = $page.params.groupId as string
 
@@ -32,16 +40,20 @@
 		if (validShade) {
 			const firstToken = (
 				$designTokensGroupStore[groupIndex] as Group
-			).tokens.find((token) => token.id === $selectedTokensStore[0]) as IToken
+			).tokens.find((token) => token.id === $selectedTokensStore[0]) as IToken<
+				'color' | 'dimension' | 'number' | 'duration'
+			>
 			const secondToken = (
 				$designTokensGroupStore[groupIndex] as Group
-			).tokens.find((token) => token.id === $selectedTokensStore[1]) as IToken
+			).tokens.find((token) => token.id === $selectedTokensStore[1]) as IToken<
+				'color' | 'dimension' | 'number' | 'duration'
+			>
 
 			const tokenShades = generateShades(
-				firstToken.value as TokenValue<
+				firstToken.value[$activeThemeIndex] as TokenValue<
 					'color' | 'dimension' | 'number' | 'duration'
 				>,
-				secondToken.value as TokenValue<
+				secondToken.value[$activeThemeIndex] as TokenValue<
 					'color' | 'dimension' | 'number' | 'duration'
 				>,
 				amountOfShades
@@ -49,8 +61,14 @@
 
 			const shadeTokens = tokenShades
 				.map((shade, i) => ({
-					type: firstToken.type as TokenType,
-					value: shade,
+					type: firstToken.type as
+						| 'color'
+						| 'dimension'
+						| 'number'
+						| 'duration',
+					value: $tokenBaseMainStore[activeDesignSystemIndex]?.themes.map(
+						() => shade
+					) as TokenValue<'color' | 'dimension' | 'number' | 'duration'>,
 					name: `${firstToken.name}-shade-${i + 1}`
 				}))
 				.reverse()
@@ -63,7 +81,9 @@
 				$designTokensGroupStore[groupIndex] as Group
 			).tokens.findIndex((token) => token.id === $selectedTokensStore[1])
 
-			designTokensGroupStore.bulkAddTokens(
+			designTokensGroupStore.bulkAddTokens<
+				'color' | 'dimension' | 'number' | 'duration'
+			>(
 				$page.params.groupId as string,
 				shadeTokens,
 				firstTokenIndex > secondTokenIndex

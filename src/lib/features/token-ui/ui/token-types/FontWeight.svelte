@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import * as Select from '$lib/components/ui/select'
 	import { ChevronDown } from 'lucide-svelte'
 	import { Input } from '$lib/components/ui/input'
+	import type { FontWeightTokenValue } from '$lib/features/token-management/font-weight/internal-font-weight-value.type'
 
-	export let token: IToken<'fontWeight'>
+	export let tokenValue: FontWeightTokenValue
 
 	const fontWeigthValueOptions = [
 		'thin',
@@ -22,7 +22,7 @@
 	let isCustom = false
 
 	const handleCustomInputChange = (e) => {
-		token.value = e.srcElement.value
+		tokenValue = e.srcElement.value
 	}
 
 	const handleOptionChange = (value) => {
@@ -31,7 +31,7 @@
 </script>
 
 <div class="flex flex-row gap-2">
-	<Select.Root bind:value={token.value}>
+	<Select.Root bind:value={tokenValue}>
 		<Select.Trigger class="w-[100px] ">
 			<Select.Value
 				placeholder={isCustom ? 'custom' : fontWeigthValueOptions[4]}
@@ -56,7 +56,7 @@
 		<Input
 			class="h-8 w-[100px]"
 			type="text"
-			bind:value={token.value}
+			bind:value={tokenValue}
 			on:input={handleCustomInputChange}
 		/>
 	{/if}

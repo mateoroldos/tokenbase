@@ -4,7 +4,6 @@
 	import StartFromTemplateModal from '$lib/features/templates/StartFromTemplateModal.svelte'
 	import type { TemplateWithSlug } from '$lib/features/templates/types/template-interface'
 	import StartFromTemplateCard from '$lib/features/templates/atoms/StartFromTemplateCard.svelte'
-	import * as Card from '$lib/components/ui/card'
 	import * as EmptyStatePage from './_components/EmptyStatePage'
 	import StartFromJsonCard from './_components/StartFromJsonCard/StartFromJsonCard.svelte'
 
