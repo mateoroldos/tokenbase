@@ -3,29 +3,31 @@ import type { PageServerLoad } from './$types'
 import { auth } from '$lib/server/lucia'
 import type { Actions } from '@sveltejs/kit'
 
-export const load = (async ({ locals }) => {
+export const load: PageServerLoad = async ({ locals }) => {
 	const session = await locals.auth.validate()
 
-	if (!session) throw redirect(303, '/login')
+	if (!session) throw redirect(302, '/login')
 
-	return {}
-}) satisfies PageServerLoad
+	if (!session.user.emailVerified) {
+		throw redirect(302, '/email-verification')
+	}
 
-export const actions = {
+	return {
+		userId: session.user.userId,
+		email: session.user.email
+	}
+}
+
+export const actions: Actions = {
 	logout: async ({ locals }) => {
 		const session = await locals.auth.validate()
 
-		console.log(session, 'logout')
-
 		if (!session) return fail(401)
 
-		// this is how we invalidate the session meang that the session is not valid anymore
 		await auth.invalidateSession(session.sessionId)
 
-		// now let's set the session to null
 		locals.auth.setSession(null)
 
-		// next we redirect to the login page
-		throw redirect(303, '/login')
+		throw redirect(302, '/login')
 	}
-} satisfies Actions
+}

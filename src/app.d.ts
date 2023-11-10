@@ -15,11 +15,10 @@ declare namespace App {
 /// <reference types="lucia" />
 declare namespace Lucia {
 	type Auth = import('$lib/server/lucia').Auth
-	// we omit the id property because lucia automatically generate it for us when we create a user
 	type DatabaseUserAttributes = {
 		username: string
-		names: string
-		last_names: string
+		email: string
+		email_verified: boolean
 	}
-	type DatabaseSessionAttributes = {}
+	type DatabaseSessionAttributes = Record<string, never>
 }

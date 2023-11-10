@@ -1,12 +1,18 @@
 <script lang="ts">
 	import { enhance } from '$app/forms'
-	import { AlertCircle } from 'lucide-svelte'
+	import { AlertCircle, Eye, EyeOff } from 'lucide-svelte'
 	import * as Card from '$lib/components/ui/card'
 	import { Input } from '$lib/components/ui/input'
 	import Button from '$lib/components/ui/button/Button.svelte'
 	import HeroSection from '$lib/components/login/HeroSection.svelte'
 
 	export let form
+
+	let showPassword = false
+
+	function togglePasswordVisibility() {
+		showPassword = !showPassword
+	}
 </script>
 
 <section class="flex flex-1 items-center justify-center bg-slate-50 p-20">
@@ -34,49 +40,33 @@
 						<div class="form-control flex w-full max-w-xs flex-col gap-2 pt-3">
 							<!-- svelte-ignore a11y-label-has-associated-control -->
 							<label class="label">
-								<span class="label-text">Name</span>
+								<span class="label-text">Email</span>
 							</label>
 
 							<Input
 								type="text"
 								autocomplete="off"
-								placeholder="Name"
+								placeholder="johndoe@example.com"
 								class="input input-bordered w-full max-w-xs"
-								name="names"
+								name="email"
 								required
 							/>
-							{#if form?.incorrect && form?.errors.nameError !== null}
+							{#if form?.incorrect && form?.errors.emailError !== null}
 								<div
 									class="flex flex-row items-center text-red-600 bg-blend-color-burn"
 								>
-									<AlertCircle class="mr-2 h-4 w-4" />
-									<p class=" text-red-600">
-										{form?.errors.nameError[0]}
+									<AlertCircle class="mr-1 h-3 w-3" />
+									<p class="text-sm text-red-600">
+										{form?.errors.emailError[0]}
 									</p>
 								</div>
 							{/if}
-						</div>
-						<div class="form-control flex w-full max-w-xs flex-col gap-2 pt-4">
-							<!-- svelte-ignore a11y-label-has-associated-control -->
-							<label class="label">
-								<span class="label-text">Last Name</span>
-							</label>
-							<Input
-								type="text"
-								autocomplete="off"
-								placeholder="Last Name"
-								class="input input-bordered w-full max-w-xs"
-								name="last_names"
-								required
-							/>
-							{#if form?.incorrect && form?.errors.lastNameError !== null}
+							{#if form?.duplicatedEmail}
 								<div
 									class="flex flex-row items-center text-red-600 bg-blend-color-burn"
 								>
-									<AlertCircle class="mr-2 h-4 w-4" />
-									<p class=" text-red-600">
-										{form?.errors.lastNameError[0]}
-									</p>
+									<AlertCircle class="mr-1 h-3 w-3" />
+									<p class="text-sm text-red-600">Email already registered</p>
 								</div>
 							{/if}
 						</div>
@@ -88,7 +78,7 @@
 							<Input
 								type="text"
 								autocomplete="off"
-								placeholder="Username"
+								placeholder="johndoe123"
 								class="input input-bordered w-full max-w-xs"
 								name="username"
 								required
@@ -97,18 +87,18 @@
 								<div
 									class="flex flex-row items-center text-red-600 bg-blend-color-burn"
 								>
-									<AlertCircle class="mr-2 h-4 w-4" />
-									<p class=" text-red-600">
+									<AlertCircle class="mr-1 h-3 w-3" />
+									<p class="text-sm text-red-600">
 										{form?.errors.usernameError[0]}
 									</p>
 								</div>
 							{/if}
-							{#if form?.duplicated}
+							{#if form?.duplicatedUsername}
 								<div
 									class="flex flex-row items-center text-red-600 bg-blend-color-burn"
 								>
-									<AlertCircle class="mr-2 h-4 w-4" />
-									<p class=" text-red-600">Username already exists</p>
+									<AlertCircle class="mr-1 h-3 w-3" />
+									<p class="text-sm text-red-600">Username already exists</p>
 								</div>
 							{/if}
 						</div>
@@ -120,20 +110,34 @@
 							<label class="label">
 								<span class="label-text">Password</span>
 							</label>
-							<Input
-								type="text"
-								autocomplete="off"
-								placeholder="Password"
-								class="input input-bordered w-full max-w-xs"
-								name="password"
-								required
-							/>
+
+							<div class="relative">
+								<Input
+									autocomplete="off"
+									type={showPassword ? 'text' : 'password'}
+									placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"
+									class="input input-bordered w-full max-w-xs pr-10"
+									name="password"
+									required
+								/>
+								<button
+									type="button"
+									class="absolute inset-y-0 right-0 flex items-center px-2 text-gray-600"
+									on:click={togglePasswordVisibility}
+								>
+									{#if showPassword}
+										<EyeOff class="h-4 w-4" />
+									{:else}
+										<Eye class="h-4 w-4" />
+									{/if}
+								</button>
+							</div>
 							{#if form?.incorrect && form?.errors.passwordError !== null}
 								<div
 									class="flex flex-row items-center text-red-600 bg-blend-color-burn"
 								>
-									<AlertCircle class="mr-2 h-4 w-4" />
-									<p class="text-red-600">
+									<AlertCircle class="mr-1 h-3 w-3" />
+									<p class="text-sm text-red-600">
 										{form?.errors.passwordError[0]}
 									</p>
 								</div>
@@ -143,6 +147,13 @@
 						<Button class="btn btn-primary mt-4 max-w-xs " type="submit"
 							>Create account</Button
 						>
+
+						<p class="pt-4">
+							Already have an account? <a
+								href="/login"
+								class="link link-hover font-semibold">Login</a
+							>.
+						</p>
 					</form>
 				</Card.Content>
 			</Card.Root>

@@ -1,12 +1,18 @@
 <script>
 	import { enhance } from '$app/forms'
 	import * as Card from '$lib/components/ui/card'
-	import { AlertCircle } from 'lucide-svelte'
+	import { AlertCircle, Eye, EyeOff } from 'lucide-svelte'
 	import { Input } from '$lib/components/ui/input'
 	import Button from '$lib/components/ui/button/Button.svelte'
 	import HeroSection from '$lib/components/login/HeroSection.svelte'
 
 	export let form
+
+	let showPassword = false
+
+	function togglePasswordVisibility() {
+		showPassword = !showPassword
+	}
 </script>
 
 <section class="flex flex-1 items-center justify-center bg-slate-50 p-20">
@@ -35,22 +41,22 @@
 						<div class="form-control flex w-full max-w-xs flex-col gap-2 pt-3">
 							<!-- svelte-ignore a11y-label-has-associated-control -->
 							<label class="label">
-								<span class="label-text">Username</span>
+								<span class="label-text">Email</span>
 							</label>
 							<Input
 								type="text"
-								placeholder="Username"
+								placeholder="johndoe@example.com"
 								class="input input-bordered w-full max-w-xs"
-								name="username"
+								name="email"
 								required
 							/>
-							{#if form?.incorrect && form?.errors.usernameError !== null}
+							{#if form?.incorrect && form?.errors.emailError !== null}
 								<div
 									class="flex flex-row items-center text-red-600 bg-blend-color-burn"
 								>
-									<AlertCircle class="mr-2 h-4 w-4" />
-									<p class=" text-red-600">
-										{form?.errors.usernameError[0]}
+									<AlertCircle class="mr-1 h-3 w-3" />
+									<p class="text-sm text-red-600">
+										{form?.errors.emailError[0]}
 									</p>
 								</div>
 							{/if}
@@ -63,38 +69,55 @@
 							<label class="label">
 								<span class="label-text">Password</span>
 							</label>
-							<Input
-								type="text"
-								placeholder="Password"
-								class="input input-bordered w-full max-w-xs"
-								name="password"
-								required
-							/>
+							<div class="relative">
+								<Input
+									autocomplete="off"
+									type={showPassword ? 'text' : 'password'}
+									placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"
+									class="input input-bordered w-full max-w-xs pr-10"
+									name="password"
+									required
+								/>
+								<button
+									type="button"
+									class="absolute inset-y-0 right-0 flex items-center px-2 text-gray-600"
+									on:click={togglePasswordVisibility}
+								>
+									{#if showPassword}
+										<EyeOff class="h-4 w-4" />
+									{:else}
+										<Eye class="h-4 w-4" />
+									{/if}
+								</button>
+							</div>
+							<a href="/password-reset">
+								<p class="pt-4 text-left">Forgot your password?</p>
+							</a>
 							{#if form?.incorrect && form?.errors.passwordError !== null}
 								<div
 									class="flex flex-row items-center text-red-600 bg-blend-color-burn"
 								>
-									<AlertCircle class="mr-2 h-4 w-4" />
-									<p class="text-red-600">
+									<AlertCircle class="mr-1 h-3 w-3" />
+									<p class="text-sm text-red-600">
 										{form?.errors.passwordError[0]}
 									</p>
 								</div>
 							{/if}
 						</div>
-						{#if form?.usernameError}
+						{#if form?.emailError}
 							<div
 								class="flex flex-row items-center text-red-600 bg-blend-color-burn"
 							>
-								<AlertCircle class="mr-2 h-4 w-4" />
-								<p class=" text-red-600">Username doesn't exist</p>
+								<AlertCircle class="mr-1 h-3 w-3" />
+								<p class="text-sm text-red-600">Email is not registered</p>
 							</div>
 						{/if}
 						{#if form?.passwordError}
 							<div
 								class="flex flex-row items-center text-red-600 bg-blend-color-burn"
 							>
-								<AlertCircle class="mr-2 h-4 w-4" />
-								<p class=" text-red-600">Wrong password</p>
+								<AlertCircle class="mr-1 h-3 w-3" />
+								<p class="text-sm text-red-600">Invalid password</p>
 							</div>
 						{/if}
 
