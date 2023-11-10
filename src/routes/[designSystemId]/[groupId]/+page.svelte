@@ -15,12 +15,7 @@
 	import StartFromTemplateCard from '$lib/features/templates/atoms/StartFromTemplateCard.svelte'
 	import * as EmptyStatePage from '.././_components/EmptyStatePage'
 	import StartFromJsonCard from '../_components/StartFromJsonCard/StartFromJsonCard.svelte'
-	import { viewMode } from '$lib/features/stores/viewMode'
-
-	let viewModeValue: boolean;
-	viewMode.subscribe(value => {
-		viewModeValue = value;
-	});
+	import { viewMode } from '$lib/features/viewMode/stores/viewMode'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -107,7 +102,7 @@
 					<Table.Row class="shadow-[0_1px_0] shadow-slate-100">
 						<Table.Head class="h-10" >
 							<div class="flex items-center">
-								<input disabled={viewModeValue}
+								<input disabled={$viewMode}
 									type="checkbox"
 									class="h-4 w-4"
 									bind:checked={allTokensSelected}

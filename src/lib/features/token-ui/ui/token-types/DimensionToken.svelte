@@ -2,14 +2,9 @@
 	import { Input } from '$lib/components/ui/input'
 	import * as Select from '$lib/components/ui/select'
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
-	import { viewMode } from '../../../stores/viewMode';
+	import { viewMode } from '../../../viewMode/stores/viewMode';
 
 	export let token: IToken<'dimension'>
-
-	let viewModeValue: boolean;
-	viewMode.subscribe(value => {
-		viewModeValue = value;
-	});
 
 	$: isAlias = token.alias !== undefined
 
@@ -18,7 +13,7 @@
 
 <div class="flex gap-3">
 	<div>
-		<Input disabled={viewModeValue}
+		<Input disabled={$viewMode}
 			name="dimension"
 			class="h-8 w-[80px] disabled:opacity-1"
 			type="number"
@@ -27,7 +22,7 @@
 		/>
 	</div>
 	<div class="flex items-center">
-		<Select.Root bind:value={token.value.unit} disabled={viewModeValue}>
+		<Select.Root bind:value={token.value.unit} disabled={$viewMode}>
 			<Select.Trigger
 				class="h-8 w-[60px] disabled:opacity-1"
 				{...isAlias ? { disabled: true } : {}}

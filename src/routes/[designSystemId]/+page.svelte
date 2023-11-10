@@ -4,16 +4,45 @@
 	import StartFromTemplateModal from '$lib/features/templates/StartFromTemplateModal.svelte'
 	import type { TemplateWithSlug } from '$lib/features/templates/types/template-interface'
 	import StartFromTemplateCard from '$lib/features/templates/atoms/StartFromTemplateCard.svelte'
-	import * as Card from '$lib/components/ui/card'
 	import * as EmptyStatePage from './_components/EmptyStatePage'
 	import StartFromJsonCard from './_components/StartFromJsonCard/StartFromJsonCard.svelte'
+	import deleteDesignSystem from '$lib/features/viewMode/deleteFromStore'
+	import { onDestroy } from 'svelte'
+	import { preview } from '$lib/features/viewMode/stores/preview'
+	import { onMount } from 'svelte'
+	import { page } from '$app/stores'
+	import { viewMode } from '$lib/features/viewMode/stores/viewMode'
 
+	export let data;
 	const getDesignSystemTemplates = fetch(`/api/templates`).then(
 		async (data) => (await data.json()) as TemplateWithSlug[]
 	)
+
+	$:{
+		if($preview){
+			viewMode.set(true);
+		}else{
+			viewMode.set(false)
+		}
+	}
+
+	onMount(() => {
+		preview.set(false);
+	});
+
+	
+	onDestroy(() => {
+		if ($preview) 
+		{
+			console.log("data.id",data.id);
+			let designSystemId = $page.params.designSystemId || "";
+			console.log("Design system Id en +page", designSystemId);
+			deleteDesignSystem(designSystemId);
+		}
+	});
 </script>
 
-<div class="h-full overflow-hidden">
+<div class="h-full overflow-hidden {$preview ? 'modal' : ''}">
 	<Header />
 	<EmptyStatePage.Root>
 		<EmptyStatePage.Section>

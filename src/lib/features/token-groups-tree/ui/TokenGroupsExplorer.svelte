@@ -9,7 +9,8 @@
 	import groupsStore from '$lib/features/token-groups-store/groups'
 	import { v4 as uuidv4 } from 'uuid'
 	import { Separator } from '$lib/components/ui/separator'
-
+	import { viewMode } from '$lib/features/viewMode/stores/viewMode'
+	
 	const handleAddNewGroup = () => {
 		const id = uuidv4()
 
@@ -35,13 +36,15 @@
 		<Separator
 			class="mt-4 bg-gradient-to-r from-slate-100 via-slate-200 to-slate-100"
 		/>
-		<button
-			class="align-center font-small flex flex-row items-center gap-1 pl-1 text-sm text-slate-400 transition-colors hover:text-slate-500"
-			on:click={handleAddNewGroup}
-		>
-			<Plus class="h-3 w-3" />
-			New group
-		</button>
+		{#if !$viewMode}
+			<button
+				class="align-center font-small flex flex-row items-center gap-1 pl-1 text-sm text-slate-400 transition-colors hover:text-slate-500"
+				on:click={handleAddNewGroup}
+			>
+				<Plus class="h-3 w-3" />
+				New group
+			</button>
+		{/if}
 	</div>
 	<div class="flex flex-col gap-3">
 		<ExportSheet />

@@ -9,7 +9,11 @@
 	import type { createDesignSystemsStore } from '$lib/features/token-groups-store/designSystemsIds'
 	import type { TokenType } from '$lib/features/token-groups-store/types/token-interface'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
-
+	import { preview } from '$lib/features/viewMode/stores/preview'
+	import { viewMode } from '$lib/features/viewMode/stores/viewMode'
+	import ImportDesignSystem from '$lib/features/toolbar/tools/import-design-system/ImportDesignSystem.svelte'
+	import StartFromTemplateModal from '$lib/features/templates/StartFromTemplateModal.svelte';
+ 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
 	const tokenBaseMainStore: ReturnType<typeof createDesignSystemsStore> =
@@ -46,14 +50,23 @@
 		{#if activeGroupId}
 			<GroupBreadcrumb groupId={activeGroupId} />
 		{/if}
+		
 	</div>
 	{#if activeGroupId}
 		<div class="flex flex-row items-center gap-7">
 			<Toolbar />
-			<Button on:click={handleAddToken} class="h-fit px-2 py-1 text-xs">
-				<Plus class="mr-2 h-4 w-4" />
-				Add Token
-			</Button>
+			{#if !$preview}
+				<Button on:click={handleAddToken} class="h-fit px-2 py-1 text-xs" disabled={$viewMode}>
+					<Plus class="mr-2 h-4 w-4" />
+					Add Token
+				</Button>
+			{/if}
+		</div>
+	{/if}
+	{#if $preview && !activeGroupId }
+		<div class="flex flex-row items-center gap-4">
+			<StartFromTemplateModal/>
+			<ImportDesignSystem/>
 		</div>
 	{/if}
 </div>

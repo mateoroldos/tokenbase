@@ -3,14 +3,9 @@
 	import * as Select from '$lib/components/ui/select'
 	import { ChevronDown } from 'lucide-svelte'
 	import { Input } from '$lib/components/ui/input'
-	import { viewMode } from '../../../stores/viewMode';
+	import { viewMode } from '../../../viewMode/stores/viewMode';
 
 	export let token: IToken<'fontWeight'>
-
-	let viewModeValue: boolean;
-	viewMode.subscribe(value => {
-		viewModeValue = value;
-	});
 
 	const fontWeigthValueOptions = [
 		'thin',
@@ -37,12 +32,12 @@
 </script>
 
 <div class="flex flex-row gap-2">
-	<Select.Root bind:value={token.value} disabled={viewModeValue}>
+	<Select.Root bind:value={token.value} disabled={$viewMode}>
 		<Select.Trigger class="w-[100px] disabled:opacity-1">
 			<Select.Value 
 				placeholder={isCustom ? 'custom' : fontWeigthValueOptions[4]}
 			/>
-			{#if !viewModeValue}
+			{#if !$viewMode}
 				<ChevronDown class="h-3 pl-3" />
 			{/if}
 		</Select.Trigger>
@@ -61,7 +56,7 @@
 		<Select.Input />
 	</Select.Root>
 	{#if isCustom}
-		<Input disabled={viewModeValue}
+		<Input disabled={$viewMode}
 			class="h-8 w-[100px] disabled:opacity-1"
 			type="text"
 			bind:value={token.value}

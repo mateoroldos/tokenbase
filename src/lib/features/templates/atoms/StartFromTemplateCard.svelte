@@ -8,9 +8,10 @@
 	import * as Avatar from '$lib/components/ui/avatar'
 	import Badge from '$lib/components/ui/badge/badge.svelte'
 	import { createEventDispatcher } from 'svelte'
+	import { preview } from '$lib/features/viewMode/stores/preview'
+	import { viewMode } from '$lib/features/viewMode/stores/viewMode'
 
 	export let templateOverview: TemplateWithSlug
-
 	const dispatch = createEventDispatcher()
 
 	const handleCreateGroupFromTemplate = async () => {
@@ -29,7 +30,8 @@
 		}
 
 		importStyleDictionary(JSON.stringify(templateFile), parentId)
-
+		preview.set(true);
+		viewMode.set(true);
 		dispatch('load-template', templateOverview)
 	}
 </script>

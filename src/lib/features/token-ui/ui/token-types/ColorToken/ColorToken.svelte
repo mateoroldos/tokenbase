@@ -10,14 +10,9 @@
 	} from './utils/generateHctBackgroundGradients'
 	import { createEventDispatcher } from 'svelte'
 	import { Input } from '$lib/components/ui/input'
-	import { viewMode } from '../../../../stores/viewMode'
+	import { viewMode } from '../../../../viewMode/stores/viewMode'
 
 	export let token: IToken<'color'>
-
-	let viewModeValue: boolean;
-	viewMode.subscribe(value => {
-		viewModeValue = value;
-	});
 
 	$: isAlias = token.alias !== undefined
 
@@ -68,7 +63,7 @@
 			class="aspect-square h-7 rounded-sm border border-slate-300"
 			style={`background-color: ${hex}`}
 		/>
-		<Input disabled={viewModeValue}
+		<Input disabled={$viewMode}
 			value={hex}
 			name="color"
 			class="ml-1 h-7 w-20 border-none px-1 py-1 text-sm disabled:opacity-1"
@@ -82,14 +77,14 @@
 		<div class="flex w-full max-w-[130px] flex-col gap-1">
 			<div class="flex flex-row items-center">
 				<span class="text-xs text-slate-500">Hue</span>
-				<input disabled={viewModeValue}
+				<input disabled={$viewMode}
 					type="number"
 					class="w-14 rounded-md bg-transparent px-1 text-xs"
 					{...isAlias ? { disabled: true } : {}}
 					bind:value={token.value[0]}
 				/>
 			</div>
-			<Range disabled={viewModeValue}
+			<Range disabled={$viewMode}
 				min={0}
 				max={360}
 				id={`${token.id}-hue-range`}
@@ -106,14 +101,14 @@
 		<div class="flex w-full max-w-[130px] flex-col gap-1">
 			<div class="flex flex-row items-center">
 				<span class="text-xs text-slate-500">Chroma</span>
-				<input disabled={viewModeValue}
+				<input disabled={$viewMode}
 					type="number"
 					class="w-14 rounded-md bg-transparent px-1 text-xs"
 					{...isAlias ? { disabled: true } : {}}
 					bind:value={token.value[1]}
 				/>
 			</div>
-			<Range disabled={viewModeValue}
+			<Range disabled={$viewMode}
 				min={0}
 				max={100}
 				id={`${token.id}-chroma-range`}
@@ -137,7 +132,7 @@
 					bind:value={token.value[2]}
 				/>
 			</div>
-			<Range disabled={viewModeValue}
+			<Range disabled={$viewMode}
 				min={0}
 				max={100}
 				id={`${token.id}-saturation-range`}

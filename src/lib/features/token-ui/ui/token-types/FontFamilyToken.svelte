@@ -2,13 +2,8 @@
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import { createTagsInput, melt } from '@melt-ui/svelte'
 	import { X } from 'lucide-svelte'
-	import { viewMode } from '../../../stores/viewMode';
+	import { viewMode } from '../../../viewMode/stores/viewMode';
 	export let token: IToken<'fontFamily'>
-
-	let viewModeValue: boolean;
-	viewMode.subscribe(value => {
-		viewModeValue = value;
-	});
 
 	let {
 		elements: { root, input, tag, deleteTrigger, edit },
@@ -39,7 +34,7 @@
 					class="flex items-center border-r border-white/10 bg-slate-100 px-1.5"
 					>{t.value}</span
 				>
-				{#if !viewModeValue}
+				{#if !$viewMode}
 					<button
 						use:melt={$deleteTrigger(t)}
 						class="enabled:hover:bg-magnum-300 flex h-full items-center bg-slate-100 px-1"
@@ -53,7 +48,7 @@
 				class="flex items-center overflow-hidden rounded-md px-1.5 [word-break:break-word] data-[invalid-edit]:focus:!ring-red-500"
 			/>
 		{/each}
-		{#if !viewModeValue}
+		{#if !$viewMode}
 			<input
 				use:melt={$input}
 				type="text"

@@ -1,15 +1,16 @@
 <script lang="ts">
-	import { viewMode } from '$lib/features/stores/viewMode';
+	import { viewMode } from '$lib/features/viewMode/stores/viewMode';
 	import { Switch } from "$lib/components/ui/switch";
 	import GenerateShadesButton from '../tools/color-shade-generator/GenerateShadesButton.svelte'
 	import DeleteTokensButton from '../tools/delete-tokens/DeleteTokensButton.svelte'
-
-	let switchValue: boolean;
-	viewMode.subscribe(value => {
-		switchValue = value;
-	});
+	import { preview } from '$lib/features/viewMode/stores/preview';
+	import Button from '$lib/components/ui/button/Button.svelte';
+	import ImportDesignSystem from '../tools/import-design-system/ImportDesignSystem.svelte';
+	import StartFromTemplateModal from '$lib/features/templates/StartFromTemplateModal.svelte';
+	import ViewModeSwitch from '../tools/view-mode/ViewModeSwitch.svelte';
+	
 	$: {
-		if (switchValue) {
+		if ($viewMode) {
 			viewMode.set(true);
 		} else {
 			viewMode.set(false);
@@ -18,7 +19,13 @@
 </script>
 
 <div class="flex flex-row gap-6 items-center">
-	<Switch bind:checked={switchValue}/>
-	<GenerateShadesButton />
-	<DeleteTokensButton />
+	{#if !$preview }
+		<ViewModeSwitch/>
+		<GenerateShadesButton />
+		<DeleteTokensButton />
+	{:else}
+		<StartFromTemplateModal/>
+		<ImportDesignSystem/>
+	{/if}
+
 </div>

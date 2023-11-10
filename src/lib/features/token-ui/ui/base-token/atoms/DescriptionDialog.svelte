@@ -6,14 +6,9 @@
 	import * as Tooltip from '$lib/components/ui/tooltip'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
 	import { Textarea } from '$lib/components/ui/textarea'
-	import { viewMode } from '../../../../stores/viewMode'
-
+	import { viewMode } from '../../../../viewMode/stores/viewMode'
+	import { preview } from '$lib/features/viewMode/stores/preview'
 	export let token: IToken
-
-	let viewModeValue: boolean;
-	viewMode.subscribe(value => {
-		viewModeValue = value;
-	});
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -43,7 +38,11 @@
 				</Tooltip.Content>
 			{:else if token.description == undefined}
 				<Tooltip.Content>
-					<p>Add a description</p>
+					{#if $preview || $viewMode}
+						<p>See description</p>
+					{:else}
+						<p>Add a description</p>
+					{/if}
 				</Tooltip.Content>
 			{/if}
 		</Tooltip.Root>
@@ -53,7 +52,7 @@
 			<Dialog.Description>
 				<div class="flex flex-col gap-2">
 					<h3>Token description</h3>
-					<Textarea bind:value={token.description} disabled={viewModeValue}/>
+					<Textarea bind:value={token.description} disabled={$viewMode}/>
 				</div>
 			</Dialog.Description>
 		</Dialog.Header>

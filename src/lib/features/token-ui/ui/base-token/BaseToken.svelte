@@ -13,15 +13,10 @@
 	import TokenAliasDialog from './atoms/TokenAliasDialog.svelte'
 	import * as Table from '$lib/components/ui/table'
 	import { Input } from '$lib/components/ui/input'
-	import { viewMode } from '../../../stores/viewMode'
+	import { viewMode } from '../../../viewMode/stores/viewMode'
 	
 	export let token: IToken
 	export let draggedTokenId: string | null
-
-	let viewModeValue: boolean;
-	viewMode.subscribe(value => {
-		viewModeValue = value;
-	});
 	
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -68,7 +63,7 @@
 	class="border-slate-100"
 >
 	<Table.Cell class="pr-0">
-		<input disabled={viewModeValue}
+		<input disabled={$viewMode}
 			type="checkbox"
 			bind:checked={selected}
 			class="h-4 w-4"
@@ -88,7 +83,7 @@
 		/>
 	</Table.Cell>
 	<Table.Cell class="pr-0">
-		{#if viewModeValue}
+		{#if $viewMode}
 			<p class="h-7 w-40 border-none px-1 py-1 pr-6 text-sm font-medium">{token.name}</p>
 		{:else}
 			<Input
@@ -105,7 +100,7 @@
 		<div class="flex flex-row gap-3">
 			<DescriptionDialog bind:token />
 			{#if token.alias}
-				<button on:click={removeAlias} disabled={viewModeValue}><Link2Off class="h-4 w-4" /></button>
+				<button on:click={removeAlias} disabled={$viewMode}><Link2Off class="h-4 w-4" /></button>
 			{:else}
 				<TokenAliasDialog bind:token />
 			{/if}
