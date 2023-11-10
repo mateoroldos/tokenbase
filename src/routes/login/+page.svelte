@@ -5,8 +5,16 @@
 	import { Input } from '$lib/components/ui/input'
 	import Button from '$lib/components/ui/button/Button.svelte'
 	import HeroSection from '$lib/components/login/HeroSection.svelte'
+	import { Eye } from 'lucide-svelte'
+	import { EyeOff } from 'lucide-svelte'
 
 	export let form
+
+	let showPassword = false
+
+	function togglePasswordVisibility() {
+		showPassword = !showPassword
+	}
 </script>
 
 <section class="flex flex-1 items-center justify-center bg-slate-50 p-20">
@@ -63,13 +71,29 @@
 							<label class="label">
 								<span class="label-text">Password</span>
 							</label>
-							<Input
-								type="text"
-								placeholder="Password"
-								class="input input-bordered w-full max-w-xs"
-								name="password"
-								required
-							/>
+							<div class="relative">
+								<Input
+									type={showPassword ? 'text' : 'password'}
+									placeholder="Password"
+									class="input input-bordered w-full max-w-xs pr-10"
+									name="password"
+									required
+								/>
+								<button
+									type="button"
+									class="absolute inset-y-0 right-0 flex items-center px-2 text-gray-600"
+									on:click={togglePasswordVisibility}
+								>
+									{#if showPassword}
+										<EyeOff class="h-4 w-4" />
+									{:else}
+										<Eye class="h-4 w-4" />
+									{/if}
+								</button>
+							</div>
+							<a href="/password-reset">
+								<p class="pt-4 text-left">Forgot your password?</p>
+							</a>
 							{#if form?.incorrect && form?.errors.passwordError !== null}
 								<div
 									class="flex flex-row items-center text-red-600 bg-blend-color-burn"
