@@ -6,12 +6,12 @@ import type { ExportNumberTokenValue } from '$lib/features/token-management/numb
 import type {
 	IToken,
 	TokenValue
-} from '../token-groups-store/types/token.interface'
-import transformToImportColorValue from '../token-management/color/transformToImportColorValue'
-import transformToImportDimensionValue from '../token-management/dimension/transformToImportDimensionValue'
-import type { StyleDictionaryToken } from './types/style-dictionary-token.interface'
+} from '../../token-groups-store/types/token.interface'
+import transformToImportColorValue from '../../token-management/color/transformToImportColorValue'
+import transformToImportDimensionValue from '../../token-management/dimension/transformToImportDimensionValue'
+import type { StyleDictionaryToken } from '../types/style-dictionary-token.interface'
 import { v4 as uuidv4 } from 'uuid'
-import type { Theme } from '../token-groups-store/types/design-system-overview.interface'
+import type { Theme } from '../../token-groups-store/types/design-system-overview.interface'
 
 const styleDictionaryTokenToIToken = (
 	styleDictionaryToken: StyleDictionaryToken,

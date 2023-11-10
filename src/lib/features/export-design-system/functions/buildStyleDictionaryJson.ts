@@ -1,8 +1,8 @@
 import StyleDictionary, { type Config } from 'browser-style-dictionary'
 import { fs } from 'memfs'
 import { makeSdTailwindConfig } from 'sd-tailwindcss-transformer'
-import type { ExportFileType } from './exportFileTypes'
-import { FILE_TYPE_CONFIGS } from './exportFileTypes'
+import type { ExportFileType } from '../config/exportFileTypes'
+import { FILE_TYPE_CONFIGS } from '../config/exportFileTypes'
 
 const buildStyleDictionaryJson = async (
 	styleDictionaryJson: string,

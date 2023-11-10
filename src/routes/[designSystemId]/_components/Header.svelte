@@ -27,8 +27,6 @@
 		(group) => group.id === groupId
 	)
 
-	$: themes = $tokenBaseMainStore[activeDesignSystemIndex]?.themes as Theme[]
-
 	const handleAddToken = () => {
 		const tokenType: TokenType =
 			$designTokensGroupStore[groupIndex]!.type !== undefined
@@ -62,8 +60,11 @@
 	</div>
 	{#if activeGroupId}
 		<div class="flex flex-row items-center gap-7">
-			{#if $page.params.designSystemId}
-				<ThemeSelector {themes} designSystemId={$page.params.designSystemId} />
+			{#if $page.params.designSystemId && $tokenBaseMainStore[activeDesignSystemIndex]}
+				<ThemeSelector
+					bind:themes={$tokenBaseMainStore[activeDesignSystemIndex].themes}
+					designSystemId={$page.params.designSystemId}
+				/>
 			{/if}
 			<Toolbar />
 			<Button on:click={handleAddToken} class="h-fit px-2 py-1 text-xs">

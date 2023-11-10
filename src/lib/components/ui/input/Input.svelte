@@ -3,7 +3,11 @@
 	import { cn } from '$lib/utils'
 	import type { InputEvents } from '.'
 
-	type $$Props = HTMLInputAttributes
+	type $$Props = HTMLInputAttributes & {
+		autoWidth?: boolean
+		autoSelect?: boolean
+		autoName?: string
+	}
 	type $$Events = InputEvents
 
 	let className: $$Props['class'] = undefined

@@ -1,16 +1,16 @@
 import type {
 	AliasValue,
 	IToken
-} from '../token-groups-store/types/token.interface'
-import type { Group } from '../token-groups-store/types/group.interface'
+} from '../../token-groups-store/types/token.interface'
+import type { Group } from '../../token-groups-store/types/group.interface'
 import { v4 as uuidv4 } from 'uuid'
 import { get } from 'svelte/store'
-import designTokensGroupStore from '../token-groups-store/groupsStore'
-import type { StyleDictionaryGroup } from './types/style-dictionary-group.interface'
+import designTokensGroupStore from '../../token-groups-store/groupsStore'
+import type { StyleDictionaryGroup } from '../types/style-dictionary-group.interface'
 import styleDictionaryTokenToIToken from './styleDictionaryTokenToIToken'
-import type { StyleDictionaryToken } from './types/style-dictionary-token.interface'
-import type { Theme } from '../token-groups-store/types/design-system-overview.interface'
-import { resolveAliasRouteToIds } from '../aliases/utils/resolveAliasRouteToIds'
+import type { StyleDictionaryToken } from '../types/style-dictionary-token.interface'
+import type { Theme } from '../../token-groups-store/types/design-system-overview.interface'
+import { resolveAliasRouteToIds } from '../../aliases/utils/resolveAliasRouteToIds'
 
 const buildStyleDictionaryNode = (
 	styleDictionaryGroup: StyleDictionaryGroup,

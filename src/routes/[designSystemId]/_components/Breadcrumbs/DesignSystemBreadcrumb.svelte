@@ -65,20 +65,11 @@
 	}
 
 	let customMenuItems = [
-		{ title: 'Edit name', component: Pencil, test: toggleChangeNameInput },
+		{ title: 'Edit name', component: Pencil, function: toggleChangeNameInput },
 		{
 			title: 'Delete System',
 			component: Trash,
-			test: deleteDesignSystem
-		}
-	]
-
-	let designSystemItems = [
-		{ title: 'Edit name', component: Pencil, test: toggleChangeNameInput },
-		{
-			title: 'Delete System',
-			component: Trash,
-			test: deleteDesignSystem
+			function: deleteDesignSystem
 		}
 	]
 </script>

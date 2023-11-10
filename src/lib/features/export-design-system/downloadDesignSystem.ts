@@ -1,9 +1,12 @@
 import { fs } from 'memfs'
-import { FILE_TYPE_CONFIGS, type ExportFileType } from './exportFileTypes'
+import {
+	FILE_TYPE_CONFIGS,
+	type ExportFileType
+} from './config/exportFileTypes'
 import { get } from 'svelte/store'
-import transformDesignSystemToStyleDictionaryJsons from './transforms'
+import transformDesignSystemToStyleDictionaryJsons from './transforms/transformDesignSystemToStyleDictionaryJsons'
 import designTokensGroupStore from '$lib/features/token-groups-store/groupsStore'
-import buildStyleDictionaryJson from './buildStyleDictionaryJson'
+import buildStyleDictionaryJson from './functions/buildStyleDictionaryJson'
 import { downloadDirectory } from './utils/downloadDirectory'
 import type { DesignSystemOverview } from '../token-groups-store/types/design-system-overview.interface'
 

@@ -3,7 +3,7 @@
 	import {
 		type ExportFileType,
 		EXPORT_FILE_TYPES
-	} from '$lib/features/export-design-system/exportFileTypes'
+	} from '$lib/features/export-design-system/config/exportFileTypes'
 	import * as Sheet from '$lib/components/ui/sheet'
 	import { Button } from '$lib/components/ui/button'
 	import { Switch } from '$lib/components/ui/switch'

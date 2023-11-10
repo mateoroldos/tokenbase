@@ -131,7 +131,7 @@
 			<Range
 				min={0}
 				max={100}
-				id={`${tokenId}-saturation-range`}
+				id={`${tokenId}-tone-range`}
 				background={toneBackground}
 				{...isAlias ? { disabled: true } : {}}
 				bind:value={tokenValue[2]}

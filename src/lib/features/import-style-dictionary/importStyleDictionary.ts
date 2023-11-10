@@ -1,6 +1,6 @@
 import { get } from 'svelte/store'
 import designTokensGroupStore from '../token-groups-store/groupsStore'
-import styleDictionaryToGroups from './buildGroupsFromJson'
+import styleDictionaryToGroups from './functions/buildGroupsFromJson'
 import type { Theme } from '../token-groups-store/types/design-system-overview.interface'
 
 const importStyleDictionary = (

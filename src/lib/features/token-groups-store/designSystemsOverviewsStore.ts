@@ -16,7 +16,7 @@ export const createDesignSystemsOverviewsStore = () => {
 				themes: [
 					{
 						id: uuidv4(),
-						name: 'Main'
+						name: 'light'
 					}
 				]
 			})
@@ -33,9 +33,15 @@ export const createDesignSystemsOverviewsStore = () => {
 		})
 	}
 
-	const addTheme = (id: string, themeName: string, themeId: string): void => {
+	const addTheme = (
+		designSystemId: string,
+		themeName: string,
+		themeId: string
+	): void => {
 		update((designSystems) => {
-			const designSystem = designSystems.find((system) => system.id === id)
+			const designSystem = designSystems.find(
+				(system) => system.id === designSystemId
+			)
 
 			if (designSystem) {
 				designSystem.themes.push({
@@ -48,12 +54,29 @@ export const createDesignSystemsOverviewsStore = () => {
 		})
 	}
 
+	const deleteTheme = (designSystemId: string, themeId: string): void => {
+		update((designSystems) => {
+			const designSystem = designSystems.find(
+				(system) => system.id === designSystemId
+			)
+
+			if (designSystem) {
+				designSystem.themes = designSystem.themes.filter(
+					(theme) => theme.id !== themeId
+				)
+			}
+
+			return designSystems
+		})
+	}
+
 	return {
 		subscribe,
 		set,
 		addDesignSystem,
 		deleteDesignSystem,
-		addTheme
+		addTheme,
+		deleteTheme
 	}
 }
 
