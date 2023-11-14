@@ -5,6 +5,7 @@ import type { PageServerLoad } from './$types'
 import { z } from 'zod'
 import { superValidate } from 'sveltekit-superforms/server'
 import { LuciaError } from 'lucia'
+import { findErrorByName } from '$lib/features/user-management/errors'
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const session = await locals.auth.validate()
@@ -21,14 +22,6 @@ const loginSchema = z.object({
 	email: z.string().email(),
 	password: z.string().min(6).max(100)
 })
-
-function findErrorByName(errors: { [key: string]: any }, name: string) {
-	if (errors.hasOwnProperty(name)) {
-		return errors[name]
-	} else {
-		return null
-	}
-}
 
 export const actions = {
 	login: async ({ request, locals }) => {

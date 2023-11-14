@@ -7,6 +7,7 @@ import { LuciaError } from 'lucia'
 import { sendEmailVerificationLink } from '$lib/features/user-management/email'
 import { generateEmailVerificationToken } from '$lib/features/user-management/token'
 import { verifyUniqueUsername } from '$lib/features/user-management/user'
+import { findErrorByName } from '$lib/features/user-management/errors'
 
 const signupSchema = z.object({
 	username: z.string().min(3).max(20),
@@ -24,14 +25,6 @@ export const load = (async ({ locals }) => {
 
 	return {}
 }) satisfies PageServerLoad
-
-function findErrorByName(errors: { [key: string]: any }, name: string) {
-	if (errors.hasOwnProperty(name)) {
-		return errors[name]
-	} else {
-		return null
-	}
-}
 
 export const actions = {
 	register: async ({ request, locals }) => {
