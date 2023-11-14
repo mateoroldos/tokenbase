@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Input } from '$lib/components/ui/input'
 	import * as Select from '$lib/components/ui/select'
-	import type { DimensionTokenValue } from '$lib/features/token-management/dimension/internal-dimension-value.type'
+	import type { DimensionTokenValue } from '$lib/features/token-management/dimension/types/internal-dimension-value.type'
 
 	export let tokenValue: DimensionTokenValue
 	export let isAlias: boolean

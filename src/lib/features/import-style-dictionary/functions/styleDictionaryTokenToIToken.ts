@@ -1,14 +1,14 @@
-import type { ExportCubicBezierTokenValue } from '$lib/features/token-management/cubic-bezier/export-cubic-bezier-value.type'
-import type { CubicBezierTokenValue } from '$lib/features/token-management/cubic-bezier/internal-cubic-bezier-value.type'
-import type { FontFamilyTokenValue } from '$lib/features/token-management/font-family/internal-font-family-value.type'
-import type { FontWeightTokenValue } from '$lib/features/token-management/font-weight/internal-font-weight-value.type'
-import type { ExportNumberTokenValue } from '$lib/features/token-management/number/export-number-value.type'
+import type { ExportCubicBezierTokenValue } from '$lib/features/token-management/cubic-bezier/types/export-cubic-bezier-value.type'
+import type { CubicBezierTokenValue } from '$lib/features/token-management/cubic-bezier/types/internal-cubic-bezier-value.type'
+import type { FontFamilyTokenValue } from '$lib/features/token-management/font-family/types/internal-font-family-value.type'
+import type { FontWeightTokenValue } from '$lib/features/token-management/font-weight/types/internal-font-weight-value.type'
+import type { ExportNumberTokenValue } from '$lib/features/token-management/number/types/export-number-value.type'
 import type {
 	IToken,
 	TokenValue
 } from '../../token-groups-store/types/token.interface'
-import transformToImportColorValue from '../../token-management/color/transformToImportColorValue'
-import transformToImportDimensionValue from '../../token-management/dimension/transformToImportDimensionValue'
+import transformToImportColorValue from '../../token-management/color/transforms/transformToImportColorValue'
+import transformToImportDimensionValue from '../../token-management/dimension/transforms/transformToImportDimensionValue'
 import type { StyleDictionaryToken } from '../types/style-dictionary-token.interface'
 import { v4 as uuidv4 } from 'uuid'
 import type { Theme } from '../../token-groups-store/types/design-system-overview.interface'

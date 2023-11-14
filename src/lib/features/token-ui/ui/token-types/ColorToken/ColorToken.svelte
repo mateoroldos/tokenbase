@@ -9,7 +9,7 @@
 	} from './utils/generateHctBackgroundGradients'
 	import { createEventDispatcher } from 'svelte'
 	import { Input } from '$lib/components/ui/input'
-	import type { ColorTokenValue } from '$lib/features/token-management/color/internal-color-value.type'
+	import type { ColorTokenValue } from '$lib/features/token-management/color/types/internal-color-value.type'
 
 	export let tokenValue: ColorTokenValue
 	export let tokenId: string

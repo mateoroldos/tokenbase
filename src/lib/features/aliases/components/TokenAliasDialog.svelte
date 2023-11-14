@@ -25,7 +25,7 @@
 		aliasGroupId: string,
 		aliasTokenId: string
 	) => {
-		createTokenAlias(
+		const aliasToken = createTokenAlias(
 			token,
 			activeThemeId,
 			aliasGroupId,
@@ -33,7 +33,9 @@
 			$designTokensGroupStore
 		)
 
-		token.value = token.value
+		if (aliasToken) {
+			token = aliasToken
+		}
 	}
 </script>
 

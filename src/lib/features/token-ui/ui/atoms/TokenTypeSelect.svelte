@@ -6,6 +6,7 @@
 
 	export let value: TokenType
 	export let onChangeFn: (value: TokenType) => void
+	export let disabled = false
 
 	// Workaround to prevent onChangeFn firing on first render
 	let firstChange = 0
@@ -13,6 +14,7 @@
 
 <Select.Root
 	bind:value
+	{disabled}
 	onValueChange={(val) => {
 		if (firstChange > 0) {
 			onChangeFn(val)

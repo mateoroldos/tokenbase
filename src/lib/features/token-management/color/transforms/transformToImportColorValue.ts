@@ -1,4 +1,4 @@
-import type { ColorTokenValue } from './internal-color-value.type'
+import type { ColorTokenValue } from '../types/internal-color-value.type'
 import { Hct } from '@material/material-color-utilities'
 import Color from 'color'
 

@@ -1,10 +1,10 @@
-import type { CubicBezierTokenValue } from '../../token-management/cubic-bezier/internal-cubic-bezier-value.type'
-import type { ColorTokenValue } from '../../token-management/color/internal-color-value.type'
-import type { DimensionTokenValue } from '../../token-management/dimension/internal-dimension-value.type'
-import type { NumberTokenValue } from '../../token-management/number/internal-number-value.type'
-import type { DurationTokenValue } from '../../token-management/duration/internal-duration.value.type'
-import type { FontFamilyTokenValue } from '../../token-management/font-family/internal-font-family-value.type'
-import type { FontWeightTokenValue } from '../../token-management/font-weight/internal-font-weight-value.type'
+import type { CubicBezierTokenValue } from '../../token-management/cubic-bezier/types/internal-cubic-bezier-value.type'
+import type { ColorTokenValue } from '../../token-management/color/types/internal-color-value.type'
+import type { DimensionTokenValue } from '../../token-management/dimension/types/internal-dimension-value.type'
+import type { NumberTokenValue } from '../../token-management/number/types/internal-number-value.type'
+import type { DurationTokenValue } from '../../token-management/duration/types/internal-duration.value.type'
+import type { FontFamilyTokenValue } from '../../token-management/font-family/types/internal-font-family-value.type'
+import type { FontWeightTokenValue } from '../../token-management/font-weight/types/internal-font-weight-value.type'
 
 interface BaseToken<T = TokenType> {
 	id: string
@@ -26,6 +26,21 @@ export interface IToken<T = TokenType> extends BaseToken {
 // This value is the value of the token in the current theme we transforming
 export interface ITokenExpanded<T = TokenType> extends BaseToken {
 	value: TokenValue<T>
+}
+
+export interface ITokenWithNoAlias<T = TokenType> extends BaseToken {
+	value: {
+		[key in string]: TokenValueWithNoAlias<T>
+	}
+}
+
+export interface ITokenWithNoId<T = TokenType> {
+	name: string | undefined
+	type: T
+	description?: string
+	value: {
+		[key in string]: TokenValue<T>
+	}
 }
 
 export const TOKEN_TYPES = [

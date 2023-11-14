@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import type { Group } from '$lib/features/token-groups-store/types/group.interface'
 import type {
 	IToken,
+	ITokenWithNoId,
 	TokenType,
 	TokenValue
 } from '$lib/features/token-groups-store/types/token.interface'
@@ -83,15 +84,9 @@ export const createGroupsStore = () => {
 		})
 	}
 
-	const bulkAddTokens = <T extends TokenType>(
+	const bulkAddTokens = (
 		groupId: string,
-		themes: Theme[],
-		tokens: {
-			type: T
-			value: TokenValue<T>
-			name?: string
-			description?: string
-		}[],
+		tokens: ITokenWithNoId[],
 		index?: number
 	) => {
 		update((groups) => {
@@ -107,19 +102,11 @@ export const createGroupsStore = () => {
 
 			// Add the new token to the group's tokens array
 			tokens.forEach((token) => {
-				const tokenValues: {
-					[themeId: string]: TokenValue<T>
-				} = {}
-
-				themes.forEach((theme) => {
-					tokenValues[theme.id] = token.value
-				})
-
 				group.tokens.splice(i, 0, {
 					id: uuidv4(),
 					name: token.name || '',
 					description: token.description || '',
-					value: tokenValues,
+					value: token.value,
 					type: token.type
 				})
 			})

@@ -1,4 +1,4 @@
 export type DimensionTokenValue = {
-	value: number
+	value: number | string
 	unit: 'px' | 'rem'
 }

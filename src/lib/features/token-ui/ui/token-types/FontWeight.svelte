@@ -2,9 +2,10 @@
 	import * as Select from '$lib/components/ui/select'
 	import { ChevronDown } from 'lucide-svelte'
 	import { Input } from '$lib/components/ui/input'
-	import type { FontWeightTokenValue } from '$lib/features/token-management/font-weight/internal-font-weight-value.type'
+	import type { FontWeightTokenValue } from '$lib/features/token-management/font-weight/types/internal-font-weight-value.type'
 
 	export let tokenValue: FontWeightTokenValue
+	export let isAlias: boolean
 
 	const fontWeigthValueOptions = [
 		'thin',
@@ -31,7 +32,7 @@
 </script>
 
 <div class="flex flex-row gap-2">
-	<Select.Root bind:value={tokenValue}>
+	<Select.Root bind:value={tokenValue} disabled={isAlias}>
 		<Select.Trigger class="w-[100px] ">
 			<Select.Value
 				placeholder={isCustom ? 'custom' : fontWeigthValueOptions[4]}

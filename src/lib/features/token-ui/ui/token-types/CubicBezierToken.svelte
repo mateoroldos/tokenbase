@@ -1,19 +1,9 @@
 <script lang="ts">
 	import { Input } from '$lib/components/ui/input'
-	import cubicBezierSuite from '$lib/features/token-management/cubic-bezier/cubicBezierSuite'
-	import type { CubicBezierTokenValue } from '$lib/features/token-management/cubic-bezier/internal-cubic-bezier-value.type'
+	import type { CubicBezierTokenValue } from '$lib/features/token-management/cubic-bezier/types/internal-cubic-bezier-value.type'
 
 	export let tokenValue: CubicBezierTokenValue
 	export let isAlias: boolean
-
-	const handleChange = (input: Event) => {
-		const target = input.target as HTMLInputElement
-		const name = target.name
-
-		res = cubicBezierSuite(target.value, name)
-	}
-
-	let res = cubicBezierSuite.get()
 </script>
 
 <div class="flex gap-x-3">
@@ -24,7 +14,6 @@
 			type="number"
 			{...isAlias ? { disabled: true } : {}}
 			bind:value={tokenValue[0]}
-			on:input={handleChange}
 			min="0"
 			max="1"
 			id="p1x"
@@ -41,7 +30,6 @@
 			type="number"
 			size={1}
 			{...isAlias ? { disabled: true } : {}}
-			on:input={handleChange}
 			bind:value={tokenValue[1]}
 		/><span
 			class=" flex items-center
@@ -55,7 +43,6 @@
 			class="h-8 w-[60px] "
 			type="number"
 			{...isAlias ? { disabled: true } : {}}
-			on:input={handleChange}
 			bind:value={tokenValue[2]}
 		/><span
 			class=" flex items-center
@@ -69,7 +56,6 @@
 			class="h-8 w-[60px] "
 			type="number"
 			{...isAlias ? { disabled: true } : {}}
-			on:input={handleChange}
 			bind:value={tokenValue[3]}
 			min="0"
 			max="1"

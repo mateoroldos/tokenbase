@@ -1,5 +1,5 @@
-import type { DimensionTokenValue } from './internal-dimension-value.type'
-import type { ExportDimensionTokenValue } from './export-dimension-value.type'
+import type { DimensionTokenValue } from '../types/internal-dimension-value.type'
+import type { ExportDimensionTokenValue } from '../types/export-dimension-value.type'
 
 const transformToExportDimensionValue = (
 	dimension: DimensionTokenValue

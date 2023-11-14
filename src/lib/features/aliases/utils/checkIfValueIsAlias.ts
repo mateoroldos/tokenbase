@@ -5,7 +5,7 @@ export type AliasValue = {
 	tokenId: string
 }
 
-export const checkIfValueIsAlias = (value: TokenValue): boolean => {
+export const checkIfValueIsAlias = (value: TokenValue): value is AliasValue => {
 	return (
 		typeof value === 'object' &&
 		value.hasOwnProperty('groupId') &&

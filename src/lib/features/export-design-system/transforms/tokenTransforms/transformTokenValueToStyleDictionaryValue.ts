@@ -2,12 +2,12 @@ import type {
 	TokenType,
 	TokenValueWithNoAlias
 } from '$lib/features/token-groups-store/types/token.interface'
-import type { ColorTokenValue } from '$lib/features/token-management/color/internal-color-value.type'
-import transformToExportColorValue from '$lib/features/token-management/color/transformToExportColorValue'
-import type { DimensionTokenValue } from '$lib/features/token-management/dimension/internal-dimension-value.type'
-import transformToExportDimensionValue from '$lib/features/token-management/dimension/transformToExportDimensionValue'
-import type { DurationTokenValue } from '$lib/features/token-management/duration/internal-duration.value.type'
-import transformToExportDurationValue from '$lib/features/token-management/duration/transformToExportDurationValue'
+import type { ColorTokenValue } from '$lib/features/token-management/color/types/internal-color-value.type'
+import transformToExportColorValue from '$lib/features/token-management/color/transforms/transformToExportColorValue'
+import type { DimensionTokenValue } from '$lib/features/token-management/dimension/types/internal-dimension-value.type'
+import transformToExportDimensionValue from '$lib/features/token-management/dimension/transforms/transformToExportDimensionValue'
+import type { DurationTokenValue } from '$lib/features/token-management/duration/types/internal-duration.value.type'
+import transformToExportDurationValue from '$lib/features/token-management/duration/transforms/transformToExportDurationValue'
 
 export const transformTokenValueToStyleDictionaryValue = <T extends TokenType>(
 	value: TokenValueWithNoAlias<T>,

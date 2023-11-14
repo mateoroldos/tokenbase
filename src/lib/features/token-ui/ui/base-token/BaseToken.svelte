@@ -40,27 +40,24 @@
 	$: selected = $selectedTokensStore.includes(token.id)
 
 	const handleTokenTypeChange = (tokenType: TokenType) => {
-		const tokenValues: {
-			[themeId: string]: TokenValue<typeof tokenType>
-		} = {}
+		if (!isAlias) {
+			const tokenValues: {
+				[themeId: string]: TokenValue<typeof tokenType>
+			} = {}
 
-		$activeDesignSystemThemesStore.forEach((theme) => {
-			const resolvedValue =
-				checkIfValueIsAlias(token.value[theme.id] as TokenValue) &&
-				resolveAliasIdToAliasType(
-					(token.value[theme.id] as AliasValue).tokenId as string,
-					(token.value[theme.id] as AliasValue).groupId as string,
-					$designTokensGroupStore
-				) === token.type
-					? token.value[theme.id]
-					: (getDefaultTokenValues(tokenType) as TokenValue)
+			const newTokenTypeDefaultValue = getDefaultTokenValues(
+				tokenType
+			) as TokenValue
 
-			tokenValues[theme.id] = getDefaultTokenValues(tokenType) as TokenValue
-		})
-		token = {
-			...token,
-			value: tokenValues,
-			type: tokenType
+			$activeDesignSystemThemesStore.forEach((theme) => {
+				tokenValues[theme.id] = newTokenTypeDefaultValue
+			})
+
+			token = {
+				...token,
+				value: tokenValues,
+				type: tokenType
+			}
 		}
 	}
 
@@ -109,6 +106,7 @@
 		<TokenTypeSelect
 			bind:value={token.type}
 			onChangeFn={handleTokenTypeChange}
+			disabled={isAlias}
 		/>
 	</Table.Cell>
 	<Table.Cell class="pr-0">

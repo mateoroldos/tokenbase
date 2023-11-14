@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { FontFamilyTokenValue } from '$lib/features/token-management/font-family/internal-font-family-value.type'
+	import type { FontFamilyTokenValue } from '$lib/features/token-management/font-family/types/internal-font-family-value.type'
 	import { createTagsInput, melt } from '@melt-ui/svelte'
 	import { X } from 'lucide-svelte'
 
