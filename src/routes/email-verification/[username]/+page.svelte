@@ -29,6 +29,10 @@
 				<div>
 					<p class="text-sm">&nbsp The verification link was resent</p>
 				</div>
+			{:else if form?.notUser}
+				<div>
+					<p class="text-sm">&nbsp The user doesn't exist</p>
+				</div>
 			{/if}
 		</Card.Footer>
 	</Card.Root>

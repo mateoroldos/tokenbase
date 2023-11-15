@@ -11,7 +11,6 @@ export const load: PageServerLoad = async ({ locals }) => {
 	const session = await locals.auth.validate()
 
 	if (session) {
-		if (!session.user.emailVerified) throw redirect(302, '/email-verification')
 		throw redirect(302, '/')
 	}
 

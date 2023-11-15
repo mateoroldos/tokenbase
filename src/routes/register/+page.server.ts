@@ -67,13 +67,6 @@ export const actions = {
 				}
 			})
 
-			const session = await auth.createSession({
-				userId: user.userId,
-				attributes: {}
-			})
-
-			locals.auth.setSession(session)
-
 			const token = await generateEmailVerificationToken(user.userId)
 
 			await sendEmailVerificationLink(token, {
@@ -94,6 +87,6 @@ export const actions = {
 			}
 		}
 
-		throw redirect(302, '/email-verification')
+		throw redirect(302, `/email-verification/${form.data.username}`)
 	}
 } satisfies Actions

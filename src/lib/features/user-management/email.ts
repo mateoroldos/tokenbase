@@ -7,7 +7,7 @@ export const sendEmailVerificationLink = async (
 	token: string,
 	formData: { username: string; email: string }
 ) => {
-	const url = `http://localhost:5173/email-verification/${token}`
+	const url = `http://localhost:5173/email-verification/token/${token}`
 
 	const msg = {
 		to: 'accounts@emestudio.dev',
