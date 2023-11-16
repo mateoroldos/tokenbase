@@ -6,18 +6,11 @@ import { sendPasswordResetLink } from '$lib/features/user-management/email'
 import { z } from 'zod'
 import { superValidate } from 'sveltekit-superforms/server'
 import { getStoredUser } from '../../lib/features/user-management/user'
+import { findErrorByName } from '$lib/features/user-management/errors'
 
 const signupSchema = z.object({
 	email: z.string().email()
 })
-
-function findErrorByName(errors: { [key: string]: any }, name: string) {
-	if (errors.hasOwnProperty(name)) {
-		return errors[name]
-	} else {
-		return null
-	}
-}
 
 export const actions: Actions = {
 	default: async ({ request }) => {

@@ -7,18 +7,11 @@ import {
 import { z } from 'zod'
 import { superValidate } from 'sveltekit-superforms/server'
 import type { PageServerLoad, Actions } from './$types'
+import { findErrorByName } from '$lib/features/user-management/errors'
 
 const signupSchema = z.object({
 	password: z.string().min(6).max(100)
 })
-
-function findErrorByName(errors: { [key: string]: any }, name: string) {
-	if (errors.hasOwnProperty(name)) {
-		return errors[name]
-	} else {
-		return null
-	}
-}
 
 export const load: PageServerLoad = async ({ params }) => {
 	const { token } = params

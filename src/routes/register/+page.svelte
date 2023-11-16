@@ -1,18 +1,9 @@
 <script lang="ts">
-	import { enhance } from '$app/forms'
-	import { AlertCircle, Eye, EyeOff } from 'lucide-svelte'
 	import * as Card from '$lib/components/ui/card'
-	import { Input } from '$lib/components/ui/input'
-	import Button from '$lib/components/ui/button/Button.svelte'
-	import HeroSection from '$lib/components/login/HeroSection.svelte'
+	import HeroSection from '$lib/components/welcome-section/HeroSection.svelte'
+	import RegisterForm from '$lib/features/user-management/components/forms/RegisterForm.svelte'
 
 	export let form
-
-	let showPassword = false
-
-	function togglePasswordVisibility() {
-		showPassword = !showPassword
-	}
 </script>
 
 <section class="flex flex-1 items-center justify-center bg-slate-50 p-20">
@@ -31,130 +22,7 @@
 				</Card.Header>
 
 				<Card.Content class="text-sm">
-					<form
-						class="bg-base-200 flex flex-col rounded-lg"
-						use:enhance
-						action="?/register"
-						method="post"
-					>
-						<div class="form-control flex w-full max-w-xs flex-col gap-2 pt-3">
-							<!-- svelte-ignore a11y-label-has-associated-control -->
-							<label class="label">
-								<span class="label-text">Email</span>
-							</label>
-
-							<Input
-								type="text"
-								autocomplete="off"
-								placeholder="johndoe@example.com"
-								class="input input-bordered w-full max-w-xs"
-								name="email"
-								required
-							/>
-							{#if form?.incorrect && form?.errors.emailError !== null}
-								<div
-									class="flex flex-row items-center text-red-600 bg-blend-color-burn"
-								>
-									<AlertCircle class="mr-1 h-3 w-3" />
-									<p class="text-sm text-red-600">
-										{form?.errors.emailError[0]}
-									</p>
-								</div>
-							{/if}
-							{#if form?.duplicatedEmail}
-								<div
-									class="flex flex-row items-center text-red-600 bg-blend-color-burn"
-								>
-									<AlertCircle class="mr-1 h-3 w-3" />
-									<p class="text-sm text-red-600">Email already registered</p>
-								</div>
-							{/if}
-						</div>
-						<div class="form-control flex w-full max-w-xs flex-col gap-2 pt-4">
-							<!-- svelte-ignore a11y-label-has-associated-control -->
-							<label class="label">
-								<span class="label-text">Username</span>
-							</label>
-							<Input
-								type="text"
-								autocomplete="off"
-								placeholder="johndoe123"
-								class="input input-bordered w-full max-w-xs"
-								name="username"
-								required
-							/>
-							{#if form?.incorrect && form?.errors.usernameError !== null}
-								<div
-									class="flex flex-row items-center text-red-600 bg-blend-color-burn"
-								>
-									<AlertCircle class="mr-1 h-3 w-3" />
-									<p class="text-sm text-red-600">
-										{form?.errors.usernameError[0]}
-									</p>
-								</div>
-							{/if}
-							{#if form?.duplicatedUsername}
-								<div
-									class="flex flex-row items-center text-red-600 bg-blend-color-burn"
-								>
-									<AlertCircle class="mr-1 h-3 w-3" />
-									<p class="text-sm text-red-600">Username already exists</p>
-								</div>
-							{/if}
-						</div>
-
-						<div
-							class="form-control flex w-full max-w-xs flex-col gap-2 pb-3 pt-4"
-						>
-							<!-- svelte-ignore a11y-label-has-associated-control -->
-							<label class="label">
-								<span class="label-text">Password</span>
-							</label>
-
-							<div class="relative">
-								<Input
-									autocomplete="off"
-									type={showPassword ? 'text' : 'password'}
-									placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"
-									class="input input-bordered w-full max-w-xs pr-10"
-									name="password"
-									required
-								/>
-								<button
-									type="button"
-									class="absolute inset-y-0 right-0 flex items-center px-2 text-gray-600"
-									on:click={togglePasswordVisibility}
-								>
-									{#if showPassword}
-										<EyeOff class="h-4 w-4" />
-									{:else}
-										<Eye class="h-4 w-4" />
-									{/if}
-								</button>
-							</div>
-							{#if form?.incorrect && form?.errors.passwordError !== null}
-								<div
-									class="flex flex-row items-center text-red-600 bg-blend-color-burn"
-								>
-									<AlertCircle class="mr-1 h-3 w-3" />
-									<p class="text-sm text-red-600">
-										{form?.errors.passwordError[0]}
-									</p>
-								</div>
-							{/if}
-						</div>
-
-						<Button class="btn btn-primary mt-4 max-w-xs " type="submit"
-							>Create account</Button
-						>
-
-						<p class="pt-4">
-							Already have an account? <a
-								href="/login"
-								class="link link-hover font-semibold">Login</a
-							>.
-						</p>
-					</form>
+					<RegisterForm {form} />
 				</Card.Content>
 			</Card.Root>
 		</div>
