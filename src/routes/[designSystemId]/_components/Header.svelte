@@ -9,6 +9,7 @@
 	import type { createDesignSystemsStore } from '$lib/features/token-groups-store/designSystemsIds'
 	import type { TokenType } from '$lib/features/token-groups-store/types/token-interface'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import LogoutIcon from '$lib/components/LogoutIcon.svelte'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -47,13 +48,14 @@
 			<GroupBreadcrumb groupId={activeGroupId} />
 		{/if}
 	</div>
-	{#if activeGroupId}
-		<div class="flex flex-row items-center gap-7">
+	<div class="flex flex-row items-center gap-7">
+		{#if activeGroupId}
 			<Toolbar />
 			<Button on:click={handleAddToken} class="h-fit px-2 py-1 text-xs">
 				<Plus class="mr-2 h-4 w-4" />
 				Add Token
 			</Button>
-		</div>
-	{/if}
+		{/if}
+		<LogoutIcon />
+	</div>
 </div>

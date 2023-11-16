@@ -15,7 +15,15 @@ export const verifyUniqueUsername = async (username: string) => {
 	}
 }
 
-export const getStoredUser = async (email: string) => {
+export const getStoredUserByEmail = async (email: string) => {
 	const [storedUser] = await db.select().from(user).where(eq(user.email, email))
+	return storedUser
+}
+
+export const getStoredUserByUsername = async (username: string) => {
+	const [storedUser] = await db
+		.select()
+		.from(user)
+		.where(eq(user.username, username))
 	return storedUser
 }

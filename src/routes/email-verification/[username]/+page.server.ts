@@ -1,14 +1,13 @@
 import { redirect, fail } from '@sveltejs/kit'
-import type { PageServerLoad, Actions } from './$types'
+import type { PageServerLoad, Actions } from '../$types'
 import { generateEmailVerificationToken } from '$lib/features/user-management/token'
 import { sendEmailVerificationLink } from '$lib/features/user-management/email'
+import { getStoredUserByUsername } from '$lib/features/user-management/user'
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const session = await locals.auth.validate()
 
-	if (!session) throw redirect(302, '/login')
-
-	if (session.user.emailVerified) {
+	if (session?.user.emailVerified) {
 		throw redirect(302, '/')
 	}
 
@@ -16,20 +15,26 @@ export const load: PageServerLoad = async ({ locals }) => {
 }
 
 export const actions: Actions = {
-	default: async ({ locals }) => {
-		const session = await locals.auth.validate()
+	default: async ({ locals, params }) => {
+		const { username } = params
 
-		if (!session) throw redirect(302, '/login')
+		const storedUser = await getStoredUserByUsername(username)
 
-		if (session.user.emailVerified) {
+		if (!storedUser) {
+			return fail(400, {
+				notUser: true
+			})
+		}
+
+		if (storedUser.email_verified) {
 			throw redirect(302, '/')
 		}
 
 		try {
-			const token = await generateEmailVerificationToken(session.user.userId)
+			const token = await generateEmailVerificationToken(storedUser.id)
 			await sendEmailVerificationLink(token, {
-				username: session.user.username,
-				email: session.user.email
+				username: storedUser.username,
+				email: storedUser.email
 			})
 
 			return {

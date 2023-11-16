@@ -1,16 +1,26 @@
 import { auth } from '$lib/server/lucia'
-import { fail } from '@sveltejs/kit'
-import type { Actions } from './$types'
+import { fail, redirect } from '@sveltejs/kit'
+import type { Actions, PageServerLoad } from './$types'
 import { generatePasswordResetToken } from '$lib/features/user-management/token'
 import { sendPasswordResetLink } from '$lib/features/user-management/email'
 import { z } from 'zod'
 import { superValidate } from 'sveltekit-superforms/server'
-import { getStoredUser } from '../../lib/features/user-management/user'
+import { getStoredUserByEmail } from '../../lib/features/user-management/user'
 import { findErrorByName } from '$lib/features/user-management/errors'
 
 const signupSchema = z.object({
 	email: z.string().email()
 })
+
+export const load = (async ({ locals }) => {
+	const session = await locals.auth.validate()
+
+	if (session) {
+		throw redirect(302, '/')
+	}
+
+	return {}
+}) satisfies PageServerLoad
 
 export const actions: Actions = {
 	default: async ({ request }) => {
@@ -28,7 +38,7 @@ export const actions: Actions = {
 		}
 
 		try {
-			const storedUser = await getStoredUser(form.data.email)
+			const storedUser = await getStoredUserByEmail(form.data.email)
 
 			if (!storedUser) {
 				return fail(400, {

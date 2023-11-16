@@ -1,9 +1,8 @@
 import { auth } from '$lib/server/lucia'
 import { validateEmailVerificationToken } from '$lib/features/user-management/token'
-
 import type { RequestHandler } from './$types'
 
-export const GET: RequestHandler = async ({ params, locals }) => {
+export const GET: RequestHandler = async ({ params }) => {
 	const { token } = params
 	try {
 		const userId = await validateEmailVerificationToken(token)
@@ -15,17 +14,10 @@ export const GET: RequestHandler = async ({ params, locals }) => {
 			email_verified: true
 		})
 
-		const session = await auth.createSession({
-			userId: user.userId,
-			attributes: {}
-		})
-
-		locals.auth.setSession(session)
-
 		return new Response(null, {
 			status: 302,
 			headers: {
-				Location: '/'
+				Location: '/login'
 			}
 		})
 	} catch {

@@ -55,18 +55,11 @@ export const actions: Actions = {
 					email_verified: true
 				})
 			}
-
-			const session = await auth.createSession({
-				userId: user.userId,
-				attributes: {}
-			})
-
-			locals.auth.setSession(session)
 		} catch (e) {
 			return fail(400, {
 				message: 'Invalid password reset link'
 			})
 		}
-		throw redirect(302, '/')
+		throw redirect(302, '/login')
 	}
 }
