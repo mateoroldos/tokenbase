@@ -32,7 +32,7 @@ export const sendEmailVerificationLink = async (
 	sgMail
 		.send(msg)
 		.then(() => {
-			console.log(`Email sent to ${recipient}`)
+			console.log(`Email sent`)
 		})
 		.catch((error) => {
 			console.error(error)
@@ -69,7 +69,7 @@ export const sendPasswordResetLink = async (
 	sgMail
 		.send(msg)
 		.then(() => {
-			console.log(`Email sent to ${recipient}`)
+			console.log(`Email sent`)
 		})
 		.catch((error) => {
 			console.error(error)
