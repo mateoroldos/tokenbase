@@ -127,7 +127,7 @@
 		<div class="flex w-full max-w-[130px] flex-col gap-1">
 			<div class="flex flex-row items-center">
 				<span class="text-xs text-slate-500">Tone</span>
-				<input
+				<input disabled={$viewMode} 
 					type="number"
 					class="w-14 rounded-md bg-transparent px-1 text-xs"
 					{...isAlias ? { disabled: true } : {}}

@@ -2,13 +2,17 @@
 	import type { TemplateWithSlug } from '$lib/features/templates/types/template-interface'
 	import * as Card from '$lib/components/ui/card'
 	import { Separator } from '$lib/components/ui/separator'
-	import importStyleDictionary from '$lib/features/import-style-dictionary/importStyleDictionary'
-	import { page } from '$app/stores'
+	import importPreviewStyleDictionary from '$lib/features/preview-template/importPreviewStyleDictionary'
 	import { Box, Boxes } from 'lucide-svelte'
 	import * as Avatar from '$lib/components/ui/avatar'
 	import Badge from '$lib/components/ui/badge/badge.svelte'
 	import { preview } from '$lib/features/viewMode/stores/preview'
 	import { viewMode } from '$lib/features/viewMode/stores/viewMode'
+
+	import { v4 as uuidv4 } from 'uuid'
+	import { designSystemId } from '$lib/features/preview-template/designSystemId'
+	import PreviewTemplateModal from '$lib/features/preview-template/PreviewTemplateModal.svelte'
+
 	import { createEventDispatcher, getContext } from 'svelte'
 	import type { Readable } from 'svelte/store'
 	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
@@ -28,22 +32,15 @@
 			)
 		).template as string
 
-		let parentId: string
+		let parentId = uuidv4()
+		designSystemId.set(parentId)
 
-		if (templateOverview.type === 'group') {
-			parentId = $page.params.groupId ?? ($page.params.designSystemId as string)
-		} else {
-			parentId = $page.params.designSystemId as string
-		}
-
-		importStyleDictionary(
-			JSON.stringify(templateFile),
-			parentId,
-			$activeDesignSystemThemesStore
-		)
+		importPreviewStyleDictionary(JSON.stringify(templateFile), parentId)
 		preview.set(true)
 		viewMode.set(true)
+	}
 
+	function closeModal() {
 		dispatch('load-template', templateOverview)
 	}
 </script>
@@ -89,6 +86,11 @@
 					<span class="text-xs font-medium text-slate-600">Ape Falco</span>
 				</div>
 			</div>
+			<PreviewTemplateModal
+				{templateOverview}
+				on:click={handleCreateGroupFromTemplate}
+				on:load-template={closeModal}
+			/>
 		</Card.Footer>
 	</Card.Root>
 </div>

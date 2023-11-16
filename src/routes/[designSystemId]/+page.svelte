@@ -6,7 +6,6 @@
 	import StartFromTemplateCard from '$lib/features/templates/atoms/StartFromTemplateCard.svelte'
 	import * as EmptyStatePage from './_components/EmptyStatePage'
 	import StartFromJsonCard from './_components/StartFromJsonCard/StartFromJsonCard.svelte'
-	import deleteDesignSystem from '$lib/features/viewMode/deleteFromStore'
 	import { onDestroy } from 'svelte'
 	import { preview } from '$lib/features/viewMode/stores/preview'
 	import { onMount } from 'svelte'
@@ -30,19 +29,9 @@
 		preview.set(false);
 	});
 
-	
-	onDestroy(() => {
-		if ($preview) 
-		{
-			console.log("data.id",data.id);
-			let designSystemId = $page.params.designSystemId || "";
-			console.log("Design system Id en +page", designSystemId);
-			deleteDesignSystem(designSystemId);
-		}
-	});
 </script>
 
-<div class="h-full overflow-hidden {$preview ? 'modal' : ''}">
+<div class="h-full overflow-hidden">
 	<Header />
 	<EmptyStatePage.Root>
 		<EmptyStatePage.Section>

@@ -34,9 +34,10 @@
 	export let token: IToken
 	export let draggedTokenId: string | null
 	export let activeThemeId: string
+	export let designTokensGroupStoreName: string = 'designTokensGroupStore'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
-		getContext('designTokensGroupStore')
+		getContext(designTokensGroupStoreName)
 
 	let isAlias: boolean
 	let deepAliasToken: IToken | null

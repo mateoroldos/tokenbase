@@ -25,9 +25,11 @@
 	export let isAlias: boolean
 	export let activeThemeId: string
 	export let draggedTokenId: string | null
+	export let designTokensGroupStoreName: string = 'designTokensGroupStore'
+	export let selectedTokensStoreName: string = 'selectedTokensStore'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
-		getContext('designTokensGroupStore')
+		getContext(designTokensGroupStoreName)
 
 	const activeDesignSystemThemesStore: Readable<Theme[]> = getContext(
 		'activeDesignSystemThemesStore'
@@ -36,7 +38,7 @@
 	const activeThemeStore: Readable<Theme> = getContext('activeThemeStore')
 
 	const selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
-		getContext('selectedTokensStore')
+		getContext(selectedTokensStoreName)
 
 	$: selected = $selectedTokensStore.includes(token.id)
 
@@ -85,21 +87,23 @@
 	key={token.id}
 	class="border-slate-100 hover:bg-transparent"
 >
-	<Table.Cell class="pr-0">
-		<input
-			disabled={$viewMode}
-			type="checkbox"
-			bind:checked={selected}
-			class="h-4 w-4"
-			on:change={() => {
-				if ($selectedTokensStore.includes(token.id)) {
-					selectedTokensStore.removeToken(token.id)
-				} else {
-					selectedTokensStore.addToken(token.id)
-				}
-			}}
-		/>
-	</Table.Cell>
+	{#if designTokensGroupStoreName === 'designTokensGroupStore'}
+		<Table.Cell class="pr-0">
+			<input
+				disabled={$viewMode}
+				type="checkbox"
+				bind:checked={selected}
+				class="h-4 w-4"
+				on:change={() => {
+					if ($selectedTokensStore.includes(token.id)) {
+						selectedTokensStore.removeToken(token.id)
+					} else {
+						selectedTokensStore.addToken(token.id)
+					}
+				}}
+			/>
+		</Table.Cell>
+	{/if}
 	<Table.Cell class="pr-0">
 		<TokenTypeSelect
 			bind:value={token.type}

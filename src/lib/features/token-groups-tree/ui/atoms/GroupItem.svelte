@@ -6,16 +6,19 @@
 	import { page } from '$app/stores'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu'
-
+	import { groupId } from '$lib/features/preview-template/groupId'
+	import { preview } from '$lib/features/viewMode/stores/preview'
+	
 	export let node: GroupsTree
 	export let nestNumber: number = 0
+	export let designTokensGroupStoreName: string = 'designTokensGroupStore'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
-		getContext('designTokensGroupStore')
+		getContext(designTokensGroupStoreName)
 
-	$: groupId = $page.params.groupId as string
-
-	$: isActive = groupId === node.group?.id
+	$: activeGroupId = $preview ? $groupId : ($page.params.groupId as string);
+	
+	$: isActive = activeGroupId === node.group?.id
 
 	let isOpen = false
 	let hover = false
@@ -55,6 +58,14 @@
 		designTokensGroupStore.deleteGroup(node.group?.id)
 	}
 
+	function handleGroupId(){
+		if($preview){
+			groupId.set(node.group?.id);
+		}else{
+			goto(`/${$page.params.designSystemId}/${node.group?.id}`)
+		}
+	}
+
 	let customMenuItems = [
 		{ title: 'Add a group', component: Plus, test: handleAddNewGroup },
 		{ title: 'Delete a group', component: Trash, test: handleDeleteGroup }
@@ -68,13 +79,13 @@
 </script>
 
 <div>
-	<a
+	<div
 		class={`flex flex-row items-center justify-between rounded-md px-1 py-1 text-slate-400 transition-all hover:bg-slate-100`}
 		on:mouseenter={() => (hover = true)}
 		on:mouseleave={() => (hover = false)}
+		on:click={handleGroupId}
 		role="button"
 		tabindex="0"
-		href={`/${$page.params.designSystemId}/${node.group?.id}`}
 		style={nestNumber > 0 ? `padding-left: ${padding}` : ''}
 	>
 		<div class="flex flex-row items-center gap-1">
@@ -135,7 +146,7 @@
 				</button>
 			{/if}
 		</div>
-	</a>
+	</div>
 	{#if isOpen}
 		<div>
 			{#if node.children.length > 0}
