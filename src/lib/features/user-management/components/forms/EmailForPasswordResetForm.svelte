@@ -24,13 +24,13 @@
 		{#if form?.incorrect && form?.errors.emailError !== null}
 			<ErrorDisplay form={form?.errors.emailError[0]} />
 		{/if}
+		{#if form?.message}
+			<ErrorDisplay form={form.message} />
+		{/if}
 	</div>
 	<div class="flex flex-col">
 		<Button type="submit" class="btn btn-primary mt-4 max-w-xs">Submit</Button>
 	</div>
-	{#if form?.message}
-		<ErrorDisplay form={form.message} />
-	{/if}
 	{#if form?.success}
 		<p class="pt-4 text-sm">
 			A password reset link was sent your email address.
