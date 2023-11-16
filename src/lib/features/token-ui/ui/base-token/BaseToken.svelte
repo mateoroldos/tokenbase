@@ -17,12 +17,14 @@
 	
 	export let token: IToken
 	export let draggedTokenId: string | null
-	
+	export let designTokensGroupStoreName: string = 'designTokensGroupStore';
+	export let selectedTokensStoreName: string = 'selectedTokensStore';
+
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
-		getContext('designTokensGroupStore')
+		getContext(designTokensGroupStoreName)
 
 	const selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
-		getContext('selectedTokensStore')
+		getContext(selectedTokensStoreName)
 
 	$: selected = $selectedTokensStore.includes(token.id)
 
@@ -62,6 +64,7 @@
 	key={token.id}
 	class="border-slate-100"
 >
+{#if designTokensGroupStoreName === 'designTokensGroupStore'}
 	<Table.Cell class="pr-0">
 		<input disabled={$viewMode}
 			type="checkbox"
@@ -75,7 +78,9 @@
 				}
 			}}
 		/>
+	
 	</Table.Cell>
+	{/if}
 	<Table.Cell class="pr-0">
 		<TokenTypeSelect
 			bind:value={token.type}

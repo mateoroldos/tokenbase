@@ -1,23 +1,21 @@
 <script lang="ts">
 	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
-	import BaseToken from './base-token/BaseToken.svelte'
-	import ColorToken from './token-types/ColorToken/ColorToken.svelte'
-	import CubicBezierToken from './token-types/CubicBezierToken.svelte'
-	import DimensionToken from './token-types/DimensionToken.svelte'
-	import DurationToken from './token-types/DurationToken.svelte'
-	import FontFamilyToken from './token-types/FontFamilyToken.svelte'
-	import NumberToken from './token-types/NumberToken.svelte'
-	import FontWeight from './token-types/FontWeight.svelte'
+	import BaseToken from '$lib/features/token-ui/ui/base-token/BaseToken.svelte'
+	import ColorToken from '$lib/features/token-ui/ui/token-types/ColorToken/ColorToken.svelte'
+	import CubicBezierToken from '$lib/features/token-ui/ui/token-types/CubicBezierToken.svelte'
+	import DimensionToken from '$lib/features/token-ui/ui/token-types/DimensionToken.svelte'
+	import DurationToken from '$lib/features/token-ui/ui/token-types/DurationToken.svelte'
+	import FontFamilyToken from '$lib/features/token-ui/ui/token-types/FontFamilyToken.svelte'
+	import NumberToken from '$lib/features/token-ui/ui/token-types/NumberToken.svelte'
+	import FontWeight from '$lib/features/token-ui/ui/token-types/FontWeight.svelte'
 	import { getContext } from 'svelte'
 	import findTokenById from '$lib/utils/findTokenById'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
-
 	export let token: IToken
 	export let draggedTokenId: string | null
-	export let designTokensGroupStoreName: string = 'designTokensGroupStore';
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
-		getContext(designTokensGroupStoreName)
+		getContext('previewDesignTokensGroupStore')
 
 	// This function gets the alias value and type and assigns it to the token
 	const connectTokenToAliasValues = () => {
@@ -42,7 +40,7 @@
 	}
 </script>
 
-<BaseToken bind:token bind:draggedTokenId on:dragstart on:dragenter on:dragend {designTokensGroupStoreName}>
+<BaseToken bind:token bind:draggedTokenId on:dragstart on:dragenter on:dragend designTokensGroupStoreName={'previewDesignTokensGroupStore'}>
 	{#if token.type === 'color'}
 		<ColorToken bind:token on:colorChange />
 	{:else if token.type === 'fontFamily'}

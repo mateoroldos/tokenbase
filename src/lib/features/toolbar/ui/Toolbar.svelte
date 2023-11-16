@@ -19,13 +19,7 @@
 </script>
 
 <div class="flex flex-row gap-6 items-center">
-	{#if !$preview }
-		<ViewModeSwitch/>
-		<GenerateShadesButton />
-		<DeleteTokensButton />
-	{:else}
-		<StartFromTemplateModal/>
-		<ImportDesignSystem/>
-	{/if}
-
+	<ViewModeSwitch/>
+	<GenerateShadesButton />
+	<DeleteTokensButton />
 </div>

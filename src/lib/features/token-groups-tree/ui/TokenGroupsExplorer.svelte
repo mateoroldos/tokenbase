@@ -10,7 +10,11 @@
 	import { v4 as uuidv4 } from 'uuid'
 	import { Separator } from '$lib/components/ui/separator'
 	import { viewMode } from '$lib/features/viewMode/stores/viewMode'
-	
+	import { preview } from '$lib/features/viewMode/stores/preview'
+	import { designSystemId } from '$lib/features/preview-template/designSystemId'
+
+	let designSystem: string = $page.params.designSystemId ?? '';
+
 	const handleAddNewGroup = () => {
 		const id = uuidv4()
 
@@ -18,8 +22,11 @@
 
 		goto(`/${$page.params.designSystemId}/${id}`)
 	}
-
-	$: tree = createTree($groupsStore, $page.params.designSystemId ?? '')
+	if($preview)
+	{
+		designSystem = $designSystemId;
+	}
+	$: tree = createTree($groupsStore, designSystem)
 </script>
 
 <div
