@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ActionData } from './$types'
 	import * as Card from '$lib/components/ui/card'
-	import EmailForPasswordResetForm from '$lib/components/forms/EmailForPasswordResetForm.svelte'
+	import EmailForPasswordResetForm from '$lib/features/user-management/components/forms/EmailForPasswordResetForm.svelte'
 
 	export let form: ActionData
 </script>

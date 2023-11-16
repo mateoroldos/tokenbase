@@ -3,7 +3,7 @@
 	import { ArrowLeft } from 'lucide-svelte'
 	import Input from '$lib/components/ui/input/Input.svelte'
 	import Button from '$lib/components/ui/button/Button.svelte'
-	import ErrorDisplay from '$lib/components/forms/atoms/ErrorDisplay.svelte'
+	import ErrorDisplay from '$lib/features/user-management/components/forms/atoms/ErrorDisplay.svelte'
 
 	export let form: any
 </script>

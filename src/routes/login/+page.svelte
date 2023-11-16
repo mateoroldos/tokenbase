@@ -1,5 +1,5 @@
 <script>
-	import LoginForm from '$lib/components/forms/LoginForm.svelte'
+	import LoginForm from '$lib/features/user-management/components/forms/LoginForm.svelte'
 	import * as Card from '$lib/components/ui/card'
 	import HeroSection from '$lib/components/welcome-section/HeroSection.svelte'
 

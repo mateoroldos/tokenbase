@@ -1,7 +1,7 @@
 <script lang="ts">
 	import * as Card from '$lib/components/ui/card'
 	import HeroSection from '$lib/components/welcome-section/HeroSection.svelte'
-	import RegisterForm from '$lib/components/forms/RegisterForm.svelte'
+	import RegisterForm from '$lib/features/user-management/components/forms/RegisterForm.svelte'
 
 	export let form
 </script>
