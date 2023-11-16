@@ -2,19 +2,20 @@
 	import { goto } from '$app/navigation'
 	import { page } from '$app/stores'
 	import { getContext } from 'svelte'
-	import type { createDesignSystemsStore } from '$lib/features/token-groups-store/designSystemsIds'
-	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
 	import { Input } from '$lib/components/ui/input'
 	import { Search } from 'lucide-svelte'
 	import { Check } from 'lucide-svelte'
 	import { Pencil, Trash } from 'lucide-svelte'
-	import DropDown from '$lib/components/DropDown.svelte'
+	import ActionsDropDown from '$lib/components/ActionsDropDown.svelte'
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu'
+	import type { createDesignSystemsOverviewsStore } from '$lib/features/token-groups-store/designSystemsOverviewsStore'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
-	const tokenBaseMainStore: ReturnType<typeof createDesignSystemsStore> =
-		getContext('tokenBaseMainStore')
+	const tokenBaseMainStore: ReturnType<
+		typeof createDesignSystemsOverviewsStore
+	> = getContext('tokenBaseMainStore')
 
 	$: activeDesignSystemIndex = $tokenBaseMainStore.findIndex(
 		(designSystem) => designSystem.id === $page.params.designSystemId
@@ -64,26 +65,17 @@
 	}
 
 	let customMenuItems = [
-		{ title: 'Edit name', component: Pencil, test: toggleChangeNameInput },
+		{ title: 'Edit name', component: Pencil, function: toggleChangeNameInput },
 		{
 			title: 'Delete System',
 			component: Trash,
-			test: deleteDesignSystem
-		}
-	]
-
-	let designSystemItems = [
-		{ title: 'Edit name', component: Pencil, test: toggleChangeNameInput },
-		{
-			title: 'Delete System',
-			component: Trash,
-			test: deleteDesignSystem
+			function: deleteDesignSystem
 		}
 	]
 </script>
 
-<div class="flex flex-row items-center">
-	<DropDown menuItems={customMenuItems} />
+<div class="flex flex-row items-center gap-2">
+	<ActionsDropDown menuItems={customMenuItems} />
 	{#if changeNameInput}
 		<Input
 			placeholder={$tokenBaseMainStore[activeDesignSystemIndex]?.name}
@@ -93,7 +85,7 @@
 		/>
 	{:else}
 		<DropdownMenu.Root>
-			<DropdownMenu.Trigger
+			<DropdownMenu.Trigger class="text-sm font-medium"
 				>{$tokenBaseMainStore[activeDesignSystemIndex]
 					?.name}</DropdownMenu.Trigger
 			>
@@ -109,8 +101,9 @@
 							on:keydown={(e) => e.stopPropagation()}
 						/>
 					</div>
-
-					<DropdownMenu.Label class="pl-4">Design Systems</DropdownMenu.Label>
+					<DropdownMenu.Label class="pl-4 text-sm"
+						>Design Systems</DropdownMenu.Label
+					>
 					{#if searchTerm && filteredSystems.length === 0}
 						<p class="pl-6 text-sm">No results</p>
 					{:else if filteredSystems.length > 0}

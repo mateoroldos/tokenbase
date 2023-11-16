@@ -1,5 +1,5 @@
-import type { IToken } from '../features/token-groups-store/types/token-interface'
-import type { Group } from '../features/token-groups-store/types/group-interface'
+import type { IToken } from '../features/token-groups-store/types/token.interface'
+import type { Group } from '../features/token-groups-store/types/group.interface'
 
 const findTokenByName = (
 	tokenName: string,

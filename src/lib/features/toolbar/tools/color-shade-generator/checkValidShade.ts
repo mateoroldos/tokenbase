@@ -1,4 +1,4 @@
-import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
+import type { IToken } from '$lib/features/token-groups-store/types/token.interface'
 
 const checkValidShade = (
 	tokens: IToken[],

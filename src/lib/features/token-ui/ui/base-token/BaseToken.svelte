@@ -1,25 +1,39 @@
 <script lang="ts">
+	import TokenAliasControler from './../../../aliases/components/TokenAliasControler.svelte'
 	import type {
 		IToken,
-		TokenType
-	} from '$lib/features/token-groups-store/types/token-interface'
-	import { Link2Off } from 'lucide-svelte'
+		TokenType,
+		TokenValue
+	} from '$lib/features/token-groups-store/types/token.interface'
 	import { getContext, onMount } from 'svelte'
 	import { getDefaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import TokenTypeSelect from '../atoms/TokenTypeSelect.svelte'
-	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
 	import DescriptionDialog from './atoms/DescriptionDialog.svelte'
-	import TokenAliasDialog from './atoms/TokenAliasDialog.svelte'
 	import * as Table from '$lib/components/ui/table'
 	import { Input } from '$lib/components/ui/input'
 	import { viewMode } from '../../../viewMode/stores/viewMode'
-	
+
+	import type { Readable } from 'svelte/store'
+	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
+	import { page } from '$app/stores'
+	import Button from '$lib/components/ui/button/Button.svelte'
+	import { aliasMode } from '$lib/features/aliases/stores/aliasModeStore'
+
 	export let token: IToken
+	export let isAlias: boolean
+	export let activeThemeId: string
 	export let draggedTokenId: string | null
-	
+
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
+
+	const activeDesignSystemThemesStore: Readable<Theme[]> = getContext(
+		'activeDesignSystemThemesStore'
+	)
+
+	const activeThemeStore: Readable<Theme> = getContext('activeThemeStore')
 
 	const selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
 		getContext('selectedTokensStore')
@@ -27,16 +41,25 @@
 	$: selected = $selectedTokensStore.includes(token.id)
 
 	const handleTokenTypeChange = (tokenType: TokenType) => {
-		token = {
-			...token,
-			value: getDefaultTokenValues(tokenType),
-			type: tokenType
-		}
-	}
+		if (!isAlias) {
+			const tokenValues: {
+				[themeId: string]: TokenValue<typeof tokenType>
+			} = {}
 
-	const removeAlias = () => {
-		token = JSON.parse(JSON.stringify(token))
-		token.alias = undefined
+			const newTokenTypeDefaultValue = getDefaultTokenValues(
+				tokenType
+			) as TokenValue
+
+			$activeDesignSystemThemesStore.forEach((theme) => {
+				tokenValues[theme.id] = newTokenTypeDefaultValue
+			})
+
+			token = {
+				...token,
+				value: tokenValues,
+				type: tokenType
+			}
+		}
 	}
 
 	const handleUnselectNameInput = () => {
@@ -60,10 +83,11 @@
 	on:dragend
 	ondragover="return false"
 	key={token.id}
-	class="border-slate-100"
+	class="border-slate-100 hover:bg-transparent"
 >
 	<Table.Cell class="pr-0">
-		<input disabled={$viewMode}
+		<input
+			disabled={$viewMode}
 			type="checkbox"
 			bind:checked={selected}
 			class="h-4 w-4"
@@ -80,11 +104,14 @@
 		<TokenTypeSelect
 			bind:value={token.type}
 			onChangeFn={handleTokenTypeChange}
+			disabled={isAlias}
 		/>
 	</Table.Cell>
 	<Table.Cell class="pr-0">
 		{#if $viewMode}
-			<p class="h-7 w-40 border-none px-1 py-1 pr-6 text-sm font-medium">{token.name}</p>
+			<p class="h-7 w-40 border-none px-1 py-1 pr-6 text-sm font-medium">
+				{token.name}
+			</p>
 		{:else}
 			<Input
 				class="h-7 w-40 border-none px-1 py-1 pr-6 text-sm font-medium"
@@ -97,12 +124,14 @@
 		{/if}
 	</Table.Cell>
 	<Table.Cell>
-		<div class="flex flex-row gap-3">
+		<div class="flex flex-row items-center gap-1">
 			<DescriptionDialog bind:token />
-			{#if token.alias}
-				<button on:click={removeAlias} disabled={$viewMode}><Link2Off class="h-4 w-4" /></button>
-			{:else}
-				<TokenAliasDialog bind:token />
+			{#if $page.params.groupId}
+				<TokenAliasControler
+					bind:token
+					activeThemeId={$activeThemeStore.id}
+					{isAlias}
+				/>
 			{/if}
 		</div>
 	</Table.Cell>

@@ -52,11 +52,7 @@
 		"vite-plugin-cloudflare": "^0.4.1",
 		"vite-plugin-node-polyfills": "^0.8.2",
 		"zod": "^3.20.2",
-		"@tanstack/svelte-query": "^5.4.3",
-		"lucide-svelte": "^0.291.0",
-		"radix-svelte": "^0.9.0",
-		"sd-tailwindcss-transformer": "^1.4.0",
-		"svelte-preprocess": "^5.0.4",
-		"trpc-svelte-query": "^2.0.3"
+		"jszip": "^3.10.1",
+		"sd-tailwindcss-transformer": "^1.4.0"
 	}
 }

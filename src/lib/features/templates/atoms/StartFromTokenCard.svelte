@@ -6,9 +6,15 @@
 	import { page } from '$app/stores'
 	import { Braces } from 'lucide-svelte'
 	import Badge from '$lib/components/ui/badge/badge.svelte'
-	import { createEventDispatcher } from 'svelte'
+	import { createEventDispatcher, getContext } from 'svelte'
+	import type { Readable } from 'svelte/store'
+	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 
 	export let tokenTemplateOverview: TemplateWithSlug
+
+	const activeDesignSystemThemesStore: Readable<Theme[]> = getContext(
+		'activeDesignSystemThemesStore'
+	)
 
 	const dispatch = createEventDispatcher()
 
@@ -21,7 +27,11 @@
 
 		const groupId = $page.params.groupId as string
 
-		importStyleDictionary(JSON.stringify(templateFile), groupId)
+		importStyleDictionary(
+			JSON.stringify(templateFile),
+			groupId,
+			$activeDesignSystemThemesStore
+		)
 		dispatch('load-template', tokenTemplateOverview)
 	}
 </script>

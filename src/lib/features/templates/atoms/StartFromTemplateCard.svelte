@@ -7,11 +7,18 @@
 	import { Box, Boxes } from 'lucide-svelte'
 	import * as Avatar from '$lib/components/ui/avatar'
 	import Badge from '$lib/components/ui/badge/badge.svelte'
-	import { createEventDispatcher } from 'svelte'
 	import { preview } from '$lib/features/viewMode/stores/preview'
 	import { viewMode } from '$lib/features/viewMode/stores/viewMode'
+	import { createEventDispatcher, getContext } from 'svelte'
+	import type { Readable } from 'svelte/store'
+	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 
 	export let templateOverview: TemplateWithSlug
+
+	const activeDesignSystemThemesStore: Readable<Theme[]> = getContext(
+		'activeDesignSystemThemesStore'
+	)
+
 	const dispatch = createEventDispatcher()
 
 	const handleCreateGroupFromTemplate = async () => {
@@ -29,9 +36,14 @@
 			parentId = $page.params.designSystemId as string
 		}
 
-		importStyleDictionary(JSON.stringify(templateFile), parentId)
-		preview.set(true);
-		viewMode.set(true);
+		importStyleDictionary(
+			JSON.stringify(templateFile),
+			parentId,
+			$activeDesignSystemThemesStore
+		)
+		preview.set(true)
+		viewMode.set(true)
+
 		dispatch('load-template', templateOverview)
 	}
 </script>

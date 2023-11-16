@@ -1,4 +1,4 @@
-import type { Group } from '$lib/features/token-groups-store/types/group-interface'
+import type { Group } from '$lib/features/token-groups-store/types/group.interface'
 import type { GroupsTree } from '../types/groups-tree'
 
 const buildSubTree = (groups: Group[], parentId?: string): GroupsTree[] => {

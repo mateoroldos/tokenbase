@@ -1,33 +1,33 @@
 <script lang="ts">
 	import { Input } from '$lib/components/ui/input'
 	import * as Select from '$lib/components/ui/select'
-	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
-	import { viewMode } from '../../../viewMode/stores/viewMode';
+	import { viewMode } from '../../../viewMode/stores/viewMode'
+	import type { DimensionTokenValue } from '$lib/features/token-management/dimension/types/internal-dimension-value.type'
 
-	export let token: IToken<'dimension'>
-
-	$: isAlias = token.alias !== undefined
+	export let tokenValue: DimensionTokenValue
+	export let isAlias: boolean
 
 	let options = ['px', 'rem']
 </script>
 
 <div class="flex gap-3">
 	<div>
-		<Input disabled={$viewMode}
+		<Input
+			disabled={$viewMode}
 			name="dimension"
-			class="h-8 w-[80px] disabled:opacity-1"
+			class="disabled:opacity-1 h-8 w-[80px]"
 			type="number"
 			{...isAlias ? { disabled: true } : {}}
-			bind:value={token.value.value}
+			bind:value={tokenValue.value}
 		/>
 	</div>
 	<div class="flex items-center">
-		<Select.Root bind:value={token.value.unit} disabled={$viewMode}>
+		<Select.Root bind:value={tokenValue.unit} disabled={$viewMode}>
 			<Select.Trigger
-				class="h-8 w-[60px] disabled:opacity-1"
+				class="disabled:opacity-1 h-8 w-[60px]"
 				{...isAlias ? { disabled: true } : {}}
 			>
-				<Select.Value placeholder={token.value.unit} />
+				<Select.Value placeholder={tokenValue.unit} />
 			</Select.Trigger>
 			<Select.Content>
 				<Select.Group>

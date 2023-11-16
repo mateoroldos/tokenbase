@@ -2,12 +2,12 @@
 	import {
 		moveToken,
 		type createGroupsStore
-	} from '$lib/features/token-groups-store/groups'
+	} from '$lib/features/token-groups-store/groupsStore'
 	import { navigating, page } from '$app/stores'
 	import { getContext, setContext } from 'svelte'
 	import Token from '$lib/features/token-ui/ui/Token.svelte'
 	import { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
-	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
+	import type { IToken } from '$lib/features/token-groups-store/types/token.interface'
 	import GroupHeader from './_components/GroupHeader.svelte'
 	import * as Table from '$lib/components/ui/table'
 	import StartFromTemplateModal from '$lib/features/templates/StartFromTemplateModal.svelte'
@@ -16,9 +16,13 @@
 	import * as EmptyStatePage from '.././_components/EmptyStatePage'
 	import StartFromJsonCard from '../_components/StartFromJsonCard/StartFromJsonCard.svelte'
 	import { viewMode } from '$lib/features/viewMode/stores/viewMode'
+	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
+	import type { Readable } from 'svelte/store'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
+
+	const activeThemeStore: Readable<Theme> = getContext('activeThemeStore')
 
 	let selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
 		createSelectedTokensStore()
@@ -67,11 +71,11 @@
 
 			for (let index = 0; index < colorTokensToChange.length; index++) {
 				;(colorTokensToChange[index] as IToken<'color'>).value[
-					e.detail.valueChanged
-				] =
+					$activeThemeStore.id
+				][e.detail.valueChanged] =
 					(colorTokensToChange[index] as IToken<'color'>).value[
-						e.detail.valueChanged
-					] + e.detail.value
+						$activeThemeStore.id
+					][e.detail.valueChanged] + e.detail.value
 			}
 		}
 	}
@@ -100,9 +104,10 @@
 			<Table.Root>
 				<Table.Header class="sticky top-0 z-30 bg-slate-50">
 					<Table.Row class="shadow-[0_1px_0] shadow-slate-100">
-						<Table.Head class="h-10" >
+						<Table.Head class="h-10">
 							<div class="flex items-center">
-								<input disabled={$viewMode}
+								<input
+									disabled={$viewMode}
 									type="checkbox"
 									class="h-4 w-4"
 									bind:checked={allTokensSelected}
@@ -129,6 +134,7 @@
 				<Table.Body class="overflow-y-auto border-b border-b-slate-100">
 					{#each $designTokensGroupStore[groupIndex].tokens as token, i (token.id)}
 						<Token
+							activeThemeId={$activeThemeStore.id}
 							bind:token
 							bind:draggedTokenId
 							on:dragstart={() => handleDragStart(token.id)}

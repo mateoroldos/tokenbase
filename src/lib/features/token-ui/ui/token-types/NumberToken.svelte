@@ -1,33 +1,19 @@
 <script lang="ts">
-	import { viewMode } from '../../../viewMode/stores/viewMode';
+	import { viewMode } from '../../../viewMode/stores/viewMode'
 	import { Input } from '$lib/components/ui/input'
-	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
-	import numberSuite from '$lib/features/token-management/number/numberSuite'
+	import type { NumberTokenValue } from '$lib/features/token-management/number/types/internal-number-value.type'
 
-	export let token: IToken<'number'>
-	
-	$: isAlias = token.alias !== undefined
-
-	const handleChange = (input: Event) => {
-		if (isAlias) return
-
-		const target = input.target as HTMLInputElement
-		const name = target.name
-
-		res = numberSuite(target.value, name)
-	}
-
-	let res = numberSuite.get()
+	export let tokenValue: NumberTokenValue
+	export let isAlias: boolean
 </script>
 
 <div>
-
-	<Input disabled={$viewMode}
-		class="h-8 w-[80px] disabled:opacity-1"
+	<Input
+		disabled={$viewMode}
+		class="disabled:opacity-1 h-8 w-[80px]"
 		type="number"
 		name="numberToken"
 		{...isAlias ? { disabled: true } : {}}
-		bind:value={token.value}
-		on:input={handleChange}
+		bind:value={tokenValue}
 	/>
 </div>

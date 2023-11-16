@@ -1,11 +1,12 @@
 <script lang="ts">
-	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
 	import * as Select from '$lib/components/ui/select'
 	import { ChevronDown } from 'lucide-svelte'
 	import { Input } from '$lib/components/ui/input'
-	import { viewMode } from '../../../viewMode/stores/viewMode';
+	import { viewMode } from '../../../viewMode/stores/viewMode'
+	import type { FontWeightTokenValue } from '$lib/features/token-management/font-weight/types/internal-font-weight-value.type'
 
-	export let token: IToken<'fontWeight'>
+	export let tokenValue: FontWeightTokenValue
+	export let isAlias: boolean
 
 	const fontWeigthValueOptions = [
 		'thin',
@@ -23,7 +24,7 @@
 	let isCustom = false
 
 	const handleCustomInputChange = (e) => {
-		token.value = e.srcElement.value
+		tokenValue = e.srcElement.value
 	}
 
 	const handleOptionChange = (value) => {
@@ -32,9 +33,9 @@
 </script>
 
 <div class="flex flex-row gap-2">
-	<Select.Root bind:value={token.value} disabled={$viewMode}>
-		<Select.Trigger class="w-[100px] disabled:opacity-1">
-			<Select.Value 
+	<Select.Root bind:value={tokenValue} disabled={isAlias || $viewMode}>
+		<Select.Trigger class="disabled:opacity-1 w-[100px]">
+			<Select.Value
 				placeholder={isCustom ? 'custom' : fontWeigthValueOptions[4]}
 			/>
 			{#if !$viewMode}
@@ -56,10 +57,11 @@
 		<Select.Input />
 	</Select.Root>
 	{#if isCustom}
-		<Input disabled={$viewMode}
-			class="h-8 w-[100px] disabled:opacity-1"
+		<Input
+			disabled={$viewMode}
+			class="disabled:opacity-1 h-8 w-[100px]"
 			type="text"
-			bind:value={token.value}
+			bind:value={tokenValue}
 			on:input={handleCustomInputChange}
 		/>
 	{/if}

@@ -1,20 +1,20 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
 	import * as Card from '$lib/components/ui/card'
-	import type { createDesignSystemsStore } from '$lib/features/token-groups-store/designSystemsIds'
-	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import type { createGroupsStore } from '$lib/features/token-groups-storeStore'
 	import { getContext } from 'svelte'
 	import { v4 as uuidv4 } from 'uuid'
 	import { Input } from '$lib/components/ui/input'
 	import { Button } from '$lib/components/ui/button'
-	import { SquareEqual } from 'lucide-svelte'
 	import { Separator } from '$lib/components/ui/separator'
 	import Logo from '$lib/components/Logo.svelte'
+	import type { createDesignSystemsOverviewsStore } from '$lib/features/token-groups-store/designSystemsOverviewsStore'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
-	const tokenbaseMainStore: ReturnType<typeof createDesignSystemsStore> =
-		getContext('tokenBaseMainStore')
+	const tokenbaseMainStore: ReturnType<
+		typeof createDesignSystemsOverviewsStore
+	> = getContext('tokenBaseMainStore')
 
 	let designSystemName = ''
 
