@@ -1,28 +1,27 @@
 <script lang="ts">
-	import { checkIfValueIsAlias } from '$lib/features/aliases/utils/checkIfValueIsAlias'
+	import TokenAliasControler from './../../../aliases/components/TokenAliasControler.svelte'
 	import type {
-		AliasValue,
 		IToken,
 		TokenType,
 		TokenValue
 	} from '$lib/features/token-groups-store/types/token.interface'
-	import { Link2Off } from 'lucide-svelte'
 	import { getContext, onMount } from 'svelte'
 	import { getDefaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import TokenTypeSelect from '../atoms/TokenTypeSelect.svelte'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
 	import DescriptionDialog from './atoms/DescriptionDialog.svelte'
-	import TokenAliasDialog from '$lib/features/aliases/components/TokenAliasDialog.svelte'
 	import * as Table from '$lib/components/ui/table'
 	import { Input } from '$lib/components/ui/input'
 	import type { Readable } from 'svelte/store'
 	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
-	import { resolveAliasIdToAliasType } from '$lib/features/aliases/utils/resolveAliasIdToAliasType'
-	import { deleteTokenAlias } from '$lib/features/aliases/functions/deleteTokenAlias'
+	import { page } from '$app/stores'
+	import Button from '$lib/components/ui/button/Button.svelte'
+	import { aliasMode } from '$lib/features/aliases/stores/aliasModeStore'
 
 	export let token: IToken
 	export let isAlias: boolean
+	export let activeThemeId: string
 	export let draggedTokenId: string | null
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
@@ -61,10 +60,6 @@
 		}
 	}
 
-	const removeAlias = () => {
-		deleteTokenAlias(token, $activeThemeStore.id)
-	}
-
 	const handleUnselectNameInput = () => {
 		if (token.name === undefined || token.name === '') {
 			token.name = 'Untitled'
@@ -86,7 +81,7 @@
 	on:dragend
 	ondragover="return false"
 	key={token.id}
-	class="border-slate-100"
+	class="border-slate-100 hover:bg-transparent"
 >
 	<Table.Cell class="pr-0">
 		<input
@@ -120,12 +115,14 @@
 		/>
 	</Table.Cell>
 	<Table.Cell>
-		<div class="flex flex-row gap-3">
+		<div class="flex flex-row items-center gap-1">
 			<DescriptionDialog bind:token />
-			{#if isAlias}
-				<button on:click={removeAlias}><Link2Off class="h-4 w-4" /></button>
-			{:else}
-				<TokenAliasDialog bind:token activeThemeId={$activeThemeStore.id} />
+			{#if $page.params.groupId}
+				<TokenAliasControler
+					bind:token
+					activeThemeId={$activeThemeStore.id}
+					{isAlias}
+				/>
 			{/if}
 		</div>
 	</Table.Cell>

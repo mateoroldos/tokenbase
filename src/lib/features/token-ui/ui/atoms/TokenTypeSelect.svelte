@@ -22,14 +22,16 @@
 		firstChange++
 	}}
 >
-	<Select.Trigger class="w-[140px]">
+	<Select.Trigger class="w-[120px] text-xs">
 		<Select.Value />
 	</Select.Trigger>
 	<Select.Content>
 		<Select.Group>
 			{#each tokenTypesArray as contentType}
-				<Select.Item value={contentType} label={formatTokenType(contentType)}
-					>{formatTokenType(contentType)}</Select.Item
+				<Select.Item
+					value={contentType}
+					label={formatTokenType(contentType)}
+					class="text-xs">{formatTokenType(contentType)}</Select.Item
 				>
 			{/each}
 		</Select.Group>

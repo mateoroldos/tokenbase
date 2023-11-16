@@ -3,4 +3,6 @@ import type { IToken } from '$lib/features/token-groups-store/types/token.interf
 
 export const deleteTokenAlias = (token: IToken, activeThemeId: string) => {
 	token.value[activeThemeId] = getDefaultTokenValues(token.type)
+
+	return token
 }

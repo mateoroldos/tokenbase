@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { checkIfValueIsAlias } from '$lib/features/aliases/utils/checkIfValueIsAlias'
 	import TokenGroupsExplorer from '$lib/features/token-groups-tree/ui/TokenGroupsExplorer.svelte'
 	import { getContext, onMount, setContext } from 'svelte'
 	import { page } from '$app/stores'
@@ -6,7 +7,18 @@
 	import type { createDesignSystemsOverviewsStore } from '$lib/features/token-groups-store/designSystemsOverviewsStore'
 	import { activeThemeIndex } from '$lib/features/themes/stores/activeThemeIndexStore'
 	import { derived, type Readable } from 'svelte/store'
-	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
+	import type {
+		DesignSystemOverview,
+		Theme
+	} from '$lib/features/token-groups-store/types/design-system-overview.interface'
+	import type { Group } from '$lib/features/token-groups-store/types/group.interface'
+	import groupsStore from '$lib/features/token-groups-store/groupsStore'
+	import { findAllChildGroups } from '$lib/features/token-groups-store/utils/findAllChildGroups'
+	import type {
+		AliasValue,
+		IToken,
+		TokenValue
+	} from '$lib/features/token-groups-store/types/token.interface'
 
 	const tokenBaseMainStore: ReturnType<
 		typeof createDesignSystemsOverviewsStore
@@ -14,49 +26,97 @@
 
 	let loading = true
 
+	let activeDesignSystemIndex = 0
 	onMount(() => {
+		$activeThemeIndex = 0
+
 		activeDesignSystemIndex = $tokenBaseMainStore.findIndex(
 			(designSystem) => designSystem.id === $page.params.designSystemId
 		)
 
 		loading = false
 	})
-
-	$: activeDesignSystemIndex = $tokenBaseMainStore.findIndex(
-		(designSystem) => designSystem.id === $page.params.designSystemId
-	)
-
-	const activeThemeStore: Readable<Theme | undefined> = derived(
-		[activeThemeIndex, tokenBaseMainStore],
-		([$activeThemeIndex, $tokenBaseMainStore]) => {
-			return $tokenBaseMainStore[activeDesignSystemIndex]?.themes[
-				$activeThemeIndex
-			]
-		}
-	)
-
-	const activeDesignSystemThemesStore: Readable<Theme[] | undefined> = derived(
-		[tokenBaseMainStore, tokenBaseMainStore],
-		([$tokenBaseMainStore]) => {
-			return $tokenBaseMainStore[activeDesignSystemIndex]?.themes
-		}
-	)
-
-	setContext('activeThemeStore', activeThemeStore)
-	setContext('activeDesignSystemThemesStore', activeDesignSystemThemesStore)
-
-	onMount(() => {
-		$activeThemeIndex = 0
+	$: activeDesignSystemIndex = $tokenBaseMainStore.findIndex((designSystem) => {
+		return designSystem.id === $page.params.designSystemId
 	})
 
-	$: activeDesignSystemName = $tokenBaseMainStore[activeDesignSystemIndex]?.name
+	const activeDesignSystemStore: Readable<DesignSystemOverview | undefined> =
+		derived([tokenBaseMainStore], ([$tokenBaseMainStore]) => {
+			return $tokenBaseMainStore[activeDesignSystemIndex]
+		})
+
+	const activeDesignSystemThemesStore: Readable<Theme[]> = derived(
+		[activeDesignSystemStore],
+		([$activeDesignSystemStore]) => {
+			return $activeDesignSystemStore?.themes as Theme[]
+		}
+	)
+
+	const activeThemeStore: Readable<Theme> = derived(
+		[activeThemeIndex, activeDesignSystemStore],
+		([$activeThemeIndex, $activeDesignSystemStore]) => {
+			return $activeDesignSystemStore?.themes[$activeThemeIndex] as Theme
+		}
+	)
+
+	const activeDesignSystemGroupsStore: Readable<Group[]> = derived(
+		[groupsStore, activeDesignSystemStore],
+		([$groupsStore, $activeDesignSystemStore]) => {
+			return findAllChildGroups(
+				$groupsStore,
+				$activeDesignSystemStore?.id as string
+			)
+		}
+	)
+
+	const activeDesignSystemTokensStore: Readable<IToken[]> = derived(
+		[activeDesignSystemGroupsStore],
+		([$activeDesignSystemGroupsStore]) => {
+			return $activeDesignSystemGroupsStore.flatMap((group) => group.tokens)
+		}
+	)
+
+	const activeThemeAliasDependenciesStore: Readable<string[][]> = derived(
+		[activeDesignSystemTokensStore, activeThemeStore],
+		([$activeDesignSystemTokensStore, $activeThemeStore]) => {
+			const aliasTokens = $activeDesignSystemTokensStore.filter((token) => {
+				return checkIfValueIsAlias(
+					token.value[$activeThemeStore.id as string] as TokenValue
+				)
+			})
+
+			if (!aliasTokens) {
+				return []
+			}
+
+			return aliasTokens.map((token) => {
+				const aliasValue = token.value[
+					$activeThemeStore.id as string
+				] as AliasValue
+
+				return [token.id, aliasValue.tokenId]
+			})
+		}
+	)
+
+	setContext('activeDesignSystemStore', activeDesignSystemStore)
+	setContext('activeThemeStore', activeThemeStore)
+	setContext('activeDesignSystemThemesStore', activeDesignSystemThemesStore)
+	setContext('activeDesignSystemGroupsStore', activeDesignSystemGroupsStore)
+	setContext('activeDesignSystemTokensStore', activeDesignSystemTokensStore)
+	setContext(
+		'activeThemeAliasDependenciesStore',
+		activeThemeAliasDependenciesStore
+	)
+
+	$: pageTitle = $activeDesignSystemStore?.name
 </script>
 
 <svelte:head>
-	<title>Tokenbase • {`${activeDesignSystemName}`}</title>
+	<title>Tokenbase • {`${pageTitle}`}</title>
 </svelte:head>
 
-{#if loading}
+{#if loading || activeDesignSystemIndex === undefined || $activeThemeStore === undefined}
 	<div class="grid h-screen content-center justify-center">
 		<div class="animate-pulse text-xl font-medium text-slate-200">
 			<img
