@@ -7,10 +7,9 @@
 	import { v4 as uuidv4 } from 'uuid'
 	import { Input } from '$lib/components/ui/input'
 	import { Button } from '$lib/components/ui/button'
-	import { SquareEqual } from 'lucide-svelte'
 	import { Separator } from '$lib/components/ui/separator'
 	import Logo from '$lib/components/Logo.svelte'
-	import { enhance } from '$app/forms'
+	import LogoutIcon from '$lib/components/LogoutIcon.svelte'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -60,13 +59,10 @@
 	<nav>
 		<ul>
 			<li>
-				<a
-					href="https://token-base.com/"
-					class="text-slate-400 transition-colors hover:text-slate-900">Blog</a
-				>
-				<form action="?/logout" method="post" use:enhance>
-					<button class="btn btn-error" type="submit">Logout</button>
-				</form>
+				<div class="flex flex-row items-center justify-center gap-4">
+					<a href="https://token-base.com/">Blog</a>
+					<LogoutIcon />
+				</div>
 			</li>
 		</ul>
 	</nav>
