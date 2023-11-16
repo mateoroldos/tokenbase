@@ -10,7 +10,7 @@
 
 <button
 	class={cn(
-		'flex h-4 items-center justify-center rounded-sm p-[2px] font-normal text-white transition-colors',
+		'flex h-5 items-center justify-center rounded-sm p-[2px] font-normal text-white transition-colors',
 		className
 	)}
 	class:bg-slate-900={!disabled}

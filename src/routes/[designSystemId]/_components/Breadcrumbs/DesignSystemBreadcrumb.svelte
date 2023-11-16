@@ -7,7 +7,7 @@
 	import { Search } from 'lucide-svelte'
 	import { Check } from 'lucide-svelte'
 	import { Pencil, Trash } from 'lucide-svelte'
-	import DropDown from '$lib/components/DropDown.svelte'
+	import ActionsDropDown from '$lib/components/ActionsDropDown.svelte'
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu'
 	import type { createDesignSystemsOverviewsStore } from '$lib/features/token-groups-store/designSystemsOverviewsStore'
 
@@ -75,7 +75,7 @@
 </script>
 
 <div class="flex flex-row items-center gap-2">
-	<DropDown menuItems={customMenuItems} />
+	<ActionsDropDown menuItems={customMenuItems} />
 	{#if changeNameInput}
 		<Input
 			placeholder={$tokenBaseMainStore[activeDesignSystemIndex]?.name}

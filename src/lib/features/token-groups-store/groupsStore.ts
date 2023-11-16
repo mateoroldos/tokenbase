@@ -9,6 +9,7 @@ import type {
 } from '$lib/features/token-groups-store/types/token.interface'
 import { getDefaultTokenValues } from './defaultTokenValues'
 import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
+import { createTokenAlias } from '../aliases/functions/createTokenAlias'
 
 export const createGroupsStore = () => {
 	const { subscribe, update, set } = persistentWritable<Group[]>(
@@ -142,6 +143,64 @@ export const createGroupsStore = () => {
 		})
 	}
 
+	const createAlias = (
+		originGroupId: string,
+		originTokenId: string,
+		aliasGroupId: string,
+		aliasTokenId: string,
+		activeThemeId: string
+	) => {
+		update((groups) => {
+			let updatedGroups: Group[]
+
+			const originGroup = groups.find((group) => group.id === originGroupId)
+
+			if (!originGroup) {
+				console.error(`Group with ID ${originGroupId} not found`)
+				return groups
+			} else {
+				let originToken = originGroup.tokens.find(
+					(token) => token.id === originTokenId
+				)
+
+				if (!originToken) {
+					console.error(`Token with ID ${originTokenId} not found`)
+					return groups
+				} else {
+					const aliasToken = createTokenAlias(
+						originToken,
+						activeThemeId,
+						aliasGroupId,
+						aliasTokenId,
+						groups
+					) as IToken
+
+					if (!aliasToken) {
+						return groups
+					} else {
+						groups = groups.map((group) => {
+							if (group.id === originGroupId) {
+								return {
+									...group,
+									tokens: group.tokens.map((token) => {
+										if (token.id === originTokenId) {
+											return aliasToken
+										}
+
+										return token
+									})
+								}
+							} else {
+								return group
+							}
+						})
+					}
+				}
+				return groups
+			}
+		})
+	}
+
 	return {
 		subscribe,
 		set,
@@ -150,7 +209,8 @@ export const createGroupsStore = () => {
 		addToken,
 		bulkAddTokens,
 		deleteToken,
-		addTheme
+		addTheme,
+		createAlias
 	}
 }
 

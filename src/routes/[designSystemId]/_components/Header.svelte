@@ -5,12 +5,13 @@
 	import DesignSystemBreadcrumb from './Breadcrumbs/DesignSystemBreadcrumb.svelte'
 	import GroupBreadcrumb from './Breadcrumbs/GroupBreadcrumb.svelte'
 	import { getContext } from 'svelte'
-	import { Plus } from 'lucide-svelte'
+	import { Plus, X } from 'lucide-svelte'
 	import Toolbar from '$lib/features/toolbar/ui/Toolbar.svelte'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
 	import type { createDesignSystemsOverviewsStore } from '$lib/features/token-groups-store/designSystemsOverviewsStore.js'
 	import type { TokenType } from '$lib/features/token-groups-store/types/token.interface.js'
 	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
+	import { aliasMode } from '$lib/features/aliases/stores/aliasModeStore'
 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
@@ -50,7 +51,9 @@
 </script>
 
 <div
-	class="border-b-1 flex flex-row items-center justify-between border-b border-solid border-b-slate-100 bg-white px-4 py-4"
+	class="border-b-1 flex min-h-[70px] flex-row items-center justify-between border-b border-solid border-b-slate-100 bg-white px-4 py-4 transition-colors"
+	class:bg-purple-100={$aliasMode}
+	class:border-b-purple-200={$aliasMode}
 >
 	<div class="flex flex-row items-center gap-4">
 		<DesignSystemBreadcrumb />
@@ -58,19 +61,28 @@
 			<GroupBreadcrumb groupId={activeGroupId} />
 		{/if}
 	</div>
-	{#if activeGroupId}
-		<div class="flex flex-row items-center gap-7">
+	{#if activeGroupId && !$aliasMode}
+		<div class="flex flex-row items-center gap-5">
+			<Toolbar />
 			{#if $page.params.designSystemId && $tokenBaseMainStore[activeDesignSystemIndex]}
 				<ThemeSelector
 					bind:themes={$tokenBaseMainStore[activeDesignSystemIndex].themes}
 					designSystemId={$page.params.designSystemId}
 				/>
 			{/if}
-			<Toolbar />
-			<Button on:click={handleAddToken} class="h-fit px-2 py-1 text-xs">
+			<Button on:click={handleAddToken} class="text-xs" size="sm">
 				<Plus class="mr-2 h-4 w-4" />
 				Add Token
 			</Button>
 		</div>
+	{:else}
+		<Button
+			size="sm"
+			on:click={() => ($aliasMode = false)}
+			class="bg-purple-700 text-xs hover:bg-purple-900"
+		>
+			<X class="mr-1 h-4 w-4" />
+			Close Alias Mode</Button
+		>
 	{/if}
 </div>

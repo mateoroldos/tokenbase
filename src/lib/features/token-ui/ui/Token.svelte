@@ -29,6 +29,7 @@
 		TokenValue
 	} from '$lib/features/token-groups-store/types/token.interface'
 	import { deepResolveAliasIds } from '$lib/features/aliases/utils/deepResolveAliasIds'
+	import { checkIfTokenHasDependencies } from '$lib/features/aliases/utils/checkIfTokenHasDependencies'
 
 	export let token: IToken
 	export let draggedTokenId: string | null
@@ -81,6 +82,7 @@
 	on:dragenter
 	on:dragend
 	{isAlias}
+	{activeThemeId}
 >
 	{#if dynamicToken}
 		{#if token.type === 'color' && checkIfValueIsColorToken(dynamicToken.value[activeThemeId])}

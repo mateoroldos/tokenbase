@@ -1,21 +1,18 @@
 <script lang="ts">
 	import type { IToken } from '$lib/features/token-groups-store/types/token.interface'
 	import { Text } from 'lucide-svelte'
-	import { getContext } from 'svelte'
 	import * as Dialog from '$lib/components/ui/dialog'
 	import * as Tooltip from '$lib/components/ui/tooltip'
-	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
 	import { Textarea } from '$lib/components/ui/textarea'
+	import Button from '$lib/components/ui/button/Button.svelte'
+	import TokenToolButton from '$lib/components/token-tool-button/TokenToolButton.svelte'
 
 	export let token: IToken
 
-	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
-		getContext('designTokensGroupStore')
+	let showTokenDescription = false
 
-	let showTokenList = false
-
-	const toggleTokenList = () => {
-		showTokenList = !showTokenList
+	const toggleTokenDescriptionDialog = () => {
+		showTokenDescription = !showTokenDescription
 	}
 </script>
 
@@ -23,13 +20,14 @@
 	<Dialog.Trigger>
 		<Tooltip.Root>
 			<Tooltip.Trigger>
-				<button
-					on:click={toggleTokenList}
-					class:text-slate-300={token.description?.length === 0 ||
-						!token.description}
+				<TokenToolButton
+					on:click={toggleTokenDescriptionDialog}
+					state={token.description?.length === 0 || !token.description
+						? 'disabled'
+						: 'active'}
 				>
 					<Text class="h-4 w-4" />
-				</button>
+				</TokenToolButton>
 			</Tooltip.Trigger>
 			{#if token.description?.length != 0 && token.description != undefined}
 				<Tooltip.Content>
