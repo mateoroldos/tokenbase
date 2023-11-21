@@ -5,9 +5,9 @@
 	} from '$lib/features/token-groups-store/types/token.interface'
 	import { Link2, Link2Off, Workflow } from 'lucide-svelte'
 	import TokenAliasRoute from './atoms/TokenAliasRoute.svelte'
-	import { deleteTokenAlias } from '../functions/deleteTokenAlias'
-	import { resolveIdsToAliasRouteAndIdsArray } from '../utils/resolveIdsToAliasRoute'
-	import { aliasMode } from '../stores/aliasModeStore'
+	import { deleteTokenAlias } from '../../functions/deleteTokenAlias'
+	import { resolveIdsToAliasRouteAndIdsArray } from '../../utils/resolveIdsToAliasRoute'
+	import { aliasMode } from '../../stores/aliasModeStore'
 	import { getContext } from 'svelte'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
 	import { page } from '$app/stores'
@@ -18,6 +18,7 @@
 	export let token: IToken
 	export let activeThemeId: string
 	export let isAlias: boolean
+	export let groupsStore: ReturnType<typeof createGroupsStore>
 
 	const aliasDependencies: Readable<string[][]> = getContext(
 		'activeThemeAliasDependenciesStore'
@@ -26,9 +27,6 @@
 	$: thisTokenDependencies = $aliasDependencies.filter((dependency) => {
 		return dependency[1] === token.id
 	})
-
-	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
-		getContext('designTokensGroupStore')
 
 	const handleTurnOnAliasMode = () => {
 		if ($page.params.groupId) {
@@ -46,7 +44,7 @@
 
 	const handleCreateTokenAlias = () => {
 		if ($aliasMode && $page.params.groupId) {
-			designTokensGroupStore.createAlias(
+			groupsStore.createAlias(
 				$aliasMode.groupId,
 				$aliasMode.tokenId,
 				$page.params.groupId,

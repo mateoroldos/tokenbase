@@ -3,21 +3,21 @@
 	import { getContext, onMount } from 'svelte'
 	import type { GroupsTree } from '../../types/groups-tree'
 	import { ChevronRight, Trash, Plus, MoreHorizontal } from 'lucide-svelte'
-	import { page } from '$app/stores'
-	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
-	import * as DropdownMenu from '$lib/components/ui/dropdown-menu'
 	import { groupId } from '$lib/features/preview-template/groupId'
 	import { preview } from '$lib/features/viewMode/stores/preview'
-	
+	import groupsStore from '$lib/features/token-groups-store/groupsStore'
+	import type { Readable } from 'svelte/store'
+	import { page } from '$app/stores'
+	import CommandsDropdown from '$lib/components/CommandsDropdown.svelte'
+
 	export let node: GroupsTree
 	export let nestNumber: number = 0
-	export let designTokensGroupStoreName: string = 'designTokensGroupStore'
 
-	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
-		getContext(designTokensGroupStoreName)
+	const activeDesignSystemId: Readable<string> = getContext(
+		'activeDesignSystemId'
+	)
 
-	$: activeGroupId = $preview ? $groupId : ($page.params.groupId as string);
-	
+	$: activeGroupId = $page.params.groupId
 	$: isActive = activeGroupId === node.group?.id
 
 	let isOpen = false
@@ -43,32 +43,32 @@
 	})
 
 	const handleAddNewGroup = () => {
-		designTokensGroupStore.addGroup('', undefined, node.group?.id)
+		groupsStore.addGroup('', undefined, node.group?.id)
 
-		goto(
-			`/${$page.params.designSystemId}/${
-				$designTokensGroupStore[$designTokensGroupStore.length - 1]!.id
-			}`
-		)
-		openToggle()
+		setTimeout(() => {
+			goto(
+				`/${$activeDesignSystemId}/${$groupsStore[$groupsStore.length - 1]!.id}`
+			)
+			openToggle()
+		}, 100)
 	}
 
 	const handleDeleteGroup = async () => {
-		await goto(`/${$page.params.designSystemId}`)
-		designTokensGroupStore.deleteGroup(node.group?.id)
+		await goto(`/${$activeDesignSystemId}`)
+		groupsStore.deleteGroup(node.group?.id as string)
 	}
 
-	function handleGroupId(){
-		if($preview){
-			groupId.set(node.group?.id);
-		}else{
-			goto(`/${$page.params.designSystemId}/${node.group?.id}`)
+	function handleGroupId() {
+		if ($preview) {
+			groupId.set(node.group?.id as string)
+		} else {
+			goto(`/${$activeDesignSystemId}/${node.group?.id}`)
 		}
 	}
 
-	let customMenuItems = [
-		{ title: 'Add a group', component: Plus, test: handleAddNewGroup },
-		{ title: 'Delete a group', component: Trash, test: handleDeleteGroup }
+	let commands = [
+		{ title: 'Add a group', component: Plus, function: handleAddNewGroup },
+		{ title: 'Delete a group', component: Trash, function: handleDeleteGroup }
 	]
 
 	let open: boolean
@@ -84,6 +84,7 @@
 		on:mouseenter={() => (hover = true)}
 		on:mouseleave={() => (hover = false)}
 		on:click={handleGroupId}
+		on:keydown={handleGroupId}
 		role="button"
 		tabindex="0"
 		style={nestNumber > 0 ? `padding-left: ${padding}` : ''}
@@ -110,37 +111,16 @@
 		</div>
 		<div class="flex flex-row">
 			{#if showButtons}
-				<DropdownMenu.Root bind:open>
-					<DropdownMenu.Trigger
-						let:builder
-						class="rounded-sm p-[2px] hover:bg-slate-200"
-						><MoreHorizontal class="h-4 w-4" />
-					</DropdownMenu.Trigger>
-					<DropdownMenu.Content>
-						<DropdownMenu.Group>
-							<DropdownMenu.Label>Actions</DropdownMenu.Label>
-							<DropdownMenu.Separator />
-							{#each customMenuItems as customItem}
-								<DropdownMenu.Item>
-									<button
-										class="flex flex-row gap-2"
-										on:click={customItem.test}
-									>
-										<svelte:component
-											this={customItem.component}
-											class="h-3 w-3 self-center"
-										/><span class="self-center">{customItem.title}</span>
-									</button>
-								</DropdownMenu.Item>
-							{/each}
-						</DropdownMenu.Group>
-					</DropdownMenu.Content>
-				</DropdownMenu.Root>
+				<CommandsDropdown {commands} bind:open>
+					<MoreHorizontal
+						class="h-4 w-4 rounded-sm p-[1px] hover:bg-slate-200"
+					/>
+				</CommandsDropdown>
 			{/if}
 			{#if showButtons}
 				<button
 					on:click|preventDefault={handleAddNewGroup}
-					class="rounded-sm p-[2px] hover:bg-slate-200"
+					class="rounded-sm p-[1px] hover:bg-slate-200"
 				>
 					<Plus class="h-4 w-4" />
 				</button>

@@ -3,30 +3,31 @@
 	import GroupItem from './atoms/GroupItem.svelte'
 	import createTree from '../functions/createTree'
 	import { goto } from '$app/navigation'
-	import { page } from '$app/stores'
 	import ExportSheet from '$lib/components/ExportSheet.svelte'
 	import { Plus } from 'lucide-svelte'
-	import groupsStore from '$lib/features/token-groups-store/groupsStore'
 	import { v4 as uuidv4 } from 'uuid'
 	import { Separator } from '$lib/components/ui/separator'
 	import { viewMode } from '$lib/features/viewMode/stores/viewMode'
-	import { preview } from '$lib/features/viewMode/stores/preview'
-	import { designSystemId } from '$lib/features/preview-template/designSystemId'
+	import type { Group } from '$lib/features/token-groups-store/types/group.interface'
+	import type { Readable } from 'svelte/store'
+	import groupsStore from '$lib/features/token-groups-store/groupsStore'
+	import { getContext } from 'svelte'
 
-	let designSystem: string = $page.params.designSystemId ?? '';
+	export let activeDesignSystemGroupsStore: Readable<Group[]>
+
+	const activeDesignSystemId: Readable<string> = getContext(
+		'activeDesignSystemId'
+	)
 
 	const handleAddNewGroup = () => {
 		const id = uuidv4()
 
-		groupsStore.addGroup('', id, $page.params.designSystemId)
+		groupsStore.addGroup('', id, $activeDesignSystemId)
 
-		goto(`/${$page.params.designSystemId}/${id}`)
+		goto(`/${$activeDesignSystemId}/${id}`)
 	}
-	if($preview)
-	{
-		designSystem = $designSystemId;
-	}
-	$: tree = createTree($groupsStore, designSystem)
+
+	$: tree = createTree($activeDesignSystemGroupsStore, $activeDesignSystemId)
 </script>
 
 <div
@@ -37,7 +38,7 @@
 		{#if tree.children.length === 0}
 			<p class="text-sm text-slate-300">Add a new group to start.</p>
 		{/if}
-		{#each tree.children as node, i (node.group.id)}
+		{#each tree.children as node, i (node.group?.id)}
 			<GroupItem {node} />
 		{/each}
 		<Separator

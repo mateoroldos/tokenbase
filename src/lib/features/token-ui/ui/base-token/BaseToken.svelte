@@ -1,5 +1,5 @@
 <script lang="ts">
-	import TokenAliasControler from './../../../aliases/components/TokenAliasControler.svelte'
+	import TokenAliasControler from '../../../aliases/components/token-alias-controler/TokenAliasControler.svelte'
 	import type {
 		IToken,
 		TokenType,
@@ -9,36 +9,25 @@
 	import { getDefaultTokenValues } from '$lib/features/token-groups-store/defaultTokenValues'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import TokenTypeSelect from '../atoms/TokenTypeSelect.svelte'
-	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
 	import DescriptionDialog from './atoms/DescriptionDialog.svelte'
 	import * as Table from '$lib/components/ui/table'
 	import { Input } from '$lib/components/ui/input'
 	import { viewMode } from '../../../viewMode/stores/viewMode'
-
 	import type { Readable } from 'svelte/store'
 	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 	import { page } from '$app/stores'
-	import Button from '$lib/components/ui/button/Button.svelte'
-	import { aliasMode } from '$lib/features/aliases/stores/aliasModeStore'
+	import groupsStore from '$lib/features/token-groups-store/groupsStore'
 
 	export let token: IToken
 	export let isAlias: boolean
 	export let activeThemeId: string
-	export let draggedTokenId: string | null
-	export let designTokensGroupStoreName: string = 'designTokensGroupStore'
-	export let selectedTokensStoreName: string = 'selectedTokensStore'
-
-	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
-		getContext(designTokensGroupStoreName)
 
 	const activeDesignSystemThemesStore: Readable<Theme[]> = getContext(
 		'activeDesignSystemThemesStore'
 	)
 
-	const activeThemeStore: Readable<Theme> = getContext('activeThemeStore')
-
 	const selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
-		getContext(selectedTokensStoreName)
+		getContext('selectedTokensStore')
 
 	$: selected = $selectedTokensStore.includes(token.id)
 
@@ -87,23 +76,21 @@
 	key={token.id}
 	class="border-slate-100 hover:bg-transparent"
 >
-	{#if designTokensGroupStoreName === 'designTokensGroupStore'}
-		<Table.Cell class="pr-0">
-			<input
-				disabled={$viewMode}
-				type="checkbox"
-				bind:checked={selected}
-				class="h-4 w-4"
-				on:change={() => {
-					if ($selectedTokensStore.includes(token.id)) {
-						selectedTokensStore.removeToken(token.id)
-					} else {
-						selectedTokensStore.addToken(token.id)
-					}
-				}}
-			/>
-		</Table.Cell>
-	{/if}
+	<Table.Cell class="pr-0">
+		<input
+			disabled={$viewMode}
+			type="checkbox"
+			bind:checked={selected}
+			class="h-4 w-4"
+			on:change={() => {
+				if ($selectedTokensStore.includes(token.id)) {
+					selectedTokensStore.removeToken(token.id)
+				} else {
+					selectedTokensStore.addToken(token.id)
+				}
+			}}
+		/>
+	</Table.Cell>
 	<Table.Cell class="pr-0">
 		<TokenTypeSelect
 			bind:value={token.type}
@@ -133,8 +120,9 @@
 			{#if $page.params.groupId}
 				<TokenAliasControler
 					bind:token
-					activeThemeId={$activeThemeStore.id}
+					{activeThemeId}
 					{isAlias}
+					{groupsStore}
 				/>
 			{/if}
 		</div>

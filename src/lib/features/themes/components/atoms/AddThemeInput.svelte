@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition'
-	import designTokensGroupStore from '$lib/features/token-groups-store/groupsStore'
+	import groupsStore from '$lib/features/token-groups-store/groupsStore'
 	import Input from '$lib/components/ui/input/Input.svelte'
 	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 	import { activeThemeIndex } from '../../stores/activeThemeIndexStore'
@@ -20,7 +20,7 @@
 
 		designSystemsOverviewsStore.addTheme(designSystemId, newThemeName, themeId)
 
-		designTokensGroupStore.addTheme(designSystemId, themeId)
+		groupsStore.addTheme(designSystemId, themeId)
 
 		newThemeName = ''
 

@@ -1,18 +1,18 @@
 import persistentWritable from '../../stores/custom/persistentWritable'
 import { v4 as uuidv4 } from 'uuid'
-import type { Group } from '$lib/features/token-groups-store/types/group-interface'
+import { getDefaultTokenValues } from '../token-groups-store/defaultTokenValues'
 import type {
 	IToken,
 	TokenType,
 	TokenValue
-} from '$lib/features/token-groups-store/types/token-interface'
-import { getDefaultTokenValues } from '../token-groups-store/defaultTokenValues'
+} from '../token-groups-store/types/token.interface'
+import type { Group } from '../token-groups-store/types/group.interface'
 
 export const createPreviewGroupsStore = () => {
 	const { subscribe, update, set } = persistentWritable<Group[]>(
 		'preview-tokenbase-groups',
 		[]
-	)	
+	)
 	const addGroup = (
 		name: string,
 		id?: string,

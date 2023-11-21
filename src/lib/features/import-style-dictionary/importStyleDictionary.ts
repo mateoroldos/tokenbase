@@ -1,8 +1,7 @@
 import { get } from 'svelte/store'
-import designTokensGroupStore from '../token-groups-store/groupsStore'
+import groupsStore from '../token-groups-store/groupsStore'
 import styleDictionaryToGroups from './functions/buildGroupsFromJson'
 import type { Theme } from '../token-groups-store/types/design-system-overview.interface'
-import previewGroupsStore from '$lib/features/preview-template/previewGroups'
 
 const importStyleDictionary = (
 	template: string,
@@ -13,12 +12,12 @@ const importStyleDictionary = (
 
 	if (newGroups.find((g) => g.id === parentId)) {
 		// delete old group from the store
-		designTokensGroupStore.deleteGroup(parentId)
+		groupsStore.deleteGroup(parentId)
 
 		// add new groups to the store
-		designTokensGroupStore.set([...get(designTokensGroupStore), ...newGroups])
+		groupsStore.set([...get(groupsStore), ...newGroups])
 	} else {
-		designTokensGroupStore.set([...get(designTokensGroupStore), ...newGroups])
+		groupsStore.set([...get(groupsStore), ...newGroups])
 	}
 }
 

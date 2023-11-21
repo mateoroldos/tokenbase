@@ -1,70 +1,63 @@
 <script lang="ts">
+	import DesignSystemNotFound from '$lib/components/DesignSystemNotFound.svelte'
+	import LoadingLogo from '$lib/components/LoadingLogo.svelte'
 	import { checkIfValueIsAlias } from '$lib/features/aliases/utils/checkIfValueIsAlias'
-	import TokenGroupsExplorer from '$lib/features/token-groups-tree/ui/TokenGroupsExplorer.svelte'
-	import { getContext, onMount, setContext } from 'svelte'
+	import GroupsExplorer from '$lib/features/token-groups-tree/ui/GroupsExplorer.svelte'
+	import { onMount, setContext } from 'svelte'
 	import { page } from '$app/stores'
-	import { Button } from '$lib/components/ui/button'
-	import type { createDesignSystemsOverviewsStore } from '$lib/features/token-groups-store/designSystemsOverviewsStore'
 	import { activeThemeIndex } from '$lib/features/themes/stores/activeThemeIndexStore'
 	import { derived, type Readable } from 'svelte/store'
-	import type {
-		DesignSystemOverview,
-		Theme
-	} from '$lib/features/token-groups-store/types/design-system-overview.interface'
-	import type { Group } from '$lib/features/token-groups-store/types/group.interface'
 	import groupsStore from '$lib/features/token-groups-store/groupsStore'
-	import { findAllChildGroups } from '$lib/features/token-groups-store/utils/findAllChildGroups'
 	import type {
 		AliasValue,
 		IToken,
 		TokenValue
 	} from '$lib/features/token-groups-store/types/token.interface'
-
-	const tokenBaseMainStore: ReturnType<
-		typeof createDesignSystemsOverviewsStore
-	> = getContext('tokenBaseMainStore')
+	import designSystemsOverviewsStore from '$lib/features/token-groups-store/designSystemsOverviewsStore'
+	import { findAllChildGroups } from '$lib/features/token-groups-store/utils/findAllChildGroups'
+	import type { Group } from '$lib/features/token-groups-store/types/group.interface'
+	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 
 	let loading = true
 
-	let activeDesignSystemIndex = 0
 	onMount(() => {
 		$activeThemeIndex = 0
 
-		activeDesignSystemIndex = $tokenBaseMainStore.findIndex(
-			(designSystem) => designSystem.id === $page.params.designSystemId
-		)
-
 		loading = false
 	})
-	$: activeDesignSystemIndex = $tokenBaseMainStore.findIndex((designSystem) => {
-		return designSystem.id === $page.params.designSystemId
-	})
 
-	const activeDesignSystemStore: Readable<DesignSystemOverview | undefined> =
-		derived([tokenBaseMainStore], ([$tokenBaseMainStore]) => {
-			return $tokenBaseMainStore[activeDesignSystemIndex]
-		})
-
-	const activeDesignSystemThemesStore: Readable<Theme[]> = derived(
-		[activeDesignSystemStore],
-		([$activeDesignSystemStore]) => {
-			return $activeDesignSystemStore?.themes as Theme[]
+	const activeDesignSystemIndex = derived(
+		[designSystemsOverviewsStore, page],
+		([$designSystemsOverviewsStore, $page]) => {
+			return $designSystemsOverviewsStore.findIndex((designSystem) => {
+				return designSystem.id === $page.params.designSystemId
+			})
 		}
 	)
 
+	const activeDesignSystemId = derived([page], ([$page]) => {
+		return $page.params.designSystemId as string
+	})
+
 	const activeThemeStore: Readable<Theme> = derived(
-		[activeThemeIndex, activeDesignSystemStore],
-		([$activeThemeIndex, $activeDesignSystemStore]) => {
-			return $activeDesignSystemStore?.themes[$activeThemeIndex] as Theme
+		[activeThemeIndex, activeDesignSystemIndex],
+		([$activeThemeIndex, $activeDesignSystemIndex]) => {
+			return $designSystemsOverviewsStore[$activeDesignSystemIndex]?.themes[
+				$activeThemeIndex
+			] as Theme
 		}
 	)
 
 	const activeDesignSystemGroupsStore: Readable<Group[]> = derived(
-		[groupsStore, activeDesignSystemStore],
-		([$groupsStore, $activeDesignSystemStore]) => {
+		[groupsStore, designSystemsOverviewsStore, activeDesignSystemIndex],
+		([
+			$groupsStore,
+			$designSystemsOverviewsStore,
+			$activeDesignSystemIndex
+		]) => {
 			return findAllChildGroups(
 				$groupsStore,
-				$activeDesignSystemStore?.id as string
+				$designSystemsOverviewsStore[$activeDesignSystemIndex]?.id as string
 			)
 		}
 	)
@@ -99,44 +92,27 @@
 		}
 	)
 
-	setContext('activeDesignSystemStore', activeDesignSystemStore)
-	setContext('activeThemeStore', activeThemeStore)
-	setContext('activeDesignSystemThemesStore', activeDesignSystemThemesStore)
-	setContext('activeDesignSystemGroupsStore', activeDesignSystemGroupsStore)
-	setContext('activeDesignSystemTokensStore', activeDesignSystemTokensStore)
+	setContext('activeDesignSystemIndex', activeDesignSystemIndex)
+	setContext('activeDesignSystemId', activeDesignSystemId)
 	setContext(
 		'activeThemeAliasDependenciesStore',
 		activeThemeAliasDependenciesStore
 	)
-
-	$: pageTitle = $activeDesignSystemStore?.name
 </script>
 
 <svelte:head>
-	<title>Tokenbase • {`${pageTitle}`}</title>
+	<title
+		>Tokenbase • {`${$designSystemsOverviewsStore[$activeDesignSystemIndex]?.name}`}</title
+	>
 </svelte:head>
 
-{#if loading || activeDesignSystemIndex === undefined || $activeThemeStore === undefined}
-	<div class="grid h-screen content-center justify-center">
-		<div class="animate-pulse text-xl font-medium text-slate-200">
-			<img
-				src="/LOGO_TOKENBASE.png"
-				alt="Token-base logo"
-				class="mb-1 inline-block h-6 w-6"
-			/>
-			Tokenbase
-		</div>
-	</div>
-{:else if activeDesignSystemIndex >= 0}
+{#if loading || activeDesignSystemIndex === undefined || $designSystemsOverviewsStore === undefined}
+	<LoadingLogo />
+{:else if $activeDesignSystemIndex >= 0}
 	<main class="grid h-screen grid-cols-[250px_1fr] overflow-hidden">
-		<TokenGroupsExplorer />
+		<GroupsExplorer {activeDesignSystemGroupsStore} />
 		<slot />
 	</main>
 {:else}
-	<div
-		class="text-cente flex h-screen flex-col items-center justify-center gap-5"
-	>
-		<span class="text-2xl text-slate-500">Design System not found</span>
-		<Button href="/" class="mt-5" variant="secondary">Go back home</Button>
-	</div>
+	<DesignSystemNotFound />
 {/if}

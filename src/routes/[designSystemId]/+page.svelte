@@ -1,38 +1,32 @@
 <script lang="ts">
-	import Header from './_components/Header.svelte'
 	import StartCardTemplate from './_components/StartCards/StartCardTemplate.svelte'
 	import StartFromTemplateModal from '$lib/features/templates/StartFromTemplateModal.svelte'
 	import type { TemplateWithSlug } from '$lib/features/templates/types/template-interface'
 	import StartFromTemplateCard from '$lib/features/templates/atoms/StartFromTemplateCard.svelte'
 	import * as EmptyStatePage from './_components/EmptyStatePage'
 	import StartFromJsonCard from './_components/StartFromJsonCard/StartFromJsonCard.svelte'
-	import { onDestroy } from 'svelte'
 	import { preview } from '$lib/features/viewMode/stores/preview'
 	import { onMount } from 'svelte'
-	import { page } from '$app/stores'
 	import { viewMode } from '$lib/features/viewMode/stores/viewMode'
 
-	export let data;
 	const getDesignSystemTemplates = fetch(`/api/templates`).then(
 		async (data) => (await data.json()) as TemplateWithSlug[]
 	)
 
-	$:{
-		if($preview){
-			viewMode.set(true);
-		}else{
+	$: {
+		if ($preview) {
+			viewMode.set(true)
+		} else {
 			viewMode.set(false)
 		}
 	}
 
 	onMount(() => {
-		preview.set(false);
-	});
-
+		preview.set(false)
+	})
 </script>
 
 <div class="h-full overflow-hidden">
-	<Header />
 	<EmptyStatePage.Root>
 		<EmptyStatePage.Section>
 			<EmptyStatePage.Heading>Get Started!</EmptyStatePage.Heading>
@@ -47,7 +41,7 @@
 					title="Design System templates"
 					content="Explore our curated list of templates to get started with your Design System."
 				>
-					<StartFromTemplateModal activeTemplateTypes={['design-system']} />
+					<!-- <StartFromTemplateModal activeTemplateTypes={['design-system']} /> -->
 				</StartCardTemplate>
 				<StartFromJsonCard />
 			</div>

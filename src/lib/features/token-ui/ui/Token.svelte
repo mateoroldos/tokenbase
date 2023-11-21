@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { getContext } from 'svelte'
 	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
 	import BaseToken from './base-token/BaseToken.svelte'
 	import ColorToken from './token-types/ColorToken/ColorToken.svelte'
@@ -29,15 +28,11 @@
 		TokenValue
 	} from '$lib/features/token-groups-store/types/token.interface'
 	import { deepResolveAliasIds } from '$lib/features/aliases/utils/deepResolveAliasIds'
-	import { checkIfTokenHasDependencies } from '$lib/features/aliases/utils/checkIfTokenHasDependencies'
+	import groupsStore from '$lib/features/token-groups-store/groupsStore'
 
 	export let token: IToken
-	export let draggedTokenId: string | null
+	// export let draggedTokenId: string | null
 	export let activeThemeId: string
-	export let designTokensGroupStoreName: string = 'designTokensGroupStore'
-
-	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
-		getContext(designTokensGroupStoreName)
 
 	let isAlias: boolean
 	let deepAliasToken: IToken | null
@@ -48,7 +43,7 @@
 		? deepResolveAliasIds(
 				(token.value[activeThemeId] as AliasValue).groupId,
 				(token.value[activeThemeId] as AliasValue).tokenId,
-				$designTokensGroupStore,
+				$groupsStore,
 				activeThemeId
 		  )
 		: null
@@ -58,7 +53,7 @@
 			? findTokenByGroupIdAndTokenId(
 					deepAliasIds.groupId,
 					deepAliasIds.tokenId,
-					$designTokensGroupStore
+					$groupsStore
 			  )
 			: null
 
@@ -78,7 +73,6 @@
 
 <BaseToken
 	bind:token
-	bind:draggedTokenId
 	on:dragstart
 	on:dragenter
 	on:dragend

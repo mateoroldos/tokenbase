@@ -13,7 +13,7 @@ import { createTokenAlias } from '../aliases/functions/createTokenAlias'
 
 export const createGroupsStore = () => {
 	const { subscribe, update, set } = persistentWritable<Group[]>(
-		'tokenbase-groups',
+		'tokenbase/groups',
 		[]
 	)
 

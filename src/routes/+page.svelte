@@ -1,25 +1,17 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
 	import * as Card from '$lib/components/ui/card'
-	import type { createGroupsStore } from '$lib/features/token-groups-storeStore'
-	import { getContext } from 'svelte'
 	import { v4 as uuidv4 } from 'uuid'
 	import { Input } from '$lib/components/ui/input'
 	import { Button } from '$lib/components/ui/button'
 	import { Separator } from '$lib/components/ui/separator'
 	import Logo from '$lib/components/Logo.svelte'
-	import type { createDesignSystemsOverviewsStore } from '$lib/features/token-groups-store/designSystemsOverviewsStore'
-
-	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
-		getContext('designTokensGroupStore')
-	const tokenbaseMainStore: ReturnType<
-		typeof createDesignSystemsOverviewsStore
-	> = getContext('tokenBaseMainStore')
+	import designSystemsOverviewsStore from '$lib/features/token-groups-store/designSystemsOverviewsStore'
 
 	let designSystemName = ''
 
 	const handleSubmitForm = async () => {
-		const designSystem = $tokenbaseMainStore.find(
+		const designSystem = $designSystemsOverviewsStore.find(
 			(designSystem) =>
 				designSystem.name.toUpperCase() === designSystemName.toUpperCase()
 		)
@@ -36,13 +28,13 @@
 
 		await goto(`/${designSystemId}`)
 
-		tokenbaseMainStore.addDesignSystem(
+		designSystemsOverviewsStore.addDesignSystem(
 			designSystemId,
 			designSystemName ?? 'New Design System'
 		)
 	}
 
-	$: designSystemExists = $tokenbaseMainStore.find(
+	$: designSystemExists = $designSystemsOverviewsStore.find(
 		(designSystem) =>
 			designSystem.name.toUpperCase() === designSystemName.toUpperCase()
 	)
@@ -117,7 +109,7 @@
 				⏎
 			</Button>
 		</form>
-		{#if $tokenbaseMainStore.length > 0}
+		{#if $designSystemsOverviewsStore.length > 0}
 			<div class="w-full">
 				<div class="mb-4 w-full">
 					<h2 class="px-4 py-2 text-slate-300">Design Systems</h2>
@@ -126,7 +118,7 @@
 					/>
 				</div>
 				<div class="grid grid-cols-3 gap-5">
-					{#each $tokenbaseMainStore as designSystem}
+					{#each $designSystemsOverviewsStore as designSystem}
 						{@const activeDesignSystem =
 							designSystem.name.toUpperCase() ===
 							designSystemName.toUpperCase()}

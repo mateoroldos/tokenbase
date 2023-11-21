@@ -1,63 +1,45 @@
 <script lang="ts">
-	import {
-		moveToken,
-		type createGroupsStore
-	} from '$lib/features/token-groups-store/groupsStore'
 	import { navigating, page } from '$app/stores'
 	import { getContext, setContext } from 'svelte'
 	import Token from '$lib/features/token-ui/ui/Token.svelte'
 	import { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import type { IToken } from '$lib/features/token-groups-store/types/token.interface'
-	import GroupHeader from './_components/GroupHeader.svelte'
 	import * as Table from '$lib/components/ui/table'
-	import StartFromTemplateModal from '$lib/features/templates/StartFromTemplateModal.svelte'
 	import StartCardTemplate from '../_components/StartCards/StartCardTemplate.svelte'
 	import StartFromTemplateCard from '$lib/features/templates/atoms/StartFromTemplateCard.svelte'
 	import * as EmptyStatePage from '.././_components/EmptyStatePage'
 	import StartFromJsonCard from '../_components/StartFromJsonCard/StartFromJsonCard.svelte'
 	import { viewMode } from '$lib/features/viewMode/stores/viewMode'
+	import type { Group } from '$lib/features/token-groups-store/types/group.interface'
+	import GroupHeader from './_components/group-header/GroupHeader.svelte'
+	import { derived, type Readable } from 'svelte/store'
 	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
-	import type { Readable } from 'svelte/store'
+	import groupsStore from '$lib/features/token-groups-store/groupsStore'
+	import designSystemsOverviewsStore from '$lib/features/token-groups-store/designSystemsOverviewsStore'
+	import { activeThemeIndex } from '$lib/features/themes/stores/activeThemeIndexStore'
 
-	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
-		getContext('designTokensGroupStore')
-
-	const activeThemeStore: Readable<Theme> = getContext('activeThemeStore')
-
-	let selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
-		createSelectedTokensStore()
-
-	setContext('selectedTokensStore', selectedTokensStore)
-
-	$: groupId = $page.params.groupId as string
-
-	$: groupIndex = $designTokensGroupStore.findIndex(
-		(group) => group.id === groupId
+	const activeDesignSystemIndex: Readable<number> = getContext(
+		'activeDesignSystemIndex'
 	)
 
-	let draggedTokenId: string | null = null
-
-	const handleDragStart = (tokenId: string) => {
-		draggedTokenId = tokenId
-	}
-
-	const handleDragEnter = (droppedTokenId: string) => {
-		if (draggedTokenId != droppedTokenId) {
-			const draggedTokenIndex = $designTokensGroupStore[
-				groupIndex
-			]?.tokens.findIndex((token) => token.id === draggedTokenId) as number
-
-			const droppedTokenIndex = $designTokensGroupStore[
-				groupIndex
-			]?.tokens.findIndex((token) => token.id === droppedTokenId) as number
-
-			$designTokensGroupStore[groupIndex]!.tokens = moveToken(
-				draggedTokenIndex,
-				droppedTokenIndex,
-				$designTokensGroupStore[groupIndex]!.tokens
+	const activeGroupIndex = derived(
+		[groupsStore, page],
+		([$groupsStore, $page]) => {
+			return $groupsStore.findIndex(
+				(group) => group.id === $page.params.groupId
 			)
 		}
-	}
+	)
+
+	$: activeTheme = $designSystemsOverviewsStore[$activeDesignSystemIndex]
+		?.themes[$activeThemeIndex] as Theme
+
+	const selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
+		createSelectedTokensStore()
+
+	setContext('activeGroupIndex', activeGroupIndex)
+	setContext('activeDesignSystemIndex', activeDesignSystemIndex)
+	setContext('selectedTokensStore', selectedTokensStore)
 
 	// When the user changes a color hue, chroma or tone individually, we update by the same value all the selected color tokens
 	const handleColorChange = (e: CustomEvent, token: IToken) => {
@@ -65,25 +47,32 @@
 			$selectedTokensStore.length > 1 &&
 			$selectedTokensStore.includes(token.id)
 		) {
-			const colorTokensToChange = $designTokensGroupStore[
-				groupIndex
-			].tokens.filter((tkn) => tkn.id !== token.id && token.type === 'color')
+			const colorTokensToChange = $groupsStore[
+				$activeGroupIndex
+			]?.tokens.filter(
+				(tkn) =>
+					tkn.id !== token.id &&
+					token.type === 'color' &&
+					$selectedTokensStore.includes(tkn.id)
+			)
 
-			for (let index = 0; index < colorTokensToChange.length; index++) {
-				;(colorTokensToChange[index] as IToken<'color'>).value[
-					$activeThemeStore.id
-				][e.detail.valueChanged] =
-					(colorTokensToChange[index] as IToken<'color'>).value[
-						$activeThemeStore.id
-					][e.detail.valueChanged] + e.detail.value
+			if (colorTokensToChange) {
+				for (let index = 0; index < colorTokensToChange.length; index++) {
+					;(colorTokensToChange[index] as IToken<'color'>).value[
+						activeTheme.id
+					][e.detail.valueChanged] =
+						(colorTokensToChange[index] as IToken<'color'>).value[
+							activeTheme.id
+						][e.detail.valueChanged] + e.detail.value
+				}
 			}
 		}
 	}
 
-	$: allTokensSelected =
-		$designTokensGroupStore[groupIndex].tokens.every((tkn) =>
+	$: selectedTokens =
+		$groupsStore[$activeGroupIndex]?.tokens.every((tkn) =>
 			$selectedTokensStore.includes(tkn.id)
-		) && $designTokensGroupStore[groupIndex].tokens.length > 0
+		) && $groupsStore[$activeGroupIndex]?.tokens.length > 0
 
 	$: if ($navigating) {
 		setTimeout(() => {
@@ -95,12 +84,14 @@
 	const getDesignSystemTemplates = fetch(`/api/templates`).then(
 		async (data) => (await data.json()) as Token[]
 	)
+
+	let activeGroup = $groupsStore[$activeGroupIndex] as Group
 </script>
 
-{#if $designTokensGroupStore[groupIndex]}
+{#if $groupsStore[$activeGroupIndex] != undefined && $designSystemsOverviewsStore[$activeDesignSystemIndex] != undefined}
 	<section class="flex h-full flex-1 flex-col overflow-hidden">
 		<GroupHeader />
-		{#if $designTokensGroupStore[groupIndex].tokens.length > 0}
+		{#if $groupsStore[$activeGroupIndex].tokens.length > 0}
 			<Table.Root>
 				<Table.Header class="sticky top-0 z-30 bg-slate-50">
 					<Table.Row class="shadow-[0_1px_0] shadow-slate-100">
@@ -110,15 +101,13 @@
 									disabled={$viewMode}
 									type="checkbox"
 									class="h-4 w-4"
-									bind:checked={allTokensSelected}
+									bind:checked={selectedTokens}
 									on:change={() => {
-										if (allTokensSelected) {
+										if (selectedTokens) {
 											selectedTokensStore.clearTokens()
 										} else {
 											selectedTokensStore.setTokens(
-												$designTokensGroupStore[groupIndex].tokens.map(
-													(tkn) => tkn.id
-												)
+												activeGroup.tokens.map((tkn) => tkn.id)
 											)
 										}
 									}}
@@ -132,14 +121,10 @@
 					</Table.Row>
 				</Table.Header>
 				<Table.Body class="overflow-y-auto border-b border-b-slate-100">
-					{#each $designTokensGroupStore[groupIndex].tokens as token, i (token.id)}
+					{#each $groupsStore[$activeGroupIndex].tokens as token, i (token.id)}
 						<Token
-							activeThemeId={$activeThemeStore.id}
+							activeThemeId={activeTheme.id}
 							bind:token
-							bind:draggedTokenId
-							on:dragstart={() => handleDragStart(token.id)}
-							on:dragenter={() => handleDragEnter(token.id)}
-							on:dragend={() => (draggedTokenId = null)}
 							on:colorChange={(e) => handleColorChange(e, token)}
 						/>
 					{/each}
@@ -165,7 +150,7 @@
 							title="Explore templates"
 							content="Start from the template that fits your needs"
 						>
-							<StartFromTemplateModal activeTemplateTypes={['group']} />
+							<!-- <StartFromTemplateModal activeTemplateTypes={['group']} /> -->
 						</StartCardTemplate>
 						<StartFromJsonCard />
 					</div>

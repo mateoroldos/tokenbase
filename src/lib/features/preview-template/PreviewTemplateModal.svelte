@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	import { buttonVariants } from '$lib/components/ui/button'
 	import * as Dialog from '$lib/components/ui/dialog'
 	import type { TemplateWithSlug } from '$lib/features/templates/types/template-interface'
@@ -73,10 +73,10 @@
 							{/if}
 					</Table.Root>
 					{:else}
-						<!--Poner algo-->
+						Poner algo
 					{/if}
 				</section>
 			</div>
 		</Dialog.Content>
 	</Dialog.Portal>
-</Dialog.Root>
+</Dialog.Root> -->

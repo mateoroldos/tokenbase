@@ -1,7 +1,5 @@
 <script lang="ts">
 	import { Input } from '$lib/components/ui/input'
-	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
-	import cubicBezierSuite from '$lib/features/token-management/cubic-bezier/cubicBezierSuite'
 	import { viewMode } from '../../../viewMode/stores/viewMode'
 	import type { CubicBezierTokenValue } from '$lib/features/token-management/cubic-bezier/types/internal-cubic-bezier-value.type'
 

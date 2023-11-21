@@ -2,14 +2,16 @@
 	import { MoreVertical } from 'lucide-svelte'
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu'
 
-	export let menuItems: {
+	export let commands: {
 		title: string
 		component: ConstructorOfATypedSvelteComponent
 		function: () => any
 	}[]
+
+	export let open = false
 </script>
 
-<DropdownMenu.Root>
+<DropdownMenu.Root bind:open>
 	<DropdownMenu.Trigger>
 		<slot>
 			<MoreVertical class="h-3 w-3 text-slate-600" />
@@ -17,14 +19,14 @@
 	</DropdownMenu.Trigger>
 	<DropdownMenu.Content>
 		<DropdownMenu.Group>
-			{#each menuItems as customItem}
+			{#each commands as command}
 				<DropdownMenu.Item>
-					<button class="flex flex-row gap-2" on:click={customItem.function}>
+					<button class="flex flex-row gap-2" on:click={command.function}>
 						<svelte:component
-							this={customItem.component}
+							this={command.component}
 							class="h-3 w-3 self-center text-slate-700"
 						/><span class="self-center text-sm text-slate-700"
-							>{customItem.title}</span
+							>{command.title}</span
 						>
 					</button>
 				</DropdownMenu.Item>

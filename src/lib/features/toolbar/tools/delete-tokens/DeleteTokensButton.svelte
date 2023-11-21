@@ -3,10 +3,8 @@
 	import ToolbarButton from '../../ui/atoms/ToolbarButton.svelte'
 	import { getContext } from 'svelte'
 	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
-	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
+	import groupsStore from '$lib/features/token-groups-store/groupsStore'
 
-	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
-		getContext('designTokensGroupStore')
 	const selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
 		getContext('selectedTokensStore')
 
@@ -17,7 +15,7 @@
 			const tokenId = tokensToDelete[i]
 
 			if (tokenId) {
-				designTokensGroupStore.deleteToken(tokenId)
+				groupsStore.deleteToken(tokenId)
 			}
 		}
 

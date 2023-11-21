@@ -2,23 +2,22 @@
 	import { getContext, onMount } from 'svelte'
 	import type { GroupsTree } from '$lib/features/token-groups-tree/types/groups-tree'
 	import { ChevronRight, Trash, Plus, MoreHorizontal } from 'lucide-svelte'
-	import { page } from '$app/stores'
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu'
 	import type { createPreviewGroupsStore } from './previewGroups'
-    import { groupId } from './groupId'
-    
+	import { groupId } from './groupId'
+
 	export let node: GroupsTree
 	export let nestNumber: number = 0
 
 	let isOpen = false
 	let hover = false
 
-    const previewDesignTokensGroupStore: ReturnType<typeof createPreviewGroupsStore> =
-		getContext('previewDesignTokensGroupStore')
+	const previewDesignTokensGroupStore: ReturnType<
+		typeof createPreviewGroupsStore
+	> = getContext('previewDesignTokensGroupStore')
 
 	$: isActive = $groupId === node.group?.id
 	//VER PORQUE NO FUNCIONA EL isActive
-
 
 	const toggleOpen = () => {
 		isOpen = !isOpen
@@ -35,9 +34,9 @@
 		}
 	})
 
-    function handleGroupId(){
-        groupId.set(node.group?.id || "");
-    }
+	function handleGroupId() {
+		groupId.set(node.group?.id || '')
+	}
 
 	let open: boolean
 
@@ -46,7 +45,7 @@
 	$: padding = `${nestNumber * 15}px`
 </script>
 
-<div >
+<div>
 	<div
 		class={`flex flex-row items-center justify-between rounded-md px-1 py-1 text-slate-400 transition-all hover:bg-slate-100`}
 		role="button"
@@ -83,7 +82,7 @@
 						><MoreHorizontal class="h-4 w-4" />
 					</DropdownMenu.Trigger>
 				</DropdownMenu.Root>
-			{/if} 
+			{/if}
 		</div>
 	</div>
 	{#if isOpen}

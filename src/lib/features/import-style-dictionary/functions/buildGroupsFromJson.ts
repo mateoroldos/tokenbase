@@ -5,7 +5,7 @@ import type {
 import type { Group } from '../../token-groups-store/types/group.interface'
 import { v4 as uuidv4 } from 'uuid'
 import { get } from 'svelte/store'
-import designTokensGroupStore from '../../token-groups-store/groupsStore'
+import groupsStore from '../../token-groups-store/groupsStore'
 import type { StyleDictionaryGroup } from '../types/style-dictionary-group.interface'
 import styleDictionaryTokenToIToken from './styleDictionaryTokenToIToken'
 import type { StyleDictionaryToken } from '../types/style-dictionary-token.interface'
@@ -64,9 +64,7 @@ const buildStyleDictionaryNode = (
 	// Tenemos 2 casos:
 	// 1. Estamos armando un grupo que ya existe en nuestra store
 	// 2. Estamos armando un grupo que no existe en nuestra store
-	const existingGroup = get(designTokensGroupStore).find(
-		(g) => g.id === parentId
-	)
+	const existingGroup = get(groupsStore).find((g) => g.id === parentId)
 
 	// Caso 1. Estamos armando un grupo que ya existe en nuestra store
 	// Si el grupo ya existe en nuestra store, lo que hacemos es agregarle los tokens que acabamos de recorrer a los tokens ya existentes

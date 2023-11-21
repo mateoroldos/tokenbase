@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
+	import type { IToken } from './../token-groups-store/types/token.interface'
 	import BaseToken from '$lib/features/token-ui/ui/base-token/BaseToken.svelte'
 	import ColorToken from '$lib/features/token-ui/ui/token-types/ColorToken/ColorToken.svelte'
 	import CubicBezierToken from '$lib/features/token-ui/ui/token-types/CubicBezierToken.svelte'
@@ -10,7 +10,8 @@
 	import FontWeight from '$lib/features/token-ui/ui/token-types/FontWeight.svelte'
 	import { getContext } from 'svelte'
 	import findTokenById from '$lib/utils/findTokenById'
-	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
+
 	export let token: IToken
 	export let draggedTokenId: string | null
 
@@ -40,7 +41,14 @@
 	}
 </script>
 
-<BaseToken bind:token bind:draggedTokenId on:dragstart on:dragenter on:dragend designTokensGroupStoreName={'previewDesignTokensGroupStore'}>
+<BaseToken
+	bind:token
+	bind:draggedTokenId
+	on:dragstart
+	on:dragenter
+	on:dragend
+	designTokensGroupStoreName={'previewDesignTokensGroupStore'}
+>
 	{#if token.type === 'color'}
 		<ColorToken bind:token on:colorChange />
 	{:else if token.type === 'fontFamily'}

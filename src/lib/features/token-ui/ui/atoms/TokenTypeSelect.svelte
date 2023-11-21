@@ -3,7 +3,6 @@
 	import tokenTypesArray from '$lib/utils/tokenTypesArray'
 	import * as Select from '$lib/components/ui/select'
 	import formatTokenType from '$lib/utils/formatTokenType'
-	import { viewMode } from '../../../viewMode/stores/viewMode';
 
 	export let value: TokenType
 	export let onChangeFn: (value: TokenType) => void
@@ -13,9 +12,9 @@
 	let firstChange = 0
 </script>
 
-<Select.Root disabled={$viewMode}
-	bind:value
+<Select.Root
 	{disabled}
+	bind:value
 	onValueChange={(val) => {
 		if (firstChange > 0) {
 			onChangeFn(val)
@@ -23,7 +22,7 @@
 		firstChange++
 	}}
 >
-	<Select.Trigger class="w-[120px] text-xs disabled:opacity-1">
+	<Select.Trigger class="disabled:opacity-1 w-[120px] text-xs">
 		<Select.Value />
 	</Select.Trigger>
 	<Select.Content>

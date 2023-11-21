@@ -1,8 +1,5 @@
 <script lang="ts">
 	import { Input } from '$lib/components/ui/input'
-	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
-	import durationSuite from '$lib/features/token-management/duration/durationSuite'
-	import { Import } from 'lucide-svelte'
 	import { viewMode } from '../../../viewMode/stores/viewMode'
 	import type { DurationTokenValue } from '$lib/features/token-management/duration/types/internal-duration.value.type'
 

@@ -1,9 +1,15 @@
 import { get } from 'svelte/store'
-import styleDictionaryToGroups from '$lib/features/import-style-dictionary/buildGroupsFromJson'
 import previewGroupsStore from './previewGroups'
+import styleDictionaryToGroups from '../import-style-dictionary/functions/buildGroupsFromJson'
+
 //Aca deberia cambiar la store
 const importPreviewStyleDictionary = (template: string, parentId: string) => {
-	const newGroups = styleDictionaryToGroups(template, parentId)
+	const newGroups = styleDictionaryToGroups(template, parentId, [
+		{
+			name: 'light',
+			id: 'light'
+		}
+	])
 
 	if (newGroups.find((g) => g.id === parentId)) {
 		// delete old group from the store
