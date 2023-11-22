@@ -46,7 +46,7 @@
 	{/if}
 	{#if changeNameInput && designSystemsOverviewsStore !== null}
 		<Input
-			placeholder={activeDesignSystem.name}
+			placeholder={activeDesignSystemOverview.name}
 			on:focusout={toggleChangeNameInput}
 			bind:value={$designSystemsOverviewsStore[activeDesignSystemIndex].name}
 			class="h-fit px-2 py-1"
