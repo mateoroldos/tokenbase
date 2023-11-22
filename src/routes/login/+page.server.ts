@@ -5,7 +5,11 @@ import type { PageServerLoad } from './$types'
 import { z } from 'zod'
 import { superValidate } from 'sveltekit-superforms/server'
 import { LuciaError } from 'lucia'
-import { findErrorByName } from '$lib/features/user-management/errors'
+import { findErrorByName } from '$lib/features/user-management/utils/findErrorByName'
+import {
+	MAX_PASSWORD_SIZE,
+	MIN_PASSWORD_SIZE
+} from '$lib/features/user-management/config/passwordSize'
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const session = await locals.auth.validate()
@@ -19,7 +23,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 const loginSchema = z.object({
 	email: z.string().email(),
-	password: z.string().min(6).max(100)
+	password: z.string().min(MIN_PASSWORD_SIZE).max(MAX_PASSWORD_SIZE)
 })
 
 export const actions = {

@@ -1,16 +1,19 @@
 import { auth } from '$lib/server/lucia'
 import { fail, redirect } from '@sveltejs/kit'
-import {
-	isValidPasswordResetToken,
-	validatePasswordResetToken
-} from '$lib/features/user-management/token'
 import { z } from 'zod'
 import { superValidate } from 'sveltekit-superforms/server'
 import type { PageServerLoad, Actions } from './$types'
-import { findErrorByName } from '$lib/features/user-management/errors'
+import { validatePasswordResetToken } from '$lib/features/user-management/tokens/validatePasswordResetToken'
+import { findErrorByName } from '$lib/features/user-management/utils/findErrorByName'
+import { isValidPasswordResetToken } from '$lib/features/user-management/tokens/isValidPasswordResetToken'
+import {
+	MAX_PASSWORD_SIZE,
+	MIN_PASSWORD_SIZE
+} from '$lib/features/user-management/config/passwordSize'
+MAX_PASSWORD_SIZE
 
 const signupSchema = z.object({
-	password: z.string().min(6).max(100)
+	password: z.string().min(MIN_PASSWORD_SIZE).max(MAX_PASSWORD_SIZE)
 })
 
 export const load: PageServerLoad = async ({ params }) => {

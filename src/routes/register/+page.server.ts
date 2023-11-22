@@ -4,14 +4,22 @@ import type { PageServerLoad } from './$types'
 import { z } from 'zod'
 import { superValidate } from 'sveltekit-superforms/server'
 import { LuciaError } from 'lucia'
-import { sendEmailVerificationLink } from '$lib/features/user-management/email'
-import { generateEmailVerificationToken } from '$lib/features/user-management/token'
-import { verifyUniqueUsername } from '$lib/features/user-management/user'
-import { findErrorByName } from '$lib/features/user-management/errors'
+import { findErrorByName } from '$lib/features/user-management/utils/findErrorByName'
+import { sendEmailVerificationLink } from '$lib/features/user-management/emails/sendEmailVerificationLink'
+import { generateEmailVerificationToken } from '$lib/features/user-management/tokens/generateEmailVerificationToken'
+import { verifyUniqueUsername } from '$lib/features/user-management/user/verifyUniqueUsername'
+import {
+	MAX_PASSWORD_SIZE,
+	MIN_PASSWORD_SIZE
+} from '$lib/features/user-management/config/passwordSize'
+import {
+	MAX_USERNAME_SIZE,
+	MIN_USERNAME_SIZE
+} from '$lib/features/user-management/config/usernameSize'
 
 const signupSchema = z.object({
-	username: z.string().min(3).max(20),
-	password: z.string().min(6).max(100),
+	username: z.string().min(MIN_USERNAME_SIZE).max(MAX_USERNAME_SIZE),
+	password: z.string().min(MIN_PASSWORD_SIZE).max(MAX_PASSWORD_SIZE),
 	email: z.string().email()
 })
 
@@ -27,7 +35,7 @@ export const load = (async ({ locals }) => {
 }) satisfies PageServerLoad
 
 export const actions = {
-	register: async ({ request, locals }) => {
+	register: async ({ request }) => {
 		const form = await superValidate(request, signupSchema)
 
 		if (!form.valid) {

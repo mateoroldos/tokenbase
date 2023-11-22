@@ -1,8 +1,8 @@
 import { redirect, fail } from '@sveltejs/kit'
 import type { PageServerLoad, Actions } from '../$types'
-import { generateEmailVerificationToken } from '$lib/features/user-management/token'
-import { sendEmailVerificationLink } from '$lib/features/user-management/email'
-import { getStoredUserByUsername } from '$lib/features/user-management/user'
+import { sendEmailVerificationLink } from '$lib/features/user-management/emails/sendEmailVerificationLink'
+import { generateEmailVerificationToken } from '$lib/features/user-management/tokens/generateEmailVerificationToken'
+import { getStoredUserByUsername } from '$lib/features/user-management/user/getStoredUserByUsername'
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const session = await locals.auth.validate()

@@ -1,5 +1,5 @@
+import { validateEmailVerificationToken } from '$lib/features/user-management/tokens/validateEmailVerificationToken'
 import { auth } from '$lib/server/lucia'
-import { validateEmailVerificationToken } from '$lib/features/user-management/token'
 import type { RequestHandler } from './$types'
 
 export const GET: RequestHandler = async ({ params }) => {

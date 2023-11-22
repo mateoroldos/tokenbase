@@ -1,12 +1,12 @@
 import { auth } from '$lib/server/lucia'
 import { fail, redirect } from '@sveltejs/kit'
 import type { Actions, PageServerLoad } from './$types'
-import { generatePasswordResetToken } from '$lib/features/user-management/token'
-import { sendPasswordResetLink } from '$lib/features/user-management/email'
 import { z } from 'zod'
 import { superValidate } from 'sveltekit-superforms/server'
-import { getStoredUserByEmail } from '../../lib/features/user-management/user'
-import { findErrorByName } from '$lib/features/user-management/errors'
+import { findErrorByName } from '$lib/features/user-management/utils/findErrorByName'
+import { sendPasswordResetLink } from '$lib/features/user-management/emails/sendPasswordResetLink'
+import { generatePasswordResetToken } from '$lib/features/user-management/tokens/generatePasswordResetToken'
+import { getStoredUserByEmail } from '$lib/features/user-management/user/getStoredUserByEmail'
 
 const signupSchema = z.object({
 	email: z.string().email()
