@@ -1,44 +1,14 @@
 <script lang="ts">
 	import type { SelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
-	import type { IToken } from '$lib/features/token-groups-store/types/token.interface'
 	import * as Table from '$lib/components/ui/table'
 	import type { Group } from '$lib/features/token-groups-store/types/group.interface'
-	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 	import type { GroupsStore } from '$lib/features/token-groups-store/groupsStore'
 	import type { Readable } from 'svelte/store'
 
-	export let activeTheme: Theme
 	export let activeGroupIndex: number
 	export let selectedTokensStore: SelectedTokensStore | null = null
 	export let groupsStore: GroupsStore | Readable<Group[]>
 	export let viewMode = false
-
-	// When the user changes a color hue, chroma or tone individually, we update by the same value all the selected color tokens
-	const handleColorChange = (e: CustomEvent, token: IToken) => {
-		if (
-			$selectedTokensStore !== null &&
-			$selectedTokensStore.length > 1 &&
-			$selectedTokensStore.includes(token.id)
-		) {
-			const colorTokensToChange = $groupsStore[activeGroupIndex]?.tokens.filter(
-				(tkn) =>
-					tkn.id !== token.id &&
-					token.type === 'color' &&
-					$selectedTokensStore.includes(tkn.id)
-			)
-
-			if (colorTokensToChange) {
-				for (let index = 0; index < colorTokensToChange.length; index++) {
-					;(colorTokensToChange[index] as IToken<'color'>).value[
-						activeTheme.id
-					][e.detail.valueChanged] =
-						(colorTokensToChange[index] as IToken<'color'>).value[
-							activeTheme.id
-						][e.detail.valueChanged] + e.detail.value
-				}
-			}
-		}
-	}
 
 	$: selectedTokens =
 		selectedTokensStore && $selectedTokensStore

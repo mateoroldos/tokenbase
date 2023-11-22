@@ -71,12 +71,7 @@
 						{groupsStore}
 						{previewStore}
 					/>
-					<TokensTable
-						activeTheme={theme}
-						{activeGroupIndex}
-						{groupsStore}
-						viewMode={true}
-					>
+					<TokensTable {activeGroupIndex} {groupsStore} viewMode={true}>
 						{#each $groupsStore[activeGroupIndex].tokens as token}
 							<Token
 								{token}

@@ -11,6 +11,7 @@
 	import { activeThemeIndex } from '$lib/features/themes/stores/activeThemeIndexStore'
 	import EmptyGroupPage from '$lib/components/empty-state-pages/EmptyGroupPage.svelte'
 	import Token from '$lib/features/token-ui/ui/Token.svelte'
+	import type { IToken } from '$lib/features/token-groups-store/types/token.interface'
 
 	const activeDesignSystemIndex: Readable<number> = getContext(
 		'activeDesignSystemIndex'
@@ -38,6 +39,35 @@
 	setContext('activeDesignSystemIndex', activeDesignSystemIndex)
 	setContext('selectedTokensStore', selectedTokensStore)
 
+	// When the user changes a color hue, chroma or tone individually, we update by the same value all the selected color tokens
+	const handleColorChange = (e: CustomEvent, token: IToken) => {
+		if (
+			$selectedTokensStore !== null &&
+			$selectedTokensStore.length > 1 &&
+			$selectedTokensStore.includes(token.id)
+		) {
+			const colorTokensToChange = $groupsStore[
+				$activeGroupIndex
+			]?.tokens.filter(
+				(tkn) =>
+					tkn.id !== token.id &&
+					token.type === 'color' &&
+					$selectedTokensStore.includes(tkn.id)
+			)
+
+			if (colorTokensToChange) {
+				for (let index = 0; index < colorTokensToChange.length; index++) {
+					;(colorTokensToChange[index] as IToken<'color'>).value[
+						activeTheme.id
+					][e.detail.valueChanged] =
+						(colorTokensToChange[index] as IToken<'color'>).value[
+							activeTheme.id
+						][e.detail.valueChanged] + e.detail.value
+				}
+			}
+		}
+	}
+
 	$: if ($navigating) {
 		setTimeout(() => {
 			selectedTokensStore.clearTokens()
@@ -51,7 +81,6 @@
 		<GroupHeader activeDesignSystemIndex={$activeDesignSystemIndex} />
 		{#if $groupsStore[$activeGroupIndex].tokens.length > 0}
 			<TokensTable
-				{activeTheme}
 				{groupsStore}
 				{selectedTokensStore}
 				activeGroupIndex={$activeGroupIndex}
@@ -67,6 +96,7 @@
 								.themes}
 							aliasDependencies={$activeThemeAliasDependencies}
 							activeGroupId={$page.params.groupId}
+							on:colorChange={(e) => handleColorChange(e, token)}
 						/>
 					{/each}
 				{/if}
