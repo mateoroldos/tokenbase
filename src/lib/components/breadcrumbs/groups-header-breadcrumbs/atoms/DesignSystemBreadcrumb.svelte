@@ -5,15 +5,15 @@
 	import { Input } from '$lib/components/ui/input'
 	import { Pencil, Trash } from 'lucide-svelte'
 	import CommandsDropdown from '$lib/components/CommandsDropdown.svelte'
-	import designSystemsOverviewsStore from '$lib/features/token-groups-store/designSystemsOverviewsStore'
 	import * as Breadcrumbs from '$lib/components/breadcrumbs'
 	import DesignSystemSelectDropdown from './DesignSystemSelectDropdown.svelte'
+	import type { DesignSystemsOverviewsStore } from '$lib/features/token-groups-store/designSystemsOverviewsStore'
 
 	export let activeDesignSystemIndex: number
-
-	$: activeDesignSystem = $designSystemsOverviewsStore[
-		activeDesignSystemIndex
-	] as DesignSystemOverview
+	export let activeDesignSystemOverview: DesignSystemOverview
+	export let designSystemsOverviewsStore: DesignSystemsOverviewsStore | null =
+		null
+	export let viewMode = false
 
 	let changeNameInput = false
 
@@ -22,10 +22,12 @@
 	}
 
 	const deleteDesignSystem = async () => {
-		await goto(`/`)
-		designSystemsOverviewsStore.deleteDesignSystem(
-			$page.params.designSystemId as string
-		)
+		if (designSystemsOverviewsStore) {
+			await goto(`/`)
+			designSystemsOverviewsStore.deleteDesignSystem(
+				$page.params.designSystemId as string
+			)
+		}
 	}
 
 	let dropdownCommands = [
@@ -39,15 +41,19 @@
 </script>
 
 <Breadcrumbs.Container>
-	<CommandsDropdown commands={dropdownCommands} />
-	{#if changeNameInput}
+	{#if !viewMode}
+		<CommandsDropdown commands={dropdownCommands} />
+	{/if}
+	{#if changeNameInput && designSystemsOverviewsStore !== null}
 		<Input
 			placeholder={activeDesignSystem.name}
 			on:focusout={toggleChangeNameInput}
 			bind:value={$designSystemsOverviewsStore[activeDesignSystemIndex].name}
 			class="h-fit px-2 py-1"
 		/>
-	{:else}
+	{:else if designSystemsOverviewsStore}
 		<DesignSystemSelectDropdown {activeDesignSystemIndex} />
+	{:else}
+		<span>Design System</span>
 	{/if}
 </Breadcrumbs.Container>

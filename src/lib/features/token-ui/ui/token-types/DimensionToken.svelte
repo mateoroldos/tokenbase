@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { Input } from '$lib/components/ui/input'
 	import * as Select from '$lib/components/ui/select'
-	import { viewMode } from '../../../viewMode/stores/viewMode'
 	import type { DimensionTokenValue } from '$lib/features/token-management/dimension/types/internal-dimension-value.type'
 
 	export let tokenValue: DimensionTokenValue
 	export let isAlias: boolean
+	export let viewMode = false
 
 	let options = ['px', 'rem']
 </script>
@@ -13,7 +13,7 @@
 <div class="flex gap-3">
 	<div>
 		<Input
-			disabled={$viewMode}
+			disabled={viewMode}
 			name="dimension"
 			class="disabled:opacity-1 h-8 w-[80px]"
 			type="number"
@@ -22,7 +22,7 @@
 		/>
 	</div>
 	<div class="flex items-center">
-		<Select.Root bind:value={tokenValue.unit} disabled={$viewMode}>
+		<Select.Root bind:value={tokenValue.unit} disabled={viewMode}>
 			<Select.Trigger
 				class="disabled:opacity-1 h-8 w-[60px]"
 				{...isAlias ? { disabled: true } : {}}

@@ -1,6 +1,6 @@
-import Container from './BreadcrumbContainer.svelte'
-import Element from './BreadcrumbElement.svelte'
-import Divider from './BreadcrumbDivider.svelte'
+import Container from './atoms/BreadcrumbContainer.svelte'
+import Element from './atoms/BreadcrumbElement.svelte'
+import Divider from './atoms/BreadcrumbDivider.svelte'
 
 export {
 	Container,

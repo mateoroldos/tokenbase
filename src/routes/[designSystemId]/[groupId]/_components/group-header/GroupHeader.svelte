@@ -1,11 +1,10 @@
 <script lang="ts">
-	import GroupHeaderBreadcrumbs from './breadcrumbs/GroupHeaderBreadcrumbs.svelte'
+	import GroupHeaderBreadcrumbs from '$lib/components/breadcrumbs/groups-header-breadcrumbs/GroupHeaderBreadcrumbs.svelte'
 	import ThemeSelector from '$lib/features/themes/components/ThemeSelector.svelte'
 	import { Button } from '$lib/components/ui/button'
 	import { Plus } from 'lucide-svelte'
-	import { preview } from '$lib/features/viewMode/stores/preview'
+	import { preview } from '$lib/features/view-mode/stores/preview'
 	import ImportDesignSystem from '$lib/features/toolbar/tools/import-design-system/ImportDesignSystem.svelte'
-	import StartFromTemplateModal from '$lib/features/templates/StartFromTemplateModal.svelte'
 	import type { TokenType } from '$lib/features/token-groups-store/types/token.interface.js'
 	import type {
 		DesignSystemOverview,
@@ -21,12 +20,11 @@
 	import type { Readable } from 'svelte/store'
 	import designSystemsOverviewsStore from '$lib/features/token-groups-store/designSystemsOverviewsStore'
 	import CloseAliasModeButton from '$lib/features/aliases/components/close-alias-mode-button/CloseAliasModeButton.svelte'
+	import { viewMode } from '$lib/features/view-mode/stores/viewMode'
 
-	const activeDesignSystemIndex: Readable<number> = getContext(
-		'activeDesignSystemIndex'
-	)
+	export let activeDesignSystemIndex: number
 	$: activeDesignSystem = $designSystemsOverviewsStore[
-		$activeDesignSystemIndex
+		activeDesignSystemIndex
 	] as DesignSystemOverview
 
 	const activeGroupIndex: Readable<number> = getContext('activeGroupIndex')
@@ -45,7 +43,13 @@
 </script>
 
 <GroupHeaderContainer>
-	<GroupHeaderBreadcrumbs />
+	<GroupHeaderBreadcrumbs
+		activeGroupIndex={$activeGroupIndex}
+		{activeDesignSystemIndex}
+		activeDesignSystemOverview={activeDesignSystem}
+		{groupsStore}
+		viewMode={$viewMode}
+	/>
 	{#if $preview}
 		<GroupHeaderToolsContainer>
 			<!-- <StartFromTemplateModal /> -->

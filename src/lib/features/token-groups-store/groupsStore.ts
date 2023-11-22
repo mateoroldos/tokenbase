@@ -286,3 +286,5 @@ export const moveToken = (
 
 	return tokens
 }
+
+export type GroupsStore = ReturnType<typeof createGroupsStore>

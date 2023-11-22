@@ -1,4 +1,4 @@
-import Root from './EmptyStatePage.svelte'
+import Root from './atoms/EmptyStatePage.svelte'
 import Description from './atoms/EmptyStateDescription.svelte'
 import Heading from './atoms/EmptyStateHeading.svelte'
 import Section from './atoms/EmptyStateSection.svelte'

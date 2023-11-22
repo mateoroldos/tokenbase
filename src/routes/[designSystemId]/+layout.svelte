@@ -1,22 +1,18 @@
 <script lang="ts">
 	import DesignSystemNotFound from '$lib/components/DesignSystemNotFound.svelte'
 	import LoadingLogo from '$lib/components/LoadingLogo.svelte'
-	import { checkIfValueIsAlias } from '$lib/features/aliases/utils/checkIfValueIsAlias'
 	import GroupsExplorer from '$lib/features/token-groups-tree/ui/GroupsExplorer.svelte'
 	import { onMount, setContext } from 'svelte'
 	import { page } from '$app/stores'
 	import { activeThemeIndex } from '$lib/features/themes/stores/activeThemeIndexStore'
 	import { derived, type Readable } from 'svelte/store'
 	import groupsStore from '$lib/features/token-groups-store/groupsStore'
-	import type {
-		AliasValue,
-		IToken,
-		TokenValue
-	} from '$lib/features/token-groups-store/types/token.interface'
+	import type { IToken } from '$lib/features/token-groups-store/types/token.interface'
 	import designSystemsOverviewsStore from '$lib/features/token-groups-store/designSystemsOverviewsStore'
 	import { findAllChildGroups } from '$lib/features/token-groups-store/utils/findAllChildGroups'
 	import type { Group } from '$lib/features/token-groups-store/types/group.interface'
 	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
+	import { getAliasDependencies } from '$lib/features/aliases/utils/getAliasDependnecies'
 
 	let loading = true
 
@@ -69,35 +65,21 @@
 		}
 	)
 
-	const activeThemeAliasDependenciesStore: Readable<string[][]> = derived(
+	const activeThemeAliasDependencies: Readable<string[][]> = derived(
 		[activeDesignSystemTokensStore, activeThemeStore],
 		([$activeDesignSystemTokensStore, $activeThemeStore]) => {
-			const aliasTokens = $activeDesignSystemTokensStore.filter((token) => {
-				return checkIfValueIsAlias(
-					token.value[$activeThemeStore.id as string] as TokenValue
-				)
-			})
-
-			if (!aliasTokens) {
-				return []
-			}
-
-			return aliasTokens.map((token) => {
-				const aliasValue = token.value[
-					$activeThemeStore.id as string
-				] as AliasValue
-
-				return [token.id, aliasValue.tokenId]
-			})
+			return getAliasDependencies(
+				$activeDesignSystemTokensStore,
+				$activeThemeStore
+			)
 		}
 	)
 
+	console.log($activeThemeAliasDependencies)
+
 	setContext('activeDesignSystemIndex', activeDesignSystemIndex)
 	setContext('activeDesignSystemId', activeDesignSystemId)
-	setContext(
-		'activeThemeAliasDependenciesStore',
-		activeThemeAliasDependenciesStore
-	)
+	setContext('activeThemeAliasDependencies', activeThemeAliasDependencies)
 </script>
 
 <svelte:head>
@@ -110,7 +92,10 @@
 	<LoadingLogo />
 {:else if $activeDesignSystemIndex >= 0}
 	<main class="grid h-screen grid-cols-[250px_1fr] overflow-hidden">
-		<GroupsExplorer {activeDesignSystemGroupsStore} />
+		<GroupsExplorer
+			groups={$activeDesignSystemGroupsStore}
+			designSystemId={$activeDesignSystemId}
+		/>
 		<slot />
 	</main>
 {:else}

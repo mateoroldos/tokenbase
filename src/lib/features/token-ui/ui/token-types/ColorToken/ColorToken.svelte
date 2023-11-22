@@ -9,12 +9,12 @@
 	} from './utils/generateHctBackgroundGradients'
 	import { createEventDispatcher } from 'svelte'
 	import { Input } from '$lib/components/ui/input'
-	import { viewMode } from '../../../../viewMode/stores/viewMode'
 	import type { ColorTokenValue } from '$lib/features/token-management/color/types/internal-color-value.type'
 
 	export let tokenValue: ColorTokenValue
 	export let tokenId: string
 	export let isAlias: boolean
+	export let viewMode = false
 
 	const dispatch = createEventDispatcher()
 
@@ -61,7 +61,7 @@
 			style={`background-color: ${hex}`}
 		/>
 		<Input
-			disabled={$viewMode}
+			disabled={viewMode}
 			value={hex}
 			name="color"
 			class="disabled:opacity-1 ml-1 h-7 w-20 border-none px-1 py-1 text-sm"
@@ -76,7 +76,7 @@
 			<div class="flex flex-row items-center">
 				<span class="text-xs text-slate-500">Hue</span>
 				<input
-					disabled={$viewMode}
+					disabled={viewMode}
 					type="number"
 					class="w-14 rounded-md bg-transparent px-1 text-xs"
 					{...isAlias ? { disabled: true } : {}}
@@ -84,7 +84,7 @@
 				/>
 			</div>
 			<Range
-				disabled={$viewMode}
+				disabled={viewMode}
 				min={0}
 				max={360}
 				id={`${tokenId}-hue-range`}
@@ -102,7 +102,7 @@
 			<div class="flex flex-row items-center">
 				<span class="text-xs text-slate-500">Chroma</span>
 				<input
-					disabled={$viewMode}
+					disabled={viewMode}
 					type="number"
 					class="w-14 rounded-md bg-transparent px-1 text-xs"
 					{...isAlias ? { disabled: true } : {}}
@@ -110,7 +110,7 @@
 				/>
 			</div>
 			<Range
-				disabled={$viewMode}
+				disabled={viewMode}
 				min={0}
 				max={100}
 				id={`${tokenId}-chroma-range`}
@@ -127,7 +127,8 @@
 		<div class="flex w-full max-w-[130px] flex-col gap-1">
 			<div class="flex flex-row items-center">
 				<span class="text-xs text-slate-500">Tone</span>
-				<input disabled={$viewMode} 
+				<input
+					disabled={viewMode}
 					type="number"
 					class="w-14 rounded-md bg-transparent px-1 text-xs"
 					{...isAlias ? { disabled: true } : {}}
@@ -135,7 +136,7 @@
 				/>
 			</div>
 			<Range
-				disabled={$viewMode}
+				disabled={viewMode}
 				min={0}
 				max={100}
 				id={`${tokenId}-tone-range`}

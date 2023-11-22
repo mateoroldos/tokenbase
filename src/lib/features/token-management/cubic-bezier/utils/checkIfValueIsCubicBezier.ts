@@ -1,6 +1,6 @@
 import type { CubicBezierTokenValue } from '../types/internal-cubic-bezier-value.type'
 
-export const checkIfValueIsCubicBezier = (
+export const checkIfValueIsCubicBezierToken = (
 	value: any
 ): value is CubicBezierTokenValue =>
 	Array.isArray(value) &&

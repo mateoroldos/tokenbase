@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { viewMode } from '$lib/features/viewMode/stores/viewMode'
+	import { viewMode } from '$lib/features/view-mode/stores/viewMode'
 	import GenerateShadesButton from '../tools/color-shade-generator/GenerateShadesButton.svelte'
 	import DeleteTokensButton from '../tools/delete-tokens/DeleteTokensButton.svelte'
 	import ViewModeSwitch from '../tools/view-mode/ViewModeSwitch.svelte'

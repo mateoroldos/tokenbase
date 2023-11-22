@@ -83,3 +83,7 @@ export const createDesignSystemsOverviewsStore = () => {
 const designSystemsOverviewsStore = createDesignSystemsOverviewsStore()
 
 export default designSystemsOverviewsStore
+
+export type DesignSystemsOverviewsStore = ReturnType<
+	typeof createDesignSystemsOverviewsStore
+>

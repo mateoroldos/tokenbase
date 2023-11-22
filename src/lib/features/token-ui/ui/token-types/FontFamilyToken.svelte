@@ -2,10 +2,10 @@
 	import type { FontFamilyTokenValue } from '$lib/features/token-management/font-family/types/internal-font-family-value.type'
 	import { createTagsInput, melt } from '@melt-ui/svelte'
 	import { X } from 'lucide-svelte'
-	import { viewMode } from '../../../viewMode/stores/viewMode'
 
 	export let tokenValue: FontFamilyTokenValue
 	export let isAlias: boolean
+	export let viewMode = false
 
 	let {
 		elements: { root, input, tag, deleteTrigger, edit },
@@ -35,7 +35,7 @@
 				<span class="flex items-center border-r border-white/10 px-1.5"
 					>{t.value}</span
 				>
-				{#if !$viewMode}
+				{#if !viewMode}
 					<button
 						use:melt={$deleteTrigger(t)}
 						class="enabled:hover:bg-magnum-300 flex h-full items-center px-1"
@@ -49,7 +49,7 @@
 				class="flex items-center overflow-hidden rounded-md px-1.5 [word-break:break-word] data-[invalid-edit]:focus:!ring-red-500"
 			/>
 		{/each}
-		{#if !$viewMode}
+		{#if !viewMode}
 			<input
 				use:melt={$input}
 				type="text"

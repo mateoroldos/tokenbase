@@ -7,27 +7,26 @@
 	import { Plus } from 'lucide-svelte'
 	import { v4 as uuidv4 } from 'uuid'
 	import { Separator } from '$lib/components/ui/separator'
-	import { viewMode } from '$lib/features/viewMode/stores/viewMode'
 	import type { Group } from '$lib/features/token-groups-store/types/group.interface'
-	import type { Readable } from 'svelte/store'
 	import groupsStore from '$lib/features/token-groups-store/groupsStore'
-	import { getContext } from 'svelte'
+	import type { Writable } from 'svelte/store'
 
-	export let activeDesignSystemGroupsStore: Readable<Group[]>
-
-	const activeDesignSystemId: Readable<string> = getContext(
-		'activeDesignSystemId'
-	)
+	export let groups: Group[]
+	export let designSystemId: string
+	export let previewStore: null | Writable<{
+		activeGroupId: string
+	}> = null
+	export let viewMode = false
 
 	const handleAddNewGroup = () => {
 		const id = uuidv4()
 
-		groupsStore.addGroup('', id, $activeDesignSystemId)
+		groupsStore.addGroup('', id, designSystemId)
 
-		goto(`/${$activeDesignSystemId}/${id}`)
+		goto(`/${designSystemId}/${id}`)
 	}
 
-	$: tree = createTree($activeDesignSystemGroupsStore, $activeDesignSystemId)
+	$: tree = createTree(groups, designSystemId)
 </script>
 
 <div
@@ -39,12 +38,12 @@
 			<p class="text-sm text-slate-300">Add a new group to start.</p>
 		{/if}
 		{#each tree.children as node, i (node.group?.id)}
-			<GroupItem {node} />
+			<GroupItem {node} {previewStore} {viewMode} />
 		{/each}
 		<Separator
 			class="mt-4 bg-gradient-to-r from-slate-100 via-slate-200 to-slate-100"
 		/>
-		{#if !$viewMode}
+		{#if !viewMode || !$previewStore}
 			<button
 				class="align-center font-small flex flex-row items-center gap-1 pl-1 text-sm text-slate-400 transition-colors hover:text-slate-500"
 				on:click={handleAddNewGroup}

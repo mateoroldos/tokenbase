@@ -1,16 +1,16 @@
 <script lang="ts">
 	import { Input } from '$lib/components/ui/input'
-	import { viewMode } from '../../../viewMode/stores/viewMode'
 	import type { CubicBezierTokenValue } from '$lib/features/token-management/cubic-bezier/types/internal-cubic-bezier-value.type'
 
 	export let tokenValue: CubicBezierTokenValue
 	export let isAlias: boolean
+	export let viewMode = false
 </script>
 
 <div class="flex gap-x-3">
 	<div class="flex flex-row gap-2">
 		<Input
-			disabled={$viewMode}
+			disabled={viewMode}
 			name="p1x"
 			class="disabled:opacity-1 h-8 w-[60px]"
 			type="number"
@@ -26,7 +26,7 @@
 	</div>
 	<div class="flex flex-row gap-2">
 		<Input
-			disabled={$viewMode}
+			disabled={viewMode}
 			id="p1y"
 			name="p1y"
 			class="disabled:opacity-1 h-8 w-[60px]"
@@ -41,7 +41,7 @@
 	</div>
 	<div class="flex flex-row gap-2">
 		<Input
-			disabled={$viewMode}
+			disabled={viewMode}
 			id="p2x"
 			name="p2x"
 			class="disabled:opacity-1 h-8 w-[60px]"
@@ -55,7 +55,7 @@
 	</div>
 	<div class="flex flex-row gap-2">
 		<Input
-			disabled={$viewMode}
+			disabled={viewMode}
 			id="p2y"
 			name="p2y"
 			class="disabled:opacity-1 h-8 w-[60px]"

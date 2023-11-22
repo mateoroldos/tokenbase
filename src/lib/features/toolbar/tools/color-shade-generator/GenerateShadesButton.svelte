@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores'
-	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
+	import type { SelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import { SquareStack } from 'lucide-svelte'
 	import { getContext } from 'svelte'
 	import { generateTokenShades } from './generateTokenShades'
@@ -13,8 +13,9 @@
 	import designSystemsOverviewsStore from '$lib/features/token-groups-store/designSystemsOverviewsStore'
 	import groupsStore from '$lib/features/token-groups-store/groupsStore'
 
-	const selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
-		getContext('selectedTokensStore')
+	const selectedTokensStore: SelectedTokensStore = getContext(
+		'selectedTokensStore'
+	)
 
 	$: activeDesignSystemIndex = $designSystemsOverviewsStore.findIndex(
 		(designSystem) => designSystem.id === $page.params.designSystemId

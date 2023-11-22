@@ -2,10 +2,17 @@
 	import { page } from '$app/stores'
 	import { Input } from '$lib/components/ui/input'
 	import * as Breadcrumbs from '$lib/components/breadcrumbs'
-	import groupsStore from '$lib/features/token-groups-store/groupsStore'
+	import type { GroupsStore } from '$lib/features/token-groups-store/groupsStore'
+	import type { Readable, Writable } from 'svelte/store'
+	import type { Group } from '$lib/features/token-groups-store/types/group.interface'
+	import { goto } from '$app/navigation'
+	import type { PreviewStore } from '$lib/features/preview-template-modal/types/preview-store.type'
 
+	export let groupsStore: GroupsStore | Readable<Group[]>
 	export let groupIndex: number
 	export let lastItem = true
+	export let previewStore: PreviewStore | null = null
+	export let viewMode = false
 
 	$: parentGroupIndex = $groupsStore[groupIndex]?.parentGroup
 		? $groupsStore.findIndex(
@@ -21,13 +28,27 @@
 			$groupsStore[groupIndex].name = 'Untitled'
 		}
 	}
+
+	const handleNavigateToGroup = () => {
+		if (previewStore && $previewStore !== null) {
+			$previewStore.activeGroupId = $groupsStore[groupIndex]?.id as string
+		} else {
+			goto(`/${$page.params.designSystemId}/${$groupsStore[groupIndex]?.id}`)
+		}
+	}
 </script>
 
 {#if parentGroupIndex !== null && parentGroupIndex >= 0}
-	<svelte:self groupIndex={parentGroupIndex} lastItem={false} />
+	<svelte:self
+		groupIndex={parentGroupIndex}
+		lastItem={false}
+		{groupsStore}
+		{previewStore}
+		{viewMode}
+	/>
 {/if}
 <Breadcrumbs.Divider />
-{#if lastItem}
+{#if lastItem && !viewMode}
 	<Input
 		type="text"
 		placeholder="Untitled"
@@ -41,7 +62,8 @@
 	/>
 {:else}
 	<Breadcrumbs.Element
-		href={`/${$page.params.designSystemId}/${$groupsStore[groupIndex]?.id}`}
+		{lastItem}
+		on:click={handleNavigateToGroup}
 		name={$groupsStore[groupIndex]?.name}
 	/>
 {/if}

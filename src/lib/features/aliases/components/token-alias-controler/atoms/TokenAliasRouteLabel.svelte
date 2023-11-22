@@ -1,13 +1,24 @@
 <script lang="ts">
 	import { ChevronRight } from 'lucide-svelte'
 	import { page } from '$app/stores'
+	import type { PreviewStore } from '$lib/features/preview-template-modal/types/preview-store.type'
+	import { goto } from '$app/navigation'
 
 	export let aliasRouteAndIdArray: {
 		name: string
 		id: string
 	}[]
+	export let previewStore: PreviewStore | null = null
 
 	let expanded = false
+
+	const handleNavigateToGroup = (groupId: string) => {
+		if (previewStore && $previewStore) {
+			$previewStore.activeGroupId = groupId
+		} else {
+			goto(`/${$page.params.designSystemId}/${groupId}`)
+		}
+	}
 </script>
 
 <div
@@ -23,12 +34,12 @@
 					{routeElement.name}
 				</span>
 			{:else}
-				<a
-					href={`/${$page.params.designSystemId}/${routeElement.id}`}
+				<button
+					on:click={() => handleNavigateToGroup(routeElement.id)}
 					class="max-w-[10ch] overflow-hidden text-ellipsis whitespace-nowrap hover:underline"
 				>
 					{routeElement.name}
-				</a>
+				</button>
 			{/if}
 			{#if i !== aliasRouteAndIdArray.length - 1}
 				<ChevronRight class="w-3" />

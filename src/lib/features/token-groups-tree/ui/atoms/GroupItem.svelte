@@ -3,21 +3,27 @@
 	import { getContext, onMount } from 'svelte'
 	import type { GroupsTree } from '../../types/groups-tree'
 	import { ChevronRight, Trash, Plus, MoreHorizontal } from 'lucide-svelte'
-	import { groupId } from '$lib/features/preview-template/groupId'
-	import { preview } from '$lib/features/viewMode/stores/preview'
 	import groupsStore from '$lib/features/token-groups-store/groupsStore'
-	import type { Readable } from 'svelte/store'
+	import type { Readable, Writable } from 'svelte/store'
 	import { page } from '$app/stores'
 	import CommandsDropdown from '$lib/components/CommandsDropdown.svelte'
 
 	export let node: GroupsTree
 	export let nestNumber: number = 0
+	export let previewStore: null | Writable<{
+		activeGroupId: string
+	}> = null
+	export let viewMode = false
+
+	$: activeGroupId =
+		$previewStore !== null && $previewStore !== undefined
+			? $previewStore.activeGroupId
+			: $page.params.groupId
 
 	const activeDesignSystemId: Readable<string> = getContext(
 		'activeDesignSystemId'
 	)
 
-	$: activeGroupId = $page.params.groupId
 	$: isActive = activeGroupId === node.group?.id
 
 	let isOpen = false
@@ -58,9 +64,9 @@
 		groupsStore.deleteGroup(node.group?.id as string)
 	}
 
-	function handleGroupId() {
-		if ($preview) {
-			groupId.set(node.group?.id as string)
+	const handleChangeGroup = () => {
+		if ($previewStore) {
+			$previewStore.activeGroupId = node.group?.id as string
 		} else {
 			goto(`/${$activeDesignSystemId}/${node.group?.id}`)
 		}
@@ -73,7 +79,7 @@
 
 	let open: boolean
 
-	$: showButtons = hover || open
+	$: showButtons = (hover || open) && !viewMode
 
 	$: padding = `${nestNumber * 15}px`
 </script>
@@ -83,8 +89,8 @@
 		class={`flex flex-row items-center justify-between rounded-md px-1 py-1 text-slate-400 transition-all hover:bg-slate-100`}
 		on:mouseenter={() => (hover = true)}
 		on:mouseleave={() => (hover = false)}
-		on:click={handleGroupId}
-		on:keydown={handleGroupId}
+		on:click={handleChangeGroup}
+		on:keydown={handleChangeGroup}
 		role="button"
 		tabindex="0"
 		style={nestNumber > 0 ? `padding-left: ${padding}` : ''}
@@ -131,7 +137,12 @@
 		<div>
 			{#if node.children.length > 0}
 				{#each node.children as childNode}
-					<svelte:self node={childNode} nestNumber={nestNumber + 1} />
+					<svelte:self
+						node={childNode}
+						nestNumber={nestNumber + 1}
+						{previewStore}
+						{viewMode}
+					/>
 				{/each}
 			{:else}
 				<span class="text-xs text-slate-400" style={`padding-left: ${padding}`}
