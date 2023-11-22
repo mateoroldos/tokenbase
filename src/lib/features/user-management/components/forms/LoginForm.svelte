@@ -2,10 +2,11 @@
 	import { enhance } from '$app/forms'
 	import { Input } from '$lib/components/ui/input'
 	import Button from '$lib/components/ui/button/Button.svelte'
-	import ErrorDisplay from './atoms/ErrorDisplay.svelte'
+	import DisplayErrorMessage from './atoms/DisplayErrorMessage.svelte'
 	import PasswordVisibilityToggle from './atoms/PasswordVisibilityToggle.svelte'
+	import type { ActionData } from '../../../../../routes/login/$types'
 
-	export let form: any
+	export let form: ActionData
 	let showPassword = false
 
 	function togglePasswordVisibility() {
@@ -32,10 +33,10 @@
 			required
 		/>
 		{#if form?.incorrect && form?.errors.emailError !== null}
-			<ErrorDisplay form={form?.errors.emailError[0]} />
+			<DisplayErrorMessage errorMessage={form?.errors.emailError[0]} />
 		{/if}
 		{#if form?.emailError}
-			<ErrorDisplay form="Email is not registered " />
+			<DisplayErrorMessage errorMessage="Email is not registered " />
 		{/if}
 	</div>
 	<div class="form-control flex w-full max-w-xs flex-col gap-2 pb-3 pt-3">
@@ -55,10 +56,10 @@
 			<PasswordVisibilityToggle {showPassword} {togglePasswordVisibility} />
 		</div>
 		{#if form?.incorrect && form?.errors.passwordError !== null}
-			<ErrorDisplay form={form?.errors.passwordError[0]} />
+			<DisplayErrorMessage errorMessage={form?.errors.passwordError[0]} />
 		{/if}
 		{#if form?.passwordError}
-			<ErrorDisplay form="Invalid password" />
+			<DisplayErrorMessage errorMessage="Invalid password" />
 		{/if}
 		<a href="/password-reset">
 			<p class="pt-4 text-left">Forgot your password?</p>

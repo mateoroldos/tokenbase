@@ -2,10 +2,11 @@
 	import { enhance } from '$app/forms'
 	import Input from '$lib/components/ui/input/Input.svelte'
 	import Button from '$lib/components/ui/button/Button.svelte'
-	import ErrorDisplay from './atoms/ErrorDisplay.svelte'
+	import DisplayErrorMessage from './atoms/DisplayErrorMessage.svelte'
 	import PasswordVisibilityToggle from './atoms/PasswordVisibilityToggle.svelte'
+	import type { ActionData } from '../../../../../routes/password-reset/[token]/$types'
 
-	export let form: any
+	export let form: ActionData
 
 	let showPassword = false
 
@@ -33,11 +34,11 @@
 			<PasswordVisibilityToggle {showPassword} {togglePasswordVisibility} />
 		</div>
 		{#if form?.incorrect && form?.errors.passwordError !== null}
-			<ErrorDisplay form={form?.errors.passwordError[0]} />
+			<DisplayErrorMessage errorMessage={form?.errors.passwordError[0]} />
 		{/if}
 	</div>
 	{#if form?.message}
-		<ErrorDisplay form={form.message} />
+		<DisplayErrorMessage errorMessage={form.message} />
 	{/if}
 	<div class="flex flex-col">
 		<Button class="btn btn-primary mt-4 max-w-xs" type="submit">Submit</Button>

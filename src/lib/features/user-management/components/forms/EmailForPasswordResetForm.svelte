@@ -3,9 +3,10 @@
 	import { ArrowLeft } from 'lucide-svelte'
 	import Input from '$lib/components/ui/input/Input.svelte'
 	import Button from '$lib/components/ui/button/Button.svelte'
-	import ErrorDisplay from '$lib/features/user-management/components/forms/atoms/ErrorDisplay.svelte'
+	import DisplayErrorMessage from '$lib/features/user-management/components/forms/atoms/DisplayErrorMessage.svelte'
+	import type { ActionData } from '../../../../../routes/password-reset/$types'
 
-	export let form: any
+	export let form: ActionData
 </script>
 
 <form method="post" use:enhance>
@@ -22,10 +23,10 @@
 			required
 		/>
 		{#if form?.incorrect && form?.errors.emailError !== null}
-			<ErrorDisplay form={form?.errors.emailError[0]} />
+			<DisplayErrorMessage errorMessage={form?.errors.emailError[0]} />
 		{/if}
 		{#if form?.message}
-			<ErrorDisplay form={form.message} />
+			<DisplayErrorMessage errorMessage={form.message} />
 		{/if}
 	</div>
 	<div class="flex flex-col">

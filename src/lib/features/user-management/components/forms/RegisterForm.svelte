@@ -2,10 +2,11 @@
 	import { enhance } from '$app/forms'
 	import { Input } from '$lib/components/ui/input'
 	import Button from '$lib/components/ui/button/Button.svelte'
-	import ErrorDisplay from './atoms/ErrorDisplay.svelte'
+	import DisplayErrorMessage from './atoms/DisplayErrorMessage.svelte'
 	import PasswordVisibilityToggle from './atoms/PasswordVisibilityToggle.svelte'
+	import type { ActionData } from '../../../../../routes/register/$types'
 
-	export let form: any
+	export let form: ActionData
 	let showPassword = false
 
 	function togglePasswordVisibility() {
@@ -33,10 +34,10 @@
 			required
 		/>
 		{#if form?.incorrect && form?.errors.emailError !== null}
-			<ErrorDisplay form={form?.errors.emailError[0]} />
+			<DisplayErrorMessage errorMessage={form?.errors.emailError[0]} />
 		{/if}
 		{#if form?.duplicatedEmail}
-			<ErrorDisplay form={'Email already registered'} />
+			<DisplayErrorMessage errorMessage={'Email already registered'} />
 		{/if}
 	</div>
 	<div class="form-control flex w-full max-w-xs flex-col gap-2 pt-4">
@@ -53,10 +54,10 @@
 			required
 		/>
 		{#if form?.incorrect && form?.errors.usernameError !== null}
-			<ErrorDisplay form={form?.errors.usernameError[0]} />
+			<DisplayErrorMessage errorMessage={form?.errors.usernameError[0]} />
 		{/if}
 		{#if form?.duplicatedUsername}
-			<ErrorDisplay form={'Username already exists'} />
+			<DisplayErrorMessage errorMessage={'Username already exists'} />
 		{/if}
 	</div>
 	<div class="form-control flex w-full max-w-xs flex-col gap-2 pb-3 pt-4">
@@ -76,7 +77,7 @@
 			<PasswordVisibilityToggle {showPassword} {togglePasswordVisibility} />
 		</div>
 		{#if form?.incorrect && form?.errors.passwordError !== null}
-			<ErrorDisplay form={form?.errors.passwordError[0]} />
+			<DisplayErrorMessage errorMessage={form?.errors.passwordError[0]} />
 		{/if}
 	</div>
 	<Button class="btn btn-primary mt-4 max-w-xs " type="submit"

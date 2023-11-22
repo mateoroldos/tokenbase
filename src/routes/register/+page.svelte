@@ -2,8 +2,9 @@
 	import * as Card from '$lib/components/ui/card'
 	import HeroSection from '$lib/components/welcome-section/HeroSection.svelte'
 	import RegisterForm from '$lib/features/user-management/components/forms/RegisterForm.svelte'
+	import type { ActionData } from './$types'
 
-	export let form
+	export let form: ActionData
 </script>
 
 <section class="flex flex-1 items-center justify-center bg-slate-50 p-20">
