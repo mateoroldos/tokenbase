@@ -17,8 +17,8 @@ const config = {
 			fs: 'memfs',
 			path: 'node:path',
 			stream: 'node:stream',
-			url: 'node:url'
-			// util: 'node:util'
+			url: 'node:url',
+			util: 'node:util'
 		}
 	},
 	ssr: {
