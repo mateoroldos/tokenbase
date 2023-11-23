@@ -1,8 +1,6 @@
 import { sveltekit } from '@sveltejs/kit/vite'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
-console.log('process.env.NODE_ENV', process.env.NODE_ENV)
-
 /** @type {import('vite').UserConfig} */
 const config = {
 	plugins: [

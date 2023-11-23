@@ -2,6 +2,7 @@ import { db } from '$lib/db'
 import { emailToken } from '$lib/db/schema'
 import { eq } from 'drizzle-orm'
 import { generateRandomString, isWithinExpiration } from 'lucia/utils'
+import 'lucia/polyfill/node'
 
 const EXPIRES_IN = 1000 * 60 * 60 * 2 // 2 hours
 

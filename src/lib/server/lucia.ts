@@ -3,6 +3,7 @@ import { lucia } from 'lucia'
 import { sveltekit } from 'lucia/middleware'
 import { dev } from '$app/environment'
 import { connection } from '$lib/db'
+import 'lucia/polyfill/node'
 
 console.log('dev', dev)
 
