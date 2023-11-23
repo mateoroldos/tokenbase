@@ -3,7 +3,7 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 /** @type {import('vite').UserConfig} */
 const config = {
-	plugins: [sveltekit()],
+	plugins: [sveltekit(), nodePolyfills()],
 	resolve: {
 		alias: {
 			fs: 'memfs',
