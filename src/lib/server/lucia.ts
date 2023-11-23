@@ -2,7 +2,6 @@ import { planetscale } from '@lucia-auth/adapter-mysql'
 import { lucia } from 'lucia'
 import { sveltekit } from 'lucia/middleware'
 import { connection } from '$lib/db'
-import 'lucia/polyfill/node'
 
 export const auth = lucia({
 	adapter: planetscale(connection, {
