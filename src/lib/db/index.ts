@@ -22,7 +22,7 @@ const pscaleConfig = {
 	}
 }
 
-const connection = connect(pscaleConfig)
+export const connection = connect(pscaleConfig)
 
 export const db = drizzle(connection, { schema })
 
