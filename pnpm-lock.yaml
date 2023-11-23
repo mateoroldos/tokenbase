@@ -51,6 +51,9 @@ devDependencies:
   '@sveltejs/adapter-cloudflare':
     specifier: ^2.3.3
     version: 2.3.3(@sveltejs/kit@1.8.6)
+  '@sveltejs/adapter-vercel':
+    specifier: ^3.1.0
+    version: 3.1.0(@sveltejs/kit@1.8.6)
   '@sveltejs/kit':
     specifier: ^1.8.6
     version: 1.8.6(svelte@4.2.0)(vite@4.4.9)
@@ -987,13 +990,13 @@ packages:
       worktop: 0.8.0-next.15
     dev: true
 
-  /@sveltejs/adapter-vercel@3.0.3(@sveltejs/kit@1.8.6):
-    resolution: {integrity: sha512-0FQMjR6klW4627ewdclSr0lUe/DqiiyOaRTfgb5cXgNbVMsZMOA2fQ77TYQnJdvMfSEWe6y8uznV48XqKh9+vA==}
+  /@sveltejs/adapter-vercel@3.1.0(@sveltejs/kit@1.8.6):
+    resolution: {integrity: sha512-AkG7GuqPj/70zxfuOV7QbxXVuYFPUlyFEPlGUSXynDbIBTYu1Er+c676M2egnAyw0flB+kpj6nlxJIElRLKAaA==}
     peerDependencies:
       '@sveltejs/kit': ^1.5.0
     dependencies:
       '@sveltejs/kit': 1.8.6(svelte@4.2.0)(vite@4.4.9)
-      '@vercel/nft': 0.23.1
+      '@vercel/nft': 0.24.3
       esbuild: 0.18.20
     transitivePeerDependencies:
       - encoding
@@ -1256,14 +1259,14 @@ packages:
       eslint-visitor-keys: 3.4.1
     dev: true
 
-  /@vercel/nft@0.23.1:
-    resolution: {integrity: sha512-NE0xSmGWVhgHF1OIoir71XAd0W0C1UE3nzFyhpFiMr3rVhetww7NvM1kc41trBsPG37Bh+dE5FYCTMzM/gBu0w==}
-    engines: {node: '>=14'}
+  /@vercel/nft@0.24.3:
+    resolution: {integrity: sha512-IyBdIxmFAeGZnEfMgt4QrGK7XX4lWazlQj34HEi9dw04/WeDBJ7r1yaOIO5tTf9pbfvwUFodj9b0H+NDGGoOMg==}
+    engines: {node: '>=16'}
     hasBin: true
     dependencies:
       '@mapbox/node-pre-gyp': 1.0.11
       '@rollup/pluginutils': 4.2.1
-      acorn: 8.8.2
+      acorn: 8.11.2
       async-sema: 3.1.1
       bindings: 1.5.0
       estree-walker: 2.0.2
@@ -1484,7 +1487,7 @@ packages:
       svelte: ^4.0.0
     dependencies:
       '@melt-ui/svelte': 0.37.2(svelte@4.2.0)
-      '@sveltejs/adapter-vercel': 3.0.3(@sveltejs/kit@1.8.6)
+      '@sveltejs/adapter-vercel': 3.1.0(@sveltejs/kit@1.8.6)
       nanoid: 4.0.2
       shiki: 0.14.3
       svelte: 4.2.0
