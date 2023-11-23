@@ -7,6 +7,8 @@ export const getStoredUserByEmail = async (email: string) => {
 
 	console.log('db', db)
 
+	console.log(await db.select().from(user).where(eq(user.email, email)))
+
 	const [storedUser] = await db.select().from(user).where(eq(user.email, email))
 	console.log('storedUser', storedUser)
 
