@@ -12,7 +12,7 @@ export const auth = lucia({
 		session: 'user_session',
 		user: 'auth_user'
 	}),
-	env: dev ? 'DEV' : 'PROD',
+	env: 'DEV',
 	getUserAttributes: (userData) => ({
 		username: userData.username,
 		email: userData.email,
