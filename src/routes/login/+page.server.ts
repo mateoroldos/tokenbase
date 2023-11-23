@@ -52,6 +52,7 @@ export const actions = {
 		try {
 			console.log('validating key')
 
+			console.log(form.data.email.toLowerCase())
 			const user = await getStoredUserByEmail(form.data.email.toLowerCase())
 			console.log('user', user)
 

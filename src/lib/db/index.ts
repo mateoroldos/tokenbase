@@ -8,3 +8,5 @@ export const connection = connect({
 })
 
 export const db = drizzle(connection, { schema })
+
+console.log('drizzle DB!!', db)
