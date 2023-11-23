@@ -73,6 +73,8 @@ export const actions = {
 
 			locals.auth.setSession(session)
 
+			throw redirect(303, '/')
+
 			console.log('sessin is ready')
 		} catch (e) {
 			let message
@@ -95,7 +97,5 @@ export const actions = {
 				message: 'An unknown error occurred'
 			})
 		}
-
-		throw redirect(303, '/')
 	}
 } satisfies Actions
