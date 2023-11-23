@@ -4,11 +4,11 @@
 	import { Textarea } from '$lib/components/ui/textarea'
 	import { Button } from '$lib/components/ui/button'
 	import { page } from '$app/stores'
-	import importStyleDictionary from '../import-style-dictionary/importStyleDictionary'
-	import jsonSuite from '../token-management/jsonSuite'
+	import importStyleDictionary from '../../../import-style-dictionary/importStyleDictionary'
+	import jsonSuite from '../../../token-management/jsonSuite'
 	import InputFiles from '$lib/components/ui/input/InputFiles.svelte'
 	import { createEventDispatcher, getContext } from 'svelte'
-	import type { Theme } from '../token-groups-store/types/design-system-overview.interface'
+	import type { Theme } from '../../../token-groups-store/types/design-system-overview.interface'
 	import type { Readable } from 'svelte/store'
 
 	let json: string

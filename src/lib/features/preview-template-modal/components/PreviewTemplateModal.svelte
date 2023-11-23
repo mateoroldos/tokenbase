@@ -16,19 +16,17 @@
 
 	export let groups: Group[]
 	export let templateId: string
+	export let themes: Theme[]
 
 	const previewStore: PreviewStore = writable({
-		activeGroupId: groups[0].id
+		activeGroupId: groups[0]?.id ?? ''
 	})
-
-	let theme: Theme = {
-		id: '331164c4-7512-4b3e-8731-b3a9a2072c2e',
-		name: 'Light'
-	}
 
 	const groupsStore = readable(groups, (set) => {
 		set(groups)
 	})
+
+	const theme = themes[0] as Theme
 
 	const allTokens = $groupsStore.flatMap((group) => group.tokens)
 	const aliasDependencies = getAliasDependencies(allTokens, theme)
@@ -50,8 +48,9 @@
 </script>
 
 <Dialog.Root portal="yes">
-	<Dialog.Trigger class={buttonVariants({ size: 'sm' })}>Preview</Dialog.Trigger
-	>
+	<Dialog.Trigger>
+		<slot />
+	</Dialog.Trigger>
 	<Dialog.Portal>
 		<Dialog.Content class="h-[85vh] min-w-[85vw] overflow-hidden p-0">
 			<div class="grid h-screen grid-cols-[250px_1fr] overflow-hidden">

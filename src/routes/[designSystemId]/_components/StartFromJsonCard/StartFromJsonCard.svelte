@@ -1,6 +1,6 @@
 <script lang="ts">
 	import * as Card from '$lib/components/ui/card'
-	import StartFromJsonModal from '$lib/features/templates/StartFromJsonModal.svelte'
+	import StartFromJsonModal from '$lib/features/templates/components/json-modal/StartFromJsonModal.svelte'
 </script>
 
 <Card.Root>

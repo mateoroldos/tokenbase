@@ -1,12 +1,8 @@
 <script lang="ts">
-	import StartFromTemplateCard from '$lib/features/templates/atoms/StartFromTemplateCard.svelte'
+	import StartFromTemplateModal from '$lib/features/templates/components/template-modal/StartFromTemplateModal.svelte'
 	import StartCardTemplate from '../../../routes/[designSystemId]/_components/StartCards/StartCardTemplate.svelte'
 	import StartFromJsonCard from '../../../routes/[designSystemId]/_components/StartFromJsonCard/StartFromJsonCard.svelte'
 	import * as EmptyStatePage from './'
-
-	const getDesignSystemTemplates = fetch(`/api/templates`).then(
-		async (data) => await data.json()
-	)
 </script>
 
 <EmptyStatePage.Root>
@@ -23,25 +19,9 @@
 				title="Explore templates"
 				content="Start from the template that fits your needs"
 			>
-				<!-- <StartFromTemplateModal activeTemplateTypes={['group']} /> -->
+				<StartFromTemplateModal activeTemplateTypes={['group']} />
 			</StartCardTemplate>
 			<StartFromJsonCard />
-		</div>
-	</EmptyStatePage.Section>
-	<EmptyStatePage.Section>
-		<EmptyStatePage.SectionHeading
-			>Popular templates</EmptyStatePage.SectionHeading
-		>
-		<div class="grid grid-cols-3 gap-6 pb-8">
-			{#await getDesignSystemTemplates}
-				<span>Getting templates...</span>
-			{:then templates}
-				{#each templates as template}
-					{#if template.type === 'group'}
-						<StartFromTemplateCard templateOverview={template} />
-					{/if}
-				{/each}
-			{/await}
 		</div>
 	</EmptyStatePage.Section>
 </EmptyStatePage.Root>

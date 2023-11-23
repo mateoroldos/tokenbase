@@ -1,7 +1,6 @@
 <script lang="ts">
-	import StartFromTemplateModal from '$lib/features/templates/StartFromTemplateModal.svelte'
+	import StartFromTemplateModal from '$lib/features/templates/components/template-modal/StartFromTemplateModal.svelte'
 	import type { TemplateWithSlug } from '$lib/features/templates/types/template-interface'
-	import StartFromTemplateCard from '$lib/features/templates/atoms/StartFromTemplateCard.svelte'
 	import { preview } from '$lib/features/view-mode/stores/preview'
 	import { onMount } from 'svelte'
 	import { viewMode } from '$lib/features/view-mode/stores/viewMode'
@@ -43,22 +42,6 @@
 				<!-- <StartFromTemplateModal activeTemplateTypes={['design-system']} /> -->
 			</StartCardTemplate>
 			<StartFromJsonCard />
-		</div>
-	</EmptyStatePage.Section>
-	<EmptyStatePage.Section>
-		<EmptyStatePage.SectionHeading
-			>Popular templates</EmptyStatePage.SectionHeading
-		>
-		<div class="grid grid-cols-3 gap-6 pb-8">
-			{#await getDesignSystemTemplates}
-				<span>Getting templates...</span>
-			{:then templates}
-				{#each templates as template}
-					{#if template.type === 'design-system'}
-						<StartFromTemplateCard templateOverview={template} />
-					{/if}
-				{/each}
-			{/await}
 		</div>
 	</EmptyStatePage.Section>
 </EmptyStatePage.Root>

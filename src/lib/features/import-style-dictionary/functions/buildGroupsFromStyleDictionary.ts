@@ -127,14 +127,12 @@ const buildStyleDictionaryNode = (
 }
 
 const styleDictionaryToGroups = (
-	json: string,
+	styleDictionary: StyleDictionaryGroup,
 	designSystemId: string,
 	themes: Theme[]
 ): Group[] => {
-	const styleDictionaryGroup: StyleDictionaryGroup = JSON.parse(json)
-
 	return buildStyleDictionaryNode(
-		styleDictionaryGroup,
+		styleDictionary,
 		designSystemId,
 		true,
 		themes,

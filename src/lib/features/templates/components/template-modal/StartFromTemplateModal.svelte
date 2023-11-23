@@ -2,23 +2,24 @@
 	import {
 		TEMPLATE_TYPES_DETAILS,
 		type TemplateType
-	} from './types/template-type.type'
+	} from '../../types/template-type.type'
 	import { buttonVariants } from '$lib/components/ui/button'
 	import * as Dialog from '$lib/components/ui/dialog'
 	import type { TemplateWithSlug } from '$lib/features/templates/types/template-interface'
-	import StartFromTemplateCard from './atoms/StartFromTemplateCard.svelte'
-	import { TEMPLATE_TYPES } from './types/template-type.type'
+	import TemplateCard from '../template-card/TemplateCard.svelte'
+	import { TEMPLATE_TYPES } from '../../types/template-type.type'
 	import {
 		TEMPLATE_TAGS,
 		TEMPLATE_TAGS_DETAILS,
 		type TemplateTag
-	} from './types/template-tag.type.js'
+	} from '../../types/template-tag.type.js'
 	import Toggle from '$lib/components/ui/toggle/toggle.svelte'
-	import StartFromTokenCard from './atoms/StartFromTokenCard.svelte'
 
 	const getDesignSystemTemplates = fetch(`/api/templates`).then(
 		async (data) => (await data.json()) as TemplateWithSlug[]
 	)
+
+	console.log(getDesignSystemTemplates)
 
 	export let activeTemplateTypes: TemplateType[] = []
 	export let activeTemplateTags: TemplateTag[] = []
@@ -95,15 +96,15 @@
 							{#each templates as template}
 								{#if activeTemplateTypes.includes(template.type) || activeTemplateTags.some((r) => template.tags.indexOf(r) >= 0) || (activeTemplateTypes.length === 0 && activeTemplateTags.length === 0)}
 									{#if template.type !== 'token'}
-										<StartFromTemplateCard
+										<TemplateCard
 											templateOverview={template}
 											on:load-template={() => closeModal()}
 										/>
 									{:else}
-										<StartFromTokenCard
+										<!-- <StartFromTokenCard
 											tokenTemplateOverview={template}
 											on:load-template={() => closeModal()}
-										/>
+										/> -->
 									{/if}
 								{/if}
 							{/each}
