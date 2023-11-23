@@ -10,6 +10,7 @@ import {
 	MAX_PASSWORD_SIZE,
 	MIN_PASSWORD_SIZE
 } from '$lib/features/user-management/config/passwordSize'
+import { getStoredUserByEmail } from '$lib/features/user-management/user/getStoredUserByEmail'
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const session = await locals.auth.validate()
@@ -27,6 +28,7 @@ const loginSchema = z.object({
 })
 
 console.log('trying login')
+console.log('authhhh', auth)
 
 export const actions = {
 	login: async ({ request, locals }) => {
@@ -49,6 +51,9 @@ export const actions = {
 
 		try {
 			console.log('validating key')
+
+			const user = await getStoredUserByEmail(form.data.email.toLowerCase())
+			console.log('user', user)
 
 			const key = await auth.useKey(
 				'email',

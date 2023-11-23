@@ -4,6 +4,8 @@ import { sveltekit } from 'lucia/middleware'
 import { dev } from '$app/environment'
 import { connection } from '$lib/db'
 
+console.log('dev', dev)
+
 export const auth = lucia({
 	adapter: planetscale(connection, {
 		key: 'user_key',
