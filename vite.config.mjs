@@ -7,7 +7,7 @@ const config = {
 		sveltekit(),
 		nodePolyfills({
 			exclude: ['fs'],
-			include: ['util'],
+			include: ['util', 'crypto'],
 			protocolImports: true
 		})
 	],
