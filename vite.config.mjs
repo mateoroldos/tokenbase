@@ -6,11 +6,7 @@ const config = {
 	plugins: [sveltekit(), nodePolyfills()],
 	resolve: {
 		alias: {
-			fs: 'memfs',
-			path: 'node:path',
-			stream: 'node:stream',
-			url: 'node:url',
-			crypto: 'node:crypto'
+			fs: 'memfs'
 		}
 	},
 	ssr: {
