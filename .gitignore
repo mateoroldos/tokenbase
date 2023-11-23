@@ -79,8 +79,10 @@ bower_components
 build/Release
 
 # Dependency directories
-node_modules/
+node_modules/*
 jspm_packages/
+
+!node_modules/@planetscale
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
@@ -201,3 +203,4 @@ package
 # .pnp.*
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,svelte,node,yarn,dotenv
+
