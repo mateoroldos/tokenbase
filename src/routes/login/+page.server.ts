@@ -18,8 +18,6 @@ export const load: PageServerLoad = async ({ locals }) => {
 	if (session) {
 		throw redirect(302, '/')
 	}
-
-	return {}
 }
 
 const loginSchema = z.object({
@@ -27,14 +25,9 @@ const loginSchema = z.object({
 	password: z.string().min(MIN_PASSWORD_SIZE).max(MAX_PASSWORD_SIZE)
 })
 
-console.log('trying login')
-console.log('authhhh', auth)
-
 export const actions = {
 	login: async ({ request, locals }) => {
 		const form = await superValidate(request, loginSchema)
-
-		console.log('validating form')
 
 		if (!form.valid) {
 			const emailError = findErrorByName(form.errors, 'email')
@@ -50,32 +43,18 @@ export const actions = {
 		}
 
 		try {
-			console.log('validating key')
-
-			console.log(form.data.email.toLowerCase())
-			const user = await getStoredUserByEmail(form.data.email.toLowerCase())
-			console.log('user', user)
-
 			const key = await auth.useKey(
 				'email',
 				form.data.email.toLowerCase(),
 				form.data.password
 			)
 
-			console.log('key -----', key)
-
 			const session = await auth.createSession({
 				userId: key.userId,
 				attributes: {}
 			})
 
-			console.log('session -----', session)
-
 			locals.auth.setSession(session)
-
-			throw redirect(303, '/')
-
-			console.log('sessin is ready')
 		} catch (e) {
 			let message
 
@@ -97,5 +76,7 @@ export const actions = {
 				message: 'An unknown error occurred'
 			})
 		}
+
+		throw redirect(303, '/')
 	}
 } satisfies Actions
