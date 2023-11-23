@@ -9,7 +9,8 @@ const config = {
 			fs: 'memfs',
 			path: 'node:path',
 			stream: 'node:stream',
-			url: 'node:url'
+			url: 'node:url',
+			crypto: 'node:crypto'
 		}
 	},
 	ssr: {
