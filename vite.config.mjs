@@ -10,9 +10,6 @@ const config = {
 		nodePolyfills({
 			exclude: ['fs'],
 			include: ['util'],
-			globals: {
-				util: true
-			},
 			protocolImports: true
 		})
 	],
@@ -21,7 +18,8 @@ const config = {
 			fs: 'memfs',
 			path: 'node:path',
 			stream: 'node:stream',
-			url: 'node:url'
+			url: 'node:url',
+			util: 'node:util'
 		}
 	},
 	ssr: {
