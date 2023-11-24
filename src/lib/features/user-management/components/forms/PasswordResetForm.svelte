@@ -5,17 +5,28 @@
 	import DisplayErrorMessage from './atoms/DisplayErrorMessage.svelte'
 	import PasswordVisibilityToggle from './atoms/PasswordVisibilityToggle.svelte'
 	import type { ActionData } from '../../../../../routes/password-reset/[token]/$types'
+	import { Loader } from 'lucide-svelte'
 
 	export let form: ActionData
 
 	let showPassword = false
+	let formLoading = false
 
 	function togglePasswordVisibility() {
 		showPassword = !showPassword
 	}
 </script>
 
-<form method="post" use:enhance>
+<form
+	method="post"
+	use:enhance={() => {
+		formLoading = true
+		return async ({ update }) => {
+			await update()
+			formLoading = false
+		}
+	}}
+>
 	<div class="form-control flex w-full max-w-xs flex-col gap-2 pb-3 pt-4">
 		<!-- svelte-ignore a11y-label-has-associated-control -->
 		<label class="label">
@@ -41,6 +52,13 @@
 		<DisplayErrorMessage errorMessage={form.message} />
 	{/if}
 	<div class="flex flex-col">
-		<Button class="btn btn-primary mt-4 max-w-xs" type="submit">Submit</Button>
+		{#if formLoading}
+			<Button class="btn btn-primary mt-4 max-w-xs">
+				<Loader />
+			</Button>
+		{:else}
+			<Button type="submit" class="btn btn-primary mt-4 max-w-xs">Submit</Button
+			>
+		{/if}
 	</div>
 </form>
