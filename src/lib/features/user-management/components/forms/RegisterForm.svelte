@@ -5,9 +5,12 @@
 	import DisplayErrorMessage from './atoms/DisplayErrorMessage.svelte'
 	import PasswordVisibilityToggle from './atoms/PasswordVisibilityToggle.svelte'
 	import type { ActionData } from '../../../../../routes/register/$types'
+	import { Loader } from 'lucide-svelte'
 
 	export let form: ActionData
+
 	let showPassword = false
+	let formLoading = false
 
 	function togglePasswordVisibility() {
 		showPassword = !showPassword
@@ -16,7 +19,13 @@
 
 <form
 	class="bg-base-200 flex flex-col rounded-lg"
-	use:enhance
+	use:enhance={() => {
+		formLoading = true
+		return async ({ update }) => {
+			await update()
+			formLoading = false
+		}
+	}}
 	action="?/register"
 	method="post"
 >
@@ -80,9 +89,16 @@
 			<DisplayErrorMessage errorMessage={form?.errors.passwordError[0]} />
 		{/if}
 	</div>
-	<Button class="btn btn-primary mt-4 max-w-xs " type="submit"
-		>Create account</Button
-	>
+	{#if formLoading}
+		<Button class="btn btn-primary mt-4 max-w-xs">
+			<Loader />
+		</Button>
+	{:else}
+		<Button class="btn btn-primary mt-4 max-w-xs " type="submit">
+			Create account</Button
+		>
+	{/if}
+
 	<p class="pt-4">
 		Already have an account? <a
 			href="/login"
