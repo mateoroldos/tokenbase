@@ -1,18 +1,19 @@
 <script lang="ts">
-	import { buttonVariants } from '$lib/components/ui/button'
 	import * as Dialog from '$lib/components/ui/dialog'
 	import type { Group } from '$lib/features/token-groups-store/types/group.interface'
 	import GroupsExplorer from '$lib/features/token-groups-tree/ui/GroupsExplorer.svelte'
-	import { writable, readable, derived } from 'svelte/store'
+	import { writable, readable } from 'svelte/store'
 	import TokensTable from '$lib/components/tokens-table/TokensTable.svelte'
 	import type {
 		DesignSystemOverview,
 		Theme
 	} from '$lib/features/token-groups-store/types/design-system-overview.interface'
 	import Token from '$lib/features/token-ui/ui/Token.svelte'
-	import GroupHeaderBreadcrumbs from '$lib/components/breadcrumbs/groups-header-breadcrumbs/GroupHeaderBreadcrumbs.svelte'
 	import type { PreviewStore } from '../types/preview-store.type'
 	import { getAliasDependencies } from '$lib/features/aliases/utils/getAliasDependnecies'
+	import TemplateModalHeader from './atoms/TemplateModalHeader.svelte'
+	import { ChevronLeft } from 'lucide-svelte'
+	import Button from '$lib/components/ui/button/Button.svelte'
 
 	export let groups: Group[]
 	export let templateId: string
@@ -47,45 +48,54 @@
 	}
 </script>
 
-<Dialog.Root portal="yes">
-	<Dialog.Trigger>
-		<slot />
-	</Dialog.Trigger>
-	<Dialog.Portal>
-		<Dialog.Content class="h-[85vh] min-w-[85vw] overflow-hidden p-0">
-			<div class="grid h-screen grid-cols-[250px_1fr] overflow-hidden">
-				<!-- <TemplateExplorerPreview /> -->
-				<GroupsExplorer
-					{groups}
-					designSystemId={templateId}
-					{previewStore}
-					viewMode={true}
-				/>
-				<div>
-					<GroupHeaderBreadcrumbs
-						{activeGroupIndex}
-						activeDesignSystemOverview={designSystemOverview}
-						activeDesignSystemIndex={0}
-						viewMode={true}
-						{groupsStore}
+<div>
+	<Dialog.Root portal="yes">
+		<Dialog.Trigger class="h-full w-full">
+			<slot />
+		</Dialog.Trigger>
+		<Dialog.Portal class="overflow-hidden">
+			<Dialog.Content
+				class="flex h-full min-w-[90vw] overflow-hidden p-0"
+				showClose={false}
+			>
+				<div class="grid flex-1 grid-cols-[250px_1fr] overflow-hidden">
+					<GroupsExplorer
+						{groups}
+						designSystemId={templateId}
 						{previewStore}
+						viewMode={true}
 					/>
-					<TokensTable {activeGroupIndex} {groupsStore} viewMode={true}>
-						{#each $groupsStore[activeGroupIndex].tokens as token}
-							<Token
-								{token}
-								activeThemeId={theme.id}
-								{groupsStore}
-								viewMode={true}
-								{aliasDependencies}
-								themes={designSystemOverview.themes}
-								activeGroupId={$previewStore.activeGroupId}
-								{previewStore}
-							/>
-						{/each}
-					</TokensTable>
+					<div class="flex flex-1 flex-col overflow-hidden">
+						<TemplateModalHeader
+							{activeGroupIndex}
+							{designSystemOverview}
+							{groupsStore}
+							{previewStore}
+						>
+							<Dialog.Close class="static">
+								<Button variant="ghost" size="xs">
+									<ChevronLeft class="mr-1 h-4 w-4" />
+									Back to Templates
+								</Button>
+							</Dialog.Close>
+						</TemplateModalHeader>
+						<TokensTable {activeGroupIndex} {groupsStore} viewMode={true}>
+							{#each $groupsStore[activeGroupIndex].tokens as token (token.id)}
+								<Token
+									{token}
+									activeThemeId={theme.id}
+									{groupsStore}
+									viewMode={true}
+									{aliasDependencies}
+									themes={designSystemOverview.themes}
+									activeGroupId={$previewStore.activeGroupId}
+									{previewStore}
+								/>
+							{/each}
+						</TokensTable>
+					</div>
 				</div>
-			</div>
-		</Dialog.Content>
-	</Dialog.Portal>
-</Dialog.Root>
+			</Dialog.Content>
+		</Dialog.Portal>
+	</Dialog.Root>
+</div>

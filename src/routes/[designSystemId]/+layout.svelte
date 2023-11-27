@@ -75,8 +75,6 @@
 		}
 	)
 
-	console.log($activeThemeAliasDependencies)
-
 	setContext('activeDesignSystemIndex', activeDesignSystemIndex)
 	setContext('activeDesignSystemId', activeDesignSystemId)
 	setContext('activeThemeAliasDependencies', activeThemeAliasDependencies)

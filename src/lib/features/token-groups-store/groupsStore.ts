@@ -23,10 +23,10 @@ export const createGroupsStore = () => {
 		parentGroupId?: string,
 		description?: string
 	): void => {
-		update((designTokens) => {
+		update((groups) => {
 			const newGroupId = id ?? uuidv4()
 
-			designTokens.push({
+			groups.push({
 				id: newGroupId,
 				name,
 				description,
@@ -34,7 +34,15 @@ export const createGroupsStore = () => {
 				tokens: []
 			})
 
-			return designTokens
+			return groups
+		})
+	}
+
+	const bulkAddGroups = (groups: Group[]) => {
+		update((grps) => {
+			grps = [...grps, ...groups]
+
+			return grps
 		})
 	}
 
@@ -205,6 +213,7 @@ export const createGroupsStore = () => {
 		subscribe,
 		set,
 		addGroup,
+		bulkAddGroups,
 		deleteGroup,
 		addToken,
 		bulkAddTokens,
