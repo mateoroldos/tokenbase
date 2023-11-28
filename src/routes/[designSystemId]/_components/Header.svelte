@@ -7,12 +7,12 @@
 	import { getContext } from 'svelte'
 	import { Plus, X } from 'lucide-svelte'
 	import Toolbar from '$lib/features/toolbar/ui/Toolbar.svelte'
-	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
 	import type { createDesignSystemsOverviewsStore } from '$lib/features/token-groups-store/designSystemsOverviewsStore.js'
-	import type { TokenType } from '$lib/features/token-groups-store/types/token.interface.js'
 	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 	import { aliasMode } from '$lib/features/aliases/stores/aliasModeStore'
-
+	import type { TokenType } from '$lib/features/token-groups-store/types/token.interface'
+	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
+ 
 	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
 		getContext('designTokensGroupStore')
 	const tokenBaseMainStore: ReturnType<

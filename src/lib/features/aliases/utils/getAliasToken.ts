@@ -1,3 +1,4 @@
+import { addToast } from '$lib/features/toast/stores/toastStore'
 import type { Group } from '$lib/features/token-groups-store/types/group.interface'
 import type {
 	IToken,
@@ -32,11 +33,14 @@ export const getAliasToken = (
 				return aliasedToken
 			}
 		} else {
+			addToast(`Token with id ${tokenId} not found in group with id ${groupId}`,"error")
 			throw new Error(
 				`Token with id ${tokenId} not found in group with id ${groupId}`
 			)
 		}
 	} else {
+		addToast(`Group with id ${groupId} not found`,"error")
 		throw new Error(`Group with id ${groupId} not found`)
+
 	}
 }

@@ -1,3 +1,4 @@
+import { addToast } from '$lib/features/toast/stores/toastStore'
 import type { GroupExpanded } from '../../../token-groups-store/types/group.interface'
 import type { StyleDictonaryGroup } from '../../types/style-dictionary-group.interface'
 import type { StyleDictionaryJson } from '../../types/style-dictionary-json.type'
@@ -14,6 +15,7 @@ export const transformGroupsToStyleDictionaryJson = (
 	if (json.startsWith('{') && json.endsWith('}')) {
 		return json as StyleDictionaryJson
 	} else {
+		addToast('Could not transform groups to Style Dictionary JSON',"error")
 		throw new Error('Could not transform groups to Style Dictionary JSON')
 	}
 }

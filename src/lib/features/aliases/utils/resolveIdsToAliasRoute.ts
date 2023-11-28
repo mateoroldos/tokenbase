@@ -1,3 +1,4 @@
+import { addToast } from '$lib/features/toast/stores/toastStore'
 import groupsStore from '$lib/features/token-groups-store/groupsStore'
 import { findTokenByGroupIdAndTokenId } from '$lib/utils/findTokenByGroupIdAndTokenId'
 import { get } from 'svelte/store'
@@ -27,6 +28,7 @@ export const resolveIdsToAliasRoute = (
 		if (token) {
 			route = `{${route}.${token.name}}`
 		} else {
+			addToast(`Token with id ${tokenId} not found in group ${groupId}`,"error")
 			throw new Error(`Token with id ${tokenId} not found in group ${groupId}`)
 		}
 	}
@@ -59,6 +61,7 @@ export const resolveIdsToAliasRouteArray = (
 		if (token.name) {
 			route = [...route, token.name]
 		} else {
+			addToast(`Token with id ${tokenId} not found in group ${groupId}`,"error")
 			throw new Error(`Token with id ${tokenId} not found in group ${groupId}`)
 		}
 	}
@@ -107,6 +110,7 @@ export const resolveIdsToAliasRouteAndIdsArray = (
 				}
 			]
 		} else {
+			addToast(`Token with id ${tokenId} not found in group ${groupId}`,"error")
 			throw new Error(`Token with id ${tokenId} not found in group ${groupId}`)
 		}
 	}

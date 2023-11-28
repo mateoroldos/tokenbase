@@ -19,6 +19,7 @@
 		IToken,
 		TokenValue
 	} from '$lib/features/token-groups-store/types/token.interface'
+	import Toasts from '$lib/features/toast/Toasts.svelte'
 
 	const tokenBaseMainStore: ReturnType<
 		typeof createDesignSystemsOverviewsStore
@@ -140,3 +141,5 @@
 		<Button href="/" class="mt-5" variant="secondary">Go back home</Button>
 	</div>
 {/if}
+
+<Toasts />

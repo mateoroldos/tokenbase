@@ -10,11 +10,12 @@
 	import { createEventDispatcher, getContext } from 'svelte'
 	import type { Theme } from '../token-groups-store/types/design-system-overview.interface'
 	import type { Readable } from 'svelte/store'
+	import { addToast } from '../toast/stores/toastStore'
 
 	let json: string
 	let desingSystemId: string
 	let jsonFile: File
-
+	
 	const activeDesignSystemThemesStore: Readable<Theme[]> = getContext(
 		'activeDesignSystemThemesStore'
 	)
@@ -56,6 +57,7 @@
 			}
 		} catch (error) {
 			alert('JSON is not valid')
+			addToast('JSON is not valid',"error")
 		}
 	}
 
