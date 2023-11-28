@@ -9,6 +9,7 @@
 	import jsonSuite from '../token-management/jsonSuite'
 	import InputFiles from '$lib/components/ui/input/InputFiles.svelte'
 	import { createEventDispatcher, onMount } from 'svelte'
+	import { getUserAccessToken } from './getUserAccessToken'
 
 	let json: string
 	let desingSystemId: string
@@ -139,8 +140,21 @@
 
 	const openFigmaModal = () => {
 		const figmaURL =
-			'https://www.figma.com/oauth?client_id=lpTbzlUPiswgMwt8xOLLXK&redirect_uri=https://94fe-2800-a4-1c2a-4200-ad53-1826-fdfc-186a.ngrok-free.app&scope=file_read&state=defensor&response_type=code'
+			'https://www.figma.com/oauth?client_id=MUp1X5gBBdwXRBQ27diZef&redirect_uri=https://app.token-base.com&scope=file_read&state=defensor&response_type=code'
 		window.location.href = figmaURL
+	}
+
+	const userAccessCode = $page.url.searchParams.get('code')
+	console.log(userAccessCode)
+
+	const createUserAccessToken = async () => {
+		try {
+			if (userAccessCode) {
+				await getUserAccessToken(userAccessCode)
+			}
+		} catch (error) {
+			alert('JSON is not valid')
+		}
 	}
 </script>
 
@@ -149,5 +163,8 @@
 	<Dialog.Trigger class={buttonVariants({ variant: 'outline', size: 'sm' })}>
 		Connect
 	</Dialog.Trigger>
+	{#if userAccessCode}
+		<Button on:click={() => createUserAccessToken()} />
+	{/if}
 	<Dialog.Content />
 </Dialog.Root>
