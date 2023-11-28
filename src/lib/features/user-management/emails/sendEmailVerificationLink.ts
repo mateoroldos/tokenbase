@@ -21,7 +21,7 @@ export const sendEmailVerificationLink = async (
 
 	const msg = {
 		to: recipient,
-		from: 'Tokenbase Team <accounts@emestudio.dev>',
+		from: 'Tokenbase Team <hello@token-base.com>',
 		templateId: 'd-7ca589889fd24aa9a361c59de05be6d8',
 		dynamicTemplateData: {
 			username: formData.username,

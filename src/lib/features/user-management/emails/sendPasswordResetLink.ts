@@ -21,7 +21,7 @@ export const sendPasswordResetLink = async (
 
 	const msg = {
 		to: recipient,
-		from: 'Tokenbase Team <accounts@emestudio.dev>',
+		from: 'Tokenbase Team <hello@token-base.com>',
 		templateId: 'd-46398bff7adb41f0a7ddcf4cfd6a53ed',
 		dynamicTemplateData: {
 			username: formData.username,
