@@ -27,7 +27,7 @@
 		use:melt={$root}
 		class="text-magnum-600 flex max-h-[2rem] w-full flex-row flex-wrap gap-3 overflow-auto rounded-md border px-2 py-1"
 	>
-		{#each $tags as t}
+		{#each $tags as t (t.id)}
 			<div
 				use:melt={$tag(t)}
 				class="data-[selected]:bg-magnum-400 flex items-center overflow-hidden rounded-md bg-slate-100 text-slate-900 [word-break:break-word] data-[disabled]:bg-slate-300 data-[disabled]:hover:cursor-default data-[disabled]:focus:!outline-none data-[disabled]:focus:!ring-0"

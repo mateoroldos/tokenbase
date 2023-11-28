@@ -10,6 +10,7 @@ import type {
 import { getDefaultTokenValues } from './defaultTokenValues'
 import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 import { createTokenAlias } from '../aliases/functions/createTokenAlias'
+import detachTokenValueInstance from '$lib/utils/detachTokenValueInstance'
 
 export const createGroupsStore = () => {
 	const { subscribe, update, set } = persistentWritable<Group[]>(
@@ -258,8 +259,9 @@ const deleteTokenById = (id: string, tokens: IToken[]): void => {
 
 const addTheme = (themeId: string, tokens: IToken[]) => {
 	tokens.forEach((token) => {
-		token.value[themeId] =
-			Object.values(token.value)[0] ?? getDefaultTokenValues(token.type)
+		token.value[themeId] = Object.values(token.value)[0]
+			? detachTokenValueInstance(Object.values(token.value)[0] as TokenValue)
+			: getDefaultTokenValues(token.type)
 	})
 }
 

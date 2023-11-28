@@ -86,7 +86,7 @@
 				activeGroupIndex={$activeGroupIndex}
 			>
 				{#if $page.params.groupId}
-					{#each $groupsStore[$activeGroupIndex].tokens as token}
+					{#each $groupsStore[$activeGroupIndex].tokens as token (token.id)}
 						<Token
 							bind:token
 							activeThemeId={activeTheme.id}

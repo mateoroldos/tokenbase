@@ -4,6 +4,7 @@ import type { Theme } from '../token-groups-store/types/design-system-overview.i
 import type { Group } from '../token-groups-store/types/group.interface'
 import TEMPLATE_DEFAULT_THEME from '../templates/constants/TEMPLATE_DEFAULT_THEME'
 import type { IToken } from '../token-groups-store/types/token.interface'
+import detachTokenValueInstance from '$lib/utils/detachTokenValueInstance'
 
 export const importGroups = (
 	groupsToImport: Group[],
@@ -56,7 +57,7 @@ export const importTokens = (
 			groupToImport.name,
 			parentGroupId,
 			undefined,
-			groupToImport.tokens
+			tokensWithUpdatedValueThemes
 		)
 	} else {
 		groupsStore.bulkAddTokens(parentGroupId, tokensWithUpdatedValueThemes)
@@ -81,12 +82,12 @@ const updateTokenValuesWithThemes = (tokens: IToken[], themes: Theme[]) => {
 		const tokenValue = token.value[TEMPLATE_DEFAULT_THEME.id]
 
 		if (tokenValue) {
-			token.value = {}
-
 			themes.forEach((theme) => {
-				token.value[theme.id] = tokenValue
+				token.value[theme.id] = detachTokenValueInstance(tokenValue)
 			})
 		}
+
+		delete token.value[TEMPLATE_DEFAULT_THEME.id]
 
 		return token
 	})

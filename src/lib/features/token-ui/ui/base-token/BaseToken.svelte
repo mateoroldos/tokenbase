@@ -1,4 +1,5 @@
 <script lang="ts">
+	import detachTokenValueInstance from '$lib/utils/detachTokenValueInstance'
 	import TokenAliasControler from '$lib/features/aliases/components/token-alias-controler/TokenAliasControler.svelte'
 	import type {
 		IToken,
@@ -46,7 +47,9 @@
 			) as TokenValue
 
 			themes.forEach((theme) => {
-				tokenValues[theme.id] = newTokenTypeDefaultValue
+				tokenValues[theme.id] = detachTokenValueInstance(
+					newTokenTypeDefaultValue
+				)
 			})
 
 			token = {

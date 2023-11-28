@@ -102,11 +102,13 @@
 				{viewMode}
 			/>
 		{:else if token.type === 'fontFamily'}
-			<Token.FontFamily
-				bind:tokenValue={dynamicToken.value[activeThemeId]}
-				{isAlias}
-				{viewMode}
-			/>
+			{#key activeThemeId}
+				<Token.FontFamily
+					bind:tokenValue={dynamicToken.value[activeThemeId]}
+					{isAlias}
+					{viewMode}
+				/>
+			{/key}
 		{:else if token.type === 'duration'}
 			<Token.Duration
 				bind:tokenValue={dynamicToken.value[activeThemeId]}
