@@ -10,6 +10,7 @@ import type {
 import { getDefaultTokenValues } from './defaultTokenValues'
 import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 import { createTokenAlias } from '../aliases/functions/createTokenAlias'
+import { addToast } from '../toast/stores/toastStore'
 
 export const createGroupsStore = () => {
 	const { subscribe, update, set } = persistentWritable<Group[]>(
@@ -58,6 +59,7 @@ export const createGroupsStore = () => {
 			const group = designTokens.find((group) => group.id === groupId)
 
 			if (!group) {
+				addToast(`Group with ID ${groupId} not found`,"error")
 				console.error(`Group with ID ${groupId} not found`)
 				return designTokens
 			}
@@ -95,6 +97,7 @@ export const createGroupsStore = () => {
 			const group = groups.find((group) => group.id === groupId)
 
 			if (!group) {
+				addToast(`Group with ID ${groupId} not found`,"error")
 				console.error(`Group with ID ${groupId} not found`)
 				return groups
 			}
@@ -124,6 +127,8 @@ export const createGroupsStore = () => {
 			)
 
 			if (!group) {
+				addToast(`Token with ID ${tokenId} not found`,"error")
+
 				console.error(`Token with ID ${tokenId} not found`)
 				return groups
 			}

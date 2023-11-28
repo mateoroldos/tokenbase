@@ -15,6 +15,7 @@ const transformToImportDimensionValue = (
 		}
 		return dimensionToken
 	} else {
+		addToast(`Invalid unit in exportDimension: ${exportDimension}`,"error")
 		throw new Error(`Invalid unit in exportDimension: ${exportDimension}`)
 	}
 }
