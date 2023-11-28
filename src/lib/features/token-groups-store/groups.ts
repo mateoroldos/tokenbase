@@ -3,13 +3,10 @@ import { v4 as uuidv4 } from 'uuid'
 import type { Group } from '$lib/features/token-groups-store/types/group.interface'
 import type {
 	IToken,
-	ITokenWithNoId,
 	TokenType,
 	TokenValue
 } from '$lib/features/token-groups-store/types/token.interface'
 import { getDefaultTokenValues } from './defaultTokenValues'
-import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
-import { createTokenAlias } from '../aliases/functions/createTokenAlias'
 import { addToast } from '../toast/stores/toastStore'
 
 export const createGroupsStore = () => {
@@ -40,17 +37,16 @@ export const createGroupsStore = () => {
 	}
 
 	const deleteGroup = (groupId: string): void => {
-		update((groups) => {
-			deepDeleteGroups(groupId, groups)
+		update((designTokens) => {
+			deepDeleteGroups(groupId, designTokens)
 
-			return groups
+			return designTokens
 		})
 	}
 
 	const addToken = <T extends TokenType>(
 		groupId: string,
 		type: T,
-		themes: Theme[],
 		value?: TokenValue<T>,
 		name?: string
 	): void => {
@@ -64,22 +60,11 @@ export const createGroupsStore = () => {
 				return designTokens
 			}
 
-			const tokenValues: {
-				[themeId: string]: TokenValue<T>
-			} = {}
-
-			themes.forEach((theme) => {
-				const resolvedValue =
-					value ?? (getDefaultTokenValues(type) as TokenValue<T>)
-
-				tokenValues[theme.id] = resolvedValue
-			})
-
 			// Add the new token to the group's tokens array
 			group.tokens.push({
 				id: uuidv4(),
 				type,
-				value: tokenValues,
+				value: value ?? getDefaultTokenValues(type),
 				name: name ?? undefined
 			})
 
@@ -87,19 +72,24 @@ export const createGroupsStore = () => {
 		})
 	}
 
-	const bulkAddTokens = (
+	const bulkAddTokens = <T extends TokenType>(
 		groupId: string,
-		tokens: ITokenWithNoId[],
+		tokens: {
+			type: T
+			value: TokenValue<T>
+			name?: string
+			description?: string
+		}[],
 		index?: number
 	) => {
-		update((groups) => {
+		update((designTokens) => {
 			// Find the group to add the token to
-			const group = groups.find((group) => group.id === groupId)
+			const group = designTokens.find((group) => group.id === groupId)
 
 			if (!group) {
 				addToast(`Group with ID ${groupId} not found`,"error")
 				console.error(`Group with ID ${groupId} not found`)
-				return groups
+				return designTokens
 			}
 
 			const i = index || group.tokens.length
@@ -115,96 +105,27 @@ export const createGroupsStore = () => {
 				})
 			})
 
-			return groups
+			return designTokens
 		})
 	}
 
 	const deleteToken = (tokenId: string): void => {
-		update((groups) => {
+		update((designTokens) => {
 			// Find the group that contains the token
-			const group = groups.find((group) =>
+			const group = designTokens.find((group) =>
 				group.tokens.find((token) => token.id === tokenId)
 			)
 
 			if (!group) {
 				addToast(`Token with ID ${tokenId} not found`,"error")
-
 				console.error(`Token with ID ${tokenId} not found`)
-				return groups
+				return designTokens
 			}
 
 			// Delete the token from the group's tokens array
 			deleteTokenById(tokenId, group.tokens)
 
-			return groups
-		})
-	}
-
-	const addTheme = (groupId: string, themeId: string) => {
-		update((groups) => {
-			deepAddTheme(groupId, groups, themeId)
-
-			return groups
-		})
-	}
-
-	const createAlias = (
-		originGroupId: string,
-		originTokenId: string,
-		aliasGroupId: string,
-		aliasTokenId: string,
-		activeThemeId: string
-	) => {
-		update((groups) => {
-			let updatedGroups: Group[]
-
-			const originGroup = groups.find((group) => group.id === originGroupId)
-
-			if (!originGroup) {
-				addToast(`Group with ID ${originGroupId} not found`,"error")
-				console.error(`Group with ID ${originGroupId} not found`)
-				return groups
-			} else {
-				let originToken = originGroup.tokens.find(
-					(token) => token.id === originTokenId
-				)
-
-				if (!originToken) {
-					addToast(`Token with ID ${originTokenId} not found`,"error")
-					console.error(`Token with ID ${originTokenId} not found`)
-					return groups
-				} else {
-					const aliasToken = createTokenAlias(
-						originToken,
-						activeThemeId,
-						aliasGroupId,
-						aliasTokenId,
-						groups
-					) as IToken
-
-					if (!aliasToken) {
-						return groups
-					} else {
-						groups = groups.map((group) => {
-							if (group.id === originGroupId) {
-								return {
-									...group,
-									tokens: group.tokens.map((token) => {
-										if (token.id === originTokenId) {
-											return aliasToken
-										}
-
-										return token
-									})
-								}
-							} else {
-								return group
-							}
-						})
-					}
-				}
-				return groups
-			}
+			return designTokens
 		})
 	}
 
@@ -215,9 +136,7 @@ export const createGroupsStore = () => {
 		deleteGroup,
 		addToken,
 		bulkAddTokens,
-		deleteToken,
-		addTheme,
-		createAlias
+		deleteToken
 	}
 }
 
@@ -236,42 +155,17 @@ const deepDeleteGroups = (id: string, groups: Group[]): void => {
 	})
 }
 
-const deleteTokenById = (id: string, tokens: IToken[]): void => {
-	const index = tokens.findIndex((token) => token.id === id)
-	if (index !== -1) {
-		tokens.splice(index, 1)
-	}
-}
-
-const addTheme = (themeId: string, tokens: IToken[]) => {
-	tokens.forEach((token) => {
-		token.value[themeId] = getDefaultTokenValues(token.type)
-	})
-}
-
-const deepAddTheme = (parentId: string, groups: Group[], themeId: string) => {
-	// Add values to current group
-	if (groups.find((group) => group.parentGroup === parentId) !== undefined) {
-		const childGroups = groups.filter((group) => group.parentGroup === parentId)
-
-		childGroups.forEach((group) => {
-			addTheme(themeId, group.tokens)
-		})
-	}
-
-	const childrenGroups = groups.filter(
-		(group) => group.parentGroup === parentId
-	)
-
-	childrenGroups.forEach((group) => {
-		deepAddTheme(group.id, groups, themeId)
-	})
-}
-
 const deleteGroupById = (id: string, groups: Group[]): void => {
 	const index = groups.findIndex((group) => group.id === id)
 	if (index !== -1) {
 		groups.splice(index, 1)
+	}
+}
+
+const deleteTokenById = (id: string, tokens: IToken[]): void => {
+	const index = tokens.findIndex((token) => token.id === id)
+	if (index !== -1) {
+		tokens.splice(index, 1)
 	}
 }
 

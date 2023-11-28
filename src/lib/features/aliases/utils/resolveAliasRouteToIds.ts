@@ -1,3 +1,4 @@
+import { addToast } from '$lib/features/toast/stores/toastStore'
 import type { Group } from '$lib/features/token-groups-store/types/group.interface'
 import type { IToken } from '$lib/features/token-groups-store/types/token.interface'
 
@@ -27,7 +28,10 @@ export const resolveAliasRouteToIds = (
 			if (group) {
 				return group
 			} else {
+				addToast(`Group ${groupName} not found in parent group ${acc.name}`, "error")
+
 				throw new Error(
+					
 					`Group ${groupName} not found in parent group ${acc.name}`
 				)
 			}

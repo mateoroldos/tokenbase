@@ -9,6 +9,7 @@ import designTokensGroupStore from '$lib/features/token-groups-store/groupsStore
 import buildStyleDictionaryJson from './functions/buildStyleDictionaryJson'
 import { downloadDirectory } from './utils/downloadDirectory'
 import type { DesignSystemOverview } from '../token-groups-store/types/design-system-overview.interface'
+import { addToast } from '../toast/stores/toastStore'
 
 export const downloadDesignSystem = async (
 	designSystemOverview: DesignSystemOverview,
@@ -40,12 +41,14 @@ export const downloadDesignSystem = async (
 						[exportType],
 						DIRECTORY_PATH
 					)
+					addToast(`Design system exported! Type: ${exportType}`,"success")
 				} else {
 					const FILE_NAME = EXPORT_TYPE_CONFIG.files[0]?.destination
 					fs.writeFileSync(
 						`${DIRECTORY_PATH}/${FILE_NAME}`,
 						styleDictionaryJson
 					)
+					addToast(`Design system exported! Type: ${exportType}`,"success")
 				}
 			}
 		}

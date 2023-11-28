@@ -15,6 +15,7 @@ import roundNumber from '$lib/utils/roundNumber'
 import { checkIfValueIsAlias } from '$lib/features/aliases/utils/checkIfValueIsAlias'
 import type { Group } from '$lib/features/token-groups-store/types/group.interface'
 import { resolveAliasIdToAliasValueAndType } from '$lib/features/aliases/utils/resolveAliasIdToAliasValueAndType'
+import { addToast } from '$lib/features/toast/stores/toastStore'
 
 export const generateTokenShades = (
 	token1: IToken,
@@ -85,11 +86,13 @@ export const generateTokenShades = (
 					if (shadeToken) {
 						shadeToken.value[theme.id] = shade
 					} else {
+						addToast('Shade token not found',"error")
 						throw new Error('Shade token not found')
 					}
 				})
 			}
 		} else {
+			addToast('The token values are not the same type',"error")
 			throw new Error('The token values are not the same type')
 		}
 	})
@@ -122,6 +125,7 @@ const generateShades = <
 	) {
 		return generateDimensionShades(tokenValue1, tokenValue2, trueAmountOfShades)
 	} else {
+		addToast('The token values are not the same type',"error")
 		throw new Error('The token values are not the same type')
 	}
 }
