@@ -4,5 +4,5 @@ export const overview: Template = {
 	name: 'Material Design Colors',
 	description: 'Color palettes from Material Design.',
 	tags: ['colors'],
-	type: 'group'
+	type: 'groups'
 }

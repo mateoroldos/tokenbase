@@ -7,6 +7,7 @@
 	import type { Readable, Writable } from 'svelte/store'
 	import { page } from '$app/stores'
 	import CommandsDropdown from '$lib/components/CommandsDropdown.svelte'
+	import { v4 as uuidv4 } from 'uuid'
 
 	export let node: GroupsTree
 	export let nestNumber: number = 0
@@ -49,12 +50,12 @@
 	})
 
 	const handleAddNewGroup = () => {
-		groupsStore.addGroup('', undefined, node.group?.id)
+		const id = uuidv4()
+
+		groupsStore.addGroup('', node.group?.id, id)
 
 		setTimeout(() => {
-			goto(
-				`/${$activeDesignSystemId}/${$groupsStore[$groupsStore.length - 1]!.id}`
-			)
+			goto(`/${$activeDesignSystemId}/${id}`)
 			openToggle()
 		}, 100)
 	}

@@ -19,8 +19,9 @@ export const createGroupsStore = () => {
 
 	const addGroup = (
 		name: string,
+		parentGroupId: string,
 		id?: string,
-		parentGroupId?: string,
+		tokens?: IToken[],
 		description?: string
 	): void => {
 		update((groups) => {
@@ -31,16 +32,26 @@ export const createGroupsStore = () => {
 				name,
 				description,
 				parentGroup: parentGroupId,
-				tokens: []
+				tokens: tokens ?? []
 			})
 
 			return groups
 		})
 	}
 
-	const bulkAddGroups = (groups: Group[]) => {
+	const bulkAddGroups = (
+		groups: Group[],
+		parentIdToInsert: string,
+		toChangeParentId: string
+	) => {
+		const groupsWithUpdatedParentId = updateParentGroupIds(
+			groups,
+			parentIdToInsert,
+			toChangeParentId
+		)
+
 		update((grps) => {
-			grps = [...grps, ...groups]
+			grps = [...grps, ...groupsWithUpdatedParentId]
 
 			return grps
 		})
@@ -247,7 +258,8 @@ const deleteTokenById = (id: string, tokens: IToken[]): void => {
 
 const addTheme = (themeId: string, tokens: IToken[]) => {
 	tokens.forEach((token) => {
-		token.value[themeId] = getDefaultTokenValues(token.type)
+		token.value[themeId] =
+			Object.values(token.value)[0] ?? getDefaultTokenValues(token.type)
 	})
 }
 
@@ -294,6 +306,27 @@ export const moveToken = (
 	}
 
 	return tokens
+}
+
+const updateParentGroupIds = (
+	groups: Group[],
+	parentGroupId: string,
+	toChangeParentId: string
+): Group[] => {
+	const newGroups = groups.map((group) => {
+		if (group.parentGroup === toChangeParentId) {
+			const newGroup: Group = {
+				...group,
+				parentGroup: parentGroupId
+			}
+
+			return newGroup
+		} else {
+			return group
+		}
+	})
+
+	return newGroups
 }
 
 export type GroupsStore = ReturnType<typeof createGroupsStore>

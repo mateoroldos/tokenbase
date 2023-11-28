@@ -102,7 +102,12 @@
 				{/if}
 			</TokensTable>
 		{:else}
-			<EmptyGroupPage />
+			<EmptyGroupPage
+				activeDesignSystemThemes={$designSystemsOverviewsStore[
+					$activeDesignSystemIndex
+				]?.themes}
+				groupIdToImportTemplate={$page.params.groupId}
+			/>
 		{/if}
 	</section>
 {:else}

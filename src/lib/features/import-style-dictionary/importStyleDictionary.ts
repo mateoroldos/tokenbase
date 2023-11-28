@@ -3,6 +3,8 @@ import groupsStore from '../token-groups-store/groupsStore'
 import styleDictionaryToGroups from './functions/buildGroupsFromStyleDictionary'
 import type { Theme } from '../token-groups-store/types/design-system-overview.interface'
 
+// TODO: REVIEW THIS FUNCTION
+
 const importStyleDictionary = (
 	template: string,
 	parentId: string,

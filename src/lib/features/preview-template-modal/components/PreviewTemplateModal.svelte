@@ -14,13 +14,23 @@
 	import TemplateModalHeader from './atoms/TemplateModalHeader.svelte'
 	import { ChevronLeft } from 'lucide-svelte'
 	import Button from '$lib/components/ui/button/Button.svelte'
+	import TEMPLATE_DEFAULT_THEME from '$lib/features/templates/constants/TEMPLATE_DEFAULT_THEME'
+	import type { TemplateWithSlug } from '$lib/features/templates/types/template-interface'
+	import { createEventDispatcher } from 'svelte'
 
 	export let groups: Group[]
-	export let templateId: string
-	export let themes: Theme[]
+	export let templateOverview: TemplateWithSlug
+	export let activeDesignSystemThemes: Theme[]
+	export let groupIdToImportTemplate: string
+	export let isDesignSystemRoot: boolean
+
+	const dispatch = createEventDispatcher()
+
+	const themes = [TEMPLATE_DEFAULT_THEME]
 
 	const previewStore: PreviewStore = writable({
-		activeGroupId: groups[0]?.id ?? ''
+		activeGroupId: groups[0]?.id ?? '',
+		templateType: templateOverview.type
 	})
 
 	const groupsStore = readable(groups, (set) => {
@@ -37,65 +47,71 @@
 	) as number
 
 	let designSystemOverview: DesignSystemOverview = {
-		id: '331164c4-7512-4b3e-8731-b3a9a2072c2e',
-		name: 'Light',
-		themes: [
-			{
-				id: '331164c4-7512-4b3e-8731-b3a9a2072c2e',
-				name: 'Light'
-			}
-		]
+		id: templateOverview.slug,
+		name: templateOverview.name,
+		themes: [TEMPLATE_DEFAULT_THEME]
+	}
+
+	let isOpen: boolean
+
+	const handleTemplateImported = () => {
+		isOpen = false
+		dispatch('importedTemplate')
 	}
 </script>
 
 <div>
-	<Dialog.Root portal="yes">
+	<Dialog.Root portal="yes" bind:open={isOpen}>
 		<Dialog.Trigger class="h-full w-full">
 			<slot />
 		</Dialog.Trigger>
-		<Dialog.Portal class="overflow-hidden">
-			<Dialog.Content
-				class="flex h-full min-w-[90vw] overflow-hidden p-0"
-				showClose={false}
-			>
-				<div class="grid flex-1 grid-cols-[250px_1fr] overflow-hidden">
-					<GroupsExplorer
-						{groups}
-						designSystemId={templateId}
+		<Dialog.Content
+			class="flex h-full min-w-[90vw] overflow-hidden p-0"
+			showClose={false}
+		>
+			<div class="grid flex-1 grid-cols-[250px_1fr] overflow-hidden">
+				<GroupsExplorer
+					{groups}
+					designSystemId={templateOverview.slug}
+					{previewStore}
+					viewMode={true}
+				>
+					<Dialog.Close
+						class="static flex items-center justify-center focus:ring-slate-300"
+					>
+						<Button variant="ghost" size="xs" class="gap-1">
+							<ChevronLeft class="h-4 w-4" />
+							All Templates
+						</Button>
+					</Dialog.Close>
+				</GroupsExplorer>
+				<div class="flex flex-1 flex-col overflow-hidden">
+					<TemplateModalHeader
+						{activeGroupIndex}
+						{designSystemOverview}
+						{groupsStore}
 						{previewStore}
-						viewMode={true}
+						{groupIdToImportTemplate}
+						{activeDesignSystemThemes}
+						{isDesignSystemRoot}
+						on:importedTemplate={handleTemplateImported}
 					/>
-					<div class="flex flex-1 flex-col overflow-hidden">
-						<TemplateModalHeader
-							{activeGroupIndex}
-							{designSystemOverview}
-							{groupsStore}
-							{previewStore}
-						>
-							<Dialog.Close class="static">
-								<Button variant="ghost" size="xs">
-									<ChevronLeft class="mr-1 h-4 w-4" />
-									Back to Templates
-								</Button>
-							</Dialog.Close>
-						</TemplateModalHeader>
-						<TokensTable {activeGroupIndex} {groupsStore} viewMode={true}>
-							{#each $groupsStore[activeGroupIndex].tokens as token (token.id)}
-								<Token
-									{token}
-									activeThemeId={theme.id}
-									{groupsStore}
-									viewMode={true}
-									{aliasDependencies}
-									themes={designSystemOverview.themes}
-									activeGroupId={$previewStore.activeGroupId}
-									{previewStore}
-								/>
-							{/each}
-						</TokensTable>
-					</div>
+					<TokensTable {activeGroupIndex} {groupsStore} viewMode={true}>
+						{#each $groupsStore[activeGroupIndex].tokens as token (token.id)}
+							<Token
+								{token}
+								activeThemeId={theme.id}
+								{groupsStore}
+								viewMode={true}
+								{aliasDependencies}
+								themes={designSystemOverview.themes}
+								activeGroupId={$previewStore.activeGroupId}
+								{previewStore}
+							/>
+						{/each}
+					</TokensTable>
 				</div>
-			</Dialog.Content>
-		</Dialog.Portal>
+			</div>
+		</Dialog.Content>
 	</Dialog.Root>
 </div>

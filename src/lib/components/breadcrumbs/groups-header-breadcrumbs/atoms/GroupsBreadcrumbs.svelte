@@ -10,7 +10,7 @@
 
 	export let groupsStore: GroupsStore | Readable<Group[]>
 	export let groupIndex: number
-	export let lastItem = true
+	export let noLink = true
 	export let previewStore: PreviewStore | null = null
 	export let viewMode = false
 
@@ -41,14 +41,14 @@
 {#if parentGroupIndex !== null && parentGroupIndex >= 0}
 	<svelte:self
 		groupIndex={parentGroupIndex}
-		lastItem={false}
+		noLink={false}
 		{groupsStore}
 		{previewStore}
 		{viewMode}
 	/>
 {/if}
 <Breadcrumbs.Divider />
-{#if lastItem && !viewMode}
+{#if noLink && !viewMode}
 	<Input
 		type="text"
 		placeholder="Untitled"
@@ -62,7 +62,7 @@
 	/>
 {:else}
 	<Breadcrumbs.Element
-		{lastItem}
+		{noLink}
 		on:click={handleNavigateToGroup}
 		name={$groupsStore[groupIndex]?.name}
 	/>

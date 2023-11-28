@@ -1,8 +1,12 @@
 <script lang="ts">
-	import StartFromTemplateModal from '$lib/features/templates/components/template-modal/StartFromTemplateModal.svelte'
+	import StartFromTemplateModal from '$lib/features/templates/components/start-from-template-modal/StartFromTemplateModal.svelte'
+	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 	import StartCardTemplate from '../../../routes/[designSystemId]/_components/StartCards/StartCardTemplate.svelte'
 	import StartFromJsonCard from '../../../routes/[designSystemId]/_components/StartFromJsonCard/StartFromJsonCard.svelte'
 	import * as EmptyStatePage from './'
+
+	export let activeDesignSystemThemes: Theme[]
+	export let groupIdToImportTemplate: string
 </script>
 
 <EmptyStatePage.Root>
@@ -19,7 +23,11 @@
 				title="Explore templates"
 				content="Start from the template that fits your needs"
 			>
-				<StartFromTemplateModal activeTemplateTypes={['group']} />
+				<StartFromTemplateModal
+					activeTemplateType={'groups'}
+					{activeDesignSystemThemes}
+					{groupIdToImportTemplate}
+				/>
 			</StartCardTemplate>
 			<StartFromJsonCard />
 		</div>

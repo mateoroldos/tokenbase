@@ -22,7 +22,7 @@
 
 <Table.Root>
 	<Table.Header class="sticky top-0 z-30 bg-slate-50">
-		<Table.Row class="shadow-[0_1px_0] shadow-slate-100">
+		<Table.Row class="shadow-[0_0.5px_0] shadow-slate-50">
 			{#if selectedTokensStore}
 				<Table.Head class="h-10">
 					<div class="flex items-center">

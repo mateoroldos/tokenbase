@@ -1,9 +1,9 @@
 <script lang="ts">
 	export let name: string
-	export let lastItem: string
+	export let noLink: boolean
 </script>
 
-{#if lastItem}
+{#if noLink}
 	<span class="text-sm font-medium text-slate-700">
 		{name}
 	</span>

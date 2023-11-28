@@ -1,28 +1,12 @@
 <script lang="ts">
-	import StartFromTemplateModal from '$lib/features/templates/components/template-modal/StartFromTemplateModal.svelte'
-	import type { TemplateWithSlug } from '$lib/features/templates/types/template-interface'
-	import { preview } from '$lib/features/view-mode/stores/preview'
-	import { onMount } from 'svelte'
-	import { viewMode } from '$lib/features/view-mode/stores/viewMode'
+	import StartFromTemplateModal from '$lib/features/templates/components/start-from-template-modal/StartFromTemplateModal.svelte'
 	import * as EmptyStatePage from './'
 	import StartCardTemplate from '../../../routes/[designSystemId]/_components/StartCards/StartCardTemplate.svelte'
 	import StartFromJsonCard from '../../../routes/[designSystemId]/_components/StartFromJsonCard/StartFromJsonCard.svelte'
+	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 
-	const getDesignSystemTemplates = fetch(`/api/templates`).then(
-		async (data) => (await data.json()) as TemplateWithSlug[]
-	)
-
-	$: {
-		if ($preview) {
-			viewMode.set(true)
-		} else {
-			viewMode.set(false)
-		}
-	}
-
-	onMount(() => {
-		preview.set(false)
-	})
+	export let activeDesignSystemThemes: Theme[]
+	export let groupIdToImportTemplate: string
 </script>
 
 <EmptyStatePage.Root>
@@ -39,7 +23,12 @@
 				title="Design System templates"
 				content="Explore our curated list of templates to get started with your Design System."
 			>
-				<!-- <StartFromTemplateModal activeTemplateTypes={['design-system']} /> -->
+				<StartFromTemplateModal
+					activeTemplateType={'groups'}
+					{activeDesignSystemThemes}
+					{groupIdToImportTemplate}
+					isDesignSystemRoot={true}
+				/>
 			</StartCardTemplate>
 			<StartFromJsonCard />
 		</div>

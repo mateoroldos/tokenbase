@@ -1,13 +1,20 @@
 <script lang="ts">
 	import type { TemplateWithSlug } from '$lib/features/templates/types/template-interface'
 	import * as Card from '$lib/components/ui/card'
-	import { Box, Boxes } from 'lucide-svelte'
-	import Badge from '$lib/components/ui/badge/badge.svelte'
 	import PreviewTemplateModal from '$lib/features/preview-template-modal/components/PreviewTemplateModal.svelte'
 	import styleDictionaryToGroups from '$lib/features/import-style-dictionary/functions/buildGroupsFromStyleDictionary'
 	import UserAvatar from '$lib/components/user-avatar/UserAvatar.svelte'
+	import TEMPLATE_DEFAULT_THEME from '../../constants/TEMPLATE_DEFAULT_THEME'
+	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
+	import TemplateLabel from '../template-type-label/TemplateLabel.svelte'
+	import { createEventDispatcher } from 'svelte'
 
 	export let templateOverview: TemplateWithSlug
+	export let activeDesignSystemThemes: Theme[]
+	export let groupIdToImportTemplate: string
+	export let isDesignSystemRoot = false
+
+	const dispatch = createEventDispatcher()
 
 	const getTemplateGroups = async () => {
 		const templateGroups = await fetch(
@@ -17,12 +24,7 @@
 		const grupetes = styleDictionaryToGroups(
 			templateGroups.template,
 			templateOverview.slug,
-			[
-				{
-					name: 'light',
-					id: 'lai'
-				}
-			]
+			[TEMPLATE_DEFAULT_THEME]
 		)
 
 		return grupetes
@@ -41,14 +43,12 @@
 
 {#await getTemplateGroups() then groups}
 	<PreviewTemplateModal
-		templateId={templateOverview.slug}
+		{templateOverview}
 		{groups}
-		themes={[
-			{
-				name: 'light',
-				id: 'lai'
-			}
-		]}
+		{activeDesignSystemThemes}
+		{groupIdToImportTemplate}
+		{isDesignSystemRoot}
+		on:importedTemplate={() => dispatch('importedTemplate')}
 	>
 		<Card.Root
 			class="flex h-full flex-1 flex-col items-start border-slate-300 bg-slate-50 text-left transition-colors hover:border-slate-900 hover:bg-slate-100"
@@ -57,20 +57,8 @@
 				<Card.Title class="text-md flex flex-col gap-7 font-medium"
 					>{templateOverview.name}</Card.Title
 				>
-				<Card.Description
-					class="flex flex-row items-center gap-3 text-xs text-slate-800"
-				>
-					<div
-						class="flex flex-row items-center rounded-md border border-slate-300 px-2 py-1 text-xs font-medium text-slate-700"
-					>
-						{#if templateOverview.type === 'group'}
-							<Box class="mr-1 h-3 w-3" />
-							<span>Group template</span>
-						{:else}
-							<Boxes class="mr-1 h-3 w-3" />
-							<span>Design System Template</span>
-						{/if}
-					</div>
+				<Card.Description>
+					<TemplateLabel templateType={templateOverview.type} />
 				</Card.Description>
 			</Card.Header>
 			<Card.Content class="text-sm text-slate-500">
