@@ -10,5 +10,3 @@ export default {
 		connectionString: process.env.SECRET_DATABASE_URL
 	}
 } as Config
-
-console.log('drizzle')

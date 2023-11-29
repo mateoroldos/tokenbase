@@ -6,9 +6,6 @@ import {
 	SECRET_DATABASE_USERNAME,
 	SECRET_DATABASE_PASSWORD
 } from '$env/static/private'
-import { user } from '$lib/db/schema'
-
-console.log('SECRET_DATABASE_URL', SECRET_DATABASE_HOST)
 
 // export async function onRequestPost(context) {
 const pscaleConfig = {
@@ -25,15 +22,3 @@ const pscaleConfig = {
 export const connection = connect(pscaleConfig)
 
 export const db = drizzle(connection, { schema })
-
-const query = await db.select().from(user)
-console.log(query)
-// }
-
-// export const connection = connect(pscaleConfig)
-
-// export const connection = connect({
-// 	url: SECRET_DATABASE_URL
-// })
-
-// export const db = drizzle(connection, { schema })
