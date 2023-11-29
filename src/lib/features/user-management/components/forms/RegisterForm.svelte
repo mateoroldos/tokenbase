@@ -69,7 +69,7 @@
 			<DisplayErrorMessage errorMessage={'Username already exists'} />
 		{/if}
 	</div>
-	<div class="form-control flex w-full max-w-xs flex-col gap-2 pb-3 pt-4">
+	<div class="form-control flex w-full max-w-xs flex-col gap-2 pt-4">
 		<!-- svelte-ignore a11y-label-has-associated-control -->
 		<label class="label">
 			<span class="label-text">Password</span>
@@ -87,6 +87,28 @@
 		</div>
 		{#if form?.incorrect && form?.errors.passwordError !== null}
 			<DisplayErrorMessage errorMessage={form?.errors.passwordError[0]} />
+		{/if}
+	</div>
+	<div class="form-control flex w-full max-w-xs flex-col gap-2 pb-3 pt-4">
+		<!-- svelte-ignore a11y-label-has-associated-control -->
+		<label class="label">
+			<span class="label-text">Confirm password</span>
+		</label>
+		<div class="relative">
+			<Input
+				autocomplete="off"
+				type={showPassword ? 'text' : 'password'}
+				placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"
+				class="input input-bordered w-full max-w-xs pr-10"
+				name="confirmPassword"
+				required
+			/>
+			<PasswordVisibilityToggle {showPassword} {togglePasswordVisibility} />
+		</div>
+		{#if form?.incorrect && form?.errors.passwordConfirmError !== null}
+			<DisplayErrorMessage
+				errorMessage={form?.errors.passwordConfirmError[0]}
+			/>
 		{/if}
 	</div>
 	{#if formLoading}
