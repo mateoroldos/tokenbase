@@ -8,9 +8,14 @@ import { LuciaError } from 'lucia'
 import { findErrorByName } from '$lib/features/user-management/utils/findErrorByName'
 import {
 	MAX_PASSWORD_SIZE,
-	MIN_PASSWORD_SIZE
-} from '$lib/features/user-management/config/passwordSize'
-import { getStoredUserByEmail } from '$lib/features/user-management/user/getStoredUserByEmail'
+	MIN_PASSWORD_SIZE,
+	PASSWORD_LOWERCASE,
+	PASSWORD_LOWERCASE_MESSAGE,
+	PASSWORD_NUMBER,
+	PASSWORD_NUMBER_MESSAGE,
+	PASSWORD_UPPERCASE,
+	PASSWORD_UPPERCASE_MESSAGE
+} from '$lib/features/user-management/config/passwordValidators'
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const session = await locals.auth.validate()
@@ -22,7 +27,13 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 const loginSchema = z.object({
 	email: z.string().email(),
-	password: z.string().min(MIN_PASSWORD_SIZE).max(MAX_PASSWORD_SIZE)
+	password: z
+		.string()
+		.min(MIN_PASSWORD_SIZE)
+		.max(MAX_PASSWORD_SIZE)
+		.refine(PASSWORD_UPPERCASE, PASSWORD_UPPERCASE_MESSAGE)
+		.refine(PASSWORD_LOWERCASE, PASSWORD_LOWERCASE_MESSAGE)
+		.refine(PASSWORD_NUMBER, PASSWORD_NUMBER_MESSAGE)
 })
 
 export const actions = {

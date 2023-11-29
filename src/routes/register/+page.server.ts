@@ -10,18 +10,35 @@ import { generateEmailVerificationToken } from '$lib/features/user-management/to
 import { verifyUniqueUsername } from '$lib/features/user-management/user/verifyUniqueUsername'
 import {
 	MAX_PASSWORD_SIZE,
-	MIN_PASSWORD_SIZE
-} from '$lib/features/user-management/config/passwordSize'
+	MIN_PASSWORD_SIZE,
+	PASSWORD_CONFIRM_VALIDATION,
+	PASSWORD_CONFIRM_VALIDATION_MESSAGE,
+	PASSWORD_LOWERCASE,
+	PASSWORD_LOWERCASE_MESSAGE,
+	PASSWORD_NUMBER,
+	PASSWORD_NUMBER_MESSAGE,
+	PASSWORD_UPPERCASE,
+	PASSWORD_UPPERCASE_MESSAGE
+} from '$lib/features/user-management/config/passwordValidators'
 import {
 	MAX_USERNAME_SIZE,
 	MIN_USERNAME_SIZE
 } from '$lib/features/user-management/config/usernameSize'
 
-const signupSchema = z.object({
-	username: z.string().min(MIN_USERNAME_SIZE).max(MAX_USERNAME_SIZE),
-	password: z.string().min(MIN_PASSWORD_SIZE).max(MAX_PASSWORD_SIZE),
-	email: z.string().email()
-})
+const signupSchema = z
+	.object({
+		username: z.string().min(MIN_USERNAME_SIZE).max(MAX_USERNAME_SIZE),
+		password: z
+			.string()
+			.min(MIN_PASSWORD_SIZE)
+			.max(MAX_PASSWORD_SIZE)
+			.refine(PASSWORD_UPPERCASE, PASSWORD_UPPERCASE_MESSAGE)
+			.refine(PASSWORD_LOWERCASE, PASSWORD_LOWERCASE_MESSAGE)
+			.refine(PASSWORD_NUMBER, PASSWORD_NUMBER_MESSAGE),
+		confirmPassword: z.string(),
+		email: z.string().email()
+	})
+	.refine(PASSWORD_CONFIRM_VALIDATION, PASSWORD_CONFIRM_VALIDATION_MESSAGE)
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const session = await locals.auth.validate()
@@ -41,12 +58,17 @@ export const actions = {
 		if (!form.valid) {
 			const usernameError = findErrorByName(form.errors, 'username')
 			const passwordError = findErrorByName(form.errors, 'password')
+			const passwordConfirmError = findErrorByName(
+				form.errors,
+				'confirmPassword'
+			)
 			const emailError = findErrorByName(form.errors, 'email')
 
 			return fail(400, {
 				errors: {
 					usernameError,
 					passwordError,
+					passwordConfirmError,
 					emailError
 				},
 				incorrect: true

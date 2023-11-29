@@ -9,7 +9,7 @@ import { isValidPasswordResetToken } from '$lib/features/user-management/tokens/
 import {
 	MAX_PASSWORD_SIZE,
 	MIN_PASSWORD_SIZE
-} from '$lib/features/user-management/config/passwordSize'
+} from '$lib/features/user-management/config/passwordValidators'
 MAX_PASSWORD_SIZE
 
 const signupSchema = z.object({
