@@ -21,13 +21,13 @@
 			`/api/templates/${templateOverview.slug}`
 		).then((res) => res.json())
 
-		const grupetes = styleDictionaryToGroups(
+		const groups = styleDictionaryToGroups(
 			templateGroups.template,
 			templateOverview.slug,
 			[TEMPLATE_DEFAULT_THEME]
 		)
 
-		return grupetes
+		return groups
 	}
 
 	// const handleCreateGroupFromTemplate = async () => {

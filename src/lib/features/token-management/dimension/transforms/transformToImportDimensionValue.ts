@@ -15,6 +15,8 @@ const transformToImportDimensionValue = (
 		}
 		return dimensionToken
 	} else {
+		console.log(exportDimension)
+
 		throw new Error(`Invalid unit in exportDimension: ${exportDimension}`)
 	}
 }
