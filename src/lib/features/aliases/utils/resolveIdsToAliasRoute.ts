@@ -1,4 +1,5 @@
 import groupsStore from '$lib/features/token-groups-store/groupsStore'
+import type { Group } from '$lib/features/token-groups-store/types/group.interface'
 import { findTokenByGroupIdAndTokenId } from '$lib/utils/findTokenByGroupIdAndTokenId'
 import { get } from 'svelte/store'
 
@@ -68,6 +69,7 @@ export const resolveIdsToAliasRouteArray = (
 
 export const resolveIdsToAliasRouteAndIdsArray = (
 	groupId: string,
+	groups: Group[],
 	tokenId?: string
 ):
 	| {
@@ -75,7 +77,6 @@ export const resolveIdsToAliasRouteAndIdsArray = (
 			id: string
 	  }[]
 	| null => {
-	const groups = get(groupsStore)
 	const group = groups.find((group) => group.id === groupId)
 
 	if (!group) {
@@ -90,7 +91,10 @@ export const resolveIdsToAliasRouteAndIdsArray = (
 	]
 
 	if (group.parentGroup) {
-		const parentRoute = resolveIdsToAliasRouteAndIdsArray(group.parentGroup)
+		const parentRoute = resolveIdsToAliasRouteAndIdsArray(
+			group.parentGroup,
+			groups
+		)
 		if (parentRoute) {
 			route = [...parentRoute, ...route]
 		}

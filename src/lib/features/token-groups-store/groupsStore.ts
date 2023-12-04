@@ -10,31 +10,51 @@ import type {
 import { getDefaultTokenValues } from './defaultTokenValues'
 import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 import { createTokenAlias } from '../aliases/functions/createTokenAlias'
+import detachTokenValueInstance from '$lib/utils/detachTokenValueInstance'
 
 export const createGroupsStore = () => {
 	const { subscribe, update, set } = persistentWritable<Group[]>(
-		'tokenbase-groups',
+		'tokenbase/groups',
 		[]
 	)
 
 	const addGroup = (
 		name: string,
+		parentGroupId: string,
 		id?: string,
-		parentGroupId?: string,
+		tokens?: IToken[],
 		description?: string
 	): void => {
-		update((designTokens) => {
+		update((groups) => {
 			const newGroupId = id ?? uuidv4()
 
-			designTokens.push({
+			groups.push({
 				id: newGroupId,
 				name,
 				description,
 				parentGroup: parentGroupId,
-				tokens: []
+				tokens: tokens ?? []
 			})
 
-			return designTokens
+			return groups
+		})
+	}
+
+	const bulkAddGroups = (
+		groups: Group[],
+		parentIdToInsert: string,
+		toChangeParentId: string
+	) => {
+		const groupsWithUpdatedParentId = updateParentGroupIds(
+			groups,
+			parentIdToInsert,
+			toChangeParentId
+		)
+
+		update((grps) => {
+			grps = [...grps, ...groupsWithUpdatedParentId]
+
+			return grps
 		})
 	}
 
@@ -205,6 +225,7 @@ export const createGroupsStore = () => {
 		subscribe,
 		set,
 		addGroup,
+		bulkAddGroups,
 		deleteGroup,
 		addToken,
 		bulkAddTokens,
@@ -238,7 +259,9 @@ const deleteTokenById = (id: string, tokens: IToken[]): void => {
 
 const addTheme = (themeId: string, tokens: IToken[]) => {
 	tokens.forEach((token) => {
-		token.value[themeId] = getDefaultTokenValues(token.type)
+		token.value[themeId] = Object.values(token.value)[0]
+			? detachTokenValueInstance(Object.values(token.value)[0] as TokenValue)
+			: getDefaultTokenValues(token.type)
 	})
 }
 
@@ -286,3 +309,26 @@ export const moveToken = (
 
 	return tokens
 }
+
+const updateParentGroupIds = (
+	groups: Group[],
+	parentGroupId: string,
+	toChangeParentId: string
+): Group[] => {
+	const newGroups = groups.map((group) => {
+		if (group.parentGroup === toChangeParentId) {
+			const newGroup: Group = {
+				...group,
+				parentGroup: parentGroupId
+			}
+
+			return newGroup
+		} else {
+			return group
+		}
+	})
+
+	return newGroups
+}
+
+export type GroupsStore = ReturnType<typeof createGroupsStore>

@@ -5,7 +5,7 @@ import {
 } from './config/exportFileTypes'
 import { get } from 'svelte/store'
 import transformDesignSystemToStyleDictionaryJsons from './transforms/transformDesignSystemToStyleDictionaryJsons'
-import designTokensGroupStore from '$lib/features/token-groups-store/groupsStore'
+import groupsStore from '$lib/features/token-groups-store/groupsStore'
 import buildStyleDictionaryJson from './functions/buildStyleDictionaryJson'
 import { downloadDirectory } from './utils/downloadDirectory'
 import type { DesignSystemOverview } from '../token-groups-store/types/design-system-overview.interface'
@@ -15,7 +15,7 @@ export const downloadDesignSystem = async (
 	exportTypes: ExportFileType[]
 ) => {
 	const styleDictionaryJsons = transformDesignSystemToStyleDictionaryJsons(
-		get(designTokensGroupStore),
+		get(groupsStore),
 		designSystemOverview.themes,
 		designSystemOverview.id
 	)

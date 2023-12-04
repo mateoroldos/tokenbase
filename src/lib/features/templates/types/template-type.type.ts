@@ -1,4 +1,4 @@
-export const TEMPLATE_TYPES = ['design-system', 'group', 'token'] as const
+export const TEMPLATE_TYPES = ['groups', 'tokens'] as const
 
 export type TemplateType = (typeof TEMPLATE_TYPES)[number]
 
@@ -9,21 +9,15 @@ export const TEMPLATE_TYPES_DETAILS: {
 		description: string
 	}
 } = {
-	'design-system': {
-		icon: '🎨',
-		name: 'Design System',
-		description:
-			'A design system is a collection of reusable components, guided by clear standards, that can be assembled together to build any number of applications.'
-	},
-	group: {
+	groups: {
 		icon: '📁',
 		name: 'Group',
 		description:
-			'A group is a collection of templates that can be used together.'
+			'Collection of groups to import inside your groups or Design System.'
 	},
-	token: {
-		icon: '🔑',
+	tokens: {
+		icon: '🎨',
 		name: 'Token',
-		description: 'A token is a single value that can be used in a template.'
+		description: 'Collection of Tokens to import inside your groups.'
 	}
 }

@@ -1,53 +1,41 @@
 <script lang="ts">
 	import { page } from '$app/stores'
-	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
+	import type { SelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
 	import { SquareStack } from 'lucide-svelte'
 	import { getContext } from 'svelte'
 	import { generateTokenShades } from './generateTokenShades'
-	import type {
-		IToken,
-		TokenValue
-	} from '$lib/features/token-groups-store/types/token.interface'
+	import type { IToken } from '$lib/features/token-groups-store/types/token.interface'
 	import { Input } from '$lib/components/ui/input'
 	import checkValidShade from './checkValidShade'
-	import type { createGroupsStore } from '$lib/features/token-groups-store/groupsStore'
 	import ToolbarButton from '../../ui/atoms/ToolbarButton.svelte'
 	import type { Group } from '$lib/features/token-groups-store/types/group.interface'
-	import type { createDesignSystemsOverviewsStore } from '$lib/features/token-groups-store/designSystemsOverviewsStore'
 	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
+	import designSystemsOverviewsStore from '$lib/features/token-groups-store/designSystemsOverviewsStore'
+	import groupsStore from '$lib/features/token-groups-store/groupsStore'
+	import type { Readable } from 'svelte/store'
 
-	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
-		getContext('designTokensGroupStore')
-	const selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
-		getContext('selectedTokensStore')
-	const tokenBaseMainStore: ReturnType<
-		typeof createDesignSystemsOverviewsStore
-	> = getContext('tokenBaseMainStore')
+	const selectedTokensStore: SelectedTokensStore = getContext(
+		'selectedTokensStore'
+	)
 
-	$: activeDesignSystemIndex = $tokenBaseMainStore.findIndex(
+	$: activeDesignSystemIndex = $designSystemsOverviewsStore.findIndex(
 		(designSystem) => designSystem.id === $page.params.designSystemId
 	)
 
 	$: activeDesignSystemThemes =
-		$tokenBaseMainStore[activeDesignSystemIndex]?.themes
+		$designSystemsOverviewsStore[activeDesignSystemIndex]?.themes
 
-	$: groupId = $page.params.groupId as string
-
-	$: groupIndex = $designTokensGroupStore.findIndex(
-		(group) => group.id === groupId
-	)
+	const activeGroupIndex: Readable<number> = getContext('activeGroupIndex')
 
 	let amountOfShades = 10
 
 	const handleGenerateShades = () => {
 		if (validShade) {
-			const firstToken = (
-				$designTokensGroupStore[groupIndex] as Group
-			).tokens.find((token) => token.id === $selectedTokensStore[0]) as IToken<
-				'color' | 'dimension' | 'number' | 'duration'
-			>
+			const firstToken = ($groupsStore[$activeGroupIndex] as Group).tokens.find(
+				(token) => token.id === $selectedTokensStore[0]
+			) as IToken<'color' | 'dimension' | 'number' | 'duration'>
 			const secondToken = (
-				$designTokensGroupStore[groupIndex] as Group
+				$groupsStore[$activeGroupIndex] as Group
 			).tokens.find((token) => token.id === $selectedTokensStore[1]) as IToken<
 				'color' | 'dimension' | 'number' | 'duration'
 			>
@@ -57,18 +45,18 @@
 				secondToken,
 				activeDesignSystemThemes as Theme[],
 				amountOfShades,
-				$designTokensGroupStore
+				$groupsStore
 			)
 
 			const firstTokenIndex = (
-				$designTokensGroupStore[groupIndex] as Group
+				$groupsStore[$activeGroupIndex] as Group
 			).tokens.findIndex((token) => token.id === $selectedTokensStore[0])
 
 			const secondTokenIndex = (
-				$designTokensGroupStore[groupIndex] as Group
+				$groupsStore[$activeGroupIndex] as Group
 			).tokens.findIndex((token) => token.id === $selectedTokensStore[1])
 
-			designTokensGroupStore.bulkAddTokens(
+			groupsStore.bulkAddTokens(
 				$page.params.groupId as string,
 				tokenShades,
 				firstTokenIndex > secondTokenIndex
@@ -81,24 +69,26 @@
 	$: validShade =
 		$selectedTokensStore.length === 2 &&
 		checkValidShade(
-			$designTokensGroupStore[groupIndex]?.tokens as IToken[],
+			$groupsStore[$activeGroupIndex]?.tokens as IToken[],
 			$selectedTokensStore
 		)
 </script>
 
-<ToolbarButton
-	icon={SquareStack}
-	action={handleGenerateShades}
-	name="Shade generator"
-	active={validShade}
->
-	{#if validShade}
-		<Input
-			name="amount-of-shades"
-			type="number"
-			bind:value={amountOfShades}
-			class="h-full w-12 p-1 text-center"
-			min="1"
-		/>
-	{/if}
-</ToolbarButton>
+{#if $activeGroupIndex != -1}
+	<ToolbarButton
+		icon={SquareStack}
+		action={handleGenerateShades}
+		name="Shade generator"
+		active={validShade}
+	>
+		{#if validShade}
+			<Input
+				name="amount-of-shades"
+				type="number"
+				bind:value={amountOfShades}
+				class="h-full w-12 p-1 text-center"
+				min="1"
+			/>
+		{/if}
+	</ToolbarButton>
+{/if}

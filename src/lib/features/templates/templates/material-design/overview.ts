@@ -4,5 +4,5 @@ export const overview: Template = {
 	name: 'Material Design',
 	description: 'Material Design is a design system created by Google.',
 	tags: ['material-ui', 'official', 'official'],
-	type: 'design-system'
+	type: 'groups'
 }

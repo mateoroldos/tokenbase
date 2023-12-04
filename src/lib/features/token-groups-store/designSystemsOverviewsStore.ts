@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 export const createDesignSystemsOverviewsStore = () => {
 	const { subscribe, update, set } = persistentWritable<DesignSystemOverview[]>(
-		'tokenbase-design-systems',
+		'tokenbase/design-systems',
 		[]
 	)
 
@@ -83,3 +83,7 @@ export const createDesignSystemsOverviewsStore = () => {
 const designSystemsOverviewsStore = createDesignSystemsOverviewsStore()
 
 export default designSystemsOverviewsStore
+
+export type DesignSystemsOverviewsStore = ReturnType<
+	typeof createDesignSystemsOverviewsStore
+>

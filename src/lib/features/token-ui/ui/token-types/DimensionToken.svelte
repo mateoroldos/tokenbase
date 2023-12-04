@@ -5,6 +5,7 @@
 
 	export let tokenValue: DimensionTokenValue
 	export let isAlias: boolean
+	export let viewMode = false
 
 	let options = ['px', 'rem']
 </script>
@@ -12,17 +13,18 @@
 <div class="flex gap-3">
 	<div>
 		<Input
+			disabled={viewMode}
 			name="dimension"
-			class="h-8 w-[80px] "
+			class="disabled:opacity-1 h-8 w-[80px]"
 			type="number"
 			{...isAlias ? { disabled: true } : {}}
 			bind:value={tokenValue.value}
 		/>
 	</div>
 	<div class="flex items-center">
-		<Select.Root bind:value={tokenValue.unit}>
+		<Select.Root bind:value={tokenValue.unit} disabled={viewMode}>
 			<Select.Trigger
-				class="h-8 w-[60px] "
+				class="disabled:opacity-1 h-8 w-[60px]"
 				{...isAlias ? { disabled: true } : {}}
 			>
 				<Select.Value placeholder={tokenValue.unit} />

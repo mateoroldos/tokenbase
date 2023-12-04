@@ -4,13 +4,15 @@
 
 	export let tokenValue: CubicBezierTokenValue
 	export let isAlias: boolean
+	export let viewMode = false
 </script>
 
 <div class="flex gap-x-3">
 	<div class="flex flex-row gap-2">
 		<Input
+			disabled={viewMode}
 			name="p1x"
-			class="h-8 w-[60px] "
+			class="disabled:opacity-1 h-8 w-[60px]"
 			type="number"
 			{...isAlias ? { disabled: true } : {}}
 			bind:value={tokenValue[0]}
@@ -24,9 +26,10 @@
 	</div>
 	<div class="flex flex-row gap-2">
 		<Input
+			disabled={viewMode}
 			id="p1y"
 			name="p1y"
-			class="h-8 w-[60px] "
+			class="disabled:opacity-1 h-8 w-[60px]"
 			type="number"
 			size={1}
 			{...isAlias ? { disabled: true } : {}}
@@ -38,9 +41,10 @@
 	</div>
 	<div class="flex flex-row gap-2">
 		<Input
+			disabled={viewMode}
 			id="p2x"
 			name="p2x"
-			class="h-8 w-[60px] "
+			class="disabled:opacity-1 h-8 w-[60px]"
 			type="number"
 			{...isAlias ? { disabled: true } : {}}
 			bind:value={tokenValue[2]}
@@ -51,9 +55,10 @@
 	</div>
 	<div class="flex flex-row gap-2">
 		<Input
+			disabled={viewMode}
 			id="p2y"
 			name="p2y"
-			class="h-8 w-[60px] "
+			class="disabled:opacity-1 h-8 w-[60px]"
 			type="number"
 			{...isAlias ? { disabled: true } : {}}
 			bind:value={tokenValue[3]}

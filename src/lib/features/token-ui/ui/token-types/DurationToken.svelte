@@ -4,13 +4,15 @@
 
 	export let tokenValue: DurationTokenValue
 	export let isAlias: boolean
+	export let viewMode = false
 </script>
 
 <div>
 	<div class="flex flex-row gap-2">
 		<Input
+			disabled={viewMode}
 			name="duration"
-			class="h-8 w-[80px] "
+			class="disabled:opacity-1 h-8 w-[80px]"
 			type="number"
 			{...isAlias ? { disabled: true } : {}}
 			bind:value={tokenValue}

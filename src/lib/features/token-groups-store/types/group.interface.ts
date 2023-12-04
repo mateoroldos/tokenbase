@@ -7,6 +7,7 @@ interface BaseGroup {
 	parentGroup: string | undefined
 	type?: TokenType | undefined
 }
+
 export interface Group extends BaseGroup {
 	tokens: IToken[]
 }

@@ -3,7 +3,7 @@
 	import { activeThemeIndex } from '../../stores/activeThemeIndexStore'
 	import designSystemsOverviewsStore from '$lib/features/token-groups-store/designSystemsOverviewsStore'
 	import { Pencil, Trash, X } from 'lucide-svelte'
-	import ActionsDropDown from '$lib/components/ActionsDropDown.svelte'
+	import CommandsDropdown from '$lib/components/CommandsDropdown.svelte'
 
 	export let themes: Theme[]
 	export let designSystemId: string
@@ -45,8 +45,8 @@
 		(option) => option.title !== 'Delete theme'
 	)
 
-	$: activeThemeOptions =
+	$: dropdownCommands =
 		themes.length > 1 ? themeOptions : themeOptionsWithoutDelete
 </script>
 
-<ActionsDropDown menuItems={activeThemeOptions} />
+<CommandsDropdown commands={dropdownCommands} />

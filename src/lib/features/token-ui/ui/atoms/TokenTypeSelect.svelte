@@ -13,8 +13,8 @@
 </script>
 
 <Select.Root
-	bind:value
 	{disabled}
+	bind:value
 	onValueChange={(val) => {
 		if (firstChange > 0) {
 			onChangeFn(val)
@@ -22,7 +22,7 @@
 		firstChange++
 	}}
 >
-	<Select.Trigger class="w-[120px] text-xs">
+	<Select.Trigger class="disabled:opacity-1 w-[120px] text-xs">
 		<Select.Value />
 	</Select.Trigger>
 	<Select.Content>

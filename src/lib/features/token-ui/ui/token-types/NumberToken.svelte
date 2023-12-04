@@ -4,11 +4,13 @@
 
 	export let tokenValue: NumberTokenValue
 	export let isAlias: boolean
+	export let viewMode = false
 </script>
 
 <div>
 	<Input
-		class="h-8 w-[80px] "
+		disabled={viewMode}
+		class="disabled:opacity-1 h-8 w-[80px]"
 		type="number"
 		name="numberToken"
 		{...isAlias ? { disabled: true } : {}}
