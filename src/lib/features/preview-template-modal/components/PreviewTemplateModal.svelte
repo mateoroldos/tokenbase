@@ -96,20 +96,28 @@
 						{isDesignSystemRoot}
 						on:importedTemplate={handleTemplateImported}
 					/>
-					<TokensTable {activeGroupIndex} {groupsStore} viewMode={true}>
-						{#each $groupsStore[activeGroupIndex].tokens as token (token.id)}
-							<Token
-								{token}
-								activeThemeId={theme.id}
-								{groupsStore}
-								viewMode={true}
-								{aliasDependencies}
-								themes={designSystemOverview.themes}
-								activeGroupId={$previewStore.activeGroupId}
-								{previewStore}
-							/>
-						{/each}
-					</TokensTable>
+					{#if $groupsStore[activeGroupIndex].tokens.length > 0}
+						<TokensTable {activeGroupIndex} {groupsStore} viewMode={true}>
+							{#each $groupsStore[activeGroupIndex].tokens as token (token.id)}
+								<Token
+									{token}
+									activeThemeId={theme.id}
+									{groupsStore}
+									viewMode={true}
+									{aliasDependencies}
+									themes={designSystemOverview.themes}
+									activeGroupId={$previewStore.activeGroupId}
+									{previewStore}
+								/>
+							{/each}
+						</TokensTable>
+					{:else}
+						<div
+							class="flex flex-col items-center justify-center h-full w-full border"
+						>
+							<p class="text-slate-400 text-lg">This group has no Tokens</p>
+						</div>
+					{/if}
 				</div>
 			</div>
 		</Dialog.Content>

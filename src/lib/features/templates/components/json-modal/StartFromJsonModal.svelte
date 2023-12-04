@@ -96,9 +96,7 @@
 </script>
 
 <Dialog.Root bind:open portal="yes">
-	<Dialog.Trigger class={buttonVariants({ size: 'sm' })}>
-		Upload JSON
-	</Dialog.Trigger>
+	<div on:click={() => (open = true)} class="h-full"><slot /></div>
 	<Dialog.Content
 		class="min-w-[35vw] min-h-[70vh] gap-5 flex flex-col p-7 justify-between"
 		showClose={false}

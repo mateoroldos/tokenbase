@@ -4,7 +4,6 @@
 	import { navigating, page } from '$app/stores'
 	import { getContext, setContext } from 'svelte'
 	import { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
-	import GroupHeader from './_components/group-header/GroupHeader.svelte'
 	import { derived, type Readable } from 'svelte/store'
 	import groupsStore from '$lib/features/token-groups-store/groupsStore'
 	import designSystemsOverviewsStore from '$lib/features/token-groups-store/designSystemsOverviewsStore'
@@ -12,6 +11,7 @@
 	import EmptyGroupPage from '$lib/components/empty-state-pages/EmptyGroupPage.svelte'
 	import Token from '$lib/features/token-ui/ui/Token.svelte'
 	import type { IToken } from '$lib/features/token-groups-store/types/token.interface'
+	import GroupsHeader from './_components/groups-header/GroupsHeader.svelte'
 
 	const activeDesignSystemIndex: Readable<number> = getContext(
 		'activeDesignSystemIndex'
@@ -35,7 +35,6 @@
 
 	const selectedTokensStore = createSelectedTokensStore()
 
-	setContext('activeGroupIndex', activeGroupIndex)
 	setContext('activeDesignSystemIndex', activeDesignSystemIndex)
 	setContext('selectedTokensStore', selectedTokensStore)
 
@@ -77,39 +76,38 @@
 </script>
 
 {#if $groupsStore[$activeGroupIndex] != undefined && $designSystemsOverviewsStore[$activeDesignSystemIndex] != undefined}
-	<section class="flex h-full flex-1 flex-col overflow-hidden">
-		<GroupHeader activeDesignSystemIndex={$activeDesignSystemIndex} />
-		{#if $groupsStore[$activeGroupIndex].tokens.length > 0}
-			<TokensTable
-				{groupsStore}
-				{selectedTokensStore}
-				activeGroupIndex={$activeGroupIndex}
-			>
-				{#if $page.params.groupId}
-					{#each $groupsStore[$activeGroupIndex].tokens as token (token.id)}
-						<Token
-							bind:token
-							activeThemeId={activeTheme.id}
-							{groupsStore}
-							{selectedTokensStore}
-							themes={$designSystemsOverviewsStore[$activeDesignSystemIndex]
-								.themes}
-							aliasDependencies={$activeThemeAliasDependencies}
-							activeGroupId={$page.params.groupId}
-							on:colorChange={(e) => handleColorChange(e, token)}
-						/>
-					{/each}
-				{/if}
-			</TokensTable>
-		{:else}
-			<EmptyGroupPage
-				activeDesignSystemThemes={$designSystemsOverviewsStore[
-					$activeDesignSystemIndex
-				]?.themes}
-				groupIdToImportTemplate={$page.params.groupId}
-			/>
-		{/if}
-	</section>
+	<GroupsHeader activeDesignSystemIndex={$activeDesignSystemIndex} />
+	{#if $groupsStore[$activeGroupIndex].tokens.length > 0}
+		<TokensTable
+			{groupsStore}
+			{selectedTokensStore}
+			activeGroupIndex={$activeGroupIndex}
+		>
+			{#if $page.params.groupId}
+				{#each $groupsStore[$activeGroupIndex].tokens as token (token.id)}
+					<Token
+						bind:token
+						activeThemeId={activeTheme.id}
+						{groupsStore}
+						{selectedTokensStore}
+						themes={$designSystemsOverviewsStore[$activeDesignSystemIndex]
+							.themes}
+						aliasDependencies={$activeThemeAliasDependencies}
+						activeGroupId={$page.params.groupId}
+						on:colorChange={(e) => handleColorChange(e, token)}
+					/>
+				{/each}
+			{/if}
+		</TokensTable>
+	{:else}
+		<EmptyGroupPage
+			activeDesignSystemThemes={$designSystemsOverviewsStore[
+				$activeDesignSystemIndex
+			]?.themes}
+			groupIdToImportTemplate={$page.params.groupId}
+			groupName={$groupsStore[$activeGroupIndex].name}
+		/>
+	{/if}
 {:else}
 	<p>Group not found</p>
 {/if}

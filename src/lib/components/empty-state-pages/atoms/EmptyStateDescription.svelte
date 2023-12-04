@@ -1,3 +1,3 @@
-<p class="text-slate-600">
+<p class="text-slate-400">
 	<slot />
 </p>

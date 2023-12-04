@@ -13,6 +13,7 @@
 	import type { Group } from '$lib/features/token-groups-store/types/group.interface'
 	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 	import { getAliasDependencies } from '$lib/features/aliases/utils/getAliasDependnecies'
+	import DesignSystemHeader from './_components/design-system-header/DesignSystemHeader.svelte'
 
 	let loading = true
 
@@ -75,9 +76,19 @@
 		}
 	)
 
+	const activeGroupIndex = derived(
+		[groupsStore, page],
+		([$groupsStore, $page]) => {
+			return $groupsStore.findIndex(
+				(group) => group.id === $page.params.groupId
+			)
+		}
+	)
+
 	setContext('activeDesignSystemIndex', activeDesignSystemIndex)
 	setContext('activeDesignSystemId', activeDesignSystemId)
 	setContext('activeThemeAliasDependencies', activeThemeAliasDependencies)
+	setContext('activeGroupIndex', activeGroupIndex)
 </script>
 
 <svelte:head>
@@ -94,7 +105,9 @@
 			groups={$activeDesignSystemGroupsStore}
 			designSystemId={$activeDesignSystemId}
 		/>
-		<slot />
+		<section class="flex h-full flex-1 flex-col overflow-hidden">
+			<slot />
+		</section>
 	</main>
 {:else}
 	<DesignSystemNotFound />

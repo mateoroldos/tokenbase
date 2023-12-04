@@ -26,9 +26,7 @@
 </script>
 
 <Dialog.Root portal="yes" bind:open>
-	<Dialog.Trigger class={buttonVariants({ size: 'sm' })}
-		>Explore Templates</Dialog.Trigger
-	>
+	<div on:click={() => (open = true)} class="h-full"><slot /></div>
 	<Dialog.Content class="h-[90vh] min-w-[90vw] overflow-hidden p-0">
 		<div class="grid grid-cols-[1fr_3fr] gap-16 overflow-hidden">
 			<StartFromTemplateModalSidebar

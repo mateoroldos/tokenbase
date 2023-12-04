@@ -9,7 +9,7 @@
 	import type { PreviewStore } from '$lib/features/preview-template-modal/types/preview-store.type'
 	import designSystemsOverviewsStore from '$lib/features/token-groups-store/designSystemsOverviewsStore'
 
-	export let activeGroupIndex: number
+	export let activeGroupIndex: number | undefined
 	export let activeDesignSystemIndex: number
 	export let activeDesignSystemOverview: DesignSystemOverview
 	export let groupsStore: GroupsStore | Readable<Group[]>
@@ -24,11 +24,13 @@
 		{viewMode}
 		{designSystemsOverviewsStore}
 	/>
-	<GroupsBreadcrumbs
-		noLink={true}
-		groupIndex={activeGroupIndex}
-		{groupsStore}
-		{previewStore}
-		{viewMode}
-	/>
+	{#if activeGroupIndex != -1}
+		<GroupsBreadcrumbs
+			noLink={true}
+			groupIndex={activeGroupIndex}
+			{groupsStore}
+			{previewStore}
+			{viewMode}
+		/>
+	{/if}
 </Breadcrumbs.Container>

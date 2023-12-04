@@ -1,11 +1,10 @@
 <script lang="ts">
 	import * as Breadcrumbs from '$lib/components/breadcrumbs'
 	import type { Readable } from 'svelte/store'
-	import type { DesignSystemOverview } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 	import type { GroupsStore } from '$lib/features/token-groups-store/groupsStore'
 	import type { Group } from '$lib/features/token-groups-store/types/group.interface'
 	import type { PreviewStore } from '$lib/features/preview-template-modal/types/preview-store.type'
-	import GroupsBreadcrumbs from '$lib/components/breadcrumbs/groups-header-breadcrumbs/atoms/GroupsBreadcrumbs.svelte'
+	import GroupsBreadcrumbs from '$lib/components/breadcrumbs/design-system-header-breadcrumbs/atoms/GroupsBreadcrumbs.svelte'
 
 	export let activeGroupIndex: number
 	export let groupsStore: GroupsStore | Readable<Group[]>

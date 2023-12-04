@@ -1,36 +1,68 @@
 <script lang="ts">
-	import StartFromTemplateModal from '$lib/features/templates/components/start-from-template-modal/StartFromTemplateModal.svelte'
 	import * as EmptyStatePage from './'
-	import StartCardTemplate from '../../../routes/[designSystemId]/_components/StartCards/StartCardTemplate.svelte'
-	import StartFromJsonCard from '../../../routes/[designSystemId]/_components/StartFromJsonCard/StartFromJsonCard.svelte'
+	import StartFromJsonCard from '../../../routes/[designSystemId]/_components/start-cards/StartFromJsonCard.svelte'
 	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
+	import Button from '../ui/button/Button.svelte'
+	import { Plus } from 'lucide-svelte'
+	import { goto } from '$app/navigation'
+	import { v4 as uuidv4 } from 'uuid'
+	import groupsStore from '$lib/features/token-groups-store/groupsStore'
+	import StartFromTemplateCard from '../../../routes/[designSystemId]/_components/start-cards/StartFromTemplateCard.svelte'
+	import { viewMode } from '$lib/features/view-mode/stores/viewMode'
+	import designSystemsOverviewsStore from '$lib/features/token-groups-store/designSystemsOverviewsStore'
 
 	export let activeDesignSystemThemes: Theme[]
-	export let groupIdToImportTemplate: string
+	export let designSystemId: string
+
+	$: activeDesignSystem = $designSystemsOverviewsStore.find(
+		(theme) => theme.id === designSystemId
+	)
+
+	const handleAddNewGroup = () => {
+		const id = uuidv4()
+
+		groupsStore.addGroup('', designSystemId, id)
+
+		goto(`/${designSystemId}/${id}`)
+	}
 </script>
 
 <EmptyStatePage.Root>
 	<EmptyStatePage.Section>
-		<EmptyStatePage.Heading>Get Started!</EmptyStatePage.Heading>
-		<EmptyStatePage.Description
-			>Explore, create and organize your design system.</EmptyStatePage.Description
-		>
+		<EmptyStatePage.Heading
+			>{activeDesignSystem.name}
+			<span class="text-slate-300 font-normal"> Design System </span>
+		</EmptyStatePage.Heading>
 	</EmptyStatePage.Section>
-	<EmptyStatePage.Section>
-		<EmptyStatePage.SectionHeading>Quickstarts</EmptyStatePage.SectionHeading>
-		<div class="grid grid-cols-[2fr_3fr] gap-6">
-			<StartCardTemplate
-				title="Design System templates"
-				content="Explore our curated list of templates to get started with your Design System."
+	{#if !$viewMode}
+		<EmptyStatePage.Section>
+			<EmptyStatePage.SectionHeading
+				>Create an empty group</EmptyStatePage.SectionHeading
 			>
-				<StartFromTemplateModal
-					activeTemplateType={'groups'}
-					{activeDesignSystemThemes}
-					{groupIdToImportTemplate}
-					isDesignSystemRoot={true}
-				/>
-			</StartCardTemplate>
-			<StartFromJsonCard />
-		</div>
-	</EmptyStatePage.Section>
+			<Button on:click={handleAddNewGroup} size="sm">
+				<Plus class="mr-2 w-4" />
+				Create group
+			</Button>
+		</EmptyStatePage.Section>
+		<EmptyStatePage.Section>
+			<EmptyStatePage.SectionHeading
+				>Or import a template</EmptyStatePage.SectionHeading
+			>
+			<div class="grid grid-cols-[1fr_1fr] gap-6">
+				<div class="h-full">
+					<StartFromTemplateCard
+						{activeDesignSystemThemes}
+						groupIdToImportTemplate={designSystemId}
+						title="Design System Template"
+						description="Explore our curated list of Design Systems."
+						isDesignSystemRoot={true}
+						activeTemplateType="groups"
+					/>
+				</div>
+				<div class="h-full">
+					<StartFromJsonCard />
+				</div>
+			</div>
+		</EmptyStatePage.Section>
+	{/if}
 </EmptyStatePage.Root>

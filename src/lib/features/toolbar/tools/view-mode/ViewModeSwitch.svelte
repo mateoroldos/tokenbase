@@ -17,7 +17,7 @@
 	}
 </script>
 
-<Tooltip.Root>
+<!-- <Tooltip.Root>
 	<Tooltip.Trigger>
 		<div class="flex flex-row items-center gap-2">
 			<Switch bind:checked={$viewMode} />
@@ -26,4 +26,4 @@
 	<Tooltip.Content>
 		<span class="text-xs text-slate-700">{viewModeStatus}</span>
 	</Tooltip.Content>
-</Tooltip.Root>
+</Tooltip.Root> -->
