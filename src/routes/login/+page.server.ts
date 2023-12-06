@@ -16,6 +16,8 @@ import {
 	PASSWORD_UPPERCASE,
 	PASSWORD_UPPERCASE_MESSAGE
 } from '$lib/features/user-management/config/passwordValidators'
+import { getStoredUserByEmail } from '$lib/features/user-management/user/getStoredUserByEmail'
+import { getUserKeyProvider } from '$lib/features/user-management/user/getUserKeyProvider'
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const session = await locals.auth.validate()
@@ -23,17 +25,12 @@ export const load: PageServerLoad = async ({ locals }) => {
 	if (session) {
 		throw redirect(302, '/')
 	}
+	return {}
 }
 
 const loginSchema = z.object({
 	email: z.string().email(),
-	password: z
-		.string()
-		.min(MIN_PASSWORD_SIZE)
-		.max(MAX_PASSWORD_SIZE)
-		.refine(PASSWORD_UPPERCASE, PASSWORD_UPPERCASE_MESSAGE)
-		.refine(PASSWORD_LOWERCASE, PASSWORD_LOWERCASE_MESSAGE)
-		.refine(PASSWORD_NUMBER, PASSWORD_NUMBER_MESSAGE)
+	password: z.string().min(MIN_PASSWORD_SIZE).max(MAX_PASSWORD_SIZE)
 })
 
 export const actions = {
@@ -54,18 +51,33 @@ export const actions = {
 		}
 
 		try {
-			const key = await auth.useKey(
-				'email',
-				form.data.email.toLowerCase(),
-				form.data.password
-			)
+			const user = await getStoredUserByEmail(form.data.email)
 
-			const session = await auth.createSession({
-				userId: key.userId,
-				attributes: {}
-			})
+			if (user) {
+				const userKeyProvider = await getUserKeyProvider(user.id, 'email')
 
-			locals.auth.setSession(session)
+				if (userKeyProvider) {
+					const key = await auth.useKey(
+						'email',
+						form.data.email.toLowerCase(),
+						form.data.password
+					)
+
+					const session = await auth.createSession({
+						userId: key.userId,
+						attributes: {}
+					})
+					locals.auth.setSession(session)
+				} else {
+					return fail(400, {
+						emailError: true
+					})
+				}
+			} else {
+				return fail(400, {
+					emailError: true
+				})
+			}
 		} catch (e) {
 			let message
 

@@ -6,6 +6,7 @@
 	import PasswordVisibilityToggle from './atoms/PasswordVisibilityToggle.svelte'
 	import type { ActionData } from '../../../../../routes/login/$types'
 	import { Loader } from 'lucide-svelte'
+	import GithubOAuthBtn from './GithubOAuthBtn.svelte'
 
 	export let form: ActionData
 
@@ -81,10 +82,13 @@
 	{:else}
 		<Button class="btn btn-primary mt-4 max-w-xs" type="submit">Log in</Button>
 	{/if}
-	<p class="pt-4">
-		Dont have an account? <a
-			href="/register"
-			class="link link-hover font-semibold">Register</a
-		>
-	</p>
 </form>
+<div class="flex flex-col">
+	<GithubOAuthBtn />
+</div>
+<p class="pt-4">
+	Dont have an account? <a
+		href="/register"
+		class="link link-hover font-semibold">Register</a
+	>
+</p>
