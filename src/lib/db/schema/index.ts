@@ -3,22 +3,19 @@ import { mysqlTable, bigint, varchar, boolean } from 'drizzle-orm/mysql-core'
 
 export const user = mysqlTable('auth_user', {
 	id: varchar('id', {
-		length: 15
+		length: 20
 	}).primaryKey(),
-	username: varchar('username', {
-		length: 55
+	email: varchar('email', {
+		length: 255
 	})
 		.unique()
 		.notNull(),
-	email: varchar('email', {
-		length: 255
-	}).notNull(),
 	email_verified: boolean('email_verified').notNull()
 })
 
-export const usersRelations = relations(user, ({ one, many }) => ({
+export const usersRelations = relations(user, ({ many }) => ({
 	session: many(session),
-	key: one(key),
+	key: many(key),
 	emailToken: many(emailToken),
 	passwordResetToken: many(passwordResetToken)
 }))
