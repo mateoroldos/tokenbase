@@ -6,7 +6,8 @@ const config = {
 	plugins: [sveltekit(), nodePolyfills()],
 	resolve: {
 		alias: {
-			fs: 'memfs'
+			fs: 'memfs',
+			axios: 'fetch'
 		}
 	},
 	ssr: {
