@@ -56,7 +56,7 @@
 		</GroupHeaderToolsContainer>
 	{:else if $aliasMode}
 		<CloseAliasModeButton />
-	{:else if activeGroupIndex != -1 && activeGroup}
+	{:else if $activeGroupIndex != -1 && activeGroup}
 		<GroupHeaderToolsContainer>
 			<Toolbar />
 			<ThemeSelector
