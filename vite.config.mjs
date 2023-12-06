@@ -16,7 +16,8 @@ const config = {
 			path: 'node:path',
 			stream: 'node:stream',
 			url: 'node:url',
-			util: 'node:util'
+			util: 'node:util',
+			axios: 'fetch'
 		}
 	},
 	ssr: {
