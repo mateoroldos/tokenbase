@@ -4,10 +4,7 @@ import sgMail from '@sendgrid/mail'
 
 sgMail.setApiKey(env.SECRET_SENDGRID_API_KEY)
 
-export const sendPasswordResetLink = async (
-	token: string,
-	formData: { username: string; email: string }
-) => {
+export const sendPasswordResetLink = async (token: string, email: string) => {
 	let url: string
 	let recipient: string
 
@@ -16,7 +13,7 @@ export const sendPasswordResetLink = async (
 		recipient = 'accounts@emestudio.dev'
 	} else {
 		url = `https://app.token-base.com/password-reset/${token}`
-		recipient = formData.email
+		recipient = email
 	}
 
 	const msg = {
@@ -24,7 +21,7 @@ export const sendPasswordResetLink = async (
 		from: 'Tokenbase Team <hello@token-base.com>',
 		templateId: 'd-46398bff7adb41f0a7ddcf4cfd6a53ed',
 		dynamicTemplateData: {
-			username: formData.username,
+			username: email,
 			url
 		}
 	}

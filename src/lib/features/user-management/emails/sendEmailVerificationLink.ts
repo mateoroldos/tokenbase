@@ -6,7 +6,7 @@ sgMail.setApiKey(env.SECRET_SENDGRID_API_KEY)
 
 export const sendEmailVerificationLink = async (
 	token: string,
-	formData: { username: string; email: string }
+	email: string
 ) => {
 	let url: string
 	let recipient: string
@@ -16,7 +16,7 @@ export const sendEmailVerificationLink = async (
 		recipient = 'accounts@emestudio.dev'
 	} else {
 		url = `https://app.token-base.com/email-verification/token/${token}`
-		recipient = formData.email
+		recipient = email
 	}
 
 	const msg = {
@@ -24,7 +24,7 @@ export const sendEmailVerificationLink = async (
 		from: 'Tokenbase Team <hello@token-base.com>',
 		templateId: 'd-7ca589889fd24aa9a361c59de05be6d8',
 		dynamicTemplateData: {
-			username: formData.username,
+			username: email,
 			url
 		}
 	}
