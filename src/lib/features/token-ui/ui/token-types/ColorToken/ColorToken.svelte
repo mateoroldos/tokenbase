@@ -20,7 +20,11 @@
 
 	let hexInput: HTMLInputElement
 
-	$: argb = Hct.from(tokenValue[0], tokenValue[1], tokenValue[2]).argb
+	let hue = tokenValue[0] ? [tokenValue[0]] : [0];
+	let chroma = tokenValue[1] ? [tokenValue[1]] : [0];
+	let tone = tokenValue[2] ? [tokenValue[2]] : [0];
+
+	$: argb = Hct.from(hue[0], chroma[0], tone[0]).argb
 	$: hex = Color(argb).hex()
 
 	const handleHexChange = (e: Event) => {
@@ -41,16 +45,16 @@
 		}
 	}
 
-	$: hueBackground = generateHueBackgroundGradient(tokenValue[1], tokenValue[2])
+	$: hueBackground = generateHueBackgroundGradient(chroma[0], tone[0])
 
 	$: chromaBackground = generateChromaBackgroundGradient(
-		tokenValue[0],
-		tokenValue[2]
+		hue[0],
+		tone[0]
 	)
 
 	$: toneBackground = generateToneBackgroundGradient(
-		tokenValue[0],
-		tokenValue[1]
+		hue[0],
+		chroma[0]
 	)
 </script>
 
@@ -80,7 +84,7 @@
 					type="number"
 					class="w-14 rounded-md bg-transparent px-1 text-xs"
 					{...isAlias ? { disabled: true } : {}}
-					bind:value={tokenValue[0]}
+					bind:value={hue[0]}
 				/>
 			</div>
 			<Range
@@ -90,7 +94,7 @@
 				id={`${tokenId}-hue-range`}
 				background={hueBackground}
 				{...isAlias ? { disabled: true } : {}}
-				bind:value={tokenValue[0]}
+				bind:value={hue[0]}
 				on:change={(e) =>
 					dispatch('colorChange', {
 						valueChanged: 0,
@@ -106,7 +110,7 @@
 					type="number"
 					class="w-14 rounded-md bg-transparent px-1 text-xs"
 					{...isAlias ? { disabled: true } : {}}
-					bind:value={tokenValue[1]}
+					bind:value={chroma[0]}
 				/>
 			</div>
 			<Range
@@ -116,7 +120,7 @@
 				id={`${tokenId}-chroma-range`}
 				background={chromaBackground}
 				{...isAlias ? { disabled: true } : {}}
-				bind:value={tokenValue[1]}
+				bind:value={chroma[0]}
 				on:change={(e) =>
 					dispatch('colorChange', {
 						valueChanged: 1,
@@ -132,7 +136,7 @@
 					type="number"
 					class="w-14 rounded-md bg-transparent px-1 text-xs"
 					{...isAlias ? { disabled: true } : {}}
-					bind:value={tokenValue[2]}
+					bind:value={tone[0]}
 				/>
 			</div>
 			<Range
@@ -142,7 +146,7 @@
 				id={`${tokenId}-tone-range`}
 				background={toneBackground}
 				{...isAlias ? { disabled: true } : {}}
-				bind:value={tokenValue[2]}
+				bind:value={tone[0]}
 				on:change={(e) =>
 					dispatch('colorChange', {
 						valueChanged: 2,
