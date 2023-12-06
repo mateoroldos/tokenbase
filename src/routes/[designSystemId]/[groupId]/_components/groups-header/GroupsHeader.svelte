@@ -25,9 +25,10 @@
 	] as DesignSystemOverview
 
 	const activeGroupIndex: Readable<number> = getContext('activeGroupIndex')
-	$: activeGroup = $activeGroupIndex
-		? ($groupsStore[$activeGroupIndex] as Group)
-		: undefined
+	$: activeGroup =
+		$activeGroupIndex != -1
+			? ($groupsStore[$activeGroupIndex] as Group)
+			: undefined
 
 	const handleAddToken = (group: Group) => {
 		const tokenType: TokenType =
