@@ -10,6 +10,7 @@
 	import { createEventDispatcher } from 'svelte'
 	import { Input } from '$lib/components/ui/input'
 	import type { ColorTokenValue } from '$lib/features/token-management/color/types/internal-color-value.type'
+	import { Slider } from '$lib/components/ui/slider'
 
 	export let tokenValue: ColorTokenValue
 	export let tokenId: string
@@ -37,7 +38,9 @@
 				const newArgbColor = Color(value).rgbNumber()
 				const hct = Hct.fromInt(newArgbColor)
 
-				tokenValue = [hct.hue, hct.chroma, hct.tone]
+				hue[0] = hct.hue
+				chroma[0] =  hct.chroma
+				tone[0] = hct.tone
 				hex = target.value
 			} catch (error) {
 				hexInput.value = hex
@@ -56,6 +59,10 @@
 		hue[0],
 		chroma[0]
 	)
+
+	$: tokenValue[0] = hue[0]
+	$: tokenValue[1] = chroma[0]
+	$: tokenValue[2] = tone[0]
 </script>
 
 <div class="flex flex-1 flex-row items-center gap-10">
@@ -87,19 +94,19 @@
 					bind:value={hue[0]}
 				/>
 			</div>
-			<Range
-				disabled={viewMode}
+			<Slider
 				min={0}
 				max={360}
-				id={`${tokenId}-hue-range`}
+				id={`${tokenId}-hue[0]-range`}
 				background={hueBackground}
 				{...isAlias ? { disabled: true } : {}}
-				bind:value={hue[0]}
+				bind:value={hue}
 				on:change={(e) =>
 					dispatch('colorChange', {
 						valueChanged: 0,
 						value: e.detail.diff
 					})}
+				
 			/>
 		</div>
 		<div class="flex w-full max-w-[130px] flex-col gap-1">
@@ -113,14 +120,13 @@
 					bind:value={chroma[0]}
 				/>
 			</div>
-			<Range
-				disabled={viewMode}
+			<Slider
 				min={0}
 				max={100}
 				id={`${tokenId}-chroma-range`}
 				background={chromaBackground}
 				{...isAlias ? { disabled: true } : {}}
-				bind:value={chroma[0]}
+				bind:value={chroma}
 				on:change={(e) =>
 					dispatch('colorChange', {
 						valueChanged: 1,
@@ -139,14 +145,13 @@
 					bind:value={tone[0]}
 				/>
 			</div>
-			<Range
-				disabled={viewMode}
+			<Slider
 				min={0}
 				max={100}
 				id={`${tokenId}-tone-range`}
 				background={toneBackground}
 				{...isAlias ? { disabled: true } : {}}
-				bind:value={tone[0]}
+				bind:value={tone}
 				on:change={(e) =>
 					dispatch('colorChange', {
 						valueChanged: 2,
