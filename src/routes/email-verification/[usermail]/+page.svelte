@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms'
 	import * as Card from '$lib/components/ui/card'
-	import type { ActionData } from './$types'
+	import type { ActionData } from '../[usermail]/$types'
 
 	export let form: ActionData
 </script>

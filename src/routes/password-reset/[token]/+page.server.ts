@@ -8,12 +8,24 @@ import { findErrorByName } from '$lib/features/user-management/utils/findErrorBy
 import { isValidPasswordResetToken } from '$lib/features/user-management/tokens/isValidPasswordResetToken'
 import {
 	MAX_PASSWORD_SIZE,
-	MIN_PASSWORD_SIZE
+	MIN_PASSWORD_SIZE,
+	PASSWORD_NUMBER_MESSAGE,
+	PASSWORD_NUMBER,
+	PASSWORD_LOWERCASE,
+	PASSWORD_LOWERCASE_MESSAGE,
+	PASSWORD_UPPERCASE,
+	PASSWORD_UPPERCASE_MESSAGE
 } from '$lib/features/user-management/config/passwordValidators'
 MAX_PASSWORD_SIZE
 
 const signupSchema = z.object({
-	password: z.string().min(MIN_PASSWORD_SIZE).max(MAX_PASSWORD_SIZE)
+	password: z
+		.string()
+		.min(MIN_PASSWORD_SIZE)
+		.max(MAX_PASSWORD_SIZE)
+		.refine(PASSWORD_NUMBER, PASSWORD_NUMBER_MESSAGE)
+		.refine(PASSWORD_LOWERCASE, PASSWORD_LOWERCASE_MESSAGE)
+		.refine(PASSWORD_UPPERCASE, PASSWORD_UPPERCASE_MESSAGE)
 })
 
 export const load: PageServerLoad = async ({ params }) => {

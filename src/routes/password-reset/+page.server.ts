@@ -7,6 +7,7 @@ import { findErrorByName } from '$lib/features/user-management/utils/findErrorBy
 import { sendPasswordResetLink } from '$lib/features/user-management/emails/sendPasswordResetLink'
 import { generatePasswordResetToken } from '$lib/features/user-management/tokens/generatePasswordResetToken'
 import { getStoredUserByEmail } from '$lib/features/user-management/user/getStoredUserByEmail'
+import { getUserKeyProvider } from '$lib/features/user-management/user/getUserKeyProvider'
 
 const signupSchema = z.object({
 	email: z.string().email()
@@ -42,20 +43,25 @@ export const actions: Actions = {
 
 			if (!storedUser) {
 				return fail(400, {
-					message: 'User does not exist'
+					message: 'Email not registered'
 				})
-			}
+			} else {
+				const userKeyProvider = await getUserKeyProvider(storedUser.id, 'email')
 
-			const user = auth.transformDatabaseUser(storedUser)
-			const token = await generatePasswordResetToken(user.userId)
+				if (userKeyProvider) {
+					const user = auth.transformDatabaseUser(storedUser)
+					const token = await generatePasswordResetToken(user.userId)
 
-			await sendPasswordResetLink(token, {
-				username: user.username,
-				email: user.email
-			})
+					await sendPasswordResetLink(token, user.email)
 
-			return {
-				success: true
+					return {
+						success: true
+					}
+				} else {
+					return fail(400, {
+						message: 'Email not registered'
+					})
+				}
 			}
 		} catch (e) {
 			return fail(500, {

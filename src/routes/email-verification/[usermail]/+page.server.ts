@@ -1,8 +1,8 @@
 import { redirect, fail } from '@sveltejs/kit'
-import type { PageServerLoad, Actions } from '../$types'
+import type { PageServerLoad, Actions } from '../[usermail]/$types'
 import { sendEmailVerificationLink } from '$lib/features/user-management/emails/sendEmailVerificationLink'
 import { generateEmailVerificationToken } from '$lib/features/user-management/tokens/generateEmailVerificationToken'
-import { getStoredUserByUsername } from '$lib/features/user-management/user/getStoredUserByUsername'
+import { getStoredUserByEmail } from '$lib/features/user-management/user/getStoredUserByEmail'
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const session = await locals.auth.validate()
@@ -15,10 +15,10 @@ export const load: PageServerLoad = async ({ locals }) => {
 }
 
 export const actions: Actions = {
-	default: async ({ locals, params }) => {
-		const { username } = params
+	default: async ({ params }) => {
+		const { usermail } = params
 
-		const storedUser = await getStoredUserByUsername(username)
+		const storedUser = await getStoredUserByEmail(usermail)
 
 		if (!storedUser) {
 			return fail(400, {
@@ -32,10 +32,7 @@ export const actions: Actions = {
 
 		try {
 			const token = await generateEmailVerificationToken(storedUser.id)
-			await sendEmailVerificationLink(token, {
-				username: storedUser.username,
-				email: storedUser.email
-			})
+			await sendEmailVerificationLink(token, storedUser.email)
 
 			return {
 				success: true
