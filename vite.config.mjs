@@ -7,7 +7,7 @@ const config = {
 	resolve: {
 		alias: {
 			fs: 'memfs',
-			axios: 'isomorphic-fetch'
+			axios: '@haverstack/axios-fetch-adapter'
 		}
 	},
 	ssr: {

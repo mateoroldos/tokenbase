@@ -36,6 +36,9 @@ dependencies:
     version: 1.9.0(@sveltejs/kit@1.8.6)(svelte@4.2.0)(zod@3.20.2)
 
 devDependencies:
+  '@haverstack/axios-fetch-adapter':
+    specifier: ^0.8.0
+    version: 0.8.0(axios@0.21.4)
   '@iconify/svelte':
     specifier: ^3.1.3
     version: 3.1.3(svelte@4.2.0)
@@ -117,9 +120,6 @@ devDependencies:
   eslint-plugin-svelte3:
     specifier: ^4.0.0
     version: 4.0.0(eslint@8.33.0)(svelte@4.2.0)
-  isomorphic-fetch:
-    specifier: ^3.0.0
-    version: 3.0.0
   lucide-svelte:
     specifier: ^0.246.0
     version: 0.246.0(svelte@4.2.0)
@@ -704,6 +704,14 @@ packages:
 
   /@floating-ui/utils@0.1.1:
     resolution: {integrity: sha512-m0G6wlnhm/AX0H12IOWtK8gASEMffnX08RtKkCgTdHb9JpHKGloI7icFfLg9ZmQeavcvR0PKmzxClyuFPSjKWw==}
+    dev: true
+
+  /@haverstack/axios-fetch-adapter@0.8.0(axios@0.21.4):
+    resolution: {integrity: sha512-49/VcEVNusdkpaejbBx0EyESK2YR4L2oWfANp2FwYxJcE8gIfK86rcRhBt5RcGtZpTcfEwpflqyrT2S6yZnPDw==}
+    peerDependencies:
+      axios: ^0.21.1
+    dependencies:
+      axios: 0.21.4
     dev: true
 
   /@humanwhocodes/config-array@0.11.8:
@@ -1462,6 +1470,14 @@ packages:
   /available-typed-arrays@1.0.5:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==}
     engines: {node: '>= 0.4'}
+    dev: true
+
+  /axios@0.21.4:
+    resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
+    dependencies:
+      follow-redirects: 1.15.3
+    transitivePeerDependencies:
+      - debug
     dev: true
 
   /axios@0.26.1:
@@ -2841,7 +2857,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-    dev: false
 
   /for-each@0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -3275,15 +3290,6 @@ packages:
 
   /isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
-    dev: true
-
-  /isomorphic-fetch@3.0.0:
-    resolution: {integrity: sha512-qvUtwJ3j6qwsF3jLxkZ72qCgjMysPzDfeV240JHiGZsANBYd+EEuu35v7dfrJ9Up0Ak07D7GGSkGhCHTqg/5wA==}
-    dependencies:
-      node-fetch: 2.6.13
-      whatwg-fetch: 3.6.19
-    transitivePeerDependencies:
-      - encoding
     dev: true
 
   /isomorphic-timers-promises@1.0.1:
@@ -5306,10 +5312,6 @@ packages:
 
   /webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
-    dev: true
-
-  /whatwg-fetch@3.6.19:
-    resolution: {integrity: sha512-d67JP4dHSbm2TrpFj8AbO8DnL1JXL5J9u0Kq2xW6d0TFDbCA3Muhdt8orXC22utleTVj7Prqt82baN6RBvnEgw==}
     dev: true
 
   /whatwg-url@5.0.0:
