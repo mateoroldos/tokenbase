@@ -35,5 +35,6 @@ export const sendPasswordResetLink = async (token: string, email: string) => {
 			console.error(error)
 		})
 
+	// TODO: Delete this!
 	console.log(`Your password reset link: ${url}`)
 }
