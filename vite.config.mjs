@@ -7,7 +7,7 @@ const config = {
 	resolve: {
 		alias: {
 			fs: 'memfs',
-			axios: 'fetch'
+			axios: 'isomorphic-fetch'
 		}
 	},
 	ssr: {
