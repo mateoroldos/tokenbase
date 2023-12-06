@@ -52,26 +52,6 @@
 	<div class="form-control flex w-full max-w-xs flex-col gap-2 pt-4">
 		<!-- svelte-ignore a11y-label-has-associated-control -->
 		<label class="label">
-			<span class="label-text">Username</span>
-		</label>
-		<Input
-			type="text"
-			autocomplete="off"
-			placeholder="johndoe123"
-			class="input input-bordered w-full max-w-xs"
-			name="username"
-			required
-		/>
-		{#if form?.incorrect && form?.errors.usernameError !== null}
-			<DisplayErrorMessage errorMessage={form?.errors.usernameError[0]} />
-		{/if}
-		{#if form?.duplicatedUsername}
-			<DisplayErrorMessage errorMessage={'Username already exists'} />
-		{/if}
-	</div>
-	<div class="form-control flex w-full max-w-xs flex-col gap-2 pt-4">
-		<!-- svelte-ignore a11y-label-has-associated-control -->
-		<label class="label">
 			<span class="label-text">Password</span>
 		</label>
 		<div class="relative">

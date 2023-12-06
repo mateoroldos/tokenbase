@@ -7,7 +7,6 @@ import { LuciaError } from 'lucia'
 import { findErrorByName } from '$lib/features/user-management/utils/findErrorByName'
 import { sendEmailVerificationLink } from '$lib/features/user-management/emails/sendEmailVerificationLink'
 import { generateEmailVerificationToken } from '$lib/features/user-management/tokens/generateEmailVerificationToken'
-import { verifyUniqueUsername } from '$lib/features/user-management/user/verifyUniqueUsername'
 import {
 	MAX_PASSWORD_SIZE,
 	MIN_PASSWORD_SIZE,
@@ -20,14 +19,11 @@ import {
 	PASSWORD_UPPERCASE,
 	PASSWORD_UPPERCASE_MESSAGE
 } from '$lib/features/user-management/config/passwordValidators'
-import {
-	MAX_USERNAME_SIZE,
-	MIN_USERNAME_SIZE
-} from '$lib/features/user-management/config/usernameSize'
+import { getStoredUserByEmail } from '$lib/features/user-management/user/getStoredUserByEmail'
+import { getUserKeyProvider } from '$lib/features/user-management/user/getUserKeyProvider'
 
 const signupSchema = z
 	.object({
-		username: z.string().min(MIN_USERNAME_SIZE).max(MAX_USERNAME_SIZE),
 		password: z
 			.string()
 			.min(MIN_PASSWORD_SIZE)
@@ -56,7 +52,6 @@ export const actions = {
 		const form = await superValidate(request, signupSchema)
 
 		if (!form.valid) {
-			const usernameError = findErrorByName(form.errors, 'username')
 			const passwordError = findErrorByName(form.errors, 'password')
 			const passwordConfirmError = findErrorByName(
 				form.errors,
@@ -66,7 +61,6 @@ export const actions = {
 
 			return fail(400, {
 				errors: {
-					usernameError,
 					passwordError,
 					passwordConfirmError,
 					emailError
@@ -75,34 +69,54 @@ export const actions = {
 			})
 		}
 
-		const usernameExists = await verifyUniqueUsername(form.data.username)
-
-		if (usernameExists) {
-			return fail(400, {
-				duplicatedUsername: true
-			})
-		}
-
 		try {
-			const user = await auth.createUser({
-				key: {
-					providerId: 'email',
-					providerUserId: form.data.email.toLowerCase(),
-					password: form.data.password
-				},
-				attributes: {
-					username: form.data.username,
-					email: form.data.email.toLowerCase(),
-					email_verified: false
+			const userRegistered = await getStoredUserByEmail(form.data.email)
+
+			if (userRegistered) {
+				const userKeyProvider = await getUserKeyProvider(
+					userRegistered.id,
+					'github'
+				)
+
+				if (userKeyProvider) {
+					try {
+						const user = await auth.createKey({
+							userId: userRegistered.id,
+							providerId: 'email',
+							providerUserId: userRegistered.email,
+							password: form.data.password
+						})
+
+						const token = await generateEmailVerificationToken(user.userId)
+
+						await sendEmailVerificationLink(token, form.data.email)
+					} catch (error) {
+						return fail(400, {
+							duplicatedEmail: true
+						})
+					}
+				} else {
+					return fail(400, {
+						duplicatedEmail: true
+					})
 				}
-			})
+			} else {
+				const user = await auth.createUser({
+					key: {
+						providerId: 'email',
+						providerUserId: form.data.email.toLowerCase(),
+						password: form.data.password
+					},
+					attributes: {
+						email: form.data.email.toLowerCase(),
+						email_verified: false
+					}
+				})
 
-			const token = await generateEmailVerificationToken(user.userId)
+				const token = await generateEmailVerificationToken(user.userId)
 
-			await sendEmailVerificationLink(token, {
-				username: form.data.username,
-				email: form.data.email
-			})
+				await sendEmailVerificationLink(token, form.data.email)
+			}
 		} catch (e) {
 			let message
 
@@ -117,6 +131,6 @@ export const actions = {
 			}
 		}
 
-		throw redirect(302, `/email-verification/${form.data.username}`)
+		throw redirect(302, `/email-verification/${form.data.email}`)
 	}
 } satisfies Actions
