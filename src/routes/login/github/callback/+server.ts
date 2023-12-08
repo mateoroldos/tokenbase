@@ -2,7 +2,6 @@ import { auth, githubAuth } from '$lib/server/lucia.js'
 import { OAuthRequestError } from '@lucia-auth/oauth'
 import { handleRequest } from '$lib/features/user-management/utils/oauth'
 import { getStoredUserByEmail } from '$lib/features/user-management/user/getStoredUserByEmail.js'
-import { getUserKeyProvider } from '$lib/features/user-management/user/getUserKeyProvider.js'
 
 export const GET = async ({ url, cookies, locals }) => {
 	const session = await locals.auth.validate()
@@ -49,12 +48,9 @@ export const GET = async ({ url, cookies, locals }) => {
 			const existingUser = await getStoredUserByEmail(primaryEmail.email)
 
 			if (existingUser) {
-				const existingUserProvider = await getUserKeyProvider(
-					existingUser.id,
-					'github'
-				)
+				const userProviders = await auth.getAllUserKeys(existingUser.id)
 
-				if (existingUserProvider) {
+				if (userProviders.some((obj) => obj.providerId === 'github')) {
 					return {
 						userId: existingUser.id
 					}
@@ -79,7 +75,7 @@ export const GET = async ({ url, cookies, locals }) => {
 					},
 					attributes: {
 						email: primaryEmail.email,
-						email_verified: true
+						email_verified: false
 					}
 				})
 				return user

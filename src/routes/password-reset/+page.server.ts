@@ -7,7 +7,7 @@ import { findErrorByName } from '$lib/features/user-management/utils/findErrorBy
 import { sendPasswordResetLink } from '$lib/features/user-management/emails/sendPasswordResetLink'
 import { generatePasswordResetToken } from '$lib/features/user-management/tokens/generatePasswordResetToken'
 import { getStoredUserByEmail } from '$lib/features/user-management/user/getStoredUserByEmail'
-import { getUserKeyProvider } from '$lib/features/user-management/user/getUserKeyProvider'
+import { LuciaError } from 'lucia'
 
 const signupSchema = z.object({
 	email: z.string().email()
@@ -39,34 +39,36 @@ export const actions: Actions = {
 		}
 
 		try {
-			const storedUser = await getStoredUserByEmail(form.data.email)
+			const userKey = await auth.getKey('email', form.data.email)
 
-			if (!storedUser) {
+			const storedUser = await getStoredUserByEmail(userKey.providerUserId)
+
+			if (storedUser) {
+				const user = auth.transformDatabaseUser(storedUser)
+				const token = await generatePasswordResetToken(user.userId)
+
+				await sendPasswordResetLink(token, user.email)
+
+				return {
+					success: true
+				}
+			}
+		} catch (e) {
+			let message
+
+			if (e instanceof LuciaError) {
+				message = e.message
+			}
+
+			if (message === 'AUTH_INVALID_KEY_ID') {
 				return fail(400, {
 					message: 'Email not registered'
 				})
 			} else {
-				const userKeyProvider = await getUserKeyProvider(storedUser.id, 'email')
-
-				if (userKeyProvider) {
-					const user = auth.transformDatabaseUser(storedUser)
-					const token = await generatePasswordResetToken(user.userId)
-
-					await sendPasswordResetLink(token, user.email)
-
-					return {
-						success: true
-					}
-				} else {
-					return fail(400, {
-						message: 'Email not registered'
-					})
-				}
+				return fail(500, {
+					message: 'An unknown error occurred'
+				})
 			}
-		} catch (e) {
-			return fail(500, {
-				message: 'An unknown error occurred'
-			})
 		}
 	}
 }

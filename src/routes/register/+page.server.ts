@@ -20,7 +20,6 @@ import {
 	PASSWORD_UPPERCASE_MESSAGE
 } from '$lib/features/user-management/config/passwordValidators'
 import { getStoredUserByEmail } from '$lib/features/user-management/user/getStoredUserByEmail'
-import { getUserKeyProvider } from '$lib/features/user-management/user/getUserKeyProvider'
 
 const signupSchema = z
 	.object({
@@ -73,32 +72,23 @@ export const actions = {
 			const userRegistered = await getStoredUserByEmail(form.data.email)
 
 			if (userRegistered) {
-				const userKeyProvider = await getUserKeyProvider(
-					userRegistered.id,
-					'github'
-				)
+				const userProviders = await auth.getAllUserKeys(userRegistered.id)
 
-				if (userKeyProvider) {
-					try {
-						const user = await auth.createKey({
-							userId: userRegistered.id,
-							providerId: 'email',
-							providerUserId: userRegistered.email,
-							password: form.data.password
-						})
-
-						const token = await generateEmailVerificationToken(user.userId)
-
-						await sendEmailVerificationLink(token, form.data.email)
-					} catch (error) {
-						return fail(400, {
-							duplicatedEmail: true
-						})
-					}
-				} else {
+				if (userProviders.some((obj) => obj.providerId === 'email')) {
 					return fail(400, {
 						duplicatedEmail: true
 					})
+				} else {
+					const user = await auth.createKey({
+						userId: userRegistered.id,
+						providerId: 'email',
+						providerUserId: userRegistered.email,
+						password: form.data.password
+					})
+
+					const token = await generateEmailVerificationToken(user.userId)
+
+					await sendEmailVerificationLink(token, form.data.email)
 				}
 			} else {
 				const user = await auth.createUser({
