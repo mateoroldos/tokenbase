@@ -3,9 +3,7 @@
 	import { Github } from 'lucide-svelte'
 
 	const handleGithubLogin = async () => {
-		const github = await fetch(`/api/github`).then((res) => res.json())
-
-		window.location.href = github
+		window.location.href = '/login/github'
 	}
 </script>
 
