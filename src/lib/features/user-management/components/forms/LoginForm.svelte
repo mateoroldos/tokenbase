@@ -46,7 +46,7 @@
 			<DisplayErrorMessage errorMessage={form?.errors.emailError[0]} />
 		{/if}
 		{#if form?.emailError}
-			<DisplayErrorMessage errorMessage="Email is not registered " />
+			<DisplayErrorMessage errorMessage="Email is not registered" />
 		{/if}
 	</div>
 	<div class="form-control flex w-full max-w-xs flex-col gap-2 pb-3 pt-3">
@@ -65,11 +65,8 @@
 			/>
 			<PasswordVisibilityToggle {showPassword} {togglePasswordVisibility} />
 		</div>
-		{#if form?.incorrect && form?.errors.passwordError !== null}
-			<DisplayErrorMessage errorMessage={form?.errors.passwordError[0]} />
-		{/if}
-		{#if form?.passwordError}
-			<DisplayErrorMessage errorMessage="Invalid password" />
+		{#if (form?.incorrect && form?.errors.passwordError !== null) || form?.passwordError}
+			<DisplayErrorMessage errorMessage={'Invalid password'} />
 		{/if}
 		<a href="/password-reset">
 			<p class="pt-4 text-left">Forgot your password?</p>
