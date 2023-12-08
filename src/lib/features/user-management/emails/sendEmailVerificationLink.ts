@@ -1,8 +1,5 @@
 import { dev } from '$app/environment'
-import { env } from '$env/dynamic/private'
-import sgMail from '@sendgrid/mail'
-
-sgMail.setApiKey(env.SECRET_SENDGRID_API_KEY)
+import sendEmail from '$lib/services/email/email'
 
 export const sendEmailVerificationLink = async (
 	token: string,
@@ -19,24 +16,11 @@ export const sendEmailVerificationLink = async (
 		recipient = formData.email
 	}
 
-	const msg = {
-		to: recipient,
-		from: 'Tokenbase Team <hello@token-base.com>',
-		templateId: 'd-7ca589889fd24aa9a361c59de05be6d8',
-		dynamicTemplateData: {
-			username: formData.username,
-			url
-		}
-	}
-
-	sgMail
-		.send(msg)
-		.then(() => {
-			console.log(`Email sent`)
-		})
-		.catch((error) => {
-			console.error(error)
-		})
+	await sendEmail(
+		[recipient],
+		'Tokenbase Email Verification',
+		`Your email verification link: ${url}`
+	)
 
 	console.log(`Your email verification link: ${url}`)
 }
