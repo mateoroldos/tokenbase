@@ -1,26 +1,28 @@
 import { env } from '$env/dynamic/private'
-import { Resend } from 'resend'
 import { json } from '@sveltejs/kit'
-
-const resend = new Resend(env.SECRET_RESEND_API_KEY)
 
 export const POST = async ({ request }) => {
 	const body = await request.json()
 
-	console.log(body)
-
-	try {
-		const data = await resend.emails.send({
+	const res = await fetch('https://api.resend.com/emails', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${env.SECRET_RESEND_API_KEY}`
+		},
+		body: JSON.stringify({
 			from: 'Tokenbase <hello@token-base.com>',
 			to: body.email,
 			subject: body.subject,
 			text: body.html
 		})
+	})
 
-		console.log(data)
-
+	if (res.ok) {
+		const data = await res.json()
 		return json(data)
-	} catch (error) {
-		return json({ error })
+	} else {
+		console.error('Error sending email:', res.statusText)
+		return json({ error: 'Error sending email' })
 	}
 }
