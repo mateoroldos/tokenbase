@@ -1,8 +1,5 @@
 import { dev } from '$app/environment'
-import { env } from '$env/dynamic/private'
-import sgMail from '@sendgrid/mail'
-
-sgMail.setApiKey(env.SECRET_SENDGRID_API_KEY)
+import sendEmail from '$lib/services/email/email'
 
 export const sendPasswordResetLink = async (token: string, email: string) => {
 	let url: string
@@ -16,24 +13,11 @@ export const sendPasswordResetLink = async (token: string, email: string) => {
 		recipient = email
 	}
 
-	const msg = {
-		to: recipient,
-		from: 'Tokenbase Team <hello@token-base.com>',
-		templateId: 'd-46398bff7adb41f0a7ddcf4cfd6a53ed',
-		dynamicTemplateData: {
-			username: email,
-			url
-		}
-	}
-
-	sgMail
-		.send(msg)
-		.then(() => {
-			console.log(`Email sent`)
-		})
-		.catch((error) => {
-			console.error(error)
-		})
+	await sendEmail(
+		[recipient],
+		'Tokenbase Email Verification',
+		`Your password reset link: ${url}`
+	)
 
 	console.log(`Your password reset link: ${url}`)
 }
