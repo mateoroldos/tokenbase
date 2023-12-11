@@ -1,5 +1,5 @@
 import { dev } from '$app/environment'
-import sendEmail from '$lib/services/email/email'
+import sendEmail from '$lib/services/email/sendEmail'
 
 export const sendEmailVerificationLink = async (
 	token: string,
@@ -16,11 +16,11 @@ export const sendEmailVerificationLink = async (
 		recipient = email
 	}
 
+	console.log('bala')
+
 	await sendEmail(
 		[recipient],
 		'Tokenbase Email Verification',
 		`Your email verification link: ${url}`
 	)
-
-	console.log(`Your email verification link: ${url}`)
 }

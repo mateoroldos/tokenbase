@@ -6,7 +6,9 @@
 	export let form: ActionData
 </script>
 
-<section class="flex flex-1 items-center justify-center bg-slate-50 p-20">
+<section
+	class="flex flex-1 flex-col gap-10 items-center justify-center bg-slate-50 p-20"
+>
 	<Card.Root class="shadow-m mx-auto flex flex-col border-slate-200">
 		<Card.Header>
 			<img

@@ -1,8 +1,8 @@
 import { redirect, fail } from '@sveltejs/kit'
-import type { PageServerLoad, Actions } from '../[usermail]/$types'
-import { sendEmailVerificationLink } from '$lib/features/user-management/emails/sendEmailVerificationLink'
+import type { PageServerLoad, Actions } from './$types'
+import { sendEmailVerificationLink } from '$lib/features/user-management/mails/sendEmailVerificationLink'
 import { generateEmailVerificationToken } from '$lib/features/user-management/tokens/generateEmailVerificationToken'
-import { getStoredUserByEmail } from '$lib/features/user-management/user/getStoredUserByEmail'
+import { getUserByEmail } from '$lib/features/user-management/queries/getUserByEmail'
 import { auth } from '$lib/server/lucia'
 import { LuciaError } from 'lucia'
 
@@ -24,7 +24,7 @@ export const actions: Actions = {
 		try {
 			const userKey = await auth.getKey('email', usermail)
 
-			const storedUser = await getStoredUserByEmail(userKey.providerUserId)
+			const storedUser = await getUserByEmail(userKey.providerUserId)
 
 			if (storedUser) {
 				if (storedUser.email_verified) {

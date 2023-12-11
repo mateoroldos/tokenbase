@@ -2,20 +2,12 @@ import type { Actions } from '@sveltejs/kit'
 import { auth } from '$lib/server/lucia'
 import { fail, redirect } from '@sveltejs/kit'
 import type { PageServerLoad } from './$types'
-import { z } from 'zod'
 import { superValidate } from 'sveltekit-superforms/server'
 import { LuciaError } from 'lucia'
 import { findErrorByName } from '$lib/features/user-management/utils/findErrorByName'
-import {
-	MAX_PASSWORD_SIZE,
-	MIN_PASSWORD_SIZE,
-	PASSWORD_LOWERCASE,
-	PASSWORD_LOWERCASE_MESSAGE,
-	PASSWORD_NUMBER,
-	PASSWORD_NUMBER_MESSAGE,
-	PASSWORD_UPPERCASE,
-	PASSWORD_UPPERCASE_MESSAGE
-} from '$lib/features/user-management/config/passwordValidators'
+import { loginSchema } from './validationSchema'
+import { generateEmailVerificationToken } from '$lib/features/user-management/tokens/generateEmailVerificationToken'
+import { sendEmailVerificationLink } from '$lib/features/user-management/mails/sendEmailVerificationLink'
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const session = await locals.auth.validate()
@@ -25,17 +17,6 @@ export const load: PageServerLoad = async ({ locals }) => {
 	}
 	return {}
 }
-
-const loginSchema = z.object({
-	email: z.string().email(),
-	password: z
-		.string()
-		.min(MIN_PASSWORD_SIZE)
-		.max(MAX_PASSWORD_SIZE)
-		.refine(PASSWORD_UPPERCASE, PASSWORD_UPPERCASE_MESSAGE)
-		.refine(PASSWORD_LOWERCASE, PASSWORD_LOWERCASE_MESSAGE)
-		.refine(PASSWORD_NUMBER, PASSWORD_NUMBER_MESSAGE)
-})
 
 export const actions = {
 	login: async ({ request, locals }) => {
@@ -54,18 +35,28 @@ export const actions = {
 			})
 		}
 
+		let emailVerified: boolean
+
 		try {
 			const key = await auth.useKey(
 				'email',
 				form.data.email.toLowerCase(),
 				form.data.password
 			)
+			const user = await auth.getUser(key.userId)
 
-			const session = await auth.createSession({
-				userId: key.userId,
-				attributes: {}
-			})
-			locals.auth.setSession(session)
+			emailVerified = user.emailVerified
+
+			if (emailVerified) {
+				const session = await auth.createSession({
+					userId: key.userId,
+					attributes: {}
+				})
+				locals.auth.setSession(session)
+			} else {
+				const token = await generateEmailVerificationToken(user.userId)
+				await sendEmailVerificationLink(token, form.data.email)
+			}
 		} catch (e) {
 			let message
 
@@ -86,6 +77,10 @@ export const actions = {
 			return fail(500, {
 				message: 'An unknown error occurred'
 			})
+		}
+
+		if (!emailVerified) {
+			throw redirect(303, `/email-verification/${form.data.email}`)
 		}
 
 		throw redirect(303, '/')

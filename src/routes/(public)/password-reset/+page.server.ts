@@ -4,9 +4,9 @@ import type { Actions, PageServerLoad } from './$types'
 import { z } from 'zod'
 import { superValidate } from 'sveltekit-superforms/server'
 import { findErrorByName } from '$lib/features/user-management/utils/findErrorByName'
-import { sendPasswordResetLink } from '$lib/features/user-management/emails/sendPasswordResetLink'
+import { sendPasswordResetLink } from '$lib/features/user-management/mails/sendPasswordResetLink'
 import { generatePasswordResetToken } from '$lib/features/user-management/tokens/generatePasswordResetToken'
-import { getStoredUserByEmail } from '$lib/features/user-management/user/getStoredUserByEmail'
+import { getUserByEmail } from '$lib/features/user-management/queries/getUserByEmail'
 import { LuciaError } from 'lucia'
 
 const signupSchema = z.object({
@@ -41,13 +41,13 @@ export const actions: Actions = {
 		try {
 			const userKey = await auth.getKey('email', form.data.email)
 
-			const storedUser = await getStoredUserByEmail(userKey.providerUserId)
+			const storedUser = await getUserByEmail(userKey.providerUserId)
 
 			if (storedUser) {
 				const user = auth.transformDatabaseUser(storedUser)
 				const token = await generatePasswordResetToken(user.userId)
 
-				await sendPasswordResetLink(token, user.email)
+				const mail = await sendPasswordResetLink(token, user.email)
 
 				return {
 					success: true

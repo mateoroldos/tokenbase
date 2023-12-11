@@ -1,5 +1,5 @@
 import { dev } from '$app/environment'
-import sendEmail from '$lib/services/email/email'
+import sendEmail from '$lib/services/email/sendEmail'
 
 export const sendPasswordResetLink = async (token: string, email: string) => {
 	let url: string
@@ -18,6 +18,4 @@ export const sendPasswordResetLink = async (token: string, email: string) => {
 		'Tokenbase Email Verification',
 		`Your password reset link: ${url}`
 	)
-
-	console.log(`Your password reset link: ${url}`)
 }

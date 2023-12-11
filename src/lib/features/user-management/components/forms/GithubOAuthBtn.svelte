@@ -2,7 +2,7 @@
 	import Button from '$lib/components/ui/button/Button.svelte'
 	import { Github } from 'lucide-svelte'
 
-	const handleGithubLogin = async () => {
+	const handleGithubLogin = () => {
 		window.location.href = '/login/github'
 	}
 </script>
