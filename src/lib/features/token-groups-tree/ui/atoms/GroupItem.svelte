@@ -3,19 +3,29 @@
 	import { getContext, onMount } from 'svelte'
 	import type { GroupsTree } from '../../types/groups-tree'
 	import { ChevronRight, Trash, Plus, MoreHorizontal } from 'lucide-svelte'
+	import groupsStore from '$lib/features/token-groups-store/groupsStore'
+	import type { Readable, Writable } from 'svelte/store'
 	import { page } from '$app/stores'
-	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
-	import * as DropdownMenu from '$lib/components/ui/dropdown-menu'
+	import CommandsDropdown from '$lib/components/CommandsDropdown.svelte'
+	import { v4 as uuidv4 } from 'uuid'
 
 	export let node: GroupsTree
 	export let nestNumber: number = 0
+	export let previewStore: null | Writable<{
+		activeGroupId: string
+	}> = null
+	export let viewMode = false
 
-	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
-		getContext('designTokensGroupStore')
+	$: activeGroupId =
+		$previewStore !== null && $previewStore !== undefined
+			? $previewStore.activeGroupId
+			: $page.params.groupId
 
-	$: groupId = $page.params.groupId as string
+	const activeDesignSystemId: Readable<string> = getContext(
+		'activeDesignSystemId'
+	)
 
-	$: isActive = groupId === node.group?.id
+	$: isActive = activeGroupId === node.group?.id
 
 	let isOpen = false
 	let hover = false
@@ -40,41 +50,50 @@
 	})
 
 	const handleAddNewGroup = () => {
-		designTokensGroupStore.addGroup('', undefined, node.group?.id)
+		const id = uuidv4()
 
-		goto(
-			`/${$page.params.designSystemId}/${
-				$designTokensGroupStore[$designTokensGroupStore.length - 1]!.id
-			}`
-		)
-		openToggle()
+		groupsStore.addGroup('', node.group?.id, id)
+
+		setTimeout(() => {
+			goto(`/${$activeDesignSystemId}/${id}`)
+			openToggle()
+		}, 100)
 	}
 
 	const handleDeleteGroup = async () => {
-		await goto(`/${$page.params.designSystemId}`)
-		designTokensGroupStore.deleteGroup(node.group?.id)
+		await goto(`/${$activeDesignSystemId}`)
+		groupsStore.deleteGroup(node.group?.id as string)
 	}
 
-	let customMenuItems = [
-		{ title: 'Add a group', component: Plus, test: handleAddNewGroup },
-		{ title: 'Delete a group', component: Trash, test: handleDeleteGroup }
+	const handleChangeGroup = () => {
+		if ($previewStore) {
+			$previewStore.activeGroupId = node.group?.id as string
+		} else {
+			goto(`/${$activeDesignSystemId}/${node.group?.id}`)
+		}
+	}
+
+	let commands = [
+		{ title: 'Add a group', component: Plus, function: handleAddNewGroup },
+		{ title: 'Delete a group', component: Trash, function: handleDeleteGroup }
 	]
 
 	let open: boolean
 
-	$: showButtons = hover || open
+	$: showButtons = (hover || open) && !viewMode
 
 	$: padding = `${nestNumber * 15}px`
 </script>
 
 <div>
-	<a
+	<div
 		class={`flex flex-row items-center justify-between rounded-md px-1 py-1 text-slate-400 transition-all hover:bg-slate-100`}
 		on:mouseenter={() => (hover = true)}
 		on:mouseleave={() => (hover = false)}
+		on:click={handleChangeGroup}
+		on:keydown={handleChangeGroup}
 		role="button"
 		tabindex="0"
-		href={`/${$page.params.designSystemId}/${node.group?.id}`}
 		style={nestNumber > 0 ? `padding-left: ${padding}` : ''}
 	>
 		<div class="flex flex-row items-center gap-1">
@@ -99,48 +118,32 @@
 		</div>
 		<div class="flex flex-row">
 			{#if showButtons}
-				<DropdownMenu.Root bind:open>
-					<DropdownMenu.Trigger
-						let:builder
-						class="rounded-sm p-[2px] hover:bg-slate-200"
-						><MoreHorizontal class="h-4 w-4" />
-					</DropdownMenu.Trigger>
-					<DropdownMenu.Content>
-						<DropdownMenu.Group>
-							<DropdownMenu.Label>Actions</DropdownMenu.Label>
-							<DropdownMenu.Separator />
-							{#each customMenuItems as customItem}
-								<DropdownMenu.Item>
-									<button
-										class="flex flex-row gap-2"
-										on:click={customItem.test}
-									>
-										<svelte:component
-											this={customItem.component}
-											class="h-3 w-3 self-center"
-										/><span class="self-center">{customItem.title}</span>
-									</button>
-								</DropdownMenu.Item>
-							{/each}
-						</DropdownMenu.Group>
-					</DropdownMenu.Content>
-				</DropdownMenu.Root>
+				<CommandsDropdown {commands} bind:open>
+					<MoreHorizontal
+						class="h-4 w-4 rounded-sm p-[1px] hover:bg-slate-200"
+					/>
+				</CommandsDropdown>
 			{/if}
 			{#if showButtons}
 				<button
 					on:click|preventDefault={handleAddNewGroup}
-					class="rounded-sm p-[2px] hover:bg-slate-200"
+					class="rounded-sm p-[1px] hover:bg-slate-200"
 				>
 					<Plus class="h-4 w-4" />
 				</button>
 			{/if}
 		</div>
-	</a>
+	</div>
 	{#if isOpen}
 		<div>
 			{#if node.children.length > 0}
 				{#each node.children as childNode}
-					<svelte:self node={childNode} nestNumber={nestNumber + 1} />
+					<svelte:self
+						node={childNode}
+						nestNumber={nestNumber + 1}
+						{previewStore}
+						{viewMode}
+					/>
 				{/each}
 			{:else}
 				<span class="text-xs text-slate-400" style={`padding-left: ${padding}`}

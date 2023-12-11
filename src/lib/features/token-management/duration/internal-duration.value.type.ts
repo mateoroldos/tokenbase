@@ -1,1 +1,0 @@
-export type DurationTokenValue = number

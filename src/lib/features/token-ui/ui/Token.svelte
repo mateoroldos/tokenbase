@@ -1,60 +1,138 @@
 <script lang="ts">
-	import type { IToken } from '$lib/features/token-groups-store/types/token-interface'
-	import BaseToken from './base-token/BaseToken.svelte'
-	import ColorToken from './token-types/ColorToken/ColorToken.svelte'
-	import CubicBezierToken from './token-types/CubicBezierToken.svelte'
-	import DimensionToken from './token-types/DimensionToken.svelte'
-	import DurationToken from './token-types/DurationToken.svelte'
-	import FontFamilyToken from './token-types/FontFamilyToken.svelte'
-	import NumberToken from './token-types/NumberToken.svelte'
-	import FontWeight from './token-types/FontWeight.svelte'
-	import { getContext } from 'svelte'
-	import findTokenById from '$lib/utils/findTokenById'
-	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import type { GroupsStore } from '$lib/features/token-groups-store/groupsStore'
+	import { findTokenByGroupIdAndTokenId } from '$lib/utils/findTokenByGroupIdAndTokenId'
+	import * as Token from './index'
+	import {
+		checkIfValueIsAlias,
+		type AliasValue
+	} from '$lib/features/aliases/utils/checkIfValueIsAlias'
+	import type {
+		IToken,
+		TokenValue
+	} from '$lib/features/token-groups-store/types/token.interface'
+	import { deepResolveAliasIds } from '$lib/features/aliases/utils/deepResolveAliasIds'
+	import type { Readable } from 'svelte/store'
+	import type { Group } from '$lib/features/token-groups-store/types/group.interface.js'
+	import checkTokenType from '$lib/features/token-management/utils/checkTokenType'
+	import type { SelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
+	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
+	import type { PreviewStore } from '$lib/features/preview-template-modal/types/preview-store.type'
 
 	export let token: IToken
-	export let draggedTokenId: string | null
+	// export let draggedTokenId: string | null
+	export let activeThemeId: string
+	export let groupsStore: GroupsStore | Readable<Group[]>
+	export let viewMode = false
+	export let selectedTokensStore: SelectedTokensStore | null = null
+	export let themes: Theme[]
+	export let aliasDependencies: string[][]
+	export let activeGroupId: string
+	export let previewStore: PreviewStore | null = null
 
-	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
-		getContext('designTokensGroupStore')
+	let isAlias: boolean
+	let deepAliasToken: IToken | null
 
-	// This function gets the alias value and type and assigns it to the token
-	const connectTokenToAliasValues = () => {
-		if (token.alias) {
-			const aliasOriginToken = findTokenById(
-				token.alias.tokenId,
-				$designTokensGroupStore
-			)
+	$: isAlias = checkIfValueIsAlias(token.value[activeThemeId] as TokenValue)
 
-			if (aliasOriginToken) {
-				token = {
-					...token,
-					type: aliasOriginToken.type,
-					value: aliasOriginToken.value
-				}
-			}
-		}
+	$: deepAliasIds = isAlias
+		? deepResolveAliasIds(
+				(token.value[activeThemeId] as AliasValue).groupId,
+				(token.value[activeThemeId] as AliasValue).tokenId,
+				$groupsStore,
+				activeThemeId
+		  )
+		: null
+
+	$: deepAliasToken =
+		isAlias && deepAliasIds
+			? findTokenByGroupIdAndTokenId(
+					deepAliasIds.groupId,
+					deepAliasIds.tokenId,
+					$groupsStore
+			  )
+			: null
+
+	$: dynamicToken = isAlias ? (deepAliasToken as IToken) : token
+
+	$: if (checkIfValueIsAlias(token.value[activeThemeId] as TokenValue)) {
+		isAlias = true
+		reassignTokenType()
+	} else {
+		isAlias = false
 	}
 
-	$: if (token.alias !== undefined) {
-		connectTokenToAliasValues()
+	const reassignTokenType = () => {
+		if (deepAliasToken) token.type = deepAliasToken.type
 	}
+
+	$: isTokenValueValid = checkTokenType(
+		dynamicToken.value[activeThemeId],
+		token.type
+	)
 </script>
 
-<BaseToken bind:token bind:draggedTokenId on:dragstart on:dragenter on:dragend>
-	{#if token.type === 'color'}
-		<ColorToken bind:token on:colorChange />
-	{:else if token.type === 'fontFamily'}
-		<FontFamilyToken bind:token />
-	{:else if token.type === 'dimension'}
-		<DimensionToken bind:token />
-	{:else if token.type === 'duration'}
-		<DurationToken bind:token />
-	{:else if token.type === 'number'}
-		<NumberToken bind:token />
-	{:else if token.type === 'fontWeight'}
-		<FontWeight bind:token />
-	{:else if token.type === 'cubicBezier'}
-		<CubicBezierToken bind:token />
+<Token.Base
+	bind:token
+	on:dragstart
+	on:dragenter
+	on:dragend
+	{previewStore}
+	{isAlias}
+	{activeThemeId}
+	{viewMode}
+	{selectedTokensStore}
+	{themes}
+	{aliasDependencies}
+	{groupsStore}
+	{activeGroupId}
+>
+	{#if dynamicToken && isTokenValueValid}
+		{#if token.type === 'color'}
+			<Token.Color
+				bind:tokenValue={dynamicToken.value[activeThemeId]}
+				on:colorChange
+				{isAlias}
+				{viewMode}
+				tokenId={token.id}
+			/>
+		{:else if token.type === 'dimension'}
+			<Token.Dimension
+				bind:tokenValue={dynamicToken.value[activeThemeId]}
+				{isAlias}
+				{viewMode}
+			/>
+		{:else if token.type === 'fontFamily'}
+			{#key activeThemeId}
+				<Token.FontFamily
+					bind:tokenValue={dynamicToken.value[activeThemeId]}
+					{isAlias}
+					{viewMode}
+				/>
+			{/key}
+		{:else if token.type === 'duration'}
+			<Token.Duration
+				bind:tokenValue={dynamicToken.value[activeThemeId]}
+				{isAlias}
+				{viewMode}
+			/>
+		{:else if token.type === 'number'}
+			<Token.Number
+				bind:tokenValue={dynamicToken.value[activeThemeId]}
+				{isAlias}
+				{viewMode}
+			/>
+		{:else if token.type === 'fontWeight'}
+			<Token.FontWeight
+				bind:tokenValue={dynamicToken.value[activeThemeId]}
+				{isAlias}
+				{viewMode}
+			/>
+		{:else if token.type === 'cubicBezier'}
+			<Token.CubicBezier
+				bind:tokenValue={dynamicToken.value[activeThemeId]}
+				{isAlias}
+				{viewMode}
+			/>
+		{/if}
 	{/if}
-</BaseToken>
+</Token.Base>

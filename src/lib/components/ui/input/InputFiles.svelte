@@ -3,7 +3,8 @@
 	import { cn } from '$lib/utils'
 
 	let className: string | undefined | null = undefined
-	export let files: File | null = null
+	export let files: FileList | null = null
+	export let accept = 'all'
 
 	export { className as class }
 </script>
@@ -27,5 +28,6 @@
 	on:mouseleave
 	on:paste
 	on:input
+	{accept}
 	{...$$restProps}
 />

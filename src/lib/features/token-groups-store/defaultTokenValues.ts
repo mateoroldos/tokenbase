@@ -1,4 +1,4 @@
-import type { TokenType, TokenValue } from './types/token-interface'
+import type { TokenType, TokenValue } from './types/token.interface'
 
 type DefaultTokenValues = {
 	[key in TokenType]: TokenValue<key>

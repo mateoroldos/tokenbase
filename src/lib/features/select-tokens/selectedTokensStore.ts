@@ -1,5 +1,4 @@
 import { writable } from 'svelte/store'
-import type { IToken } from '../token-groups-store/types/token-interface'
 
 export const createSelectedTokensStore = () => {
 	const { subscribe, update, set } = writable<string[]>([])
@@ -41,3 +40,5 @@ export const createSelectedTokensStore = () => {
 		clearTokens
 	}
 }
+
+export type SelectedTokensStore = ReturnType<typeof createSelectedTokensStore>

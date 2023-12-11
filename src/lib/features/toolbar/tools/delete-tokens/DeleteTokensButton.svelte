@@ -2,13 +2,12 @@
 	import { Trash } from 'lucide-svelte'
 	import ToolbarButton from '../../ui/atoms/ToolbarButton.svelte'
 	import { getContext } from 'svelte'
-	import type { createSelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
-	import type { createGroupsStore } from '$lib/features/token-groups-store/groups'
+	import type { SelectedTokensStore } from '$lib/features/select-tokens/selectedTokensStore'
+	import groupsStore from '$lib/features/token-groups-store/groupsStore'
 
-	const designTokensGroupStore: ReturnType<typeof createGroupsStore> =
-		getContext('designTokensGroupStore')
-	const selectedTokensStore: ReturnType<typeof createSelectedTokensStore> =
-		getContext('selectedTokensStore')
+	const selectedTokensStore: SelectedTokensStore = getContext(
+		'selectedTokensStore'
+	)
 
 	const handleDeleteTokens = () => {
 		let tokensToDelete = [...$selectedTokensStore]
@@ -17,7 +16,7 @@
 			const tokenId = tokensToDelete[i]
 
 			if (tokenId) {
-				designTokensGroupStore.deleteToken(tokenId)
+				groupsStore.deleteToken(tokenId)
 			}
 		}
 
