@@ -66,10 +66,12 @@
 	},
 	"dependencies": {
 		"@lucia-auth/adapter-mysql": "^2.1.0",
+		"@lucia-auth/oauth": "^3.5.0",
 		"@lucia-auth/sveltekit": "^0.6.11",
 		"@planetscale/database": "^1.11.0",
 		"dotenv": "^16.3.1",
 		"drizzle-orm": "^0.28.6",
+		"formsnap": "^0.4.1",
 		"lucia": "^2.7.2",
 		"lucia-auth": "^1.8.0",
 		"sd-tailwindcss-transformer": "^1.4.0",

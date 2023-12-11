@@ -1,24 +1,39 @@
-/* eslint-disable no-var */
-// See https://kit.svelte.dev/docs/types#app
-// for information about these interfaces
 /// <reference types="@sveltejs/kit" />
-
-declare namespace App {
-	// interface Error {}
-	interface Locals {
-		auth: import('lucia').AuthRequest
-	}
-	// interface PageData {}
-	// interface Platform {}
-}
-
+/// <reference types="svelte" />
+/// <reference types="vite/client" />
 /// <reference types="lucia" />
-declare namespace Lucia {
-	type Auth = import('$lib/server/lucia').Auth
-	type DatabaseUserAttributes = {
-		username: string
-		email: string
-		email_verified: boolean
+
+import type { AuthRequest } from 'lucia'
+
+declare global {
+	namespace Lucia {
+		type Auth = import('$lib/server/lucia').Auth
+		type DatabaseUserAttributes = {
+			email: string
+			email_verified: boolean
+		}
+		type DatabaseSessionAttributes = {}
 	}
-	type DatabaseSessionAttributes = Record<string, never>
+
+	namespace App {
+		interface Locals {
+			auth: AuthRequest
+		}
+
+		interface PageData {}
+
+		interface Platform {}
+
+		namespace Superforms {
+			type Message = {
+				type: 'error' | 'success'
+				text: string
+			}
+		}
+	}
+
+	interface Window {}
 }
+
+// THIS IS IMPORTANT!!!
+export {}

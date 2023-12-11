@@ -1,0 +1,1 @@
+ALTER TABLE `user_key` ADD `primary` boolean NOT NULL;
