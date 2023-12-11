@@ -3,7 +3,7 @@
 	import designSystemsOverviewsStore from '$lib/features/token-groups-store/designSystemsOverviewsStore'
 	import { getContext } from 'svelte'
 	import type { Readable } from 'svelte/store'
-	import DesignSystemHeader from './_components/design-system-header/DesignSystemHeader.svelte'
+	import DesignSystemHeader from '../../[designSystemId]/_components/design-system-header/DesignSystemHeader.svelte'
 
 	const activeDesignSystemIndex: Readable<number> = getContext(
 		'activeDesignSystemIndex'
