@@ -10,7 +10,7 @@ import {
 	PASSWORD_UPPERCASE_MESSAGE
 } from '$lib/features/auth/config/passwordValidators'
 
-export const formSchema = z.object({
+export const formSchemaServer = z.object({
 	email: z.string().email(),
 	password: z
 		.string()
@@ -21,4 +21,10 @@ export const formSchema = z.object({
 		.refine(PASSWORD_NUMBER, PASSWORD_NUMBER_MESSAGE)
 })
 
-export type FormSchema = typeof formSchema
+export const formSchemaClient = z.object({
+	email: z.string().email(),
+	password: z.string()
+})
+
+export type FormSchemaServer = typeof formSchemaServer
+export type FormSchemaClient = typeof formSchemaClient

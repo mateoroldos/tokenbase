@@ -10,12 +10,7 @@
 </script>
 
 <div class="relative">
-	<FormInput
-		{type}
-		required
-		maxlength={MAX_PASSWORD_SIZE}
-		minlength={MIN_PASSWORD_SIZE}
-	/>
+	<FormInput {type} required />
 	{#if type === 'password'}
 		<div
 			class="absolute right-0 top-0 h-full w-10 flex items-center justify-center cursor-pointer"

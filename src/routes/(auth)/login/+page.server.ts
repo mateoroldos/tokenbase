@@ -1,9 +1,9 @@
 import { auth } from '$lib/server/lucia'
-import { fail, redirect } from '@sveltejs/kit'
+import { redirect } from '@sveltejs/kit'
 import { message, superValidate } from 'sveltekit-superforms/server'
 import { generateEmailVerificationToken } from '$lib/features/auth/tokens/generate/generateEmailVerificationToken'
 import { sendEmailVerificationLink } from '$lib/features/auth/mails/sendEmailVerificationLink'
-import { formSchema } from './schema'
+import { formSchemaServer } from './schema'
 import type { PageServerLoad, Actions } from './$types'
 
 export const load: PageServerLoad = async ({ locals }) => {
@@ -14,21 +14,23 @@ export const load: PageServerLoad = async ({ locals }) => {
 	}
 
 	return {
-		form: await superValidate(formSchema)
+		form: await superValidate(formSchemaServer)
 	}
 }
 
 export const actions: Actions = {
 	default: async (event) => {
-		const form = await superValidate(event, formSchema)
+		const form = await superValidate(event, formSchemaServer)
 
 		if (!form.valid) {
-			return fail(400, {
-				form
-			})
+			return message(
+				form,
+				{ type: 'error', text: 'Incorrect credentials' },
+				{
+					status: 403
+				}
+			)
 		}
-
-		console.log(event)
 
 		let emailVerified: boolean
 

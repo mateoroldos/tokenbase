@@ -1,12 +1,12 @@
 <script lang="ts">
 	import * as Form from '$lib/components/ui/form'
-	import { formSchema, type FormSchema } from './schema'
+	import { formSchemaClient, type FormSchemaClient } from './schema'
 	import type { SuperValidated } from 'sveltekit-superforms'
 
-	export let form: SuperValidated<FormSchema>
+	export let form: SuperValidated<FormSchemaClient>
 </script>
 
-<Form.Root method="POST" {form} schema={formSchema} let:config>
+<Form.Root method="POST" {form} schema={formSchemaClient} let:config>
 	<Form.Container>
 		<Form.Fields>
 			<Form.Field {config} name="email">
@@ -20,7 +20,6 @@
 				<Form.Item>
 					<Form.Label>Password</Form.Label>
 					<Form.InputPassword />
-					<Form.Validation />
 					<a
 						href="/password-reset"
 						class="text-xs text-blue-600 hover:text-blue-800"
