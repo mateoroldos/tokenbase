@@ -33,9 +33,6 @@ export const GET = async ({ url, cookies, locals }) => {
 			const existingUser = await getExistingUser()
 			if (existingUser) return existingUser
 
-			console.log('githubTokens', githubTokens)
-			console.log(existingUser)
-
 			const githubUserEmails = await getGithubUserEmails(
 				githubTokens.accessToken
 			)
@@ -46,15 +43,8 @@ export const GET = async ({ url, cookies, locals }) => {
 				throw new Error('No verified email found')
 			}
 
-			console.log('primaryEmail', primaryEmail)
-
 			const existingDatabaseUserWithEmail = await getUserByEmail(
 				primaryEmail.email
-			)
-
-			console.log(
-				'existingDatabaseUserWithEmail',
-				existingDatabaseUserWithEmail
 			)
 
 			if (existingDatabaseUserWithEmail) {
@@ -74,7 +64,6 @@ export const GET = async ({ url, cookies, locals }) => {
 		}
 
 		const user = await getUser()
-		console.log('user', user)
 
 		if (!user) {
 			return new Response(null, {
