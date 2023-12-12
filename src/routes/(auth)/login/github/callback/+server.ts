@@ -42,10 +42,13 @@ export const GET = async ({ url, cookies, locals }) => {
 			const githubUserEmails = await getGithubUserEmails(
 				githubTokens.accessToken
 			)
+			console.log('githubUserEmails', githubUserEmails)
+
 			const primaryEmail = githubUserEmails.find(
 				(email) => email.verified && email.primary
 			)
 			if (!primaryEmail) {
+				console.log('no primary email')
 				throw new Error('No verified email found')
 			}
 
