@@ -16,6 +16,13 @@
 					<Form.Validation />
 				</Form.Item>
 			</Form.Field>
+			<Form.Field {config} name="confirmPassword">
+				<Form.Item>
+					<Form.Label>Confirm password</Form.Label>
+					<Form.InputPassword />
+					<Form.Validation />
+				</Form.Item>
+			</Form.Field>
 		</Form.Fields>
 		<Form.Message />
 		<Form.Button submitting={config.form.submitting}>Reset password</Form.Button
