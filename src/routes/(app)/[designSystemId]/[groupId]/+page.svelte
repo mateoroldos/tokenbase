@@ -11,7 +11,7 @@
 	import EmptyGroupPage from '$lib/components/empty-state-pages/EmptyGroupPage.svelte'
 	import Token from '$lib/features/token-ui/ui/Token.svelte'
 	import type { IToken } from '$lib/features/token-groups-store/types/token.interface'
-	import GroupsHeader from '../../../[designSystemId]/[groupId]/_components/groups-header/GroupsHeader.svelte'
+	import GroupsHeader from './_components/groups-header/GroupsHeader.svelte'
 
 	const activeDesignSystemIndex: Readable<number> = getContext(
 		'activeDesignSystemIndex'
