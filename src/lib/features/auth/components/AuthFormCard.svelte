@@ -9,10 +9,10 @@
 	<Card.Header>
 		<div class="flex flex-col gap-2 items-center">
 			<img src="/LOGO_TOKENBASE.png" alt="Logo" class="h-7 w-7" />
-			<Card.Title class="text-xl">{title}</Card.Title>
+			<Card.Title class="text-xl text-center">{title}</Card.Title>
 		</div>
 		{#if description}
-			<Card.Description>{description}</Card.Description>
+			<Card.Description class="text-center">{description}</Card.Description>
 		{/if}
 	</Card.Header>
 	<Card.Content class="flex flex-col gap-5">
