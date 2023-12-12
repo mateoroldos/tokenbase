@@ -1,7 +1,11 @@
 import { dev } from '$app/environment'
 import sendEmail from '$lib/services/email/sendEmail'
 
-export const sendPasswordResetLink = async (token: string, email: string) => {
+export const sendPasswordResetLink = async (
+	token: string,
+	email: string,
+	appUrl: string
+) => {
 	let url: string
 	let recipient: string
 
@@ -16,6 +20,7 @@ export const sendPasswordResetLink = async (token: string, email: string) => {
 	await sendEmail(
 		[recipient],
 		'Tokenbase Reset Password Link',
-		`Your password reset link: ${url}`
+		`Your password reset link: ${url}`,
+		appUrl
 	)
 }

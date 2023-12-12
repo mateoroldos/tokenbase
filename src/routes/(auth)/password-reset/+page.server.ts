@@ -39,7 +39,7 @@ export const actions: Actions = {
 				const user = auth.transformDatabaseUser(storedUser)
 				const token = await generatePasswordResetToken(user.userId)
 
-				await sendPasswordResetLink(token, user.email)
+				await sendPasswordResetLink(token, user.email, event.url.origin)
 
 				return message(form, {
 					type: 'success',

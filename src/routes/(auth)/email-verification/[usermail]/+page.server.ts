@@ -17,7 +17,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 }
 
 export const actions: Actions = {
-	default: async ({ params }) => {
+	default: async ({ params, url }) => {
 		const { usermail } = params
 		let alreadyVerified = false
 
@@ -31,7 +31,7 @@ export const actions: Actions = {
 					alreadyVerified = true
 				} else {
 					const token = await generateEmailVerificationToken(storedUser.id)
-					await sendEmailVerificationLink(token, storedUser.email)
+					await sendEmailVerificationLink(token, storedUser.email, url.origin)
 
 					return {
 						success: true

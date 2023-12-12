@@ -3,7 +3,8 @@ import sendEmail from '$lib/services/email/sendEmail'
 
 export const sendEmailVerificationLink = async (
 	token: string,
-	email: string
+	email: string,
+	appUrl: string
 ) => {
 	let url: string
 	let recipient: string
@@ -16,11 +17,10 @@ export const sendEmailVerificationLink = async (
 		recipient = email
 	}
 
-	console.log('bala')
-
 	await sendEmail(
 		[recipient],
 		'Tokenbase Email Verification Link',
-		`Your email verification link: ${url}`
+		`Your email verification link: ${url}`,
+		appUrl
 	)
 }

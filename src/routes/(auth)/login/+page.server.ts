@@ -28,6 +28,8 @@ export const actions: Actions = {
 			})
 		}
 
+		console.log(event)
+
 		let emailVerified: boolean
 
 		try {
@@ -48,7 +50,11 @@ export const actions: Actions = {
 				event.locals.auth.setSession(session)
 			} else {
 				const token = await generateEmailVerificationToken(user.userId)
-				await sendEmailVerificationLink(token, form.data.email)
+				await sendEmailVerificationLink(
+					token,
+					form.data.email,
+					event.url.origin
+				)
 			}
 		} catch (e) {
 			return message(

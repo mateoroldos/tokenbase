@@ -1,7 +1,10 @@
-import { TOKENBASE_API_URL } from '$env/static/private'
-
-const sendEmail = async (email: string[], subject: string, html: string) => {
-	const response = await fetch(`${TOKENBASE_API_URL}/resend`, {
+const sendEmail = async (
+	email: string[],
+	subject: string,
+	html: string,
+	appUrl: string
+) => {
+	const response = await fetch(`${appUrl}/api/resend`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'

@@ -59,7 +59,7 @@ export const actions = {
 			}
 
 			const token = await generateEmailVerificationToken(user.userId)
-			await sendEmailVerificationLink(token, form.data.email)
+			await sendEmailVerificationLink(token, form.data.email, event.url.origin)
 		} catch (e) {
 			let luciaMessage
 
