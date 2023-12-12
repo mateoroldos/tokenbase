@@ -1,4 +1,3 @@
-import { dev } from '$app/environment'
 import sendEmail from '$lib/services/email/sendEmail'
 
 export const sendEmailVerificationLink = async (
@@ -6,21 +5,10 @@ export const sendEmailVerificationLink = async (
 	email: string,
 	appUrl: string
 ) => {
-	let url: string
-	let recipient: string
-
-	if (dev) {
-		url = `http://localhost:5173/email-verification/token/${token}`
-		recipient = 'accounts@emestudio.dev'
-	} else {
-		url = `https://app.token-base.com/email-verification/token/${token}`
-		recipient = email
-	}
-
 	await sendEmail(
-		[recipient],
+		[email],
 		'Tokenbase Email Verification Link',
-		`Your email verification link: ${url}`,
+		`Your email verification link: ${appUrl}/email-verification/token/${token}`,
 		appUrl
 	)
 }
