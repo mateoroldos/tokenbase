@@ -4,7 +4,9 @@ export const getGithubUserEmails = async (
 	const response = await fetch('https://api.github.com/user/emails', {
 		headers: {
 			Authorization: `Bearer ${token}`,
-			'X-GitHub-Api-Version': '2022-11-28'
+			'X-GitHub-Api-Version': '2022-11-28',
+			'User-Agent': 'Token-base',
+			Accept: 'application/vnd.github+json'
 		}
 	})
 
