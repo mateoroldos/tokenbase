@@ -5,7 +5,7 @@ export const getGithubUserEmails = async (
 
 	const response = await fetch('https://api.github.com/user/emails', {
 		headers: {
-			Authorization: `token ${token}`
+			Authorization: `Bearer ${token}`
 		}
 	})
 
