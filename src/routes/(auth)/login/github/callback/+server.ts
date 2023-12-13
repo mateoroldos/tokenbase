@@ -20,8 +20,6 @@ export const GET = async ({ url, cookies, locals }) => {
 	const code = url.searchParams.get('code')
 
 	if (!storedState || !state || storedState !== state || !code) {
-		console.log('Invalid state or code')
-
 		return new Response(null, {
 			status: 400
 		})
@@ -31,34 +29,22 @@ export const GET = async ({ url, cookies, locals }) => {
 		const { getExistingUser, createUser, githubTokens, createKey } =
 			await githubAuth.validateCallback(code)
 
-		console.log('githubTokens', githubTokens)
-
 		const getUser = async () => {
 			const existingUser = await getExistingUser()
 			if (existingUser) return existingUser
 
-			console.log('githubTokens.accessToken', githubTokens.accessToken)
-
 			const githubUserEmails = await getGithubUserEmails(
 				githubTokens.accessToken
 			)
-			console.log('githubUserEmails', githubUserEmails)
-
 			const primaryEmail = githubUserEmails.find(
 				(email) => email.verified && email.primary
 			)
 			if (!primaryEmail) {
-				console.log('no primary email')
 				throw new Error('No verified email found')
 			}
 
 			const existingDatabaseUserWithEmail = await getUserByEmail(
 				primaryEmail.email
-			)
-
-			console.log(
-				'existingDatabaseUserWithEmail',
-				existingDatabaseUserWithEmail
 			)
 
 			if (existingDatabaseUserWithEmail) {
@@ -78,8 +64,6 @@ export const GET = async ({ url, cookies, locals }) => {
 		}
 
 		const user = await getUser()
-
-		console.log('user', user)
 
 		if (!user) {
 			return new Response(null, {
@@ -102,8 +86,6 @@ export const GET = async ({ url, cookies, locals }) => {
 		})
 	} catch (e) {
 		if (e instanceof OAuthRequestError) {
-			console.log('OAuthRequestError', e)
-
 			// invalid code
 			return new Response(null, {
 				status: 400
