@@ -10,11 +10,6 @@ export const getGithubUserEmails = async (
 		}
 	})
 
-	// log all headers
-	for (const [key, value] of response.headers.entries()) {
-		console.log(`${key}: ${value}`)
-	}
-
 	const emails: GitHubUserEmail[] = await response.json()
 
 	return emails

@@ -19,6 +19,11 @@ const config = {
 			}
 		}
 	}
+	// server: {
+	// 	fs: {
+	// 		allow: ['.']
+	// 	}
+	// }
 }
 
 export default config

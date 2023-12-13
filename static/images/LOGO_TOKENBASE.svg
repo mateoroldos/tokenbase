@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 91 91" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g id="Mesa-de-trabajo1" serif:id="Mesa de trabajo1" transform="matrix(0.181139,0,0,1,-8.04327,-79.9602)">
+        <rect x="44.404" y="79.96" width="497.296" height="90.08" style="fill:none;"/>
+        <clipPath id="_clip1">
+            <rect x="44.404" y="79.96" width="497.296" height="90.08"/>
+        </clipPath>
+        <g clip-path="url(#_clip1)">
+            <g transform="matrix(4.62598,0,0,0.837944,-445.366,-1035.34)">
+                <path d="M213.374,1339.07C213.374,1334.61 209.758,1331 205.304,1331L113.944,1331C109.49,1331 105.874,1334.61 105.874,1339.07L105.874,1430.43C105.874,1434.88 109.49,1438.5 113.944,1438.5L205.304,1438.5C209.758,1438.5 213.374,1434.88 213.374,1430.43L213.374,1339.07Z"/>
+            </g>
+            <g transform="matrix(-5.52063,2.22045e-16,-1.22583e-15,-1,10901.9,1833.09)">
+                <rect x="1928.81" y="1693.83" width="14.265" height="14.265" style="fill:white;"/>
+            </g>
+            <g transform="matrix(-5.52063,2.22045e-16,-1.22583e-15,-1,11059.4,1833.09)">
+                <rect x="1928.81" y="1693.83" width="14.265" height="14.265" style="fill:white;"/>
+            </g>
+            <g transform="matrix(-5.52063,2.22045e-16,-1.22583e-15,-1,10980.7,1818.83)">
+                <rect x="1928.81" y="1693.83" width="14.265" height="14.265" style="fill:white;"/>
+            </g>
+        </g>
+    </g>
+</svg>
