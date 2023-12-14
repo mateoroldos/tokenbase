@@ -33,7 +33,9 @@
 		if (previewStore && $previewStore !== null) {
 			$previewStore.activeGroupId = $groupsStore[groupIndex]?.id as string
 		} else {
-			goto(`/${$page.params.designSystemId}/${$groupsStore[groupIndex]?.id}`)
+			goto(
+				`/workspace/${$page.params.designSystemId}/${$groupsStore[groupIndex]?.id}`
+			)
 		}
 	}
 </script>

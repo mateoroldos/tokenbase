@@ -30,9 +30,7 @@
 	})
 </script>
 
-<div
-	class="bg-slate-100 w-full min-h-screen border grid gird-cols-[1fr_auto_1fr]"
->
+<div class="bg-slate-100 min-h-screen grid gird-rows-[1fr_auto_1fr]">
 	<Header />
 	<slot />
 	<Footer />

@@ -1,4 +1,4 @@
-<section class="flex-1 flex items-center justify-center">
+<section class="flex-1 flex flex-col gap-5 items-center justify-center">
 	<div class="container max-w-[400px]">
 		<slot />
 	</div>

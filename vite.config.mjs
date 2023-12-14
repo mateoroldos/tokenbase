@@ -3,7 +3,12 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 /** @type {import('vite').UserConfig} */
 const config = {
-	plugins: [sveltekit(), nodePolyfills()],
+	plugins: [
+		sveltekit(),
+		nodePolyfills({
+			exclude: ['fs']
+		})
+	],
 	resolve: {
 		alias: {
 			fs: 'memfs'
@@ -11,19 +16,7 @@ const config = {
 	},
 	ssr: {
 		noExternal: process.env.NODE_ENV === 'production' ? true : []
-	},
-	css: {
-		preprocessorOptions: {
-			scss: {
-				additionalData: '@use "src/variables.scss" as *;'
-			}
-		}
 	}
-	// server: {
-	// 	fs: {
-	// 		allow: ['.']
-	// 	}
-	// }
 }
 
 export default config

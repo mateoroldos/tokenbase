@@ -10,7 +10,6 @@ import { mdsvex } from 'mdsvex'
 /** @type {import('@sveltejs/kit').Config}*/
 const config = {
 	extensions: ['.svelte', '.md'],
-
 	preprocess: [
 		preprocess(),
 		mdsvex({
@@ -34,7 +33,6 @@ const config = {
 		},
 		prerender: {
 			entries: [
-				'*',
 				'/api/blog/posts/page/*',
 				// '/category/*/page/*',
 				// '/category/page/*',

@@ -6,7 +6,7 @@
 
 <Tooltip.Root>
 	<Tooltip.Trigger>
-		<form action="/?/logout" method="post" use:enhance>
+		<form action="/login?/logout" method="post" use:enhance>
 			<button class="flex justify-center" type="submit">
 				<LogOut
 					class="h-4 w-4 text-slate-400 transition-colors hover:text-slate-900"

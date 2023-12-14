@@ -1,7 +1,11 @@
 <script>
-	import HeroSection from './_components/sections/HeroSection/HeroSection.svelte'
-	import BlogPostsSection from './_components/sections/BlogPostsSection/BlogPostsSection.svelte'
+	import SingleSourceSection from './_components/sections/single-source-section/SingleSourceSection.svelte'
+	import FeaturesSection from './_components/sections/features-section/FeaturesSection.svelte'
+	import ExportTypesSection from './_components/sections/export-types-section/ExportTypesSection.svelte'
+	import BlogPostsSection from './_components/sections/blog-posts-section/BlogPostsSection.svelte'
 	import { siteTitle } from './config'
+	import HeroSection from './_components/sections/hero-section/HeroSection.svelte'
+	import IntegrationsSection from './_components/sections/integrations-section/IntegrationsSection.svelte'
 
 	export let data
 </script>
@@ -11,4 +15,8 @@
 </svelte:head>
 
 <HeroSection />
+<FeaturesSection />
+<SingleSourceSection />
+<IntegrationsSection />
+<!-- <ExportTypesSection /> -->
 <BlogPostsSection posts={data.posts} totalPosts={data.posts.length} />

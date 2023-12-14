@@ -8,6 +8,6 @@
 	export { className as class }
 </script>
 
-<div class={cn('container mx-auto px-4', className)}>
+<div class={cn('w-[min(90%,_70rem)] mx-auto', className)}>
 	<slot />
 </div>

@@ -6,7 +6,13 @@
 	export let form: SuperValidated<FormSchemaClient>
 </script>
 
-<Form.Root method="POST" {form} schema={formSchemaClient} let:config>
+<Form.Root
+	method="POST"
+	action="?/login"
+	{form}
+	schema={formSchemaClient}
+	let:config
+>
 	<Form.Container>
 		<Form.Fields>
 			<Form.Field {config} name="email">

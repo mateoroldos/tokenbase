@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Post } from '../../interface'
-	import ArticleCard from '../Article/ArticleCard.svelte'
+	import ArticleCard from '../article/ArticleCard.svelte'
 
 	export let posts: Post[]
 

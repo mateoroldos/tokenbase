@@ -1,5 +1,5 @@
 import { auth } from '$lib/server/lucia'
-import { redirect } from '@sveltejs/kit'
+import { fail, redirect } from '@sveltejs/kit'
 import { message, superValidate } from 'sveltekit-superforms/server'
 import { generateEmailVerificationToken } from '$lib/features/auth/tokens/generate/generateEmailVerificationToken'
 import { sendEmailVerificationLink } from '$lib/features/auth/mails/sendEmailVerificationLink'
@@ -19,7 +19,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 }
 
 export const actions: Actions = {
-	default: async (event) => {
+	login: async (event) => {
 		const form = await superValidate(event, formSchemaServer)
 
 		if (!form.valid) {
@@ -73,5 +73,17 @@ export const actions: Actions = {
 		}
 
 		throw redirect(303, '/')
+	},
+
+	logout: async ({ locals }) => {
+		const session = await locals.auth.validate()
+
+		if (!session) return fail(401)
+
+		await auth.invalidateSession(session.sessionId)
+
+		locals.auth.setSession(null)
+
+		throw redirect(302, '/')
 	}
-} satisfies Actions
+}

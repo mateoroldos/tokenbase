@@ -1,7 +1,7 @@
 <script>
 	import Avatar from '$lib/components/ui/avatar/avatar.svelte'
 	import '../../_assets/css/post.css'
-	import CategoryScrollBar from '../../_components/Category/CategoryScrollBar.svelte'
+	import CategoryScrollBar from '../../_components/category/CategoryScrollBar.svelte'
 	import Container from '../../_components/atoms/Container/Container.svelte'
 	export let data
 

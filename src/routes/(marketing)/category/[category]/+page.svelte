@@ -2,7 +2,7 @@
 <script>
 	import { ArrowLeft } from 'lucide-svelte'
 	import { fade } from 'svelte/transition'
-	import ShowArticleCards from '../../_components/Article/ShowArticleCards.svelte'
+	import ShowArticleCards from '../../_components/article/ShowArticleCards.svelte'
 
 	export let data
 

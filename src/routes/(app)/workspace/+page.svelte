@@ -18,7 +18,7 @@
 		)
 
 		if (designSystem) {
-			await goto(`/${designSystem.id}`)
+			await goto(`/workspace/${designSystem.id}`)
 		} else {
 			await addDesignSystem()
 		}
@@ -27,7 +27,7 @@
 	const addDesignSystem = async () => {
 		const designSystemId = uuidv4()
 
-		await goto(`/${designSystemId}`)
+		await goto(`/workspace/${designSystemId}`)
 
 		designSystemsOverviewsStore.addDesignSystem(
 			designSystemId,
@@ -124,7 +124,7 @@
 							designSystem.name.toUpperCase() ===
 							designSystemName.toUpperCase()}
 						<a
-							href={`/${designSystem.id}`}
+							href={`/workspace/${designSystem.id}`}
 							class="min-w-[200px] max-w-md rounded-lg border bg-slate-50 text-slate-900 transition-all duration-500 hover:border-slate-800 hover:bg-white hover:shadow-lg"
 							class:border-slate-800={activeDesignSystem}
 							class:shadow-lg={activeDesignSystem}

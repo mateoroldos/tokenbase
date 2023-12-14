@@ -6,13 +6,13 @@
 	export let variables: Variable[]
 </script>
 
-<Card.Root class="shadow-none p-6 border-none bg-slate-900">
-	<p class="font-medium font-mono text-sm pb-3 text-slate-50">
-		styles/variables.css
-	</p>
-	<div class="flex flex-col items-center gap-2">
+<Card.Root>
+	<Card.Header>
+		<Card.Title class="font-medium text-md">Tokenbase Design Sytem</Card.Title>
+	</Card.Header>
+	<Card.Content class="flex flex-col gap-2">
 		{#each variables as variable}
-			<VariableCard {variable} variables={true} />
+			<VariableCard {variable} variables={false} />
 		{/each}
-	</div>
+	</Card.Content>
 </Card.Root>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ChevronRight } from 'lucide-svelte'
 	import { fade, fly } from 'svelte/transition'
-	import CategoryScrollBar from '../_components/Category/CategoryScrollBar.svelte'
+	import CategoryScrollBar from '../_components/category/CategoryScrollBar.svelte'
 	import type { Post } from '../interface'
 
 	export let data

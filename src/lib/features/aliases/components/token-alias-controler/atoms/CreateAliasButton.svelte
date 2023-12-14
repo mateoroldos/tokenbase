@@ -21,7 +21,7 @@
 				activeThemeId
 			)
 
-			goto(`/${$page.params.designSystemId}/${$aliasMode.groupId}`)
+			goto(`/workspace/${$page.params.designSystemId}/${$aliasMode.groupId}`)
 
 			$aliasMode = false
 		}

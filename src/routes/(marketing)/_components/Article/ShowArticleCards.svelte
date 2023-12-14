@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ArrowRight } from 'lucide-svelte'
 	import { fade } from 'svelte/transition'
-	import Pagination from '../Pagination/Pagination.svelte'
+	import Pagination from '../pagination/Pagination.svelte'
 	import type { Post } from '../../interface'
 	import { postsPerPage } from '../../config'
 	import ArticleCard from './ArticleCard.svelte'

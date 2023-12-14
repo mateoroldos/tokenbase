@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Post } from '../../../interface'
-	import ShowArticleCards from '../../Article/ShowArticleCards.svelte'
+	import ShowArticleCards from '../../article/ShowArticleCards.svelte'
 	import Container from '../../atoms/Container/Container.svelte'
 	import Section from '../../atoms/Section/Section.svelte'
 

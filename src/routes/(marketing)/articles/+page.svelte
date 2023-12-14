@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Section from '../_components/atoms/Section/Section.svelte'
 	import Container from '../_components/atoms/Container/Container.svelte'
-	import ShowArticleCards from '../_components/Article/ShowArticleCards.svelte'
+	import ShowArticleCards from '../_components/article/ShowArticleCards.svelte'
 
 	export let data
 
