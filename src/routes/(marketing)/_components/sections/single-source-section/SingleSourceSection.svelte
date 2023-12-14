@@ -1,9 +1,9 @@
 <script lang="ts">
+	import TokenVariablesCardCss from './atoms/TokenVariablesCardCss.svelte'
 	import Container from '../../atoms/Container/Container.svelte'
 	import Section from '../../atoms/Section/Section.svelte'
-	import DesignSystemCard from '../export-types-section/atoms/DesignSystemCard.svelte'
-	import VariablesCard from '../export-types-section/atoms/VariablesCard.svelte'
-	import { VARIABLES } from './variables'
+	import { TOKENS_VARIABLES } from './TOKEN_VARIABLES'
+	import TokenVariablesCardDesignSystem from './atoms/TokenVariablesCardDesignSystem.svelte'
 </script>
 
 <Section>
@@ -20,9 +20,7 @@
 		<div
 			class="hidden md:grid md:grid-cols-[2fr_1fr_2fr] justify-center items-center max-w-[800px] z-10"
 		>
-			<div class="z-10">
-				<DesignSystemCard variables={VARIABLES} />
-			</div>
+			<TokenVariablesCardDesignSystem tokenVariables={TOKENS_VARIABLES} />
 			<div class="relative flex place-content-center overflow-hidden">
 				<div class="wave h-20 move-right-infinite" />
 				<img
@@ -31,9 +29,7 @@
 					class="h-12 w-12 scale-75 sm:scale-100 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-md"
 				/>
 			</div>
-			<div class="z-10">
-				<VariablesCard variables={VARIABLES} />
-			</div>
+			<TokenVariablesCardCss tokenVariables={TOKENS_VARIABLES} />
 		</div>
 	</Container>
 </Section>

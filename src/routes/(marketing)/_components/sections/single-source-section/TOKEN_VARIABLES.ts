@@ -1,4 +1,4 @@
-export let VARIABLES = [
+export let TOKENS_VARIABLES: TokenVariable[] = [
 	{
 		text: '--color-brand-100',
 		color: '#5585b5',
@@ -20,3 +20,9 @@ export let VARIABLES = [
 		description: 'color.brand.400'
 	}
 ]
+
+export interface TokenVariable {
+	text: string
+	color: string
+	description: string
+}
