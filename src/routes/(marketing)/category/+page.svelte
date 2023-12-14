@@ -47,8 +47,7 @@
 			</a>
 		</li>
 		<div class="pl-8">
-			<CategoryScrollBar posts={categorizedPosts[category.title] ?? []}
-			></CategoryScrollBar>
+			<CategoryScrollBar posts={categorizedPosts[category.title] ?? []} />
 		</div>
 	{/each}
 </div>
