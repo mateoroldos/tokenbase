@@ -9,7 +9,7 @@
 
 <div class="flex overflow-x-scroll pb-10 hide-scroll-bar">
 	<div class="flex flex-wrap gap-6">
-		{#each posts as post, i}
+		{#each posts as post (post.slug)}
 			<ArticleCard {post} />
 		{/each}
 	</div>
