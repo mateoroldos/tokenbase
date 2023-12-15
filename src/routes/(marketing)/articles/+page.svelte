@@ -11,8 +11,8 @@
 </script>
 
 <Section>
-	<Container class="flex flex-col gap-12">
-		<h1 class="font-semibold text-2xl text-center">Design Systems Blog</h1>
+	<Container class="flex flex-col gap-16">
+		<h1 class="font-medium text-5xl text-center">Design Systems Blog</h1>
 		<ShowArticleCards {posts} {page} viewAllArticles={false} {totalPosts} />
 	</Container>
 </Section>
