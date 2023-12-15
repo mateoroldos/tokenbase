@@ -3,7 +3,7 @@
 	import '../../_assets/css/post.css'
 	import Container from '../../_components/atoms/Container/Container.svelte'
 	import Section from '../../_components/atoms/Section/Section.svelte'
-	import PostsGrid from '../../_components/category/PostsGrid.svelte'
+	import ArticlesCardsGrid from '../../_components/article/ArticlesCardsGrid.svelte'
 
 	export let data
 
@@ -82,7 +82,7 @@
 		{#if categories && postsToShow.length > 0}
 			<div class="flex flex-col gap-4">
 				<h3 class="text-xl font-medium">Related posts</h3>
-				<PostsGrid posts={postsToShow} />
+				<ArticlesCardsGrid posts={postsToShow} />
 			</div>
 		{/if}
 	</Container>

@@ -1,8 +1,7 @@
 <script lang="ts">
 	import Container from './../_components/atoms/Container/Container.svelte'
 	import Section from './../_components/atoms/Section/Section.svelte'
-	import { ChevronRight } from 'lucide-svelte'
-	import PostsGrid from '../_components/category/PostsGrid.svelte'
+	import ArticlesCardsGrid from '../_components/article/ArticlesCardsGrid.svelte'
 	import type { Post } from '../interface'
 
 	export let data
@@ -26,7 +25,7 @@
 				<a href="/category/{category.title}" class="text-4xl capitalize">
 					{category.title}
 				</a>
-				<PostsGrid posts={categorizedPosts[category.title] ?? []} />
+				<ArticlesCardsGrid posts={categorizedPosts[category.title] ?? []} />
 			</div>
 		{/each}
 	</Container>
