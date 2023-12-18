@@ -53,7 +53,7 @@
 		<ul>
 			<li>
 				<div class="flex flex-row items-center justify-center gap-4">
-					<a href="https://token-base.com/">Blog</a>
+					<a href="/articles">Blog</a>
 					<LogoutIcon />
 				</div>
 			</li>

@@ -15,7 +15,8 @@
 			>
 		</div>
 		<div class="justify-between flex px-4 pt-4 pb-6 sm:mb-10 items-center">
-			<a href="/"><p class="text-slate-500 text-sm hover:text-black">Blog</p></a
+			<a href="/articles"
+				><p class="text-slate-500 text-sm hover:text-black">Blog</p></a
 			>
 			<SocialIcons />
 		</div>
