@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { postsPerPage } from '../../config'
-	import PaginationCard from './PaginationCard.svelte'
+	import { postsPerPage } from '../../../../lib/config'
+	import PaginationNumber from './PaginationNumber.svelte'
 	import {
 		ChevronLeft,
 		ChevronsLeft,
@@ -21,27 +21,27 @@
 		<li class="px-0.5 group transition-transform transform-gpu hover:scale-105">
 			<a href={path}>
 				<ChevronsLeft
-					class="bg-white border-slate-400 text-base text-slate-400 border h-8 w-8 rounded-md text-center"
-				></ChevronsLeft>
+					class="bg-white border-slate-400 text-slate-400 border h-8 w-8 rounded-md text-center"
+				/>
 			</a>
 		</li>
 		<li class="px-0.5 group transition-transform transform-gpu hover:scale-105">
 			<a href="{path}/page/{currentPage - 1}">
 				<ChevronLeft
 					class="bg-white border-slate-400 text-sm text-slate-400 border h-8 w-8 rounded-md text-center"
-				></ChevronLeft>
+				/>
 			</a>
 		</li>
 	{:else}
 		<li class="px-0.5">
 			<ChevronsLeft
-				class="bg-white border-slate-200 text-base text-slate-200 border h-8 w-8 rounded-md text-center"
-			></ChevronsLeft>
+				class="bg-white border-slate-200 text-slate-200 border h-8 w-8 rounded-md text-center"
+			/>
 		</li>
 		<li class="px-0.5">
 			<ChevronLeft
 				class="bg-white border-slate-200 text-sm text-slate-200 border h-8 w-8 rounded-md text-center"
-			></ChevronLeft>
+			/>
 		</li>
 	{/if}
 	{#each [2, 1] as i}
@@ -50,14 +50,13 @@
 				class="px-0.5 group transition-transform transform-gpu hover:scale-105"
 			>
 				<a href="{path}/page/{currentPage - i}">
-					<PaginationCard selected={false} page={currentPage - i}
-					></PaginationCard>
+					<PaginationNumber selected={false} page={currentPage - i} />
 				</a>
 			</li>
 		{/if}
 	{/each}
 	<li class="px-0.5 group transition-transform transform-gpu hover:scale-105">
-		<PaginationCard selected={true} page={currentPage}></PaginationCard>
+		<PaginationNumber selected={true} page={currentPage} />
 	</li>
 	{#each Array(2) as _, i}
 		{#if currentPage + (i + 1) <= pagesAvailable}
@@ -65,8 +64,7 @@
 				class="px-0.5 group transition-transform transform-gpu hover:scale-105"
 			>
 				<a href="{path}/page/{currentPage + (i + 1)}">
-					<PaginationCard selected={false} page={currentPage + i + 1}
-					></PaginationCard>
+					<PaginationNumber selected={false} page={currentPage + i + 1} />
 				</a>
 			</li>
 		{/if}
@@ -75,27 +73,27 @@
 		<li class="px-0.5 group transition-transform transform-gpu hover:scale-105">
 			<a href="{path}/page/{currentPage + 1}">
 				<ChevronRight
-					class="bg-white border-slate-400 text-base text-slate-400 border h-8 w-8 rounded-md text-center"
-				></ChevronRight>
+					class="bg-white border-slate-400 text-slate-400 border h-8 w-8 rounded-md text-center"
+				/>
 			</a>
 		</li>
 		<li class="px-0.5 group transition-transform transform-gpu hover:scale-105">
 			<a href="{path}/page/{pagesAvailable}">
 				<ChevronsRight
-					class="bg-white border-slate-400 text-base text-slate-400 border h-8 w-8 rounded-md text-center"
-				></ChevronsRight>
+					class="bg-white border-slate-400 text-slate-400 border h-8 w-8 rounded-md text-center"
+				/>
 			</a>
 		</li>
 	{:else}
 		<li class="px-0.5">
 			<ChevronRight
-				class="bg-white border-slate-200 text-base text-slate-200 border h-8 w-8 rounded-md text-center"
-			></ChevronRight>
+				class="bg-white border-slate-200 text-slate-200 border h-8 w-8 rounded-md text-center"
+			/>
 		</li>
 		<li class="px-0.5">
 			<ChevronsRight
-				class="bg-white border-slate-200 text-base text-slate-200 border h-8 w-8 rounded-md text-center"
-			></ChevronsRight>
+				class="bg-white border-slate-200 text-slate-200 border h-8 w-8 rounded-md text-center"
+			/>
 		</li>
 	{/if}
 </ul>

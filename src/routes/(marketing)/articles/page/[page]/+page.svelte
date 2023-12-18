@@ -1,17 +1,16 @@
 <script>
-	import { fade } from 'svelte/transition'
-	import ShowArticleCards from '../../../_components/article/ShowArticleCards.svelte'
+	import Container from './../../../_components/atoms/Container/Container.svelte'
+	import Section from './../../../_components/atoms/Section/Section.svelte'
+	import PaginatedPostsGrid from '../../../_components/article/PaginatedPostsGrid.svelte'
+	import PageHeading from '../../../_components/atoms/PageHeading.svelte'
 
 	export let data
-	const { page, totalPosts, posts } = data
+	const { page, posts, totalPosts } = data
 </script>
 
-<h1
-	class="font-bold text-3xl text-primary text-center my-14 sm:text-5xl"
-	in:fade={{ delay: 300 }}
->
-	Design System Blog
-</h1>
-
-<ShowArticleCards {posts} {totalPosts} viewAllArticles={false} {page}
-></ShowArticleCards>
+<Section>
+	<Container class="flex flex-col gap-16">
+		<PageHeading title="Design Systems Blog" />
+		<PaginatedPostsGrid {posts} currentPage={page} {totalPosts} />
+	</Container>
+</Section>

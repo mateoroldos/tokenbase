@@ -3,8 +3,6 @@
 <title>About</title>
 </svelte:head>
 
-# About Tokenbase
-
 Tokenbase is your minimalist oasis for design token management. Seamlessly create, manage, and distribute design tokens like a pro.
 
 Design tokens are the DNA of a harmonious design system. With Tokenbase, unlock their power effortlessly. Customize tokens with precision, curate a sleek library, and access them with ease.

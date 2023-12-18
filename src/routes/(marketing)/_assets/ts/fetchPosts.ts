@@ -1,4 +1,4 @@
-import { postsPerPage } from '../../config'
+import { postsPerPage } from '../../../../lib/config'
 
 export interface Metadata {
 	metadata: {
@@ -10,6 +10,7 @@ export interface Metadata {
 		coverWidth: number
 		coverHeight: number
 		excerpt: string
+		author: string
 	}
 }
 
@@ -57,7 +58,8 @@ const fetchPosts = async ({
 		coverHeight: post.coverHeight,
 		date: post.date,
 		categories: post.categories,
-		updated: post.updated
+		updated: post.updated,
+		author: post.author
 	}))
 
 	return {

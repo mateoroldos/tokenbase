@@ -5,7 +5,7 @@
 	import { onMount } from 'svelte'
 	import Header from './_components/Header.svelte'
 	import Footer from './_components/Footer.svelte'
-	import { navItems } from './config'
+	import { navItems } from '$lib/config'
 	import { currentPage } from './_assets/ts/currentPageStore'
 
 	export let data
@@ -30,7 +30,7 @@
 	})
 </script>
 
-<div class="bg-slate-100 min-h-screen grid gird-rows-[1fr_auto_1fr]">
+<div class="bg-slate-100 min-h-screen grid grid-rows-[auto_1fr_auto]">
 	<Header />
 	<slot />
 	<Footer />

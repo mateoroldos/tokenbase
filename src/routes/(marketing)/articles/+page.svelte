@@ -1,18 +1,17 @@
 <script lang="ts">
 	import Section from '../_components/atoms/Section/Section.svelte'
 	import Container from '../_components/atoms/Container/Container.svelte'
-	import ShowArticleCards from '../_components/article/ShowArticleCards.svelte'
+	import PageHeading from '../_components/atoms/PageHeading.svelte'
+	import PaginatedPostsGrid from '../_components/article/PaginatedPostsGrid.svelte'
 
 	export let data
 
-	let posts = data.posts
-	let totalPosts = data.total
-	let page = 1
+	const { posts, totalPosts } = data
 </script>
 
 <Section>
 	<Container class="flex flex-col gap-16">
-		<h1 class="font-medium text-5xl text-center">Design Systems Blog</h1>
-		<ShowArticleCards {posts} {page} viewAllArticles={false} {totalPosts} />
+		<PageHeading title="Design Systems Blog" />
+		<PaginatedPostsGrid {posts} {totalPosts} />
 	</Container>
 </Section>

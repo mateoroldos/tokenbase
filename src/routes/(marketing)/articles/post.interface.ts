@@ -1,6 +1,7 @@
 export interface Post {
 	title: string
 	date: string
+	author: string
 	updated: string
 	categories: string[]
 	coverImage: string

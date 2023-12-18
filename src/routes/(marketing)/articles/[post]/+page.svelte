@@ -1,9 +1,11 @@
 <script>
-	import Avatar from '$lib/components/ui/avatar/avatar.svelte'
+	import Avatar from './../../_components/atoms/Avatar.svelte'
 	import '../../_assets/css/post.css'
 	import Container from '../../_components/atoms/Container/Container.svelte'
 	import Section from '../../_components/atoms/Section/Section.svelte'
-	import ArticlesCardsGrid from '../../_components/article/ArticlesCardsGrid.svelte'
+	import PostsGrid from '../../_components/article/PostsGrid.svelte'
+	import PageHeading from '../../_components/atoms/PageHeading.svelte'
+	import { POST_AUTHORS } from '$lib/constants/POSTS_AUTHORS'
 
 	export let data
 
@@ -15,11 +17,11 @@
 		coverImage,
 		coverWidth,
 		coverHeight,
-		categories
+		categories,
+		author
 	} = data.meta
 	const { PostContent } = data
 	const relatedPosts = data.relatedPosts
-	const postsToShow = relatedPosts.slice(0, Math.min(relatedPosts.length, 6))
 </script>
 
 <svelte:head>
@@ -41,18 +43,13 @@
 	<Container>
 		<article class="max-w-[75ch] mx-auto">
 			<div class="items-center content-center">
-				<h1
-					class="pb-12 text-3xl text-center text-primary font-bold sm:text-5xl"
-				>
-					{title}
-				</h1>
-				<p class="text-sm text-primary mb-10 text-center px-2 sm:text-base">
-					{excerpt}
-				</p>
-
-				<div class="flex gap-12 items-center place-content-center pb-12">
+				<PageHeading {title} description={excerpt} />
+				<div class="flex gap-12 mt-10 items-center place-content-center pb-12">
 					<span class="text-sm">{date}</span>
-					<Avatar />
+					<Avatar
+						username={POST_AUTHORS[author]?.name || author}
+						image={POST_AUTHORS[author]?.image || undefined}
+					/>
 				</div>
 
 				<img
@@ -79,10 +76,10 @@
 </Section>
 <Section class="border-t border-slate-200">
 	<Container>
-		{#if categories && postsToShow.length > 0}
+		{#if categories && relatedPosts.length > 0}
 			<div class="flex flex-col gap-4">
 				<h3 class="text-xl font-medium">Related posts</h3>
-				<ArticlesCardsGrid posts={postsToShow} />
+				<PostsGrid posts={relatedPosts} />
 			</div>
 		{/if}
 	</Container>

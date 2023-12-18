@@ -34,12 +34,12 @@ const config = {
 		prerender: {
 			entries: [
 				'/api/blog/posts/page/*',
+				'/api/blog/posts/count',
 				// '/category/*/page/*',
 				// '/category/page/*',
 				// '/page/*',
 				'/about',
-				'/articles',
-				'/category'
+				'/articles'
 			]
 		}
 	},

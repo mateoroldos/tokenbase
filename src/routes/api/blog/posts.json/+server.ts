@@ -1,12 +1,12 @@
 import { json } from '@sveltejs/kit'
-import { postsPerPage } from '../../../(marketing)/config'
+import { postsPerPage } from '../../../../lib/config'
 import fetchPosts from '../../../(marketing)/_assets/ts/fetchPosts'
 
 export const prerender = true
 
-export const GET = async () => {
+export const GET = async ({ url }) => {
 	const options = {
-		limit: postsPerPage
+		limit: Number(url.searchParams.get('count')) ?? postsPerPage
 	}
 
 	const { posts } = await fetchPosts(options)

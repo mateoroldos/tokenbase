@@ -8,6 +8,7 @@ coverImage: '/images/design-token-examples/design-token-examples.png'
 coverWidth: 16
 coverHeight: 9
 excerpt: Find the top design token examples to centralize your design decisions.
+author: ines
 ---
 
 Product design is not only about aesthetics, it's about creating user experiences that are both visually attractive and functional. Getting to this balance is challenging, especially when working on multiple projects with both designers and developers. This is why design tokens were created.

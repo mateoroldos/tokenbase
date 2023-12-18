@@ -8,6 +8,7 @@ coverImage: '/images/design-token-tools/design-token-tools.png'
 coverWidth: 16
 coverHeight: 9
 excerpt: Find the top design token tools for streamlined design system management. From Specify to Token Studio, choose the right tool for design consistency.
+author: ines
 ---
 
 Design tokens are an essential part of modern design systems, streamlining the process of maintaining consistency across different platforms and ensuring a cohesive brand identity. Whether you're a designer, developer, or product manager, having the right design token tools in your toolkit can greatly enhance your workflow and efficiency. In this article, we'll explore a curated list of top design token tools that are making waves in the design industry.

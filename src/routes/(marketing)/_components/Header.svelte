@@ -1,12 +1,12 @@
 <script>
-	import { navItems } from '../config'
+	import { navItems } from '../../../lib/config'
 	import Logo from '$lib/components/Logo.svelte'
 	import Button from '$lib/components/ui/button/Button.svelte'
 	import Container from './atoms/Container/Container.svelte'
 </script>
 
 <header
-	class="py-3 sticky top-0 left-0 z-50 bg-slate-100 border-b border-b-slate-200"
+	class="py-3 sticky top-0 left-0 z-50 bg-slate-100 border-b border-b-slate-200 h-fit"
 >
 	<Container class="flex flex-row justify-between items-center">
 		<div class="flex flex-row gap-20 items-center">

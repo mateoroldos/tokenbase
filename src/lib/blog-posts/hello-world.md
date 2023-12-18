@@ -8,6 +8,7 @@ coverImage: '/images/hello-world/welcome.jpg'
 coverWidth: 16
 coverHeight: 9
 excerpt: Discover our new blog where we share our journey in creating a tool for design system tokens. Join us as we explore the world of design systems, offering valuable insights, practical tips, and exciting updates. Get ready to dive into the depths of design systems with us and revolutionize the way tokens are created and managed.
+author: ines
 ---
 
 Welcome to our new blog! We are excited to share our journey creating a tool for design system tokens. We are passionate about design systems and all the wonderful things they can do for optimize website design. We will be sharing our knowledge and expertise on various aspects of design systems, including best practices, implementation techniques, and the latest trends in the industry. You can look forward to informative articles, step-by-step tutorials, and even hands-on demos of the tool we are developing.

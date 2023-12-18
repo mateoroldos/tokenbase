@@ -1,9 +1,11 @@
+import type { Post } from './post.interface.js'
+
 export const load = async ({ url, fetch }) => {
 	const postRes = await fetch(`${url.origin}/api/blog/posts.json`)
-	const posts = await postRes.json()
+	const posts: Post[] = await postRes.json()
 
 	const totalRes = await fetch(`${url.origin}/api/blog/posts/count`)
-	const total = await totalRes.json()
+	const total = Number(await totalRes.json())
 
-	return { posts, total }
+	return { posts, totalPosts: total }
 }

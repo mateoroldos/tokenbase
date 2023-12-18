@@ -5,7 +5,8 @@
 	import { preloadCode } from '$app/navigation'
 	import { onMount } from 'svelte'
 	import { currentPage } from '../_assets/ts/currentPageStore'
-	import { navItems } from '../config'
+	import { navItems } from '../../../lib/config'
+	import PageHeading from '../_components/atoms/PageHeading.svelte'
 
 	export let data
 
@@ -17,7 +18,10 @@
 </script>
 
 <Section>
-	<Container class="about max-w-[60ch]">
-		<slot />
+	<Container class="about max-w-[50ch] flex flex-col gap-12">
+		<PageHeading title="About Tokenbase" />
+		<article>
+			<slot />
+		</article>
 	</Container>
 </Section>

@@ -2,7 +2,7 @@
 	import SingleSourceSection from './_components/sections/single-source-section/SingleSourceSection.svelte'
 	import FeaturesSection from './_components/sections/features-section/FeaturesSection.svelte'
 	import BlogPostsSection from './_components/sections/blog-posts-section/BlogPostsSection.svelte'
-	import { siteTitle } from './config'
+	import { siteTitle } from '../../lib/config'
 	import HeroSection from './_components/sections/hero-section/HeroSection.svelte'
 	import IntegrationsSection from './_components/sections/integrations-section/IntegrationsSection.svelte'
 
@@ -17,4 +17,4 @@
 <FeaturesSection />
 <SingleSourceSection />
 <IntegrationsSection />
-<BlogPostsSection posts={data.posts} totalPosts={data.posts.length} />
+<BlogPostsSection posts={data.posts} />

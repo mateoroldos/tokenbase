@@ -8,6 +8,7 @@ coverImage: '/images/design-system-examples/main.png'
 coverWidth: 16
 coverHeight: 9
 excerpt: Discover our pick of design system examples from top companies, ranging from Google to Salesforce.
+author: ape
 ---
 
 A design system is a collection of elements that ensure brand consistency and uniformity. It serves as a guideline containing everything from color and typography tokens to interface components. Essentially, it empowers designers and developers to create standardized and visually coherent user experiences. In this article, we will explore five design system examples.
