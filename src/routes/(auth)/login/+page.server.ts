@@ -4,13 +4,13 @@ import { message, superValidate } from 'sveltekit-superforms/server'
 import { generateEmailVerificationToken } from '$lib/features/auth/tokens/generate/generateEmailVerificationToken'
 import { sendEmailVerificationLink } from '$lib/features/auth/mails/sendEmailVerificationLink'
 import { formSchemaServer } from './schema'
-import type { PageServerLoad, Actions } from './$types'
+import type { Actions } from './$types'
 
-export const load: PageServerLoad = async ({ locals }) => {
+export const load = async ({ locals }) => {
 	const session = await locals.auth.validate()
 
 	if (session) {
-		throw redirect(302, '/')
+		throw redirect(302, '/workspace')
 	}
 
 	return {
@@ -72,7 +72,7 @@ export const actions: Actions = {
 			throw redirect(303, `/email-verification/${form.data.email}`)
 		}
 
-		throw redirect(303, '/')
+		throw redirect(303, '/workspace')
 	},
 
 	logout: async ({ locals }) => {

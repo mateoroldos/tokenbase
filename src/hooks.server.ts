@@ -1,4 +1,3 @@
-// hooks.server.ts
 import { auth } from '$lib/server/lucia'
 import type { Handle } from '@sveltejs/kit'
 

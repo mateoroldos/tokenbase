@@ -10,7 +10,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 	const session = await locals.auth.validate()
 
 	if (session?.user.emailVerified) {
-		throw redirect(302, '/')
+		throw redirect(302, '/workspace')
 	}
 
 	return {}
@@ -57,7 +57,7 @@ export const actions: Actions = {
 		}
 
 		if (alreadyVerified) {
-			throw redirect(302, '/')
+			throw redirect(302, '/workspace')
 		}
 	}
 }

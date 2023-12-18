@@ -7,7 +7,7 @@ export const load = async ({ locals, url, fetch }) => {
 
 	const postRes = await fetch(`${url.origin}/api/blog/posts.json`)
 
-	const posts = (await postRes.json()).slice(0, 3)	
+	const posts = (await postRes.json()).slice(0, 3)
 
 	return { posts }
 }
