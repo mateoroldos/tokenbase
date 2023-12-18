@@ -1,5 +1,5 @@
 <script lang="ts">
-	import PaginationCard from '../pagination/PaginationCard.svelte'
+	import BlogPagination from './../blog-pagination/BlogPagination.svelte'
 	import type { Post } from '../../articles/post.interface'
 	import { postsPerPage as defaultPostsPerPage } from '../../../../lib/config'
 	import PostsGrid from './PostsGrid.svelte'
@@ -20,5 +20,5 @@
 	<p class="text-center">No posts found.</p>
 {/if}
 {#if showPagination}
-	<PaginationCard {currentPage} {totalPosts} {path} />
+	<BlogPagination {currentPage} {totalPosts} {path} />
 {/if}
