@@ -1,5 +1,7 @@
 import { redirect } from '@sveltejs/kit'
 
+export let prerender = false
+
 export const load = async ({ locals, url, fetch }) => {
 	const session = await locals.auth.validate()
 
