@@ -8,34 +8,20 @@
 	import { POST_AUTHORS } from '$lib/constants/POSTS_AUTHORS'
 
 	export let data
-
-	const {
-		title,
-		excerpt,
-		date,
-		updated,
-		coverImage,
-		coverWidth,
-		coverHeight,
-		categories,
-		author
-	} = data.meta
-	const { PostContent } = data
-	const relatedPosts = data.relatedPosts
 </script>
 
 <svelte:head>
 	<!-- Be sure to add your image files and un-comment the lines below -->
-	<title>{title}</title>
-	<meta data-key="description" name="description" content={excerpt} />
+	<title>{data.meta.title}</title>
+	<meta data-key="description" name="description" content={data.meta.excerpt} />
 	<meta property="og:type" content="article" />
-	<meta property="og:title" content={title} />
-	<meta name="twitter:title" content={title} />
-	<meta property="og:description" content={excerpt} />
-	<meta name="twitter:description" content={excerpt} />
+	<meta property="og:title" content={data.meta.title} />
+	<meta name="twitter:title" content={data.meta.title} />
+	<meta property="og:description" content={data.meta.excerpt} />
+	<meta name="twitter:description" content={data.meta.excerpt} />
 	<!-- <meta property="og:image" content="https://yourdomain.com/image_path" /> -->
-	<meta property="og:image:width" content={coverWidth} />
-	<meta property="og:image:height" content={coverHeight} />
+	<meta property="og:image:width" content={data.meta.coverWidth} />
+	<meta property="og:image:height" content={data.meta.coverHeight} />
 	<!-- <meta name="twitter:image" content="https://yourdomain.com/image_path" /> -->
 </svelte:head>
 
@@ -43,32 +29,33 @@
 	<Container>
 		<article class="max-w-[75ch] mx-auto">
 			<div class="items-center content-center">
-				<PageHeading {title} description={excerpt} />
+				<PageHeading title={data.meta.title} description={data.meta.excerpt} />
 				<div class="flex gap-12 mt-10 items-center place-content-center pb-12">
-					<span class="text-sm">{date}</span>
+					<span class="text-sm">{data.meta.date}</span>
 					<Avatar
-						username={POST_AUTHORS[author]?.name || author}
-						image={POST_AUTHORS[author]?.image || undefined}
+						username={POST_AUTHORS[data.meta.author]?.name || data.meta.author}
+						image={POST_AUTHORS[data.meta.author]?.image || undefined}
 					/>
 				</div>
 
 				<img
 					class="rounded-lg w-full px-2 sm:px-0"
-					src={coverImage}
+					src={data.meta.coverImage}
 					alt=""
-					style="aspect-ratio: {coverWidth} / {coverHeight};"
+					style="aspect-ratio: {data.meta.coverWidth} / {data.meta
+						.coverHeight};"
 				/>
 
 				<div class=" text-sm py-6 px-2 sm:text-base">
 					<b>Published:</b>
-					{date}
+					{data.meta.date}
 					<br />
 					<b>Updated:</b>
-					{updated}
+					{data.meta.updated}
 				</div>
 
 				<div class="post">
-					<svelte:component this={PostContent} />
+					<svelte:component this={data.PostContent} />
 				</div>
 			</div>
 		</article>
@@ -76,10 +63,10 @@
 </Section>
 <Section class="border-t border-slate-200">
 	<Container>
-		{#if categories && relatedPosts.length > 0}
+		{#if data.meta.categories && data.relatedPosts.length > 0}
 			<div class="flex flex-col gap-4">
 				<h3 class="text-xl font-medium">Related posts</h3>
-				<PostsGrid posts={relatedPosts} />
+				<PostsGrid posts={data.relatedPosts} />
 			</div>
 		{/if}
 	</Container>

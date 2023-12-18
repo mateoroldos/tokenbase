@@ -1,9 +1,7 @@
 import { error } from '@sveltejs/kit'
 import type { Post } from '../post.interface'
 
-export const prerender = false
-
-export const load = async ({ params, fetch }) => {
+export const load = async ({ params, fetch, url }) => {
 	try {
 		const post = (await import(
 			`../../../../lib/blog-posts/${params.post}.md`
@@ -12,7 +10,7 @@ export const load = async ({ params, fetch }) => {
 			metadata: Post
 		}
 
-		const res = await fetch(`/api/blog/posts.json`)
+		const res = await fetch(`${url.origin}/api/blog/posts.json`)
 
 		let posts: Post[] = await res.json()
 		let categories = post.metadata.categories
