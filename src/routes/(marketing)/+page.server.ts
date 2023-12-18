@@ -5,8 +5,9 @@ export const load = async ({ locals, url, fetch }) => {
 
 	if (session) throw redirect(302, '/workspace')
 
-	const postRes = await fetch(`${url.origin}/api/blog/posts.json?count=3`)
-	const posts = await postRes.json()
+	const postRes = await fetch(`${url.origin}/api/blog/posts.json`)
+
+	const posts = (await postRes.json()).slice(0, 3)	
 
 	return { posts }
 }

@@ -11,11 +11,11 @@
 	export let path = '/articles'
 
 	let showPagination = Math.ceil(totalPosts / postsPerPage) > 1
-	posts = posts.slice(0, Math.min(totalPosts, postsPerPage))
+	let slicedPosts = posts.slice(0, Math.min(totalPosts, postsPerPage))
 </script>
 
 {#if posts.length > 0}
-	<PostsGrid {posts} />
+	<PostsGrid posts={slicedPosts} />
 {:else}
 	<p class="text-center">No posts found.</p>
 {/if}

@@ -1,13 +1,6 @@
 // IMPORTANT: update all these property values in src/lib/config.js
 
-import {
-	siteDescription,
-	siteLink,
-	siteTitle,
-	siteURL
-} from '../../../marketing/config'
-
-export const prerender = true
+import { siteDescription, siteLink, siteTitle, siteURL } from '$lib/config'
 
 export const GET = async () => {
 	const data = await Promise.all(

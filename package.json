@@ -63,6 +63,7 @@
 		"vite": "^4.4.9",
 		"vite-plugin-cloudflare": "^0.4.1",
 		"vite-plugin-node-polyfills": "^0.8.2",
+		"wrangler": "^3.21.0",
 		"zod": "^3.20.2"
 	},
 	"dependencies": {
