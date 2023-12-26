@@ -29,7 +29,7 @@
 
 	const handleChangeDesignSystem = (e: DivEventHandler<MouseEvent>) => {
 		let designSystemId = e.target?.attributes.value.nodeValue
-		goto(`/${designSystemId}`)
+		goto(`/workspace/${designSystemId}`)
 	}
 </script>
 

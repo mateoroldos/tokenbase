@@ -23,7 +23,7 @@
 
 		groupsStore.addGroup('', designSystemId, id)
 
-		goto(`/${designSystemId}/${id}`)
+		goto(`/workspace/${designSystemId}/${id}`)
 	}
 
 	$: tree = createTree(groups, designSystemId)

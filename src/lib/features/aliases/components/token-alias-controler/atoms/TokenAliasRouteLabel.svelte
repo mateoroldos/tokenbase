@@ -16,7 +16,7 @@
 		if (previewStore && $previewStore) {
 			$previewStore.activeGroupId = groupId
 		} else {
-			goto(`/${$page.params.designSystemId}/${groupId}`)
+			goto(`/workspace/${$page.params.designSystemId}/${groupId}`)
 		}
 	}
 </script>

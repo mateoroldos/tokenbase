@@ -55,13 +55,13 @@
 		groupsStore.addGroup('', node.group?.id, id)
 
 		setTimeout(() => {
-			goto(`/${$activeDesignSystemId}/${id}`)
+			goto(`/workspace/${$activeDesignSystemId}/${id}`)
 			openToggle()
 		}, 100)
 	}
 
 	const handleDeleteGroup = async () => {
-		await goto(`/${$activeDesignSystemId}`)
+		await goto(`/workspace/${$activeDesignSystemId}`)
 		groupsStore.deleteGroup(node.group?.id as string)
 	}
 
@@ -69,7 +69,7 @@
 		if ($previewStore) {
 			$previewStore.activeGroupId = node.group?.id as string
 		} else {
-			goto(`/${$activeDesignSystemId}/${node.group?.id}`)
+			goto(`/workspace/${$activeDesignSystemId}/${node.group?.id}`)
 		}
 	}
 

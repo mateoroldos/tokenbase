@@ -23,7 +23,7 @@
 
 	const deleteDesignSystem = async () => {
 		if (designSystemsOverviewsStore) {
-			await goto(`/`)
+			await goto(`/workspace`)
 			designSystemsOverviewsStore.deleteDesignSystem(
 				$page.params.designSystemId as string
 			)

@@ -6,28 +6,16 @@ const config = {
 	plugins: [
 		sveltekit(),
 		nodePolyfills({
-			exclude: ['fs'],
-			protocolImports: true
+			exclude: ['fs']
 		})
 	],
 	resolve: {
 		alias: {
-			fs: 'memfs',
-			path: 'node:path',
-			stream: 'node:stream',
-			url: 'node:url',
-			util: 'node:util'
+			fs: 'memfs'
 		}
 	},
 	ssr: {
 		noExternal: process.env.NODE_ENV === 'production' ? true : []
-	},
-	css: {
-		preprocessorOptions: {
-			scss: {
-				additionalData: '@use "src/variables.scss" as *;'
-			}
-		}
 	}
 }
 

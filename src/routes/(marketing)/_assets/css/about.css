@@ -1,0 +1,39 @@
+@tailwind components;
+@tailwind base;
+@tailwind utilities;
+/* Este archivo es por ahora igual al post.css. Lo copie para que en un futuro puedan ser distintos los estilos del about que de los post. */
+@layer component {
+	.about h2 {
+		@apply mx-2 my-6 text-3xl font-bold  text-slate-800 sm:mx-0 sm:text-4xl !important;
+	}
+	.about h3 {
+		@apply mx-2 mb-4 mt-10 text-2xl  font-bold text-slate-800 sm:mx-0 sm:text-3xl !important;
+	}
+	.about h4 {
+		@apply mx-2 mb-4 mt-8 text-xl  font-bold text-slate-800 sm:mx-0 sm:text-2xl !important;
+	}
+	.about h5 {
+		@apply mx-2 mb-4 mt-6 text-lg  font-bold text-slate-800 sm:mx-0 sm:text-xl !important;
+	}
+	.about p {
+		@apply mx-2 mb-4 text-left text-sm text-slate-800 sm:mx-0 sm:text-base !important;
+	}
+	.about img {
+		@apply w-full rounded-lg shadow-lg  sm:mx-0 !important;
+	}
+	.about li li {
+		@apply hover:font-bold !important;
+	}
+	.about li:not(:has(li)) {
+		@apply text-primary hover:font-bold !important;
+	}
+	.about li a {
+		@apply text-sm text-slate-800  hover:font-bold sm:text-base !important;
+	}
+	.about a {
+		@apply text-sm font-normal text-blue-500 sm:text-base !important;
+	}
+	.about li {
+		@apply mx-2 !important;
+	}
+}

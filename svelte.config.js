@@ -3,11 +3,22 @@ import preprocess from 'svelte-preprocess'
 import { preprocessMeltUI } from '@melt-ui/pp'
 import sequence from 'svelte-sequential-preprocessor'
 import adapter from '@sveltejs/adapter-cloudflare'
+import rehypeAutolinkHeadings from 'rehype-autolink-headings'
+import rehypeSlug from 'rehype-slug'
+import { mdsvex } from 'mdsvex'
 
 /** @type {import('@sveltejs/kit').Config}*/
 const config = {
+	extensions: ['.svelte', '.md'],
 	preprocess: [
 		preprocess(),
+		mdsvex({
+			// The default mdsvex extension is .svx; this overrides that.
+			extensions: ['.md'],
+
+			// Adds IDs to headings, and anchor links to those IDs. Note: must stay in this order to work.
+			rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings]
+		}),
 		vitePreprocess({}),
 		sequence([
 			// ... other preprocessors
@@ -19,6 +30,14 @@ const config = {
 		alias: {
 			$lib: './src/lib',
 			'$lib/*': './src/lib/*'
+		},
+		prerender: {
+			entries: [
+				'/api/blog/posts/page/*',
+				'/api/blog/posts/count',
+				'/about',
+				'/articles'
+			]
 		}
 	},
 	shadcn: {
