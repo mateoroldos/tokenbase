@@ -1,34 +1,13 @@
-import { redirect } from '@sveltejs/kit'
-import type { Actions } from './$types'
-import { message, superValidate } from 'sveltekit-superforms/server'
 import { formSchemaServer } from '$lib/features/workspaces/components/create-workspace-form/schema.js'
-import { createWorkspace } from '$lib/features/workspaces/functions/createWorkspace'
+import { createWorkspace } from '$lib/features/workspaces/functions/createWorkspace.js'
+import { redirect } from '@sveltejs/kit'
+import { message, superValidate } from 'sveltekit-superforms/server'
+import type { Actions } from './$types'
 
-export let prerender = false
-
-export const load = async ({ locals, url, fetch, parent }) => {
+export const load = async ({ locals, url, fetch }) => {
 	const session = await locals.auth.validate()
-	const parentData = await parent()
 
-	if (!session) {
-		const postRes = await fetch(`${url.origin}/api/blog/posts.json`)
-
-		const posts = (await postRes.json()).slice(0, 3)
-
-		return { posts }
-	}
-
-	if (
-		parentData.workspaces &&
-		parentData.workspaces.length > 0 &&
-		parentData.workspaces[0]
-	) {
-		throw redirect(302, `/${parentData.workspaces[0].id}`)
-	}
-
-	return {
-		form: await superValidate(formSchemaServer)
-	}
+	if (!session) throw redirect(302, '/login')
 }
 
 export const actions: Actions = {

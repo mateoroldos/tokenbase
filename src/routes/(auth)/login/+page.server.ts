@@ -5,6 +5,7 @@ import { generateEmailVerificationToken } from '$lib/features/auth/tokens/genera
 import { sendEmailVerificationLink } from '$lib/features/auth/mails/sendEmailVerificationLink'
 import { formSchemaServer } from './schema'
 import type { Actions } from './$types'
+import { invalidateAll } from '$app/navigation'
 
 export const load = async ({ locals }) => {
 	const session = await locals.auth.validate()

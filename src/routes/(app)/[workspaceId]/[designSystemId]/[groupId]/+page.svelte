@@ -13,6 +13,8 @@
 	import type { IToken } from '$lib/features/token-groups-store/types/token.interface'
 	import GroupsHeader from './_components/groups-header/GroupsHeader.svelte'
 
+	export let data
+
 	const activeDesignSystemIndex: Readable<number> = getContext(
 		'activeDesignSystemIndex'
 	)
@@ -76,7 +78,10 @@
 </script>
 
 {#if $groupsStore[$activeGroupIndex] != undefined && $designSystemsOverviewsStore[$activeDesignSystemIndex] != undefined}
-	<GroupsHeader activeDesignSystemIndex={$activeDesignSystemIndex} />
+	<GroupsHeader
+		activeDesignSystemIndex={$activeDesignSystemIndex}
+		activeWorkspaceId={data.activeWorkspaceId}
+	/>
 	{#if $groupsStore[$activeGroupIndex].tokens.length > 0}
 		<TokensTable
 			{groupsStore}

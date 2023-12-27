@@ -1,5 +1,4 @@
 <script lang="ts">
-	import GroupHeaderBreadcrumbs from '$lib/components/breadcrumbs/design-system-header-breadcrumbs/DesignSystemHeaderBreadcrumbs.svelte'
 	import ThemeSelector from '$lib/features/themes/components/ThemeSelector.svelte'
 	import { Button } from '$lib/components/ui/button'
 	import { Plus } from 'lucide-svelte'
@@ -15,14 +14,14 @@
 	import type { Readable } from 'svelte/store'
 	import designSystemsOverviewsStore from '$lib/features/token-groups-store/designSystemsOverviewsStore'
 	import CloseAliasModeButton from '$lib/features/aliases/components/close-alias-mode-button/CloseAliasModeButton.svelte'
-	import { viewMode } from '$lib/features/view-mode/stores/viewMode'
-	import GroupHeaderContainer from '../../../_components/design-system-header/atoms/GroupHeaderContainer.svelte'
 	import GroupHeaderToolsContainer from '../../../_components/design-system-header/atoms/GroupHeaderToolsContainer.svelte'
+	import DesignSystemHeader from '../../../_components/design-system-header/DesignSystemHeader.svelte'
 
 	export let activeDesignSystemIndex: number
 	$: activeDesignSystem = $designSystemsOverviewsStore[
 		activeDesignSystemIndex
 	] as DesignSystemOverview
+	export let activeWorkspaceId: string
 
 	const activeGroupIndex: Readable<number> = getContext('activeGroupIndex')
 	$: activeGroup =
@@ -42,17 +41,9 @@
 	}
 </script>
 
-<GroupHeaderContainer>
-	<GroupHeaderBreadcrumbs
-		activeGroupIndex={$activeGroupIndex}
-		{activeDesignSystemIndex}
-		activeDesignSystemOverview={activeDesignSystem}
-		{groupsStore}
-		viewMode={$viewMode}
-	/>
+<DesignSystemHeader {activeDesignSystemIndex} {activeWorkspaceId}>
 	{#if $preview}
 		<GroupHeaderToolsContainer>
-			<!-- <StartFromTemplateModal /> -->
 			<ImportDesignSystem />
 		</GroupHeaderToolsContainer>
 	{:else if $aliasMode}
@@ -74,4 +65,4 @@
 			</Button>
 		</GroupHeaderToolsContainer>
 	{/if}
-</GroupHeaderContainer>
+</DesignSystemHeader>

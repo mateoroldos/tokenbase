@@ -1,18 +1,19 @@
 <script lang="ts">
 	import * as EmptyStatePage from './'
-	import StartFromJsonCard from '../../../routes/(app)/workspace/[designSystemId]/_components/start-cards/StartFromJsonCard.svelte'
+	import StartFromJsonCard from '../../../routes/(app)/[workspaceId]/[designSystemId]/_components/start-cards/StartFromJsonCard.svelte'
 	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 	import Button from '../ui/button/Button.svelte'
 	import { Plus } from 'lucide-svelte'
 	import { goto } from '$app/navigation'
 	import { v4 as uuidv4 } from 'uuid'
 	import groupsStore from '$lib/features/token-groups-store/groupsStore'
-	import StartFromTemplateCard from '../../../routes/(app)/workspace/[designSystemId]/_components/start-cards/StartFromTemplateCard.svelte'
+	import StartFromTemplateCard from '../../../routes/(app)/[workspaceId]/[designSystemId]/_components/start-cards/StartFromTemplateCard.svelte'
 	import { viewMode } from '$lib/features/view-mode/stores/viewMode'
 	import designSystemsOverviewsStore from '$lib/features/token-groups-store/designSystemsOverviewsStore'
 
 	export let activeDesignSystemThemes: Theme[]
 	export let designSystemId: string
+	export let activeWorkspaceId: string
 
 	$: activeDesignSystem = $designSystemsOverviewsStore.find(
 		(theme) => theme.id === designSystemId
@@ -23,7 +24,7 @@
 
 		groupsStore.addGroup('', designSystemId, id)
 
-		goto(`/workspace/${designSystemId}/${id}`)
+		goto(`/${activeWorkspaceId}/${designSystemId}/${id}`)
 	}
 </script>
 

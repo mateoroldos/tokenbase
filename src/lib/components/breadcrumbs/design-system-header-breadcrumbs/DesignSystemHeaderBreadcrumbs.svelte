@@ -15,6 +15,7 @@
 	export let groupsStore: GroupsStore | Readable<Group[]>
 	export let previewStore: PreviewStore | null = null
 	export let viewMode: boolean = false
+	export let activeWorkspaceId: string
 </script>
 
 <Breadcrumbs.Container>
@@ -23,6 +24,7 @@
 		{activeDesignSystemOverview}
 		{viewMode}
 		{designSystemsOverviewsStore}
+		{activeWorkspaceId}
 	/>
 	{#if activeGroupIndex != -1}
 		<GroupsBreadcrumbs
@@ -31,6 +33,7 @@
 			{groupsStore}
 			{previewStore}
 			{viewMode}
+			{activeWorkspaceId}
 		/>
 	{/if}
 </Breadcrumbs.Container>

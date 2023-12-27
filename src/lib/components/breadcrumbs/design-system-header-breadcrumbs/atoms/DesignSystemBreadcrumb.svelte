@@ -14,6 +14,7 @@
 	export let designSystemsOverviewsStore: DesignSystemsOverviewsStore | null =
 		null
 	export let viewMode = false
+	export let activeWorkspaceId: string
 
 	let changeNameInput = false
 
@@ -52,7 +53,7 @@
 			class="h-fit px-2 py-1"
 		/>
 	{:else if designSystemsOverviewsStore}
-		<DesignSystemSelectDropdown {activeDesignSystemIndex} />
+		<DesignSystemSelectDropdown {activeDesignSystemIndex} {activeWorkspaceId} />
 	{:else}
 		<span>Design System</span>
 	{/if}

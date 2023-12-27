@@ -5,9 +5,10 @@
 	import { Input } from '$lib/components/ui/input'
 	import { Button } from '$lib/components/ui/button'
 	import { Separator } from '$lib/components/ui/separator'
-	import Logo from '$lib/components/Logo.svelte'
 	import designSystemsOverviewsStore from '$lib/features/token-groups-store/designSystemsOverviewsStore'
-	import LogoutIcon from '$lib/components/LogoutIcon.svelte'
+	import WorkspaceDropdown from '$lib/features/workspaces/components/workspace-dropdown/WorkspaceDropdown.svelte'
+
+	export let data
 
 	let designSystemName = ''
 
@@ -18,7 +19,7 @@
 		)
 
 		if (designSystem) {
-			await goto(`/workspace/${designSystem.id}`)
+			await goto(`/${data.activeWorkspaceId}/${designSystem.id}`)
 		} else {
 			await addDesignSystem()
 		}
@@ -27,7 +28,7 @@
 	const addDesignSystem = async () => {
 		const designSystemId = uuidv4()
 
-		await goto(`/workspace/${designSystemId}`)
+		await goto(`/${data.activeWorkspaceId}/${designSystemId}`)
 
 		designSystemsOverviewsStore.addDesignSystem(
 			designSystemId,
@@ -48,17 +49,11 @@
 <header
 	class="z-10 flex flex-row items-center justify-between px-20 py-6 shadow-sm"
 >
-	<Logo />
-	<nav>
-		<ul>
-			<li>
-				<div class="flex flex-row items-center justify-center gap-4">
-					<a href="/articles">Blog</a>
-					<LogoutIcon />
-				</div>
-			</li>
-		</ul>
-	</nav>
+	<WorkspaceDropdown
+		workspaces={data.workspaces}
+		activeWorkspaceId={data.activeWorkspaceId}
+		userEmail={data.email}
+	/>
 </header>
 <section class="flex flex-1 items-center justify-center p-20">
 	<div
@@ -124,7 +119,7 @@
 							designSystem.name.toUpperCase() ===
 							designSystemName.toUpperCase()}
 						<a
-							href={`/workspace/${designSystem.id}`}
+							href={`/${data.activeWorkspaceId}/${designSystem.id}`}
 							class="min-w-[200px] max-w-md rounded-lg border bg-slate-50 text-slate-900 transition-all duration-500 hover:border-slate-800 hover:bg-white hover:shadow-lg"
 							class:border-slate-800={activeDesignSystem}
 							class:shadow-lg={activeDesignSystem}

@@ -13,8 +13,11 @@
 	import type { Group } from '$lib/features/token-groups-store/types/group.interface'
 	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 	import { getAliasDependencies } from '$lib/features/aliases/utils/getAliasDependnecies'
+	import WorkspaceDropdown from '$lib/features/workspaces/components/workspace-dropdown/WorkspaceDropdown.svelte'
 
 	let loading = true
+
+	export let data
 
 	onMount(() => {
 		$activeThemeIndex = 0
@@ -103,7 +106,14 @@
 		<GroupsExplorer
 			groups={$activeDesignSystemGroupsStore}
 			designSystemId={$activeDesignSystemId}
-		/>
+			activeWorkspaceId={data.activeWorkspaceId}
+		>
+			<WorkspaceDropdown
+				workspaces={data.workspaces}
+				activeWorkspaceId={data.activeWorkspaceId}
+				userEmail={data.email}
+			/>
+		</GroupsExplorer>
 		<section class="flex h-full flex-1 flex-col overflow-hidden">
 			<slot />
 		</section>

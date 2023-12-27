@@ -97,3 +97,56 @@ export const passwordResetTokenRelations = relations(
 		})
 	})
 )
+
+export const workspace = mysqlTable('workspace', {
+	id: varchar('id', { length: 255 }).primaryKey(),
+	name: varchar('name', { length: 255 }).notNull(),
+	ownerId: varchar('owner_id', {
+		length: 15
+	}).notNull()
+})
+
+export const workspaceRelations = relations(workspace, ({ one }) => ({
+	owner: one(user, {
+		fields: [workspace.ownerId],
+		references: [user.id]
+	})
+}))
+
+export const workspaceMember = mysqlTable('workspace_member', {
+	workspaceId: varchar('workspace_id', {
+		length: 255
+	}).notNull(),
+	userId: varchar('user_id', {
+		length: 15
+	}).notNull()
+})
+
+export const workspaceMemberRelations = relations(
+	workspaceMember,
+	({ one }) => ({
+		workspace: one(workspace, {
+			fields: [workspaceMember.workspaceId],
+			references: [workspace.id]
+		}),
+		user: one(user, {
+			fields: [workspaceMember.userId],
+			references: [user.id]
+		})
+	})
+)
+
+export const designSystem = mysqlTable('design_system', {
+	id: varchar('id', { length: 255 }).primaryKey(),
+	name: varchar('name', { length: 255 }).notNull(),
+	workspaceId: varchar('workspace_id', {
+		length: 255
+	}).notNull()
+})
+
+export const designSystemRelations = relations(designSystem, ({ one }) => ({
+	workspace: one(workspace, {
+		fields: [designSystem.workspaceId],
+		references: [workspace.id]
+	})
+}))

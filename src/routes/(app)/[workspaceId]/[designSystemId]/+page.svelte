@@ -5,6 +5,8 @@
 	import type { Readable } from 'svelte/store'
 	import DesignSystemHeader from './_components/design-system-header/DesignSystemHeader.svelte'
 
+	export let data
+
 	const activeDesignSystemIndex: Readable<number> = getContext(
 		'activeDesignSystemIndex'
 	)
@@ -14,10 +16,14 @@
 	)
 </script>
 
-<DesignSystemHeader activeDesignSystemIndex={$activeDesignSystemIndex} />
+<DesignSystemHeader
+	activeDesignSystemIndex={$activeDesignSystemIndex}
+	activeWorkspaceId={data.activeWorkspaceId}
+/>
 <EmptyDesignSystemPage
 	activeDesignSystemThemes={$designSystemsOverviewsStore[
 		$activeDesignSystemIndex
 	]?.themes}
 	designSystemId={$activeDesignSystemId}
+	activeWorkspaceId={data.activeWorkspaceId}
 />

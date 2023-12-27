@@ -3,7 +3,7 @@
 	import { Input } from '$lib/components/ui/input'
 	import * as Breadcrumbs from '$lib/components/breadcrumbs'
 	import type { GroupsStore } from '$lib/features/token-groups-store/groupsStore'
-	import type { Readable, Writable } from 'svelte/store'
+	import type { Readable } from 'svelte/store'
 	import type { Group } from '$lib/features/token-groups-store/types/group.interface'
 	import { goto } from '$app/navigation'
 	import type { PreviewStore } from '$lib/features/preview-template-modal/types/preview-store.type'
@@ -13,6 +13,7 @@
 	export let noLink = true
 	export let previewStore: PreviewStore | null = null
 	export let viewMode = false
+	export let activeWorkspaceId: string | undefined = undefined
 
 	$: parentGroupIndex = $groupsStore[groupIndex]?.parentGroup
 		? $groupsStore.findIndex(
@@ -32,9 +33,9 @@
 	const handleNavigateToGroup = () => {
 		if (previewStore && $previewStore !== null) {
 			$previewStore.activeGroupId = $groupsStore[groupIndex]?.id as string
-		} else {
+		} else if (activeWorkspaceId) {
 			goto(
-				`/workspace/${$page.params.designSystemId}/${$groupsStore[groupIndex]?.id}`
+				`/${activeWorkspaceId}/${$page.params.designSystemId}/${$groupsStore[groupIndex]?.id}`
 			)
 		}
 	}

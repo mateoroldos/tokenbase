@@ -9,14 +9,15 @@
 		id: string
 	}[]
 	export let previewStore: PreviewStore | null = null
+	export let activeWorkspaceId: string | undefined = undefined
 
 	let expanded = false
 
 	const handleNavigateToGroup = (groupId: string) => {
 		if (previewStore && $previewStore) {
 			$previewStore.activeGroupId = groupId
-		} else {
-			goto(`/workspace/${$page.params.designSystemId}/${groupId}`)
+		} else if (activeWorkspaceId) {
+			goto(`/${activeWorkspaceId}/${$page.params.designSystemId}/${groupId}`)
 		}
 	}
 </script>

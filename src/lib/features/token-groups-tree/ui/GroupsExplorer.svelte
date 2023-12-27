@@ -17,13 +17,16 @@
 		activeGroupId: string
 	}> = null
 	export let viewMode = false
+	export let activeWorkspaceId: string | undefined = undefined
 
 	const handleAddNewGroup = () => {
-		const id = uuidv4()
+		if (activeWorkspaceId) {
+			const id = uuidv4()
 
-		groupsStore.addGroup('', designSystemId, id)
+			groupsStore.addGroup('', designSystemId, id)
 
-		goto(`/workspace/${designSystemId}/${id}`)
+			goto(`/${activeWorkspaceId}/${designSystemId}/${id}`)
+		}
 	}
 
 	$: tree = createTree(groups, designSystemId)
@@ -43,8 +46,8 @@
 		{#if tree.children.length === 0}
 			<p class="text-sm text-slate-300">Add a new group to start.</p>
 		{/if}
-		{#each tree.children as node, i (node.group?.id)}
-			<GroupItem {node} {previewStore} {viewMode} />
+		{#each tree.children as node (node.group?.id)}
+			<GroupItem {node} {previewStore} {viewMode} {activeWorkspaceId} />
 		{/each}
 		{#if !viewMode || !$previewStore}
 			<div class="sticky bottom-0 bg-slate-50 pb-3">

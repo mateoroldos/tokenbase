@@ -10,6 +10,7 @@
 	export let activeGroupId: string
 	export let tokenId: string
 	export let activeThemeId: string
+	export let activeWorkspaceId: string
 
 	const handleCreateTokenAlias = () => {
 		if ($aliasMode) {
@@ -21,7 +22,9 @@
 				activeThemeId
 			)
 
-			goto(`/workspace/${$page.params.designSystemId}/${$aliasMode.groupId}`)
+			goto(
+				`/${activeWorkspaceId}/${$page.params.designSystemId}/${$aliasMode.groupId}`
+			)
 
 			$aliasMode = false
 		}

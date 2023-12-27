@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { workspace } from '$lib/db/schema'
 	import detachTokenValueInstance from '$lib/utils/detachTokenValueInstance'
 	import TokenAliasControler from '$lib/features/aliases/components/token-alias-controler/TokenAliasControler.svelte'
 	import type {
@@ -30,6 +31,7 @@
 	export let groupsStore: GroupsStore | Readable<Group[]>
 	export let activeGroupId: string
 	export let previewStore: PreviewStore | null = null
+	export let activeWorkspaceId: string | undefined = undefined
 
 	$: selected =
 		selectedTokensStore && $selectedTokensStore
@@ -126,7 +128,7 @@
 	<Table.Cell>
 		<div class="flex flex-row items-center gap-1">
 			<DescriptionDialog bind:token {viewMode} />
-			{#if $page.params.groupId}
+			{#if $page.params.groupId && $page.params.workspaceId}
 				<TokenAliasControler
 					bind:token
 					{activeThemeId}
@@ -136,6 +138,7 @@
 					{viewMode}
 					{activeGroupId}
 					{previewStore}
+					activeWorkspaceId={$page.params.workspaceId}
 				/>
 			{/if}
 		</div>

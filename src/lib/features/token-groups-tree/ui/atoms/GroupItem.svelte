@@ -15,6 +15,7 @@
 		activeGroupId: string
 	}> = null
 	export let viewMode = false
+	export let activeWorkspaceId: string | undefined = undefined
 
 	$: activeGroupId =
 		$previewStore !== null && $previewStore !== undefined
@@ -50,26 +51,30 @@
 	})
 
 	const handleAddNewGroup = () => {
-		const id = uuidv4()
+		if (activeWorkspaceId) {
+			const id = uuidv4()
 
-		groupsStore.addGroup('', node.group?.id, id)
+			groupsStore.addGroup('', node.group?.id, id)
 
-		setTimeout(() => {
-			goto(`/workspace/${$activeDesignSystemId}/${id}`)
-			openToggle()
-		}, 100)
+			setTimeout(() => {
+				goto(`/${activeWorkspaceId}/${$activeDesignSystemId}/${id}`)
+				openToggle()
+			}, 100)
+		}
 	}
 
 	const handleDeleteGroup = async () => {
-		await goto(`/workspace/${$activeDesignSystemId}`)
-		groupsStore.deleteGroup(node.group?.id as string)
+		if (activeWorkspaceId) {
+			await goto(`/${activeWorkspaceId}/${$activeDesignSystemId}`)
+			groupsStore.deleteGroup(node.group?.id as string)
+		}
 	}
 
 	const handleChangeGroup = () => {
 		if ($previewStore) {
 			$previewStore.activeGroupId = node.group?.id as string
-		} else {
-			goto(`/workspace/${$activeDesignSystemId}/${node.group?.id}`)
+		} else if (activeWorkspaceId) {
+			goto(`/${activeWorkspaceId}/${$activeDesignSystemId}/${node.group?.id}`)
 		}
 	}
 
@@ -143,6 +148,7 @@
 						nestNumber={nestNumber + 1}
 						{previewStore}
 						{viewMode}
+						{activeWorkspaceId}
 					/>
 				{/each}
 			{:else}

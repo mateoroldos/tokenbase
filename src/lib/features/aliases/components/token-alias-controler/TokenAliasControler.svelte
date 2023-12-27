@@ -25,6 +25,7 @@
 	export let viewMode: boolean
 	export let activeGroupId: string
 	export let previewStore: PreviewStore | null = null
+	export let activeWorkspaceId: string
 
 	$: tokenDependencies = aliasDependencies.filter((dependency) => {
 		return dependency[1] === token.id
@@ -48,10 +49,15 @@
 			{activeGroupId}
 			tokenId={token.id}
 			{activeThemeId}
+			{activeWorkspaceId}
 		/>
 	{/if}
 	{#if isAlias && aliasRouteAndIdArray}
-		<TokenAliasRouteLabel {aliasRouteAndIdArray} {previewStore}>
+		<TokenAliasRouteLabel
+			{aliasRouteAndIdArray}
+			{previewStore}
+			{activeWorkspaceId}
+		>
 			{#if !viewMode}
 				<RemoveAliasButton bind:token {activeThemeId} />
 			{:else}

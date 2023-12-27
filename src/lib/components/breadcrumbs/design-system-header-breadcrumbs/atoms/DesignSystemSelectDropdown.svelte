@@ -1,15 +1,15 @@
 <script lang="ts">
 	import type { DesignSystemOverview } from '$lib/features/token-groups-store/types/design-system-overview.interface'
-	import { goto } from '$app/navigation'
 	import { page } from '$app/stores'
 	import { Input } from '$lib/components/ui/input'
 	import { Search } from 'lucide-svelte'
 	import { Check } from 'lucide-svelte'
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu'
 	import designSystemsOverviewsStore from '$lib/features/token-groups-store/designSystemsOverviewsStore'
-	import type { DivEventHandler } from 'bits-ui'
+	import { goto } from '$app/navigation'
 
 	export let activeDesignSystemIndex: number
+	export let activeWorkspaceId: string
 
 	$: activeDesignSystem = $designSystemsOverviewsStore[
 		activeDesignSystemIndex
@@ -25,11 +25,6 @@
 				return systemName.includes(searchTerm.toLowerCase())
 			}
 		))
-	}
-
-	const handleChangeDesignSystem = (e: DivEventHandler<MouseEvent>) => {
-		let designSystemId = e.target?.attributes.value.nodeValue
-		goto(`/workspace/${designSystemId}`)
 	}
 </script>
 
@@ -62,9 +57,8 @@
 						{/if}
 						<DropdownMenu.Item
 							class="min-w-full pl-4"
-							on:m-click={(e) => {
-								handleChangeDesignSystem(e)
-							}}
+							on:m-click={() =>
+								goto(`/${activeWorkspaceId}/${designSystem.id}`)}
 							value={designSystem.id}
 						>
 							{designSystem.name}
@@ -79,9 +73,8 @@
 						{/if}
 						<DropdownMenu.Item
 							class="min-w-full pl-6 focus:bg-none"
-							on:m-click={(e) => {
-								handleChangeDesignSystem(e)
-							}}
+							on:m-click={() =>
+								goto(`/${activeWorkspaceId}/${designSystem.id}`)}
 							value={designSystem.id}
 						>
 							{designSystem.name}
