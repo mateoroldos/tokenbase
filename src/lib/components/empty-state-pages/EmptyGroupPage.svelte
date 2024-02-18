@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 	import { Plus } from 'lucide-svelte'
-	import StartFromTemplateCard from '../../../routes/[designSystemId]/_components/start-cards/StartFromTemplateCard.svelte'
+	import StartFromTemplateCard from '../../../routes/(app)/[designSystemId]/_components/start-cards/StartFromTemplateCard.svelte'
 	import Button from '../ui/button/Button.svelte'
 	import * as EmptyStatePage from './'
 	import { viewMode } from '$lib/features/view-mode/stores/viewMode'

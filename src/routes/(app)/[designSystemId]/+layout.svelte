@@ -13,7 +13,6 @@
 	import type { Group } from '$lib/features/token-groups-store/types/group.interface'
 	import type { Theme } from '$lib/features/token-groups-store/types/design-system-overview.interface'
 	import { getAliasDependencies } from '$lib/features/aliases/utils/getAliasDependnecies'
-	import DesignSystemHeader from './_components/design-system-header/DesignSystemHeader.svelte'
 
 	let loading = true
 

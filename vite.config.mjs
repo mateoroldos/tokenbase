@@ -3,20 +3,10 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 /** @type {import('vite').UserConfig} */
 const config = {
-	plugins: [
-		sveltekit(),
-		nodePolyfills({
-			exclude: ['fs'],
-			protocolImports: true
-		})
-	],
+	plugins: [sveltekit(), nodePolyfills()],
 	resolve: {
 		alias: {
-			fs: 'memfs',
-			path: 'node:path',
-			stream: 'node:stream',
-			url: 'node:url',
-			util: 'node:util'
+			fs: 'memfs'
 		}
 	},
 	ssr: {
