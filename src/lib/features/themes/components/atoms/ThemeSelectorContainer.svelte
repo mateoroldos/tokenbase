@@ -1,5 +1,5 @@
 <div
-	class="flex h-9 flex-row items-center rounded-md border border-slate-200 bg-slate-100 transition-all"
+	class="flex h-9 flex-row items-center rounded-md overflow-hidden bg-slate-100 transition-all"
 >
 	<span class="px-2 text-xs font-normal text-slate-500"> Theme </span>
 	<div

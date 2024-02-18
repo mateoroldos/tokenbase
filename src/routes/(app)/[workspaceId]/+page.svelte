@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { enhance } from '$app/forms'
 	import { goto } from '$app/navigation'
 	import * as Card from '$lib/components/ui/card'
 	import { v4 as uuidv4 } from 'uuid'
@@ -7,23 +8,25 @@
 	import { Separator } from '$lib/components/ui/separator'
 	import designSystemsOverviewsStore from '$lib/features/token-groups-store/designSystemsOverviewsStore'
 	import WorkspaceDropdown from '$lib/features/workspaces/components/workspace-dropdown/WorkspaceDropdown.svelte'
+	import AddDesignSystemForm from './add-design-system-form/add-design-system-form.svelte'
+	import { superForm } from 'sveltekit-superforms/client'
 
 	export let data
 
 	let designSystemName = ''
 
-	const handleSubmitForm = async () => {
-		const designSystem = $designSystemsOverviewsStore.find(
-			(designSystem) =>
-				designSystem.name.toUpperCase() === designSystemName.toUpperCase()
-		)
+	// const handleSubmitForm = async () => {
+	// 	const designSystem = $designSystemsOverviewsStore.find(
+	// 		(designSystem) =>
+	// 			designSystem.name.toUpperCase() === designSystemName.toUpperCase()
+	// 	)
 
-		if (designSystem) {
-			await goto(`/${data.activeWorkspaceId}/${designSystem.id}`)
-		} else {
-			await addDesignSystem()
-		}
-	}
+	// 	if (designSystem) {
+	// 		await goto(`/${data.activeWorkspaceId}/${designSystem.id}`)
+	// 	} else {
+	// 		await addDesignSystem()
+	// 	}
+	// }
 
 	const addDesignSystem = async () => {
 		const designSystemId = uuidv4()
@@ -40,6 +43,7 @@
 		(designSystem) =>
 			designSystem.name.toUpperCase() === designSystemName.toUpperCase()
 	)
+	$: existingDesignSystemId = designSystemExists ? designSystemExists.id : null
 </script>
 
 <svelte:head>
@@ -47,7 +51,7 @@
 </svelte:head>
 
 <header
-	class="z-10 flex flex-row items-center justify-between px-20 py-6 shadow-sm"
+	class="z-10 flex flex-row items-center justify-between px-5 py-4 shadow-sm"
 >
 	<WorkspaceDropdown
 		workspaces={data.workspaces}
@@ -76,12 +80,28 @@
 				> and share your feedback with us!
 			</span>
 		</div>
-		<form
-			on:submit|preventDefault={() => handleSubmitForm()}
+		{existingDesignSystemId}
+		{designSystemName}
+		<AddDesignSystemForm
+			form={data.form}
+			{existingDesignSystemId}
+			activeWorkspaceId={data.activeWorkspaceId}
+		/>
+		<!-- <form
+			method="POST"
+			action="/addDesignSystem"
 			class="relative flex w-full flex-row gap-2"
+			use:enhance={() => {
+				return async ({ result }) => {
+					if (result.success) {
+						await addDesignSystem()
+					}
+				}
+			}}
 		>
 			<Input
 				id="name"
+				type="text"
 				bind:value={designSystemName}
 				class="w-full rounded-full border border-slate-200 bg-white p-6 pr-24 text-lg font-medium shadow-md placeholder:font-normal placeholder:text-slate-300"
 				placeholder="Enter the name of your Design System"
@@ -104,7 +124,7 @@
 				{/if}
 				⏎
 			</Button>
-		</form>
+		</form> -->
 		{#if $designSystemsOverviewsStore.length > 0}
 			<div class="w-full">
 				<div class="mb-4 w-full">

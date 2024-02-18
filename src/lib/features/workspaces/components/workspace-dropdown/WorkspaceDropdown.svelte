@@ -4,7 +4,7 @@
 	import { goto } from '$app/navigation'
 	import { Button } from '$lib/components/ui/button'
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu'
-	import type { Workspace } from '../../types/workspace.interface'
+	import type { Workspace } from '$lib/db/schema'
 
 	export let workspaces: Workspace[]
 	export let activeWorkspaceId: string

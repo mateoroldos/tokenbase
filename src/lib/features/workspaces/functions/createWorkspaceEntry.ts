@@ -1,7 +1,7 @@
 import { db } from '$lib/db'
 import { workspace, workspaceMember } from '$lib/db/schema'
 
-export const createWorkspace = async (
+export const createWorkspaceEntry = async (
 	userId: string,
 	workspaceId: string,
 	workspaceName: string

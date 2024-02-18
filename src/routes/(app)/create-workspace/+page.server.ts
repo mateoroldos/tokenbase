@@ -1,5 +1,5 @@
 import { formSchemaServer } from '$lib/features/workspaces/components/create-workspace-form/schema.js'
-import { createWorkspace } from '$lib/features/workspaces/functions/createWorkspace.js'
+import { createWorkspaceEntry } from '$lib/features/workspaces/functions/createWorkspaceEntry.js'
 import { redirect } from '@sveltejs/kit'
 import { message, superValidate } from 'sveltekit-superforms/server'
 import type { Actions } from './$types'
@@ -25,7 +25,11 @@ export const actions: Actions = {
 		}
 
 		try {
-			await createWorkspace(session.user.userId, form.data.id, form.data.name)
+			await createWorkspaceEntry(
+				session.user.userId,
+				form.data.id,
+				form.data.name
+			)
 		} catch (error) {
 			if (error.message.includes('Duplicate entry')) {
 				return message(

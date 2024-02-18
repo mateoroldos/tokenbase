@@ -106,6 +106,8 @@ export const workspace = mysqlTable('workspace', {
 	}).notNull()
 })
 
+export type Workspace = typeof workspace.$inferInsert
+
 export const workspaceRelations = relations(workspace, ({ one }) => ({
 	owner: one(user, {
 		fields: [workspace.ownerId],
@@ -121,6 +123,8 @@ export const workspaceMember = mysqlTable('workspace_member', {
 		length: 15
 	}).notNull()
 })
+
+export type WorkspaceMember = typeof workspaceMember.$inferInsert
 
 export const workspaceMemberRelations = relations(
 	workspaceMember,
@@ -138,11 +142,13 @@ export const workspaceMemberRelations = relations(
 
 export const designSystem = mysqlTable('design_system', {
 	id: varchar('id', { length: 255 }).primaryKey(),
-	name: varchar('name', { length: 255 }).notNull(),
 	workspaceId: varchar('workspace_id', {
 		length: 255
-	}).notNull()
+	}).notNull(),
+	name: varchar('name', { length: 255 }).notNull()
 })
+
+export type DesignSystemRow = typeof designSystem.$inferInsert
 
 export const designSystemRelations = relations(designSystem, ({ one }) => ({
 	workspace: one(workspace, {
