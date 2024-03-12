@@ -7,6 +7,7 @@
 	import { Separator } from '$lib/components/ui/separator'
 	import Logo from '$lib/components/Logo.svelte'
 	import designSystemsOverviewsStore from '$lib/features/token-groups-store/designSystemsOverviewsStore'
+	import Icon from '@iconify/svelte'
 
 	let designSystemName = ''
 
@@ -52,9 +53,12 @@
 		<ul>
 			<li>
 				<a
-					href="https://token-base.com/"
-					class="text-slate-400 transition-colors hover:text-slate-900">Blog</a
+					href="https://github.com/mateoroldos/tokenbase"
+					class="text-slate-400 transition-colors hover:text-slate-900"
+					target="_blank"
 				>
+					<Icon icon="tabler:brand-github" />
+				</a>
 			</li>
 		</ul>
 	</nav>
@@ -147,7 +151,8 @@
 
 <style>
 	section {
-		background: linear-gradient(
+		background:
+			linear-gradient(
 				rgba(242, 245, 249, 0.8),
 				rgba(242, 245, 249, 0.99),
 				rgba(242, 245, 249, 1),
