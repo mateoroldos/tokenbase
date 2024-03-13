@@ -9,6 +9,7 @@ Easily create your Design Systems and export them to code in a few clicks.
 
 - Starting templates.
 - Bulk edit tokens.
+- Aliased tokens.
 - Shades generator.
 - Support for different themes (light, dark, etc.).
 - Export tokens to CSS, Less, SCSS, JSON, Tailwind config, and more!
