@@ -63,11 +63,9 @@
 		</ul>
 	</nav>
 </header>
-<section class="flex flex-1 items-center justify-center p-20">
-	<div
-		class="flex max-w-2xl flex-1 flex-col items-center justify-center gap-20"
-	>
-		<div class="flex flex-col gap-2">
+<section class="flex flex-1 items-center justify-center px-20 pb-40">
+	<div class="flex max-w-2xl flex-1 flex-col items-center justify-center gap-6">
+		<!-- <div class="flex flex-col gap-2">
 			<h1 class="text-center text-xl font-medium">
 				Welcome to Our Open BETA Version
 			</h1>
@@ -83,7 +81,10 @@
 					target="_blank">Discord community</a
 				> and share your feedback with us!
 			</span>
-		</div>
+		</div> -->
+		<h2 class="text-2xl font-medium text-slate-600">
+			Enter the name of your Design System
+		</h2>
 		<form
 			on:submit|preventDefault={() => handleSubmitForm()}
 			class="relative flex w-full flex-row gap-2"
@@ -92,7 +93,6 @@
 				id="name"
 				bind:value={designSystemName}
 				class="w-full rounded-full border border-slate-200 bg-white p-6 pr-24 text-lg font-medium shadow-md placeholder:font-normal placeholder:text-slate-300"
-				placeholder="Enter the name of your Design System"
 				autocomplete="off"
 				autoSelect={true}
 			/>
