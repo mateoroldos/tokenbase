@@ -50,14 +50,23 @@
 >
 	<Logo />
 	<nav>
-		<ul>
+		<ul class="flex flex-row gap-4 items-center">
 			<li>
 				<a
 					href="https://github.com/mateoroldos/tokenbase"
 					class="text-slate-400 transition-colors hover:text-slate-900"
 					target="_blank"
 				>
-					<Icon icon="tabler:brand-github" />
+					<Icon icon="tabler:brand-github" width="1.3rem" />
+				</a>
+			</li>
+			<li>
+				<a
+					href="https://discord.gg/Xt36BDhdXj"
+					class="text-slate-400 transition-colors hover:text-slate-900"
+					target="_blank"
+				>
+					<Icon icon="tabler:brand-discord" width="1.3rem" />
 				</a>
 			</li>
 		</ul>
@@ -82,7 +91,7 @@
 				> and share your feedback with us!
 			</span>
 		</div> -->
-		<h2 class="text-2xl font-medium text-slate-600">
+		<h2 class="text-2xl text-slate-600">
 			Enter the name of your Design System
 		</h2>
 		<form
