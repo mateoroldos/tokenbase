@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
+	import Footer from '$lib/components/Footer.svelte'
 	import * as Card from '$lib/components/ui/card'
 	import { v4 as uuidv4 } from 'uuid'
 	import { Input } from '$lib/components/ui/input'
@@ -157,6 +158,7 @@
 		{/if}
 	</div>
 </section>
+<Footer />
 
 <style>
 	section {
