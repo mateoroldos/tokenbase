@@ -1,6 +1,6 @@
 # Tokenbase
 
-[Tokebase](https://token-base.com) is a free tool for creating, managing and distributing Design Tokens.
+[Tokenbase](https://token-base.com) is a free tool for creating, managing and distributing Design Tokens.
 Easily create your Design Systems and export them to code in a few clicks.
 
 ![Tokenbase](https://token-base.com/APP_SCREENSHOT.jpg)
