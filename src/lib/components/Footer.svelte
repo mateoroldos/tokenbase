@@ -2,7 +2,7 @@
 	<p>
 		Made by <a
 			class="underline text-gray-600 decoration-gray-300 underline-offset-4 transition-colors focus:decoration-gray-500 focus:outline-offset-6 hover:decoration-orange-300"
-			href="https://github.com/mateoroldos"
+			href="https://mateor.xyz"
 			target="_blank">mateoroldos</a
 		>
 		and
