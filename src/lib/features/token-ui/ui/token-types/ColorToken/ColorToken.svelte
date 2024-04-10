@@ -10,6 +10,7 @@
 	import { createEventDispatcher } from 'svelte'
 	import { Input } from '$lib/components/ui/input'
 	import type { ColorTokenValue } from '$lib/features/token-management/color/types/internal-color-value.type'
+	import { Slider } from '$lib/components/ui/slider'
 
 	export let tokenValue: ColorTokenValue
 	export let tokenId: string
@@ -20,7 +21,11 @@
 
 	let hexInput: HTMLInputElement
 
-	$: argb = Hct.from(tokenValue[0], tokenValue[1], tokenValue[2]).argb
+	let hue = tokenValue[0] ? [tokenValue[0]] : [0];
+	let chroma = tokenValue[1] ? [tokenValue[1]] : [0];
+	let tone = tokenValue[2] ? [tokenValue[2]] : [0];
+
+	$: argb = Hct.from(hue[0], chroma[0], tone[0]).argb
 	$: hex = Color(argb).hex()
 
 	const handleHexChange = (e: Event) => {
@@ -33,7 +38,9 @@
 				const newArgbColor = Color(value).rgbNumber()
 				const hct = Hct.fromInt(newArgbColor)
 
-				tokenValue = [hct.hue, hct.chroma, hct.tone]
+				hue[0] = hct.hue
+				chroma[0] =  hct.chroma
+				tone[0] = hct.tone
 				hex = target.value
 			} catch (error) {
 				hexInput.value = hex
@@ -41,17 +48,21 @@
 		}
 	}
 
-	$: hueBackground = generateHueBackgroundGradient(tokenValue[1], tokenValue[2])
+	$: hueBackground = generateHueBackgroundGradient(chroma[0], tone[0])
 
 	$: chromaBackground = generateChromaBackgroundGradient(
-		tokenValue[0],
-		tokenValue[2]
+		hue[0],
+		tone[0]
 	)
 
 	$: toneBackground = generateToneBackgroundGradient(
-		tokenValue[0],
-		tokenValue[1]
+		hue[0],
+		chroma[0]
 	)
+
+	$: tokenValue[0] = hue[0]
+	$: tokenValue[1] = chroma[0]
+	$: tokenValue[2] = tone[0]
 </script>
 
 <div class="flex flex-1 flex-row items-center gap-10">
@@ -80,22 +91,22 @@
 					type="number"
 					class="w-14 rounded-md bg-transparent px-1 text-xs"
 					{...isAlias ? { disabled: true } : {}}
-					bind:value={tokenValue[0]}
+					bind:value={hue[0]}
 				/>
 			</div>
-			<Range
-				disabled={viewMode}
+			<Slider
 				min={0}
 				max={360}
-				id={`${tokenId}-hue-range`}
+				id={`${tokenId}-hue[0]-range`}
 				background={hueBackground}
 				{...isAlias ? { disabled: true } : {}}
-				bind:value={tokenValue[0]}
+				bind:value={hue}
 				on:change={(e) =>
 					dispatch('colorChange', {
 						valueChanged: 0,
 						value: e.detail.diff
 					})}
+				
 			/>
 		</div>
 		<div class="flex w-full max-w-[130px] flex-col gap-1">
@@ -106,17 +117,16 @@
 					type="number"
 					class="w-14 rounded-md bg-transparent px-1 text-xs"
 					{...isAlias ? { disabled: true } : {}}
-					bind:value={tokenValue[1]}
+					bind:value={chroma[0]}
 				/>
 			</div>
-			<Range
-				disabled={viewMode}
+			<Slider
 				min={0}
 				max={100}
 				id={`${tokenId}-chroma-range`}
 				background={chromaBackground}
 				{...isAlias ? { disabled: true } : {}}
-				bind:value={tokenValue[1]}
+				bind:value={chroma}
 				on:change={(e) =>
 					dispatch('colorChange', {
 						valueChanged: 1,
@@ -132,17 +142,16 @@
 					type="number"
 					class="w-14 rounded-md bg-transparent px-1 text-xs"
 					{...isAlias ? { disabled: true } : {}}
-					bind:value={tokenValue[2]}
+					bind:value={tone[0]}
 				/>
 			</div>
-			<Range
-				disabled={viewMode}
+			<Slider
 				min={0}
 				max={100}
 				id={`${tokenId}-tone-range`}
 				background={toneBackground}
 				{...isAlias ? { disabled: true } : {}}
-				bind:value={tokenValue[2]}
+				bind:value={tone}
 				on:change={(e) =>
 					dispatch('colorChange', {
 						valueChanged: 2,
